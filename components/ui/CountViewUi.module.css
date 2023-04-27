@@ -1,0 +1,41 @@
+.countWrap {
+  width: 3.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  marin-right: 0.5rem;
+}
+
+
+.countWarp .icon {
+  width: 1rem;
+}
+
+.countWrap .icon img {
+  width: 100%;
+  height: auto;
+}
+
+.countWarp .count {
+  font-family: var(--readme-main-font);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--readme-white);
+} 
+
+.white {
+  color: var(--readme-white);
+}
+.black {
+  color: var(--readme-black);
+}
+.gray {
+  color: var(--readme-gray);
+}
+
+.white img {
+  filter: brightness(0) invert(1);
+}
+.black img {
+  filter: brightness(0) invert(0);
+}

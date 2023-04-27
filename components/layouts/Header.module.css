@@ -1,0 +1,54 @@
+.mainHeader {
+  width: 100%;
+  padding: 2.5rem 2rem 4rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(0deg, #FFFFFF00 0%,  #FFFFFF 30%);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  width: 40%;
+  max-width: 200px;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+}
+
+.logo h1 {
+  font-size: 0;
+}
+
+.mobileMenu {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--readme-primary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+  animation: scale 1s infinite;
+}
+
+.mobileMenu img {
+  width: 1.5rem;
+  height: auto;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
