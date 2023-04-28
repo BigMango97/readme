@@ -1,0 +1,12 @@
+.detailImgWrap {
+    background-color: var(--readme-primary);
+    border-radius: 10%;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .detailImgWrap img {
+    position: absolute;
+    bottom: 0px;
+    right: -20px;
+  }
