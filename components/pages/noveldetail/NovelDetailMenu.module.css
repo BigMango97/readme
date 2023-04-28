@@ -1,0 +1,17 @@
+.menutitle{
+    margin: 1rem 2rem;
+    display: flex;
+}
+.menutitle p{
+    margin-right: 2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+.Episodecount{
+    color:var(--readme-primary);
+    font-weight: 500;
+}
+.menuactive{
+    padding-bottom: 0.3rem;
+    border-bottom: 4px solid var(--readme-primary)
+}
