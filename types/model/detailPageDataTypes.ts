@@ -10,12 +10,11 @@ export interface specificnovelSearchType {
     serializationDays: number,
     views : number,
     serializationStatus:string,
-    tag :[tagType],
+    tag :tagType[],
     scheduleld:string,
-    starRating:string,
+    starRating:number,
   }
   export interface tagType {
     id : number;
     name: string;
-
   }
