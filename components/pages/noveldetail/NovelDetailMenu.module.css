@@ -3,9 +3,16 @@
     display: flex;
 }
 .menutitle p{
-    margin-right: 2rem;
+    margin: 0rem 1rem 1rem 0rem;
     font-size: 1.3rem;
     font-weight: 600;
+}
+.infoCentainer{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin:1rem 2rem;
+    flex-wrap: wrap;
 }
 .Episodecount{
     color:var(--readme-primary);
