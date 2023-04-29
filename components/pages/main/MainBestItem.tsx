@@ -27,9 +27,9 @@ export default function MainBestItem() {
             <Image src={bestData.thumbnailUrl} alt={bestData.title} width={1000} height={1000}/>
           </div>
           <div className={style.viewCountWrap}>
-            <CountViewUi icon='/assets/images/icons/eye.svg' count={bestData.viewCount} color='white'/>
-            <CountViewUi icon='/assets/images/icons/star.svg' count={bestData.rate} color='white'/>
-            <CountViewUi icon='/assets/images/icons/list.svg' count={bestData.contentsCount} color='white'/>
+            <CountViewUi icon='/assets/images/icons/eye.svg' count={bestData.viewCount} color='white' flexDirection="row"/>
+            <CountViewUi icon='/assets/images/icons/star.svg' count={bestData.rate} color='white' flexDirection="row"/>
+            <CountViewUi icon='/assets/images/icons/list.svg' count={bestData.contentsCount} color='white' flexDirection="row"/>
           </div>
         </div>
       }
