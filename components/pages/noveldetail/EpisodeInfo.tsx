@@ -5,7 +5,7 @@ export default function EpisodeInfo(props:{thumbnail:string}) {
   return (
     <div className={style.container}>
       <div className={style.episodeCard}>
-        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} thumbnail={props.thumbnail} />
+        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail} />
         <div className={style.episodeCardInfo}>
           <div>{"흑아인"}</div>
           <div>{"2025-03-12"}</div>
@@ -14,7 +14,7 @@ export default function EpisodeInfo(props:{thumbnail:string}) {
         </div>
       </div>
       <div className={style.episodeCard}>
-        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} thumbnail={props.thumbnail} />
+        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail} />
         <div className={style.episodeCardInfo}>
           <div>{"흑아인"}</div>
           <div>{"2025-03-12"}</div>
@@ -23,7 +23,7 @@ export default function EpisodeInfo(props:{thumbnail:string}) {
         </div>
       </div>
       <div className={style.episodeCard}>
-        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} thumbnail={props.thumbnail}/>
+        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail}/>
         <div className={style.episodeCardInfo}>
           <div>{"흑아인"}</div>
           <div>{"2025-03-12"}</div>
@@ -32,7 +32,7 @@ export default function EpisodeInfo(props:{thumbnail:string}) {
         </div>
       </div>
       <div className={style.episodeCard}>
-        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} thumbnail={props.thumbnail}/>
+        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail}/>
         <div className={style.episodeCardInfo}>
           <div>{"흑아인"}</div>
           <div>{"2025-03-12"}</div>
@@ -41,7 +41,7 @@ export default function EpisodeInfo(props:{thumbnail:string}) {
         </div>
       </div>
       <div className={style.episodeCard}>
-        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} thumbnail={props.thumbnail}/>
+        <NovelCard width={100} height={100} backgroundwidth={90} backgroundheight={90} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail}/>
         <div className={style.episodeCardInfo}>
           <div>{"흑아인"}</div>
           <div>{"2025-03-12"}</div>
