@@ -13,7 +13,7 @@ const Home: NextPageWithLayout = () => {
       <DetailTitle
         title={"이번주 소설 랭킹"}
         size={19.2}
-        leftsize={"2.5rem"}
+        leftsize={"1.5rem"}
         fontweight={800}
         color={"#5841E0"}
         bottomsize={"1.2rem"}
