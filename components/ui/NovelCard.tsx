@@ -6,6 +6,7 @@ export default function NovelCard(props: {
   height: number;
   backgroundwidth:number;
   backgroundheight:number;
+  backgroundColor:string;
   thumbnail: string;
 }) {
   return (
