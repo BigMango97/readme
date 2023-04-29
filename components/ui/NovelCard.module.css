@@ -2,7 +2,7 @@
     background-color: var(--readme-primary);
     border-radius: 10%;
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   
   .detailImgWrap img {
