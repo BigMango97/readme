@@ -1,0 +1,64 @@
+.novelMenuContainer{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 9rem 2rem 0rem 2rem;
+}
+.novelMenuBox{
+    width: 8.5rem;
+    max-width: 10rem;
+    height: 2.5rem;
+    margin:0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-radius: 2rem; */
+    background-color: var(--readme-gray-light);
+    color: var(--readme-darkgray);
+}
+.novelMenuBoxActive{
+    width: 8.5rem;
+    max-width: 10rem;
+    height: 2.5rem;
+    margin:0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--readme-purple-gray);
+    color: var(--readme-white);
+    font-weight: 800;
+}
+.novelMenuBox{
+    font-size: 0.8rem;
+}
+.novelDay{
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0.5rem 2rem;
+}
+.novelDayBox{
+    width: 3rem;
+    max-width: 10rem;
+    height: 2rem;
+    margin:0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2rem;
+    background-color: var(--readme-gray-light);
+    color: var(--readme-darkgray);
+}
+.novelDayBoxActive{
+    width: 3rem;
+    max-width: 10rem;
+    height: 2rem;
+    margin:0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2rem;
+    background-color: var(--readme-gray-light);
+    color: var(--readme-primary);
+    font-weight: 800;
+}
