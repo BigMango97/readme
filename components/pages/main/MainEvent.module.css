@@ -1,0 +1,36 @@
+.mainEvent {
+  height: 15rem;
+  margin: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--readme-primary);
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+}
+.cardContainerInfo {
+  margin-right: 1rem;
+}
+.cardContainerInfo h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--readme-primary);
+}
+.cardContainer {
+  display: flex;
+}
+.cardContainerEventTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+  color: var(--readme-primary);
+}
+.cardContainerTitle {
+  color: var(--readme-grey-dark);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.cardContainerInfo p {
+  color: var(--readme-grey-light);
+  font-size: 0.8em;
+}
