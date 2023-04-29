@@ -14,7 +14,7 @@ export default function NovelDetailInfo(props: {
 }) {
   return (
     <div className={style.novelMainInfo}>
-      <NovelCard width={200} height={200} backgroundwidth={150} backgroundheight={150} thumbnail={props.thumbnail} />
+      <NovelCard width={200} height={200} backgroundwidth={150} backgroundheight={150} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail} />
       <div className={style.detailinfo}>
         <p>{props.title}</p>
         <p>
