@@ -4,14 +4,15 @@ import Image from "next/image";
 export default function NovelCard(props: {
   width: number;
   height: number;
-  backgroundwidth:number;
-  backgroundheight:number;
+  backgroundwidth?:number;
+  backgroundheight?:number;
   thumbnail: string;
+  backgroundColor:'rgb(229,229,229)' | 'rgb(110,72,235)' | 'F8FAFF'; /*회색, 보라, 흰*/
 }) {
   return (
     <div
       className={style.detailImgWrap}
-      style={{ width: props.backgroundwidth, height: props.backgroundheight }}
+      style={{ width: props.backgroundwidth, height: props.backgroundheight, backgroundColor:props.backgroundColor }}
     >
       <Image
         src={props.thumbnail}
