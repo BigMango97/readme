@@ -1,0 +1,17 @@
+.tags{
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    margin-right: 0.5rem;
+}
+.tagtitle{
+    width: fit-content;
+    height: auto;
+    background-color: var(--readme-gray-light);
+    border-radius: 2rem;
+    color:var(--readme-black);
+    margin:0.3rem 0.1rem;
+}
+.tagtitle p {
+    padding: 0.5rem 0.7rem;
+}

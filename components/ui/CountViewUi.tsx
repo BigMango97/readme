@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import style from '@/components/ui/CountViewUi.module.css'
 
-export default function CountViewUi(props:{ icon:string, count:number, color: 'white' | 'black' | 'gray' }) {
+export default function CountViewUi(props:{ icon:string, count:number, color: 'white' | 'black' | 'gray', flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse' }) {
 
   const [changeCnt, setChangeCnt] = useState<string>('')
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function CountViewUi(props:{ icon:string, count:number, color: 'w
 
   },[props.count])
   return (
-    <div className={style.countWrap}>
+    <div className={style.countWrap} style={{flexDirection:props.flexDirection}}>
       <div className={props.color ? `${style.icon} ${style[props.color]}`:`${style.icon}`}>
         <Image src={props.icon} alt='icon' width={72} height={72} priority/>
       </div>

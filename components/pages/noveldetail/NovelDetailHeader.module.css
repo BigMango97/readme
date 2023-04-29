@@ -1,0 +1,34 @@
+.container{
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: var(--readme-white);
+  z-index: 100;
+  background: linear-gradient(0deg, #FFFFFF00 0%,  #FFFFFF 20%);
+}
+.header {
+  margin: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.leftmenu {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--readme-primary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+    animation: scale 1s infinite; */
+}
+.leftmenu img {
+  width: 0.7rem;
+  height: auto;
+  color: var(--readme-white);
+}
+
+.noveldetailtitle {
+  color: var(--readme-primary);
+}

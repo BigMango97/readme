@@ -1,0 +1,40 @@
+.detailFooter{
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content:space-between;
+    position: fixed;
+    bottom:0;
+    background-color: var(--readme-white);
+}
+.novelBuyBtn{
+    width: 5rem;
+    height: 5rem;
+    border: 3px solid var(--readme-gray-dark);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.novelBuyBtn img{
+    width: 2rem;
+    height: auto;
+}
+.novelReadBtn img{
+    width: 2rem;
+    height: auto;
+    margin-right: 1rem;
+}
+.novelReadBtn{
+    width: 70%;
+    height: 5rem;
+    display: flex;
+    background-color: var(--readme-primary);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:var(--readme-white);
+    font-size: 1.2rem;
+}
