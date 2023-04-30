@@ -4,12 +4,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--readme-primary);
+  /* border: 1px solid var(--readme-primary); */
   border-radius: 20px;
-  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+  box-shadow: 0px 5px 10px 0px var(--readme-purple-gray);
+  background-color: var(--readme-gray-light);
 }
 .cardContainerInfo {
-  margin-right: 1rem;
+  margin-left: 1.5rem;
 }
 .cardContainerInfo h2 {
   margin-bottom: 1rem;
@@ -18,11 +19,12 @@
 }
 .cardContainer {
   display: flex;
+  align-items: center;
 }
 .cardContainerEventTitle {
   font-size: 1.1rem;
   font-weight: 800;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   color: var(--readme-primary);
 }
 .cardContainerTitle {
@@ -33,4 +35,15 @@
 .cardContainerInfo p {
   color: var(--readme-grey-light);
   font-size: 0.8em;
+}
+.cardContainerImgInfo {
+  width: 170px;
+  height: 170px;
+  border-radius: 20px;
+  position: relative;
+}
+.cardContainerImgInfo img {
+  position: absolute;
+  right: -10px;
+  bottom: 0px;
 }
