@@ -1,10 +1,18 @@
 import React from "react";
 import style from "@/components/pages/main/MainEvent.module.css";
-import NovelCard from "@/components/ui/NovelCard";
+import Image from "next/image";
 export default function MainEvent(props: { thumbnail: string }) {
   return (
     <section className={style.mainEvent}>
       <div className={style.cardContainer}>
+        <div className={style.cardContainerImgInfo}>
+          <Image
+            src={"/assets/images/dummy/bestItem01.png"}
+            alt="썸네일 이미지"
+            width={170}
+            height={170}
+          />
+        </div>
         <div className={style.cardContainerInfo}>
           <h2>Event</h2>
           <div className={style.cardContainerEventTitle}>
@@ -15,17 +23,8 @@ export default function MainEvent(props: { thumbnail: string }) {
           <div className={style.cardContainerTitle}>사라진 비서에게</div>
           <p>흑아인 | 완결 | 웹소설판타지</p>
         </div>
-        <div className={style.boxshadow}>
-          <NovelCard
-            width={200}
-            height={200}
-            backgroundwidth={150}
-            backgroundheight={210}
-            backgroundColor={"rgb(110,72,235)"}
-            thumbnail={props.thumbnail}
-          />
-        </div>
       </div>
+      -
     </section>
   );
 }
