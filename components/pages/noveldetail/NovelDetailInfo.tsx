@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import style from "@/components/pages/noveldetail/NovelDetailinfo.module.css";
 import CountViewUi from "@/components/ui/CountViewUi";
-import NovelCard from "@/components/ui/NovelCard";
-export default function NovelDetailInfo(props: {
+
+interface Props {
   title: string;
   description: string;
   serializationStatus: string;
@@ -11,26 +11,38 @@ export default function NovelDetailInfo(props: {
   thumbnail: string;
   views: number;
   starRating: number;
-}) {
+}
+
+export default function NovelDetailInfo({
+  title,
+  description,
+  serializationStatus,
+  genre,
+  thumbnail,
+  views,
+  starRating,
+}: Props) {
   return (
     <div className={style.novelMainInfo}>
-      <NovelCard width={200} height={200} backgroundwidth={150} backgroundheight={150} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail} />
+      <div className={style.novelMainImageInfo}>
+        <Image src={thumbnail} alt="썸네일 이미지" width={200} height={200} />
+      </div>
       <div className={style.detailinfo}>
-        <p>{props.title}</p>
+        <p>{title}</p>
         <p>
-          {props.description} | {props.serializationStatus} |{props.genre}
+          {description} | {serializationStatus} | {genre}
         </p>
       </div>
       <div className={style.detailnovellikes}>
         <CountViewUi
           icon="/assets/images/icons/eye.svg"
-          count={props.views}
+          count={views}
           color="black"
           flexDirection="column"
         />
         <CountViewUi
           icon="/assets/images/icons/star.svg"
-          count={props.starRating}
+          count={starRating}
           color="black"
           flexDirection="column"
         />

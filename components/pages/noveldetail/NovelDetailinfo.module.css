@@ -6,6 +6,19 @@
   flex-direction: column;
   margin:9rem 2rem 0rem 2rem;
 }
+.novelMainImageInfo{
+    width: 150px;
+    height: 150px;
+    background-color: #9fabea;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 1rem;
+}
+.novelMainImageInfo img{
+    position: absolute;
+    right: -20px;
+    bottom: 0px;
+}
 .detailinfo{
     display: flex;
     justify-content: center;

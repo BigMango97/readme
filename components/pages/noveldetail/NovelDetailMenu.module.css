@@ -3,7 +3,7 @@
     display: flex;
 }
 .menutitle p{
-    margin: 0rem 1rem 1rem 0rem;
+    margin: 0rem 1rem 0rem 0rem;
     font-size: 1.3rem;
     font-weight: 600;
 }
