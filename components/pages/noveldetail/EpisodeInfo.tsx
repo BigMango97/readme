@@ -1,5 +1,5 @@
 import React from "react";
-import NovelCard from "@/components/ui/NovelCard";
+import NovelCard from "@/components/ui/NovelCardImg";
 import style from "@/components/pages/noveldetail/EpisodeInfo.module.css";
 export default function EpisodeInfo(props:{thumbnail:string}) {
   return (
