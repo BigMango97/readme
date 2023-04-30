@@ -1,6 +1,6 @@
-import NovelCard from "@/components/ui/NovelCard";
 import React from "react";
 import style from "@/components/pages/main/MainLanking.module.css";
+import Image from "next/image";
 export default function MainLanking() {
   return (
     <div className={style.mainLankingCard}>
@@ -14,12 +14,14 @@ export default function MainLanking() {
             <p>흑아인 | 완결 | 웹소설판타지</p>
           </div>
         </div>
-        <NovelCard
-          width={120}
-          height={120}
-          backgroundColor="rgb(229,229,229)"
-          thumbnail={"/assets/images/dummy/bestItem01.png"}
-        />
+        <div className={style.mainLankingImgInfo}>
+          <Image
+            src={"/assets/images/dummy/bestItem01.png"}
+            alt="썸네일 이미지"
+            width={100}
+            height={100}
+          />
+        </div>
       </div>
     </div>
   );
