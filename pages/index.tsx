@@ -1,9 +1,9 @@
-import Layout from "@/components/layouts/layout";
 import { NextPageWithLayout } from "./_app";
 import MainBestItem from "@/components/pages/main/MainBestItem";
 import MainEvent from "@/components/pages/main/MainEvent";
 import MainLanking from "@/components/pages/main/MainLanking";
 import DetailTitle from "@/components/ui/DetailTitle";
+import Layout from "@/components/layouts/layout";
 
 const Home: NextPageWithLayout = () => {
   return (
