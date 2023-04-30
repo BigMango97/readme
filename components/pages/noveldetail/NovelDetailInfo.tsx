@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import style from "@/components/pages/noveldetail/NovelDetailinfo.module.css";
 import CountViewUi from "@/components/ui/CountViewUi";
-import NovelCard from "@/components/ui/NovelCard";
+import NovelCard from "@/components/ui/NovelCardImg";
+import NovelCardImg from "@/components/ui/NovelCardImg";
 export default function NovelDetailInfo(props: {
   title: string;
   description: string;
@@ -14,7 +15,19 @@ export default function NovelDetailInfo(props: {
 }) {
   return (
     <div className={style.novelMainInfo}>
-      <NovelCard width={200} height={200} backgroundwidth={150} backgroundheight={150} backgroundColor={"rgb(110,72,235)"} thumbnail={props.thumbnail} />
+      <NovelCardImg
+        width={200}
+        height={200}
+        backgroundwidth={150}
+        backgroundheight={150}
+        backgroundColor={"#9fabea"}
+        thumbnail={props.thumbnail}
+        backposition={"relative"}
+        position={"absolute"}
+        bottom={"0px"}
+        right={"-20px"}
+        borderRadius={"10px"}
+      />
       <div className={style.detailinfo}>
         <p>{props.title}</p>
         <p>
