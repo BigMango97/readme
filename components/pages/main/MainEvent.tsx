@@ -5,14 +5,6 @@ export default function MainEvent(props: { thumbnail: string }) {
   return (
     <section className={style.mainEvent}>
       <div className={style.cardContainer}>
-        <div className={style.cardContainerImgInfo}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt="썸네일 이미지"
-            width={170}
-            height={170}
-          />
-        </div>
         <div className={style.cardContainerInfo}>
           <h2>Event</h2>
           <div className={style.cardContainerEventTitle}>
@@ -23,8 +15,15 @@ export default function MainEvent(props: { thumbnail: string }) {
           <div className={style.cardContainerTitle}>사라진 비서에게</div>
           <p>흑아인 | 완결 | 웹소설판타지</p>
         </div>
+        <div className={style.cardContainerImgInfo}>
+          <Image
+            src={"/assets/images/dummy/bestItem01.png"}
+            alt="썸네일 이미지"
+            width={180}
+            height={180}
+          />
+        </div>
       </div>
-      -
     </section>
   );
 }
