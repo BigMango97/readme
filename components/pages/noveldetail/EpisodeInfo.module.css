@@ -1,15 +1,21 @@
 .container{
     display: flex;
+    justify-content: center;
     flex-direction: column;
     margin: 1rem 2rem;
     margin-bottom: 7rem;
 }
 .episodeCard{
     display: flex;
-    justify-content: start;
-    margin:0rem;
-    height: 7rem;
+    align-items: center; 
+    margin:0.5rem 0rem;
+}
+.episodeCardImageInfo{
+    height: 100px;
+    background-color: #9fabea;
+    border-radius: 10px;
+    position: relative;
 }
 .episodeCardInfo{
-    margin-left: 2rem;
-}
+    margin-left: 1rem;
+} 
