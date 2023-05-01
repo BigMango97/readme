@@ -1,0 +1,52 @@
+.libraryTopWrap{
+    width: 100%;
+    height: 20%;
+    margin-top: 10rem;
+}
+.libraryTopWrap h1{
+    text-align: center;
+    font-size: 1.8rem;
+}
+.userName{
+    color: #6E48EB;
+}
+
+.myBooksTopWrap{
+    width: 100%;
+    height: 10%;
+    margin-top: 3rem;
+    margin-left: 2rem;
+    float: left;
+}
+.tabItem {
+    width: 100%;
+    height: 10%;
+    font-size: 1rem;
+    /* margin-right: 1rem; */
+    font-weight: bold;
+    list-style-type: none;
+}
+.tabItem li{
+    display: inline-block; 
+    margin-right: 1rem;
+}
+.tabActive {
+    color: #6E48EB;
+}
+.myBooksContentWrap{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.tabContent{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 2rem;
+}
+.tabContent img{
+    width: 33%;
+    height: 30%;
+}
