@@ -38,13 +38,12 @@ export default function NovelDetailMenu(props: {
             {item.title === "Episode" && (
               <span className={style.Episodecount}>(24)</span>
             )}
-             {item.title === "Comments" && (
+            {item.title === "Comments" && (
               <span className={style.Episodecount}>(24)</span>
             )}
           </p>
         ))}
       </div>
-
       {currentTab === 0 && (
         <>
           <DetailTitle
@@ -75,11 +74,11 @@ export default function NovelDetailMenu(props: {
           />
         </>
       )}
-      {currentTab === 1 && (
-        <EpisodeInfo thumbnail={props.thumbnail} />
-      )}
-       {currentTab === 2 && (
-        <><div></div></>
+      {currentTab === 1 && <EpisodeInfo />}{" "}
+      {currentTab === 2 && (
+        <>
+          <div></div>
+        </>
       )}
     </>
   );
