@@ -4,22 +4,23 @@ import style from "@/components/pages/noveldetail/NovelDetailHeader.module.css";
 export default function NovelDatailHeader() {
   return (
     <>
-    <div className={style.container}>
-      <header className={style.header}>
-        <div className={style.leftmenu}>
-          <Image
-            src="/assets/images/icons/backButton.svg"
-            alt="left-arrow"
-            width={20}
-            height={20}
-            priority
-          />
+      <header className={style.detailHeadercontainer}>
+        <div className={style.header}>
+          <div className={style.leftmenu}>
+            <Image
+              src="/assets/images/icons/leftarrowpurple.svg"
+              alt="left-arrow"
+              width={15}
+              height={15}
+              priority
+            />
+          </div>
+          <div className={style.novelDetailTitle}>
+            <div className={style.noevelMainTitle}>신과 함께 레벨업</div>
+            <p>흑아인 | 완결 | 웹소설판타지</p>
+          </div>
         </div>
-         <div className={style.noveldetailtitle}>
-          <p>Web Novel Detail</p>
-         </div>
       </header>
-      </div>
     </>
   );
 }

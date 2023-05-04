@@ -1,24 +1,20 @@
 .menutitle{
     margin: 1rem 2rem;
     display: flex;
+    justify-content: space-between;
 }
 .menutitle p{
-    margin: 0rem 1rem 0rem 0rem;
-    font-size: 1.3rem;
+    font-size: 0.875rem;
     font-weight: 600;
 }
 .infoCentainer{
     display: flex;
-    justify-content: start;
-    align-items: center;
-    margin:1rem 2rem;
-    flex-wrap: wrap;
-}
-.Episodecount{
-    color:var(--readme-primary);
-    font-weight: 500;
+    margin:0rem 0rem 8rem 0rem;
+    flex-direction: column;
 }
 .menuactive{
-    padding-bottom: 0.3rem;
-    border-bottom: 4px solid var(--readme-primary)
+    padding-bottom: 0.4rem;
+    color: var(--readme-primary);
+    font-weight: 800;
+    border-bottom: 2px solid var(--readme-primary);
 }
