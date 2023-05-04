@@ -1,19 +1,16 @@
-import Layout from "@/components/layouts/layout";
-import { NextPageWithLayout } from "./_app";
-import TagUi from "@/components/ui/TagUi";
+import React from "react";
 import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
 import AllNovelCard from "@/components/pages/novel/AllNovelCard";
-const novel: NextPageWithLayout = () => {
+import AllNovelTotalCount from "@/components/pages/novel/AllNovelTotalCount";
+import Footer from "@/components/layouts/Footer";
+
+export default function novel() {
   return (
     <>
       <AllNovelMenu />
-      <AllNovelCard/>
+      <AllNovelTotalCount/>
+      <AllNovelCard />
+      <Footer/>
     </>
   );
-};
-
-novel.getLayout = function getLayout(page: React.ReactNode) {
-  return <Layout>{page}</Layout>;
-};
-
-export default novel;
+}
