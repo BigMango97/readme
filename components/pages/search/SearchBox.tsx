@@ -1,5 +1,5 @@
 import React from "react";
-import style from "@/components/pages/search/Search.module.css";
+import style from "@/components/pages/search/SearchBox.module.css";
 import Image from "next/image";
 export default function SearchBox() {
   return (
@@ -11,7 +11,7 @@ export default function SearchBox() {
           width={340}
           height={40}
         />
-        <input type="text" placeholder="Search" />
+        <input type="text" />
         <div className={style.searchIcon}>
           <Image
             src="/assets/images/icons/searchicon.png"

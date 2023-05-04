@@ -1,5 +1,5 @@
 import React from "react";
-import style from "@/components/pages/search/Search.module.css";
+import style from "@/components/pages/search/RecentSearchTop.module.css";
 import Image from "next/image";
 
 export default function RecentSearchTop() {

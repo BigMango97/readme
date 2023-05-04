@@ -1,0 +1,26 @@
+.recentSearchTopWrap{
+    margin-top: 3.5rem;
+    width: 100%;
+    height: 10%;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.recentSearchTopTitle{
+    padding-left: 1.5rem;
+    float: left;
+    
+}
+.recentSearchTopTitle p{
+    opacity: 0.5;
+}
+.recentSearchTopDelete{
+    position: relative;
+    left: 48%;
+    display:flex;
+}
+.recentSearchTopDelete p{
+    color: var(--readme-primary);
+}
+.recentSearchTopDelete img{
+    vertical-align:text-bottom;
+}
