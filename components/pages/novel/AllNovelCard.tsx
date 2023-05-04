@@ -4,47 +4,37 @@ import Image from "next/image";
 export default function AllNovelCard() {
   return (
     <div className={style.allNovelContainer}>
+
       <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
-        <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
-          <div className={style.allNovelauthor}>문백경 | 총 205회</div>
-          <div className={style.allNovelstarpoint}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/icons/star.svg"}
+              src={"/assets/images/dummy/product2.png"}
               alt={"이미지"}
-              width={15}
-              height={15}
+              width={172}
+              height={206}
             />
-            <span>9.8점</span>
+          </div>
+          <div className={style.allNovelNewIcon}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/icons/NewIcon.svg"}
+              alt={"이미지"}
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -53,28 +43,41 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovelNewIcon}>
+            <Image
+              src={"/assets/images/icons/NewIcon.svg"}
+              alt={"이미지"}
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -83,28 +86,41 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovelNewIcon}>
+            <Image
+              src={"/assets/images/icons/NewIcon.svg"}
+              alt={"이미지"}
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -113,28 +129,33 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -143,28 +164,33 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -173,28 +199,33 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -203,28 +234,41 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
+            <span>9.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.allNovelCard}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allNovelImg}>
             <Image
-              src={"/assets/images/dummy/bestItem01.png"}
+              src={"/assets/images/dummy/product2.png"}
+              alt={"이미지"}
+              width={172}
+              height={206}
+            />
+          </div>
+          <div className={style.allNovelNewIcon}>
+            <Image
+              src={"/assets/images/icons/NewIcon.svg"}
+              alt={"이미지"}
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className={style.allNovellikeIcon}>
+            <Image
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={20}
               height={20}
             />
           </div>
         </div>
-      </div>
-
-      <div className={style.allNovelCard}>
-        <div className={style.allNovelImg}>
-          <Image
-            src={"/assets/images/dummy/bestItem01.png"}
-            alt={"이미지"}
-            width={120}
-            height={120}
-          />
-        </div>
         <div className={style.allNovelInfo}>
-          <div className={style.allNovelInfotitle}>역대급 영지 설계사</div>
+          <div className={style.allNovelStatus}>연재중(18)</div>
+          <div className={style.allNovelTitle}>아카데미의 마피아가 되었다.</div>
           <div className={style.allNovelauthor}>문백경 | 총 205회</div>
           <div className={style.allNovelstarpoint}>
             <Image
@@ -233,13 +277,7 @@ export default function AllNovelCard() {
               width={15}
               height={15}
             />
-            <span>9.8점</span>
-            <Image
-              src={"/assets/images/dummy/bestItem01.png"}
-              alt={"이미지"}
-              width={20}
-              height={20}
-            />
+            <span>9.8</span>
           </div>
         </div>
       </div>

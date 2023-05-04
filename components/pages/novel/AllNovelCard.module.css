@@ -1,35 +1,63 @@
-.allNovelContainer{
-    margin: 0.5rem 2rem 8rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
-    box-sizing: border-box;
+.allNovelContainer {
+  margin: 0rem 0.5rem 8rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
-.allNovelCard{
-    background-color: var(--readme-gray-light);
-    width:45%;
-    padding: 0.5rem;
-    margin: 0.5rem;
-    height: 16rem;
-    box-sizing: border-box;
-    border-radius: 20px;
+.allNovelCard {
+  width: 50%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
-.allNovelImg img{
-    width:100%;
+.allNovelImgContainer {
+  position: relative;
 }
-.allNovelInfo{
-    margin-top: 0.5rem;
+.allNovelNewIcon {
+  position: absolute;
+  top: 0px;
 }
-.allNovelauthor{
-    margin-top: 0.3rem;
-    margin-bottom: 2rem;
+.allNovellikeIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: aliceblue;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.allNovelstarpoint{
-    display: flex;
-    align-items: center;
-    margin: 0.5rem 0rem;
+.allNovelImg img {
+  width: 100%;
+  border-radius: 5px;
 }
-.allNovelstarpoint span{
-    margin: 0px 1rem 0rem 0.3rem;
+.allNovelInfo {
+  margin-top: 0.5rem;
+}
+.allNovelStatus {
+  font-size: 0.75rem;
+  color: var(--readme-primary);
+  font-weight: 800;
+  margin: 0.3rem 0rem;
+}
+.allNovelTitle {
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+.allNovelauthor {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+}
+.allNovelstarpoint {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0rem;
+  font-size: 0.75rem;
+}
+.allNovelstarpoint span {
+  margin: 0px 1rem 0rem 0.3rem;
 }
