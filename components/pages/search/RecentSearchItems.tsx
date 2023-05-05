@@ -6,7 +6,7 @@ export default function RecentSearchItems() {
   return (
     <div className={style.recentSearchContainer}>
       <div className={style.recentSearch}>
-        <p>0살부터 슈퍼스타1</p>
+        <div className={style.recentSearchText}>0살부터 슈퍼스타</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
@@ -15,7 +15,7 @@ export default function RecentSearchItems() {
         />
       </div>
       <div className={style.recentSearch}>
-        <p>0살스타2</p>
+        <div className={style.recentSearchText}>0살스타2</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
@@ -24,7 +24,7 @@ export default function RecentSearchItems() {
         />
       </div>
       <div className={style.recentSearch}>
-        <p>0살부스타3</p>
+        <div className={style.recentSearchText}>0살부스타3</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
@@ -33,7 +33,7 @@ export default function RecentSearchItems() {
         />
       </div>
       <div className={style.recentSearch}>
-        <p>0살부터 슈퍼스타4</p>
+        <div className={style.recentSearchText}>0살부터 슈퍼스타4</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
@@ -42,7 +42,7 @@ export default function RecentSearchItems() {
         />
       </div>
       <div className={style.recentSearch}>
-        <p>0스타5</p>
+        <div className={style.recentSearchText}>0스타5</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
@@ -51,7 +51,43 @@ export default function RecentSearchItems() {
         />
       </div>
       <div className={style.recentSearch}>
-        <p>0살스타</p>
+        <div className={style.recentSearchText}>0살스타</div>
+        <Image
+          src="/assets/images/icons/close.svg"
+          alt="searchClose"
+          width={15}
+          height={15}
+        />
+      </div>
+      <div className={style.recentSearch}>
+        <div className={style.recentSearchText}>0살스타</div>
+        <Image
+          src="/assets/images/icons/close.svg"
+          alt="searchClose"
+          width={15}
+          height={15}
+        />
+      </div>
+      <div className={style.recentSearch}>
+        <div className={style.recentSearchText}>0살스타</div>
+        <Image
+          src="/assets/images/icons/close.svg"
+          alt="searchClose"
+          width={15}
+          height={15}
+        />
+      </div>
+      <div className={style.recentSearch}>
+        <div className={style.recentSearchText}>0살스타</div>
+        <Image
+          src="/assets/images/icons/close.svg"
+          alt="searchClose"
+          width={15}
+          height={15}
+        />
+      </div>
+      <div className={style.recentSearch}>
+        <div className={style.recentSearchText}>0살스타</div>
         <Image
           src="/assets/images/icons/close.svg"
           alt="searchClose"
