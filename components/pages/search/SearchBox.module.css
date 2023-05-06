@@ -5,22 +5,27 @@
 .searchBox{
     display: flex;
     justify-content: center;
-    text-align : center;
-    margin-top: 3rem;
+    margin-top: 2.5rem;
     position :relative;
+    width: 20.875rem;
+    height: 2.813rem;
+    left: 1.750rem;
+    background: rgba(243, 243, 243, 0.5);
+    border: 1px solid #6E48EB;
+    border-radius: 10px;
+
 }
-.searchBox input{
+.inputText{
     border: none;
     font-size: 1.2rem;
     position: absolute;  
     top: 0.6rem;
-    left: 10%;
-    display: flex;
+    left: 1rem;
     background-color: #F8F8F8;
-    width:70%;
+    width:80%;
 }
 .searchIcon{
     position: absolute;  
     top: 0.6rem;
-    left: 84%;
+    left: 90%;
 }

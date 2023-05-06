@@ -15,6 +15,14 @@ export default function RecommendItems() {
         <p>로맨스 판타지 </p>
         <div className={style.line}></div>
       </div>
+      <div className={style.recommendItem}>
+        <p>로맨스 판타지 </p>
+        <div className={style.line}></div>
+      </div>
+      <div className={style.recommendItem}>
+        <p>로맨스 판타지 </p>
+        <div className={style.line}></div>
+      </div>
     </div>
   );
 }

@@ -4,24 +4,30 @@
     height: 30%;
     display: flex;
     flex-direction: row;
-    margin-left: 5%;
-    white-space:nowrap; 
-	overflow-x:scroll; 
-    -ms-overflow-style: none;
+    margin-left: 1.8rem;
+    flex-wrap:wrap;
+    
 }
-.recentSearchContainer::-webkit-scrollbar{
-    display:none;
-  }
 .recentSearch{
-    margin-right: 1.2rem;
+    margin-right: 1rem;
+    margin-bottom: 0.7rem;
     border: none;
-    vertical-align: middle;
-    height: 35px;
-    background-color: #F6F6F6;
     border-radius: 10px;
+    box-sizing: border-box;
+    width: 10rem;
+    height: 2.2rem;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 16px 10px 16px 15px;
-    gap: 10px;
+    vertical-align: middle;
+    background-color: #F6F6F6;
+    padding: 1rem 0.8rem 1rem 0.8rem;
+}
+.recentSearchText{
+    display: inline-block;
+    width: 9.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.875rem;
 }
