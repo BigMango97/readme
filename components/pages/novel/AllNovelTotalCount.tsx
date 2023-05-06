@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import style from "@/components/pages/novel/AllNovelTotalCount.module.css";
+
 export default function AllNovelTotalCount() {
   return (
     <div className={style.container}>
