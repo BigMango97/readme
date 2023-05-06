@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
-import TagUi from "@/components/ui/TagUi";
 import NovelIntroduce from "./NovelIntroduce";
 import EpisodeInfo from "./EpisodeInfo";
-import { tagType } from "@/types/model/detailPageDataTypes";
-import DetailTitle from "@/components/ui/DetailTitle";
 import LineSeparator from "@/components/ui/LineSeparator";
 import CommentsCheck from "./CommentsCheck";
 import CommentList from "./CommentList";
@@ -46,25 +43,10 @@ export default function NovelDetailMenu() {
       {currentTab === 0 && (
         <>
           <div className={style.infoCentainer}>
-            <DetailTitle
-              title={"시놉시스"}
-              size={"0.875rem"}
-              leftsize={"2rem"}
-              fontweight={550}
-            />
+            <div className={style.detailTitle}>시놉시스</div>
             <NovelIntroduce />
-            <LineSeparator
-              backgroundcolor={"#99ffb5"}
-              width="80%"
-              height="1px"
-              margin="1rem 2rem"
-            />
-            <DetailTitle
-              title={"작가의 한마디"}
-              size={"0.875rem"}
-              leftsize={"2rem"}
-              fontweight={550}
-            />
+            <LineSeparator colorline="grayline" />
+            <div className={style.detailTitle}>작가의 한마디</div>
             <NovelIntroduce />
           </div>
         </>

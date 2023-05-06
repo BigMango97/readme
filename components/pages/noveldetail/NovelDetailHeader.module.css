@@ -31,12 +31,12 @@
   width: 80%;
   text-align: center;
 }
-.noevelMainTitle{
+.noevelMainTitle {
   font-size: 1.125rem;
   font-weight: 800;
   color: var(--readme-primary);
 }
-.novelDetailTitle p{
-margin: 0.5rem;
-font-size: 0.75rem;
+.novelDetailTitle p {
+  margin: 0.5rem;
+  font-size: 0.75rem;
 }

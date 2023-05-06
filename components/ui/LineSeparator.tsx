@@ -1,18 +1,17 @@
 import React from "react";
-export default function LineSeparator(props: {
-  backgroundcolor: string;
-  width: string;
-  height: string;
-  margin: string;
-}) {
+import style from "@/components/ui/LineSeparator.module.css";
+interface Props {
+  colorline: "grayline" | "greenline";
+  children?: any;
+}
+const LineSeparator = ({ colorline, children }: Props) => {
   return (
     <div
-      style={{
-        backgroundColor: props.backgroundcolor,
-        width: props.width,
-        height: props.height,
-        margin: props.margin,
-      }}
-    ></div>
+      className={colorline === "grayline" ? style.grayline : style.greenline}
+    >
+      {children}
+    </div>
   );
-}
+};
+
+export default LineSeparator;
