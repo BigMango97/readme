@@ -14,8 +14,8 @@ export default function RecentSearchTop() {
           <Image
             src="/assets/images/icons/delete.svg"
             alt="trashIcon"
-            width={17}
-            height={17}
+            width={14}
+            height={14}
           />
         </p>
       </div>
