@@ -4,30 +4,30 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top:5rem;
+  margin-top: 5rem;
   position: relative;
 }
-.novelMainImageInfo{
-    border-radius: 10px;
-    width: 100%;
-    height: 560px;
+.novelMainImageInfo {
+  border-radius: 10px;
+  width: 100%;
+  height: 560px;
 }
-.novelMainImageInfo img{
-    width: 100%;
-    height: 500px;
-    border-radius: 20px;
+.novelMainImageInfo img {
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
 }
-.detailnovellikes{
-    height:4rem;
-    width: 90%;
-    margin: 1rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 1rem;
-    border: 1px solid var(--readme-secondary);
-    box-shadow: 2px 4px 5px 0px var(--readme-secondary);
-position: absolute;
-bottom: 10px;
+.detailnovellikes {
+  height: 4rem;
+  width: 90%;
+  margin: 1rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 1rem;
+  border: 1px solid var(--readme-secondary);
+  box-shadow: 2px 4px 5px 0px var(--readme-secondary);
+  position: absolute;
+  bottom: 10px;
 }
