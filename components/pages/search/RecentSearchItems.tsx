@@ -8,43 +8,43 @@ export default function RecentSearchItems() {
     <div className={style.recentSearchContainer}>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살부터 슈퍼스타1</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타2</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살부스타3</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살부터 슈퍼스타4</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0스타5</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
       <div className={style.recentSearch}>
         <div className={style.recentSearchText}>0살스타</div>
-        <CloseButton />
+        <CloseButton width={18} height={18} />
       </div>
     </div>
   );
