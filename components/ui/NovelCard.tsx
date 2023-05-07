@@ -3,16 +3,26 @@ import Image from "next/image";
 import style from "@/components/ui/NovelCard.module.css";
 
 interface Props {
-  styleType: "card" | "list";
+  styleType: "card" | "list" | "event";
 }
 export default function NovelCard({ styleType }: Props) {
   return (
     <div
-      className={styleType === "card" ? style.allNovelCard : style.allNovelList}
+      className={
+        styleType === "card"
+          ? style.allNovelCard
+          : styleType === "list"
+          ? style.allNovelList
+          : style.allNovelEvent
+      }
     >
       <div className={style.allNovelImgContainer}>
         <div
-          className={styleType === "card" ? style.allCardImg : style.allListImg}
+          className={
+            styleType === "card" || styleType === "event"
+              ? style.allCardImg
+              : style.allListImg
+          }
         >
           <Image
             src={"/assets/images/dummy/product2.png"}
@@ -23,7 +33,9 @@ export default function NovelCard({ styleType }: Props) {
         </div>
         <div
           className={
-            styleType === "card" ? style.cardNewIcon : style.listNewIcon
+            styleType === "card" || styleType === "event"
+              ? style.cardNewIcon
+              : style.listNewIcon
           }
         >
           <Image

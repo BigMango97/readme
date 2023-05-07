@@ -4,25 +4,22 @@ import MainEvent from "@/components/pages/main/MainEvent";
 import MainLanking from "@/components/pages/main/MainLanking";
 import DetailTitle from "@/components/ui/DetailTitle";
 import Layout from "@/components/layouts/layout";
+import NovelCard from "@/components/ui/NovelCard";
+import MainSchedule from "@/components/pages/main/MainSchedule";
 
 const Home: NextPageWithLayout = () => {
   return (
     <>
       <MainBestItem />
       <MainEvent thumbnail={"/assets/images/dummy/bestItem01.png"} />
-      <DetailTitle
-        title={"이번주 소설 랭킹"}
-        size={19.2}
-        leftsize={"1.5rem"}
-        fontweight={800}
-        color={"#5841E0"}
-        bottomsize={"1.2rem"}
-      />
+      {/* <MainLanking />
       <MainLanking />
       <MainLanking />
       <MainLanking />
-      <MainLanking />
-      <MainLanking />
+      <MainLanking /> */}
+      <MainSchedule />
+      <MainSchedule />
+      <MainSchedule />
     </>
   );
 };
