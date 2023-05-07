@@ -1,0 +1,21 @@
+.recommendItemsContainer{
+    margin-top: 4.5rem;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+}
+.recommendItem{
+    margin-bottom: 1rem;
+}
+.recommendItem p{
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+.line{
+    width: 90%;
+    height: 0px;
+    opacity: 0.3;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}

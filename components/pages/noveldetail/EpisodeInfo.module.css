@@ -1,15 +1,61 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 2rem;
-    margin-bottom: 7rem;
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 2rem;
+  margin-bottom: 7rem;
 }
-.episodeCard{
-    display: flex;
-    justify-content: start;
-    margin:0rem;
-    height: 7rem;
+.sortNovel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.episodeCardInfo{
-    margin-left: 2rem;
+.sortTitle {
+  display: flex;
+  align-items: center;
+  color: var(--readme-title-gray);
+  font-weight: 800;
+  font-size: 0.875rem;
+}
+.sortTitle div {
+  margin-left: 0.4rem;
+}
+.episodeCard {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0rem;
+}
+.episodeFreeNew {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0rem;
+}
+.episodeFreeNew img {
+  margin-right: 0.4rem;
+}
+.episodeCardTitleNew {
+  display: flex;
+  align-items: center;
+}
+.episodeTitle {
+  font-size: 1rem;
+  color: var(--readme-title-gray);
+  margin: 0.2rem 0.5rem 0.2rem 0rem;
+  font-weight: 800;
+}
+.episodeDayFree {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--readme-title-gray);
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0rem;
+}
+.episodeCardInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.episodeDay {
+  margin-right: 0.5rem;
 }

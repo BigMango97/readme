@@ -1,0 +1,13 @@
+.recommendTopWrap{
+    margin-top: 2rem;
+    width: 100%;
+    height: 10%;
+
+}
+.recommendTopTitle{
+    padding-left: 2rem;
+    float: left;
+    font-weight: bold;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}

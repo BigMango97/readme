@@ -1,0 +1,33 @@
+.recentSearchContainer{
+    margin-top: 1.5rem;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 1.8rem;
+    flex-wrap:wrap;
+    
+}
+.recentSearch{
+    margin-right: 1rem;
+    margin-bottom: 0.7rem;
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 10rem;
+    height: 2.2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    vertical-align: middle;
+    background-color: #F6F6F6;
+    padding: 1rem 0.8rem 1rem 0.8rem;
+}
+.recentSearchText{
+    display: inline-block;
+    width: 9.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.875rem;
+}

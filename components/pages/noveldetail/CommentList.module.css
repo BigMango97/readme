@@ -1,0 +1,41 @@
+.CommentCard {
+  margin: 1rem 0rem;
+  width: 100%;
+  height: 6rem;
+}
+.commentListInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.commentWriter {
+  margin-right: 0.5rem;
+}
+.commentMyWrite {
+  margin-right: 0.5rem;
+  color: var(--readme-primary);
+  font-weight: 800;
+}
+.commentListTitle {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.commentDay {
+  font-size: 0.625rem;
+}
+.comment,
+.episodeTitle {
+  font-size: 0.75rem;
+  margin: 0.5rem 0rem;
+}
+.episodeIcons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.episodeIcons img {
+  margin-right: 0.7rem;
+}
