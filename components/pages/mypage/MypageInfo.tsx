@@ -1,7 +1,6 @@
 import React from "react";
-import style from "@/components/pages/mypage/MainInfo.module.css";
-import Image from "next/image";
-export default function MainInfo() {
+import style from "@/components/pages/mypage/MypageInfo.module.css";
+export default function MypageInfo() {
   return (
     <>
       <div className={style.mypageContainer}>
@@ -11,14 +10,9 @@ export default function MainInfo() {
           </p>
           <div className={style.mypageContainerPointInfo}>
             <div className={style.mypageContainerPoint}>포인트 : 1000P</div>
-            <button className={style.mypageContainerPointBtn}>
-              {/* <button> */}
-                충전
-                {/* </button> */}
-            </button>
+            <button className={style.mypageContainerPointBtn}>충전</button>
           </div>
         </div>
-
       </div>
     </>
   );
