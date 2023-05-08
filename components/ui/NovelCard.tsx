@@ -3,27 +3,48 @@ import Image from "next/image";
 import style from "@/components/ui/NovelCard.module.css";
 
 interface Props {
-  styleType: "card" | "list";
+  styleType: "card" | "list" | "event";
+  thumbnail: string;
+  serializationStatus: string;
+  title: string;
+  author: string;
+  starRating: number;
+  genre: string;
 }
-export default function NovelCard({ styleType }: Props) {
+export default function NovelCard({
+  styleType,
+  thumbnail,
+  serializationStatus,
+  genre,
+  title,
+  author,
+  starRating,
+}: Props) {
   return (
     <div
-      className={styleType === "card" ? style.allNovelCard : style.allNovelList}
+      className={
+        styleType === "card"
+          ? style.allNovelCard
+          : styleType === "list"
+          ? style.allNovelList
+          : style.allNovelEvent
+      }
     >
       <div className={style.allNovelImgContainer}>
         <div
-          className={styleType === "card" ? style.allCardImg : style.allListImg}
+          className={
+            styleType === "card" || styleType === "event"
+              ? style.allCardImg
+              : style.allListImg
+          }
         >
-          <Image
-            src={"/assets/images/dummy/product2.png"}
-            alt={"이미지"}
-            width={500}
-            height={500}
-          />
+          <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
         </div>
         <div
           className={
-            styleType === "card" ? style.cardNewIcon : style.listNewIcon
+            styleType === "card" || styleType === "event"
+              ? style.cardNewIcon
+              : style.listNewIcon
           }
         >
           <Image
@@ -35,11 +56,13 @@ export default function NovelCard({ styleType }: Props) {
         </div>
       </div>
       <div className={styleType === "list" ? style.allNovelInfo : ""}>
-        <div className={style.allNovelStatus}>연재중</div>
+        <div className={style.allNovelStatus}>{serializationStatus}</div>
         <div className={style.allNovelTitle}>
-          <p>아카데미의 마피아가 되었다.</p>
+          <p>{title}</p>
         </div>
-        <div className={style.allNovelAuthor}>문백경 | 판타지</div>
+        <div className={style.allNovelAuthor}>
+          {author} | {genre}
+        </div>
         <div className={style.allNovelStarpoint}>
           <Image
             src={"/assets/images/icons/star.svg"}
@@ -47,7 +70,7 @@ export default function NovelCard({ styleType }: Props) {
             width={15}
             height={15}
           />
-          <span>9.8</span>
+          <span>{starRating}</span>
           <Image
             src={"/assets/images/icons/list.svg"}
             alt={"이미지"}

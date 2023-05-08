@@ -27,13 +27,12 @@
   color: var(--readme-white);
 }
 .mainLankingNovelInfo {
-  margin: 0rem 1rem 1rem 1rem;
+  margin: 1rem;
   color: var(--readme-gray-purple);
 }
 .mainLankingNovelInfo p:first-child {
-  font-size: 1.2rem;
-  font-weight: 800;
-  margin: 0.5rem 0rem;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
 }
 .mainLankingNovelInfo p:last-child {
   font-size: 0.8rem;
