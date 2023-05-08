@@ -9,7 +9,7 @@ import { Layout, Menu, theme } from "antd";
 import SortTable from "@/components/pages/admin/SortTable";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
 import Image from "next/image";
-import NovelRegistration from "@/components/pages/admin/NovelRegistration";
+import NovelForm from "@/components/pages/admin/NovelForm";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -69,7 +69,7 @@ const Main: React.FC = () => {
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "0 16px" }}>
-          <NovelRegistration />
+          <NovelForm id={-1} />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©2023 Created by Ant UED

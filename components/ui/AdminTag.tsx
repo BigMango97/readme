@@ -3,7 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
 import { Space, Input, Tag, Tooltip, theme, Form } from "antd";
 
-const AdminTag: React.FC = () => {
+export default function AdminTag(props: { tags: any }) {
   const { token } = theme.useToken();
   //const [tags, setTags] = useState(["Unremovable", "Tag 2", "Tag 3"]);
   const [inputVisible, setInputVisible] = useState(false);
@@ -133,6 +133,4 @@ const AdminTag: React.FC = () => {
       )}
     </Space>
   );
-};
-
-export default AdminTag;
+}

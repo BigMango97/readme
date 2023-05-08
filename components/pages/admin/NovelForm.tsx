@@ -1,25 +1,19 @@
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
-  //Cascader,
   Checkbox,
   DatePicker,
   Form,
   Input,
-  //InputNumber,
-  //Radio,
   Select,
-  //Switch,
-  //TreeSelect,
   Upload,
-  Tag,
   Space,
 } from "antd";
 import React, { useState } from "react";
 import AdminTag from "@/components/ui/adminTag";
-import style from "@/components/pages/admin/NovelRegistration.module.css";
+import style from "@/components/pages/admin/NovelForm.module.css";
+import dayjs from "dayjs";
 
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const normFile = (e: any) => {
@@ -29,13 +23,33 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const log = (e: React.MouseEvent<HTMLElement>) => {
-  console.log(e);
-};
-
-const FormDisabledDemo: React.FC = () => {
+export default function NovelForm(props: { id: number }) {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-
+  //-1은 등록 0부터 수정
+  const novelData = {
+    novelId: 0,
+    title: "",
+    description: "",
+    author: "",
+    genre: "",
+    grade: "",
+    thumbnail: "",
+    startDate: dayjs(),
+    serializationDays: "",
+    views: "",
+    serializationStatus: "",
+    authorComment: "",
+    tag: [
+      {
+        id: 0,
+        name: "",
+      },
+    ],
+  };
+  if (props.id >= 0) {
+    //useEffect axios.get
+    //
+  }
   return (
     <>
       <div className={style.container}>
@@ -48,15 +62,15 @@ const FormDisabledDemo: React.FC = () => {
         >
           <div className={style.horizontal}>
             <Form.Item label="작품명" style={{ width: 600 }}>
-              <Input />
+              <Input value={novelData.title} />
             </Form.Item>
             <Form.Item label="작가" style={{ width: 600 }}>
-              <Input />
+              <Input value={novelData.author} />
             </Form.Item>
           </div>
           <div className={style.horizontal}>
             <Form.Item label="관람등급" style={{ width: 300 }}>
-              <Select>
+              <Select value={novelData.grade}>
                 <Select.Option value="demo">전체연령가</Select.Option>
                 <Select.Option value="demo">12세</Select.Option>
                 <Select.Option value="demo">15세</Select.Option>
@@ -64,7 +78,7 @@ const FormDisabledDemo: React.FC = () => {
               </Select>
             </Form.Item>
             <Form.Item label="장르" style={{ width: 300 }}>
-              <Select>
+              <Select value={novelData.genre}>
                 <Select.Option value="demo">판타지</Select.Option>
                 <Select.Option value="demo">현판</Select.Option>
                 <Select.Option value="demo">로맨스</Select.Option>
@@ -74,7 +88,7 @@ const FormDisabledDemo: React.FC = () => {
               </Select>
             </Form.Item>
             <Form.Item label="연재상태" style={{ width: 300 }}>
-              <Select>
+              <Select value={novelData.serializationStatus}>
                 <Select.Option value="demo">연재중</Select.Option>
                 <Select.Option value="demo">휴재</Select.Option>
                 <Select.Option value="demo">완결</Select.Option>
@@ -83,7 +97,7 @@ const FormDisabledDemo: React.FC = () => {
           </div>
           <div className={style.normal}>
             <Form.Item label="작가의 말" style={{ width: 640 }}>
-              <Input />
+              <Input value={novelData.authorComment} />
             </Form.Item>
           </div>
           <div className={style.normal}>
@@ -104,12 +118,12 @@ const FormDisabledDemo: React.FC = () => {
           </div>
           <div className={style.normal}>
             <Form.Item label="연재 시작일" style={{ width: 300 }}>
-              <DatePicker />
+              <DatePicker value={novelData.startDate} />
             </Form.Item>
           </div>
           <div className={style.horizontal}>
             <Form.Item label="작품소개" style={{ width: 640 }}>
-              <TextArea rows={4} />
+              <TextArea rows={4} value={novelData.description} />
             </Form.Item>
             <Form.Item
               label="대표 이미지"
@@ -126,7 +140,7 @@ const FormDisabledDemo: React.FC = () => {
           </div>
           <div className={style.normal}>
             <Form.Item label="태그 (최대 3개)" style={{ width: 640 }}>
-              <AdminTag />
+              <AdminTag tags={novelData.tag} />
             </Form.Item>
           </div>
           <div className={style.button}>
@@ -143,6 +157,4 @@ const FormDisabledDemo: React.FC = () => {
       </div>
     </>
   );
-};
-
-export default () => <FormDisabledDemo />;
+}
