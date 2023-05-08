@@ -3,14 +3,20 @@
     margin-top: 2rem;
     margin-left: 3rem;
 }
-.horizontal{
-    margin-top: 0.3rem;
-    display:inline-flex;
+.info{
+    width: 100%;
+    margin-top: 2rem;
+    margin-left: 3rem;
+}
+.vertical{
+    /* margin-top: 0.3rem; */
+    display:flex;
+    flex-direction: column;
 }
 .normal{
     margin-top: 0.3rem;
 }
 .button{
     
-    padding-left: 38rem;
+    /* padding-left: 38rem; */
 }
