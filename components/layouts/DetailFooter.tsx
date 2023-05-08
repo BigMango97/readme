@@ -8,8 +8,8 @@ export default function DetailFooter() {
         <Image
           src="/assets/images/icons/bookmark-2.svg"
           alt="logo"
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           priority
         />
       </div>
@@ -17,8 +17,8 @@ export default function DetailFooter() {
         <Image
           src="/assets/images/icons/bookwhite.svg"
           alt="logo"
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           priority
         />
         <div>무료로 첫편보기</div>

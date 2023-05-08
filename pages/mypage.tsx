@@ -1,25 +1,21 @@
-import React from "react";
-import Layout from "@/components/layouts/layout";
-import { NextPageWithLayout } from "./_app";
-import Image from "next/image";
-import MainInfo from "@/components/pages/mypage/MainInfo";
-import MypageList from "@/components/ui/MypageList";
+import MypageInfo from "@/components/pages/mypage/MypageInfo";
+import MypageList from "@/components/pages/mypage/MypageList";
 
-const Mypage: NextPageWithLayout = () => {
+import React from "react";
+import Footer from "@/components/layouts/Footer";
+import Logout from "@/components/pages/mypage/Logout";
+
+export default function mypage() {
   return (
     <>
-     <MainInfo/>
-     <MypageList/>
-     <MypageList/>
-     <MypageList/>
-     <MypageList/>
-     <MypageList/>
+      <MypageInfo />
+      <MypageList />
+      <MypageList />
+      <MypageList />
+      <MypageList />
+      <MypageList />
+      <Logout />
+      <Footer />
     </>
   );
-};
-
-Mypage.getLayout = function getLayout(page: React.ReactNode) {
-  return <Layout>{page}</Layout>;
-};
-
-export default Mypage;
+}

@@ -1,0 +1,102 @@
+.allNovelCard {
+  display: flex;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 50%;
+  height: 280px;
+  flex-direction: column;
+}
+.allNovelEvent {
+  display: flex;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0.3rem;
+  width: 40%;
+  height: 280px;
+  flex-direction: column;
+}
+.allNovelList {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 100%;
+  height: 120px;
+  flex-direction: row;
+}
+.allNovelImgContainer {
+  position: relative;
+}
+.allNovelNewIcon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.allCardImg {
+  width: 100%;
+  height: 170px;
+}
+
+.allListImg {
+  width: 100px;
+  height: 100px;
+}
+.allCardImg img,
+.allListImg img,
+.cardNewIcon img,
+.listNewIcon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.cardNewIcon {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.listNewIcon {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.allNovelStatus {
+  font-size: 0.75rem;
+  color: var(--readme-primary);
+  font-weight: 800;
+  margin: 0.3rem 0rem;
+}
+.allNovelTitle {
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+.allNovelTitle p {
+  width: 100%;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.allNovelInfo {
+  margin-left: 0.5rem;
+}
+.allNovelAuthor {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+}
+.allNovelStarpoint {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0rem;
+  font-size: 0.75rem;
+}
+.allNovelStarpoint span {
+  margin: 0px 1rem 0rem 0.3rem;
+}
