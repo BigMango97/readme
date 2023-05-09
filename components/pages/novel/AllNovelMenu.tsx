@@ -1,54 +1,52 @@
 import React, { useState } from "react";
 import style from "@/components/pages/novel/AllNovelMenu.module.css";
-
+import { useEffect } from "react";
+import axios from "axios";
 interface novelMenuType {
   id: number;
   title: string;
-  submenu: novelSunMenuType[];
 }
-interface novelSunMenuType {
+interface novelSubMenuType {
   id: number;
-  subtitle: string;
+  title: string;
+  mainCategoryId: number;
+  mainCategoryTitle: string;
 }
 export default function AllNovelMenu() {
   const [currentMenu, setCurrentMenu] = useState<number>(0);
-  const [currentsSubMenu, setCurrentSubMenu] = useState<novelSunMenuType[]>([]);
-  const menuList: novelMenuType[] = [
+  const [currentSubMenu, setCurrentSubMenu] = useState<number>(0);
+  const [categoryMenus, setCategoryMenus] = useState<novelMenuType[]>([]);
+  const [categorySubMenu, setCategorySubMenu] = useState<novelSubMenuType[]>(
+    []
+  );
+  //메인카테고리
+  useEffect(() => {
+    axios
+      .get(`http://10.10.10.125:8000/novels-service/v1/main-category`)
+      .then((res) => {
+        setCategoryMenus(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  //하위카테고리
+  useEffect(() => {
     {
-      id: 0,
-      title: "전체",
-      submenu: [
-        { id: 0, subtitle: "신작" },
-        { id: 1, subtitle: "연재중" },
-        { id: 2, subtitle: "완결" },
-      ],
-    },
-    {
-      id: 1,
-      title: "장르",
-      submenu: [
-        { id: 0, subtitle: "판타지" },
-        { id: 1, subtitle: "현판" },
-        { id: 2, subtitle: "로맨스" },
-        { id: 3, subtitle: "로판" },
-        { id: 4, subtitle: "무협" },
-        { id: 5, subtitle: "드라마" },
-      ],
-    },
-    {
-      id: 2,
-      title: "요일",
-      submenu: [
-        { id: 0, subtitle: "월" },
-        { id: 1, subtitle: "화" },
-        { id: 2, subtitle: "수" },
-        { id: 3, subtitle: "목" },
-        { id: 4, subtitle: "금" },
-        { id: 5, subtitle: "토" },
-        { id: 6, subtitle: "일" },
-      ],
-    },
-  ];
+      const BaseUrl = process.env.baseApiUrl;
+      axios
+        .get(
+          `http://10.10.10.125:8000/novels-service/v1/sub-category?mainCategoryId=${
+            currentMenu + 1
+          }`
+        )
+        .then((res) => {
+          setCategorySubMenu(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [currentMenu]);
+
   const selectmenuHandler = (index: number) => {
     setCurrentMenu(index);
   };
@@ -61,7 +59,7 @@ export default function AllNovelMenu() {
         <div className={style.novelMainMenu}>
           <div className={style.novelMenuTitle}>웹소설</div>
           <ul className={style.novelMenuList}>
-            {menuList.map((item, i) => (
+            {categoryMenus.map((item, i) => (
               <li
                 className={`${
                   currentMenu === i ? style.novelMenuBoxActive : null
@@ -78,9 +76,17 @@ export default function AllNovelMenu() {
       </div>
       <div className={style.novelSubMenu}>
         <ul className={style.novelSubMenuList}>
-          <li className={style.novelSubMenuBoxActive}>신작</li>
-          <li className={style.novelSubMenuBox}>연재중</li>
-          <li className={style.novelSubMenuBox}>완결</li>
+          {categorySubMenu.map((item, i) => (
+            <li
+              className={`${
+                currentSubMenu === i ? style.novelSubMenuBoxActive : null
+              }`}
+              key={item.id}
+              onClick={() => selectSubmenuHandler(i)}
+            >
+              {item.title}
+            </li>
+          ))}
         </ul>
       </div>
     </>
