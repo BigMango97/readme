@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
-import TagUi from "@/components/ui/TagUi";
 import NovelIntroduce from "./NovelIntroduce";
 import EpisodeInfo from "./EpisodeInfo";
-import { tagType } from "@/types/model/detailPageDataTypes";
-import DetailTitle from "@/components/ui/DetailTitle";
+import LineSeparator from "@/components/ui/LineSeparator";
+import CommentsCheck from "./CommentsCheck";
+import CommentList from "./CommentList";
 
 export interface menuType {
   id: number;
   title: string;
 }
-export default function NovelDetailMenu(props: {
-  tag: tagType[];
-  thumbnail: string;
-}) {
+export default function NovelDetailMenu() {
   const [currentTab, setCurrentTap] = useState(0);
-  const [tagData, setTagData] = useState(props.tag);
   const menulist: menuType[] = [
-    { id: 0, title: "Synopsis" },
-    { id: 1, title: "Episode" },
-    { id: 2, title: "Comments" },
+    { id: 0, title: "작품소개" },
+    { id: 1, title: "에피소드" },
+    { id: 2, title: "댓글" },
   ];
   const selectmenuHandler = (index: number) => {
     setCurrentTap(index);
@@ -38,48 +34,31 @@ export default function NovelDetailMenu(props: {
             {item.title === "Episode" && (
               <span className={style.Episodecount}>(24)</span>
             )}
-             {item.title === "Comments" && (
+            {item.title === "Comments" && (
               <span className={style.Episodecount}>(24)</span>
             )}
           </p>
         ))}
       </div>
-
       {currentTab === 0 && (
         <>
-          <DetailTitle
-            title={"태그"}
-            size={18}
-            leftsize={"2rem"}
-            fontweight={800}
-          />
           <div className={style.infoCentainer}>
-            {tagData.map((item, index) => (
-              <>
-                <TagUi key={item.id} title={item.name} />
-              </>
-            ))}
+            <div className={style.detailTitle}>시놉시스</div>
+            <NovelIntroduce />
+            <LineSeparator colorline="grayline" />
+            <div className={style.detailTitle}>작가의 한마디</div>
+            <NovelIntroduce />
           </div>
-          <DetailTitle
-            title={"작품소개"}
-            size={18}
-            leftsize={"2rem"}
-            fontweight={800}
-          />
-          <NovelIntroduce />
-          <DetailTitle
-            title={"작가의 말"}
-            size={18}
-            leftsize={"2rem"}
-            fontweight={800}
-          />
         </>
       )}
-      {currentTab === 1 && (
-        <EpisodeInfo thumbnail={props.thumbnail} />
-      )}
-       {currentTab === 2 && (
-        <><div></div></>
+      {currentTab === 1 && <EpisodeInfo />}{" "}
+      {currentTab === 2 && (
+        <>
+          <div className={style.infoCentainer}>
+            <CommentsCheck />
+            <CommentList />
+          </div>
+        </>
       )}
     </>
   );

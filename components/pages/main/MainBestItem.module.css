@@ -29,7 +29,7 @@
   margin-bottom: 0.5rem;
 }
 .bestItemCardWrap > p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: var(--readme-main-font);
   color: var(--readme-purple-gray);
   margin-bottom: 1rem;

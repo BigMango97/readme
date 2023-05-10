@@ -1,24 +1,25 @@
-.menutitle{
-    margin: 1rem 2rem;
-    display: flex;
+.menutitle {
+  margin: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
 }
-.menutitle p{
-    margin: 0rem 1rem 1rem 0rem;
-    font-size: 1.3rem;
-    font-weight: 600;
+.menutitle p {
+  font-size: 0.875rem;
+  font-weight: 600;
 }
-.infoCentainer{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin:1rem 2rem;
-    flex-wrap: wrap;
+.infoCentainer {
+  display: flex;
+  margin: 0rem 2rem 7rem 2rem;
+  flex-direction: column;
 }
-.Episodecount{
-    color:var(--readme-primary);
-    font-weight: 500;
+.menuactive {
+  padding-bottom: 0.4rem;
+  color: var(--readme-primary);
+  font-weight: 800;
+  border-bottom: 2px solid var(--readme-primary);
 }
-.menuactive{
-    padding-bottom: 0.3rem;
-    border-bottom: 4px solid var(--readme-primary)
+.detailTitle {
+  font-size: 0.875rem;
+  font-weight: 550;
+  margin: 0.5rem 0rem;
 }

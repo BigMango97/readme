@@ -1,0 +1,49 @@
+.mainLankingCard {
+  margin: 1.5rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+.mainLankingContainer {
+  background-color: var(--readme-gray-light);
+  width: 100%;
+  border-radius: 200px;
+}
+.mainLankingInfo {
+  display: flex;
+  align-items: center;
+  margin: 0rem 1rem;
+}
+.mainLanking {
+  margin: 0.5rem;
+  background-color: var(--readme-primary);
+  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--readme-white);
+}
+.mainLankingNovelInfo {
+  margin: 1rem;
+  color: var(--readme-gray-purple);
+}
+.mainLankingNovelInfo p:first-child {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+.mainLankingNovelInfo p:last-child {
+  font-size: 0.8rem;
+}
+.mainLankingImgInfo {
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 0px;
+}
+.mainLankingImgInfo img {
+  position: absolute;
+  right: -10px;
+  bottom: 0px;
+}

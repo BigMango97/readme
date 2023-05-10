@@ -8,8 +8,8 @@
     background-color: var(--readme-white);
 }
 .novelBuyBtn{
-    width: 5rem;
-    height: 5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     border: 3px solid var(--readme-gray-dark);
     border-radius: 50%;
     display: flex;
@@ -18,17 +18,17 @@
 
 }
 .novelBuyBtn img{
-    width: 2rem;
+    width: 1.5rem;
     height: auto;
 }
 .novelReadBtn img{
-    width: 2rem;
+    width: 1.5rem;
     height: auto;
     margin-right: 1rem;
 }
 .novelReadBtn{
     width: 70%;
-    height: 5rem;
+    height: 3.5rem;
     display: flex;
     background-color: var(--readme-primary);
     border-radius: 50px;
@@ -36,5 +36,5 @@
     justify-content: center;
     align-items: center;
     color:var(--readme-white);
-    font-size: 1.2rem;
+    font-size:0.875rem;
 }
