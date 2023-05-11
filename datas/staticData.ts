@@ -20,7 +20,7 @@ export const footerMenu = [
   {
     id: 4,
     title: "mybooks",
-    link: "/mybooks",
+    link: "/library",
     iconUrl: "/assets/images/icons/library.svg",
   },
   {
