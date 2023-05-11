@@ -16,6 +16,7 @@ import NovelSortTable from "@/components/pages/admin/NovelSortTable";
 import { Input } from "antd";
 import { DatePicker, Space } from "antd";
 import { Select } from "antd";
+import { useRouter } from "next/router";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -68,6 +69,11 @@ const Main: React.FC = () => {
     console.log(`selected ${value}`);
   };
 
+  const router = useRouter();
+  const moveNovelForm = () => {
+    router.push("/admin/novelForm");
+  };
+
   const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -113,7 +119,7 @@ const Main: React.FC = () => {
                     margin: "1rem",
                   }}
                 >
-                  <AdminButton title={"소설등록"} />
+                  <AdminButton title={"소설등록"} onClick={moveNovelForm} />
                 </div>
                 <NovelSortTable />
               </Content>
@@ -198,7 +204,7 @@ const Main: React.FC = () => {
                       </Space>
                     </div>
                     <div style={{ display: "flex" }}>
-                      <div style={{ width:  "100px"}}>소설</div>
+                      <div style={{ width: "100px" }}>소설</div>
                       <Select
                         mode="multiple"
                         placeholder="Inserted are removed"
