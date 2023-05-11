@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { subDayMenu, subStatusMenu } from "@/datas/staticData";
+
 interface novelMenuType {
   id: number;
   title: string;
@@ -16,53 +18,30 @@ interface novelSubMenuType {
 }
 export default function AllNovelMenu() {
   const [categoryMenus, setCategoryMenus] = useState<novelMenuType[]>([]);
-  const [categorySubMenu, setCategorySubMenu] = useState<novelSubMenuType[]>(
-    []
-  );
   const router = useRouter();
-  console.log("router", router.query.categoryId);
-
+  console.log("router", router);
+  const { categoryId, subcategoryId }: any = router.query;
   //메인카테고리
   useEffect(() => {
     axios
       .get(`http://43.200.189.164:8000/novels-service/v1/main-category`)
       .then((res) => {
-        console.log("res", res.data.data);
         setCategoryMenus(res.data.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // 하위카테고리
-  useEffect(() => {
+  const selectmenuHandler = (index: string, subindex: string) => {
     {
-      const BaseUrl = process.env.baseApiUrl;
-
-      if (router.query.categoryId !== undefined) {
-        axios
-          .get(
-            `http://43.200.189.164:8000/novels-service/v1/sub-category?mainCategoryId=${Number(
-              router.query.categoryId
-            )}`
-          )
-          .then((res) => {
-            console.log("res", res.data.data);
-            setCategorySubMenu(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      index == "요일"
+        ? router.push(`/novel?categoryId=${index}&subcategoryId=${"월"}`)
+        : router.push(`/novel?categoryId=${index}&subcategoryId=${"신작"}`);
     }
-  }, [router.query]);
-
-  const selectmenuHandler = (index: number, subInitId: number) => {
-    router.push(`/novel/${index}/${subInitId}`);
-  };
-  const selectSubmenuHandler = (index: any) => {
-    router.push(`/novel/${router.query.categoryId}/${index}`);
   };
 
+  const selectsubHandler = (index: string, subindex: string) => {
+    router.push(`/novel?categoryId=${index}&subcategoryId=${subindex}`);
+  };
   return (
     <>
       <div className={style.novelMenuContainer}>
@@ -72,9 +51,10 @@ export default function AllNovelMenu() {
             {categoryMenus.map((item, i) => (
               <li
                 key={item.id}
-                onClick={() => {
-                  selectmenuHandler(item.id, categorySubMenu[0].id);
-                }}
+                onClick={() => selectmenuHandler(item.title, item.title)}
+                className={`${
+                  categoryId === item.title ? style.novelMenuBoxActive : null
+                }`}
               >
                 {item.title}
               </li>
@@ -84,18 +64,41 @@ export default function AllNovelMenu() {
         </div>
       </div>
       <div className={style.novelSubMenu}>
-        <ul className={style.novelSubMenuList}>
-          {categorySubMenu.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => {
-                selectSubmenuHandler(item.id);
-              }}
-            >
-              {item.title}
-            </li>
-          ))}
-        </ul>
+        {categoryId === "요일" ? (
+          <ul className={style.novelSubMenuList}>
+            {subDayMenu.map((item) => (
+              <li
+                key={item.id}
+                onClick={() => selectsubHandler(categoryId, item.title)}
+                className={`${
+                  subcategoryId === item.title
+                    ? style.novelSubMenuBoxActive
+                    : style.novelSubMenuBox
+                }`}
+              >
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className={style.novelSubMenuList}>
+            {subStatusMenu.map((item) => (
+              <>
+                <li
+                  key={item.id}
+                  onClick={() => selectsubHandler(categoryId, item.title)}
+                  className={`${
+                    subcategoryId === item.title
+                      ? style.novelSubMenuBoxActive
+                      : style.novelSubMenuBox
+                  }`}
+                >
+                  {item.title}
+                </li>
+              </>
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );
