@@ -1,15 +1,5 @@
-export interface novelType{
-    title: string;
-    description: string;
-    author: string;
-    startDate: Date;
-    serializationDay: number[];
-    serializationStatus: string;
-    thumbnail: string;
-    authorComment: string;
-    grade: string;
-    genre: string
-}
+import { Dayjs } from "dayjs";
+
 export interface tagType{
     id: number;
     name: string;
@@ -19,12 +9,12 @@ export interface inputNovelType{
     title: string;
     description: string;
     author: string;
-    startDate: Date;
+    startDate: Dayjs;
     serializationDay: string[];
     serializationStatus: string;
     thumbnail: string;
     authorComment: string;
     grade: number;
     genre: string;
-    tag: tagType[];
+    tags: string[];
 }

@@ -33,7 +33,7 @@ const items: MenuItem[] = [
   getItem("CARD관리", "3", <FileOutlined />),
 ];
 
-const Main: React.FC = () => {
+const novelForm = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -68,7 +68,7 @@ const Main: React.FC = () => {
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "0 16px" }}>
-          <NovelForm id={-1} />
+          <NovelForm />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©2023 Created by Ant UED
@@ -78,4 +78,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default novelForm;
