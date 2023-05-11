@@ -18,3 +18,18 @@ export interface inputNovelType{
     genre: string;
     tags: string[];
 }
+
+export interface novelType{
+    id:number;
+    title: string;
+    description: string;
+    author: string;
+    startDate: Dayjs;
+    serializationDay: string[];
+    serializationStatus: string;
+    thumbnail: string;
+    authorComment: string;
+    grade: number;
+    genre: string;
+    tags: string[];
+}

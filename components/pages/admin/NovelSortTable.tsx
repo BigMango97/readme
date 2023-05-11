@@ -1,180 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-
-interface DataType {
-  번호: number;
-  대표이미지: string;
-  제목: string;
-  작가: string;
-  연재시작일: string;
-  연재요일: string;
-  장르: string;
-  관람등급: string;
-  태그: string[];
-  연재상태: string;
-}
-const data: DataType[] = [
-  {
-    번호: 1,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 2,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑1", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 3,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "재미있어?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑2", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 5,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑3", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 6,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑4", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 7,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "즐겁니?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑5", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 8,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "월",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑6", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 9,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "재미있니?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "월",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑7", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 10,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "19",
-    태그: ["로맨스", "사랑8", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 11,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "나는 신이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑9", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 12,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑0", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 13,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "나는 신이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "17",
-    태그: ["로맨스", "사랑00", "사랑"],
-    연재상태: "연재중",
-  },
-];
+import axios from "axios";
+import { novelType } from "@/types/admin/novelType";
 
 export default function NovelSortTable() {
   const router = useRouter();
   const moveEditForm = (id: number) => {
     router.push(`/admin/novelForm?id=${id}`);
   };
+  const deleteHandle = (id: number) => {
+    axios
+      .delete(`http://43.200.189.164:8000/novels-service/v1/admin/novels/${id}`)
+      .then((res) => {
+        console.log(res);
+      });
+  };
+  useEffect(() => {
+    axios
+      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels}`)
+      .then((res) => {
+        console.log(res);
+      });
+  }, []);
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<novelType> = [
     {
       key: "번호",
       dataIndex: "번호",
       title: "번호",
-      sorter: (a, b) => a.번호 - b.번호,
+      sorter: (a, b) => a.id - b.id,
       width: "6%",
     },
     {
@@ -204,7 +61,7 @@ export default function NovelSortTable() {
       filterMode: "tree",
       filterSearch: true,
       onFilter: (value: string | number | boolean, record) =>
-        record.제목.startsWith(value.toLocaleString()),
+        record.title.startsWith(value.toLocaleString()),
       width: "13%",
     },
     {
@@ -228,7 +85,7 @@ export default function NovelSortTable() {
       filterMode: "tree",
       filterSearch: true,
       onFilter: (value: string | number | boolean, record) =>
-        record.작가.startsWith(value.toLocaleString()),
+        record.author.startsWith(value.toLocaleString()),
       width: "8%",
     },
     {
@@ -274,7 +131,7 @@ export default function NovelSortTable() {
         },
       ],
       onFilter: (value: string | number | boolean, record) =>
-        record.연재요일.startsWith(value.toLocaleString()),
+        record.serializationDay.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
     },
@@ -310,7 +167,7 @@ export default function NovelSortTable() {
         },
       ],
       onFilter: (value: string | number | boolean, record) =>
-        record.장르.startsWith(value.toLocaleString()),
+        record.genre.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "6%",
     },
@@ -338,7 +195,7 @@ export default function NovelSortTable() {
         },
       ],
       onFilter: (value: string | number | boolean, record) =>
-        record.관람등급.startsWith(value.toLocaleString()),
+        record.grade.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
     },
@@ -347,9 +204,9 @@ export default function NovelSortTable() {
       dataIndex: "태그",
       title: "태그",
       width: "13%",
-      render: (_, { 태그 }) => (
+      render: (_, { tags }) => (
         <>
-          {태그.map((tag, idx) => {
+          {tags.map((tag, idx) => {
             let color = tag.length > 5 ? "geekblue" : "green";
             if (tag === "loser") {
               color = "volcano";
@@ -378,7 +235,7 @@ export default function NovelSortTable() {
         },
       ],
       onFilter: (value: string | number | boolean, record) =>
-        record.연재상태.startsWith(value.toLocaleString()),
+        record.serializationStatus.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
     },
@@ -394,11 +251,11 @@ export default function NovelSortTable() {
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",
-      render: () => <DeleteOutlined />,
+      render: () => <DeleteOutlined onClick={() => deleteHandle(9)} />,
     },
   ];
 
-  const onChange: TableProps<DataType>["onChange"] = (
+  const onChange: TableProps<novelType>["onChange"] = (
     pagination,
     filters,
     sorter,
