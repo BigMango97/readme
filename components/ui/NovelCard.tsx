@@ -53,7 +53,9 @@ export default function NovelCard({
             width={30}
             height={30}
           />
+    
         </div>
+        <div className={style.ageCheck}><span>19</span></div>
       </div>
       <div className={styleType === "list" ? style.allNovelInfo : ""}>
         <div className={style.allNovelStatus}>{serializationStatus}</div>
