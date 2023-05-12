@@ -6,7 +6,7 @@ export default function DetailFooter() {
     <div className={style.detailFooter}>
       <div className={style.novelBuyBtn}>
         <Image
-          src="/assets/images/icons/bookmark-2.svg"
+          src="/assets/images/icons/heart.svg"
           alt="logo"
           width={30}
           height={30}

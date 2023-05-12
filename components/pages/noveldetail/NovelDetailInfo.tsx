@@ -3,12 +3,17 @@ import Image from "next/image";
 import style from "@/components/pages/noveldetail/NovelDetailinfo.module.css";
 import CountViewUi from "@/components/ui/CountViewUi";
 
-export default function NovelDetailInfo() {
+export default function NovelDetailInfo(props: {
+  views: number;
+  starRating: number;
+  episodeCount: number;
+  thumbnail: string;
+}) {
   return (
     <div className={style.novelMainInfo}>
       <div className={style.novelMainImageInfo}>
         <Image
-          src={"/assets/images/dummy/bestNovel.png"}
+          src={props.thumbnail}
           alt="썸네일 이미지"
           width={1000}
           height={1000}
@@ -17,19 +22,19 @@ export default function NovelDetailInfo() {
       <div className={style.detailnovellikes}>
         <CountViewUi
           icon="/assets/images/icons/eye.svg"
-          count={1632178341}
+          count={props.views}
           color="black"
           flexDirection="column"
         />
         <CountViewUi
           icon="/assets/images/icons/star.svg"
-          count={9.7}
+          count={props.starRating}
           color="black"
           flexDirection="column"
         />
         <CountViewUi
           icon="/assets/images/icons/list.svg"
-          count={156}
+          count={props.episodeCount}
           color="black"
           flexDirection="column"
         />
