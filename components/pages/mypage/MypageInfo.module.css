@@ -9,7 +9,7 @@
 .mypageContainerInfo p{
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: var(--readme-gray);
+    color: var(--readme-title-gray);
 }
 .mypageContainerPointInfo{
     width: 100%;
