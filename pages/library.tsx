@@ -1,20 +1,13 @@
-import { NextPageWithLayout } from "./_app";
+import React from "react";
 import MyBooks from "@/components/pages/library/MyBooks";
 import LibraryTop from "@/components/pages/library/LibraryTop";
-import React from "react";
-import Layout from "@/components/layouts/layout";
-
-const Library: NextPageWithLayout = () => {
+import Footer from "@/components/layouts/Footer";
+export default function Library() {
   return (
     <>
       <LibraryTop />
       <MyBooks />
+      <Footer />
     </>
   );
-};
-
-Library.getLayout = function getLayout(page: React.ReactNode) {
-  return <Layout>{page}</Layout>;
-};
-
-export default Library;
+}
