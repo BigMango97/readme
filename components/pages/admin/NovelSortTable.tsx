@@ -1,410 +1,307 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { novelListType, novelType } from "@/types/admin/novelType";
+import { NextPageContext } from "next";
+import dayjs from "dayjs";
 
-interface DataType {
-  번호: number;
-  대표이미지: string;
-  제목: string;
-  작가: string;
-  연재시작일: string;
-  연재요일: string;
-  장르: string;
-  관람등급: string;
-  태그: string[];
-  연재상태: string;
+function NovelSortTable({ data }: any) {
+  const router = useRouter();
+
+  const [data1, setData1] = useState<novelListType>();
+  const moveEditForm = (id: number) => {
+    router.push(`/admin/novelForm?id=${id}`);
+  };
+
+  const deleteHandle = (id: number) => {
+    axios
+      .delete(`http://43.200.189.164:8000/novels-service/v1/admin/novels/${id}`)
+      .then((res) => {
+        console.log(res);
+      });
+  };
+  useEffect(() => {
+    axios
+      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels`)
+      .then((res) => {
+        console.log(res.data.data.contents);
+
+        setData1({
+          novelList: res.data.data.contents,
+        });
+      });
+  }, []);
+
+  const columns: ColumnsType<novelType> = [
+    {
+      key: "번호",
+      dataIndex: "번호",
+      title: "번호",
+      sorter: (a, b) => a.id - b.id,
+      width: "6%",
+      render: (_, { id }) => <>{id}</>,
+    },
+    {
+      key: "이미지",
+      dataIndex: "이미지",
+      title: "이미지",
+      width: "7%",
+      render: (_, { thumbnail }) => <>{thumbnail}</>,
+    },
+    {
+      key: "제목",
+      dataIndex: "제목",
+      title: "제목",
+      filters: [
+        {
+          text: "Category 1",
+          value: "Category 1",
+        },
+        {
+          text: "Category 2",
+          value: "Category 2",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record) =>
+        record.title.startsWith(value.toLocaleString()),
+      width: "13%",
+      render: (_, { title }) => <>{title}</>,
+    },
+    {
+      key: "작가",
+      dataIndex: "작가",
+      title: "작가",
+      filters: [
+        {
+          text: "Joe",
+          value: "Joe",
+        },
+        {
+          text: "Category 1",
+          value: "Category 1",
+        },
+        {
+          text: "Category 2",
+          value: "Category 2",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value: string | number | boolean, record) =>
+        record.author.startsWith(value.toLocaleString()),
+      width: "8%",
+      render: (_, { author }) => <>{author}</>,
+    },
+    {
+      key: "연재시작일",
+      dataIndex: "연재시작일",
+      title: "연재시작일",
+      sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
+      width: "12%",
+      render: (_, { startDate }) => <>{startDate}</>,
+    },
+
+    {
+      key: "연재요일",
+      dataIndex: "연재요일",
+      title: "연재요일",
+      filters: [
+        {
+          text: "월",
+          value: "월",
+        },
+        {
+          text: "화",
+          value: "화",
+        },
+        {
+          text: "수",
+          value: "수",
+        },
+        {
+          text: "목",
+          value: "목",
+        },
+        {
+          text: "금",
+          value: "금",
+        },
+        {
+          text: "토",
+          value: "토",
+        },
+        {
+          text: "일",
+          value: "일",
+        },
+      ],
+      //onFilter: (value: string | number | boolean, record) =>
+      //record.serializationDay.startsWith(value.toLocaleString()),
+      //filterSearch: true,
+      width: "8%",
+      render: (_, { serializationDay }) => <>{serializationDay}</>,
+    },
+
+    {
+      key: "장르",
+      dataIndex: "장르",
+      title: "장르",
+      filters: [
+        {
+          text: "판타지",
+          value: "판타지",
+        },
+        {
+          text: "현판",
+          value: "현판",
+        },
+        {
+          text: "무협",
+          value: "무협",
+        },
+        {
+          text: "로맨스",
+          value: "로맨스",
+        },
+        {
+          text: "로판",
+          value: "로판",
+        },
+        {
+          text: "드라마",
+          value: "드라마",
+        },
+      ],
+      onFilter: (value: string | number | boolean, record) =>
+        record.genre.startsWith(value.toLocaleString()),
+      filterSearch: true,
+      width: "6%",
+      render: (_, { genre }) => <>{genre}</>,
+    },
+
+    {
+      key: "관람등급",
+      dataIndex: "관람등급",
+      title: "관람등급",
+      filters: [
+        {
+          text: "전체",
+          value: "전체",
+        },
+        {
+          text: "19",
+          value: "19",
+        },
+        {
+          text: "17",
+          value: "17",
+        },
+        {
+          text: "15",
+          value: "15",
+        },
+      ],
+      //onFilter: (value: string | number | boolean, record) =>
+      //record.grade.startsWith(value.toLocaleString()),
+      filterSearch: true,
+      width: "8%",
+      render: (_, { grade }) => <>{grade}</>,
+    },
+    {
+      key: "태그",
+      dataIndex: "태그",
+      title: "태그",
+      width: "13%",
+      render: (_, { tags }) => (
+        <>
+          {tags.map((tag, idx) => {
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={idx}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      key: "연재상태",
+      dataIndex: "연재상태",
+      title: "연재상태",
+      filters: [
+        {
+          text: "연재중",
+          value: "연재중",
+        },
+        {
+          text: "완결",
+          value: "완결",
+        },
+      ],
+      onFilter: (value: string | number | boolean, record) =>
+        record.serializationStatus.startsWith(value.toLocaleString()),
+      filterSearch: true,
+      width: "8%",
+      render: (_, { serializationStatus }) => <>{serializationStatus}</>,
+    },
+    {
+      key: "수정",
+      dataIndex: "수정",
+      title: "수정",
+      width: "5%",
+      render: (_, { id }) => <EditOutlined onClick={() => moveEditForm(id)} />,
+    },
+    {
+      key: "삭제",
+      dataIndex: "삭제",
+      title: "삭제",
+      width: "5%",
+      render: (_, { id }) => (
+        <DeleteOutlined onClick={() => deleteHandle(id)} />
+      ),
+    },
+  ];
+
+  const onChange: TableProps<novelType>["onChange"] = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+
+  const data2: novelType[] | undefined = data1?.novelList;
+  console.log(`data2 =  `, data2);
+  return (
+    <Table
+      columns={columns}
+      dataSource={data2}
+      onChange={onChange}
+      style={{ fontSize: "1rem" }}
+    />
+  );
 }
-
-const columns: ColumnsType<DataType> = [
-  {
-    key: "번호",
-    dataIndex: "번호",
-    title: "번호",
-    sorter: (a, b) => a.번호 - b.번호,
-    width: "6%",
-  },
-  {
-    key: "이미지",
-    dataIndex: "이미지",
-    title: "이미지",
-    width: "7%",
-  },
-  {
-    key: "제목",
-    dataIndex: "제목",
-    title: "제목",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Category 1",
-        value: "Category 1",
-      },
-      {
-        text: "Category 2",
-        value: "Category 2",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    onFilter: (value: string | number | boolean, record) =>
-      record.제목.startsWith(value.toLocaleString()),
-    width: "13%",
-  },
-  {
-    key: "작가",
-    dataIndex: "작가",
-    title: "작가",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Category 1",
-        value: "Category 1",
-      },
-      {
-        text: "Category 2",
-        value: "Category 2",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    onFilter: (value: string | number | boolean, record) =>
-      record.작가.startsWith(value.toLocaleString()),
-    width: "8%",
-  },
-  {
-    key: "연재시작일",
-    dataIndex: "연재시작일",
-    title: "연재시작일",
-    // sorter: (a, b) => a.age - b.age,
-    width: "12%",
-  },
-
-  {
-    key: "연재요일",
-    dataIndex: "연재요일",
-    title: "연재요일",
-    filters: [
-      {
-        text: "월",
-        value: "월",
-      },
-      {
-        text: "화",
-        value: "화",
-      },
-      {
-        text: "수",
-        value: "수",
-      },
-      {
-        text: "목",
-        value: "목",
-      },
-      {
-        text: "금",
-        value: "금",
-      },
-      {
-        text: "토",
-        value: "토",
-      },
-      {
-        text: "일",
-        value: "일",
-      },
-    ],
-    onFilter: (value: string | number | boolean, record) =>
-      record.연재요일.startsWith(value.toLocaleString()),
-    filterSearch: true,
-    width: "8%",
-  },
-
-  {
-    key: "장르",
-    dataIndex: "장르",
-    title: "장르",
-    filters: [
-      {
-        text: "판타지",
-        value: "판타지",
-      },
-      {
-        text: "현판",
-        value: "현판",
-      },
-      {
-        text: "무협",
-        value: "무협",
-      },
-      {
-        text: "로맨스",
-        value: "로맨스",
-      },
-      {
-        text: "로판",
-        value: "로판",
-      },
-      {
-        text: "드라마",
-        value: "드라마",
-      },
-    ],
-    onFilter: (value: string | number | boolean, record) =>
-      record.장르.startsWith(value.toLocaleString()),
-    filterSearch: true,
-    width: "6%",
-  },
-
-  {
-    key: "관람등급",
-    dataIndex: "관람등급",
-    title: "관람등급",
-    filters: [
-      {
-        text: "전체",
-        value: "전체",
-      },
-      {
-        text: "19",
-        value: "19",
-      },
-      {
-        text: "17",
-        value: "17",
-      },
-      {
-        text: "15",
-        value: "15",
-      },
-    ],
-    onFilter: (value: string | number | boolean, record) =>
-      record.관람등급.startsWith(value.toLocaleString()),
-    filterSearch: true,
-    width: "8%",
-  },
-  {
-    key: "태그",
-    dataIndex: "태그",
-    title: "태그",
-    width: "13%",
-    render: (_, { 태그 }) => (
-      <>
-        {태그.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    key: "연재상태",
-    dataIndex: "연재상태",
-    title: "연재상태",
-    filters: [
-      {
-        text: "연재중",
-        value: "연재중",
-      },
-      {
-        text: "완결",
-        value: "완결",
-      },
-    ],
-    onFilter: (value: string | number | boolean, record) =>
-      record.연재상태.startsWith(value.toLocaleString()),
-    filterSearch: true,
-    width: "8%",
-  },
-  {
-    key: "수정",
-    dataIndex: "수정",
-    title: "수정",
-    width: "5%",
-  },
-  {
-    key: "삭제",
-    dataIndex: "삭제",
-    title: "삭제",
-    width: "5%",
-  },
-];
-
-const data: DataType[] = [
-  {
-    번호: 1,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 2,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 3,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "재미있어?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 5,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 6,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 7,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "즐겁니?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 8,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "월",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 9,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "재미있니?.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "월",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 10,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "진짜마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "19",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 11,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "나는 신이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 12,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "마지막이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "12",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-  {
-    번호: 13,
-    대표이미지: "/assets/images/dummy/bestItem01.png",
-    제목: "나는 신이다.",
-    작가: "김민공",
-    연재시작일: "2020-12-12",
-    연재요일: "금",
-    장르: "로맨스",
-    관람등급: "17",
-    태그: ["로맨스", "사랑", "사랑"],
-    연재상태: "연재중",
-  },
-];
-
-const onChange: TableProps<DataType>["onChange"] = (
-  pagination,
-  filters,
-  sorter,
-  extra
-) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
-
-const NovelSortTable: React.FC = () => (
-  <Table
-    columns={columns}
-    dataSource={data}
-    onChange={onChange}
-    style={{ fontSize: "1rem" }}
-  />
-);
-
 export default NovelSortTable;
+export async function getServerSideProps(context: NextPageContext) {
+  // Fetch data from external API
+  const res = await axios.get(
+    `http://43.200.189.164:8000/novels-service/v1/admin/novels`
+  );
+  console.log("res = ", res);
+  const data3 = await res.data;
+  console.log("sssr = ", data3);
+  //const data = await res.data;
+
+  // Pass data to the page via props
+  return { props: { data: data3.data.contents } };
+}

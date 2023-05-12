@@ -15,10 +15,20 @@ export default function NovelInput(props: {
       [props.type]: e.target.value,
     });
   };
+  let value;
+  if (props.type === "title") {
+    value = props.inputData.title;
+  }
+  if (props.type === "author") {
+    value = props.inputData.author;
+  }
+  if (props.type === "authorComment") {
+    value = props.inputData.authorComment;
+  }
 
   return (
     <>
-      <Input onChange={changeInputHandle} />
+      <Input value={value} onChange={changeInputHandle} />
     </>
   );
 }

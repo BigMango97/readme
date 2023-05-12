@@ -6,7 +6,6 @@ import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { inputNovelType } from "@/types/admin/novelType";
 import axios from "axios";
 export default function NovelUpload(props: {
-  //imageUrl: string;
   inputData: inputNovelType;
   setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
 }) {
@@ -27,7 +26,6 @@ export default function NovelUpload(props: {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      // 반환받은 이미지 URL, 원하는 곳에 사용하면 된다. 나 같은 경우 회원가입 할 때, 회원정보와 같이 한 번에 서버로 보내줬다.
       const image_URL = imageRes.data;
       console.log(`imageRes = `, imageRes.data);
       props.setInputData({
@@ -50,7 +48,6 @@ export default function NovelUpload(props: {
   };
 
   const [loading, setLoading] = useState(false);
-  //const [imageUrl, setImageUrl] = useState<string>();
 
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
@@ -87,7 +84,7 @@ export default function NovelUpload(props: {
           <img
             src={props.inputData.thumbnail}
             alt="thumbnail"
-            style={{ width: "100%" }}
+            style={{ width: "200%" }}
           />
         ) : (
           uploadButton
