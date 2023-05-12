@@ -1,18 +1,8 @@
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Upload,
-  Space,
-} from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Form, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import NovelTag from "@/components/ui/admin/NovelTag";
+import Noveltag from "@/components/ui/admin/NovelTag";
 import style from "@/components/pages/admin/NovelForm.module.css";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 
 import NovelInput from "@/components/ui/admin/NovelInput";
@@ -21,7 +11,8 @@ import NovelCheckbox from "@/components/ui/admin/NovelCheckbox";
 import NovelDatePicker from "@/components/ui/admin/NovelDatePicker";
 import NovelTextArea from "@/components/ui/admin/NovelTextArea";
 import NovelUpload from "@/components/ui/admin/NovelUpload";
-import { inputNovelType, tagType } from "@/types/admin/novelType";
+import { inputNovelType } from "@/types/admin/novelType";
+import { useRouter } from "next/router";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -29,13 +20,77 @@ const normFile = (e: any) => {
   }
   return e?.fileList;
 };
-export default function NovelForm(props: { id: number }) {
-  //-1은 등록 0부터 수정
+export default function NovelForm() {
+  const router = useRouter();
+  const novelId = router.query.id;
 
-  const submitHandle = () => {
-    if (props.id === -1) {
+  const [inputData, setInputData] = useState<inputNovelType>({
+    title: "",
+    author: "",
+    grade: -1,
+    genre: "",
+    serializationStatus: "",
+    authorComment: "",
+    serializationDay: [],
+    startDate: dayjs(),
+    description: "",
+    thumbnail: "",
+    tags: [],
+  });
+
+  useEffect(() => {
+    if (novelId !== undefined) {
       axios
-        .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+        .get(
+          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
+        )
+        .then((res) => {
+          setInputData({
+            title: res.data.data.title,
+            author: res.data.data.author,
+            grade: res.data.data.grade,
+            genre: res.data.data.genre,
+            serializationStatus: res.data.data.serializationStatus,
+            authorComment: res.data.data.authorComment,
+            serializationDay: res.data.data.serializationDay,
+            startDate: res.data.data.startDate,
+            description: res.data.data.description,
+            thumbnail: res.data.data.thumbnail,
+            tags: res.data.data.tags,
+          });
+        });
+    }
+  }, []);
+
+  const postHandle = () => {
+    axios
+      .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+        title: inputData.title,
+        author: inputData.author,
+        grade: inputData.grade,
+        genre: inputData.genre,
+        serializationStatus: inputData.serializationStatus,
+        authorComment: inputData.authorComment,
+        serializationDay: inputData.serializationDay,
+        startDate: inputData.startDate,
+        description: inputData.description,
+        thumbnail: inputData.thumbnail,
+        tags: inputData.tags,
+      })
+      .then((res) => {
+        router.push("/admin/main");
+      });
+  };
+
+  const cancelHandle = () => {
+    router.push("/admin/main");
+  };
+
+  const putHandle = () => {
+    axios
+      .put(
+        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`,
+        {
           title: inputData.title,
           author: inputData.author,
           grade: inputData.grade,
@@ -46,48 +101,13 @@ export default function NovelForm(props: { id: number }) {
           startDate: inputData.startDate,
           description: inputData.description,
           thumbnail: inputData.thumbnail,
-          tag: inputData.tag,
-        })
-        .then((res) => {
-          console.log("res = ", res);
-        });
-    } else {
-      axios
-        .put(
-          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${props.id}`,
-          {
-            title: inputData.title,
-            author: inputData.author,
-            grade: inputData.grade,
-            genre: inputData.genre,
-            serializationStatus: inputData.serializationStatus,
-            authorComment: inputData.authorComment,
-            serializationDay: inputData.serializationDay,
-            startDate: inputData.startDate,
-            description: inputData.description,
-            thumbnail: inputData.thumbnail,
-            tag: inputData.tag,
-          }
-        )
-        .then((res) => {
-          console.log("res = ", res);
-        });
-    }
+          tags: inputData.tags,
+        }
+      )
+      .then((res) => {
+        router.push("/admin/main");
+      });
   };
-
-  const [inputData, setInputData] = useState<inputNovelType>({
-    title: "",
-    author: "",
-    grade: 0,
-    genre: "",
-    serializationStatus: "",
-    authorComment: "",
-    serializationDay: [],
-    startDate: new Date(),
-    description: "",
-    thumbnail: "",
-    tag: [],
-  });
 
   return (
     <>
@@ -185,20 +205,33 @@ export default function NovelForm(props: { id: number }) {
           </div>
           <div className={style.normal}>
             <Form.Item label="태그 (최대 3개)" style={{ width: 640 }}>
-              <NovelTag inputData={inputData} setInputData={setInputData} />
+              <Noveltag inputData={inputData} setInputData={setInputData} />
             </Form.Item>
           </div>
           <div className={style.button}>
             <Form.Item>
               <Space>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() => submitHandle()}
-                >
-                  {props.id === -1 ? "등록" : "수정"}
+                {novelId === undefined ? (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => postHandle()}
+                  >
+                    등록
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => putHandle()}
+                  >
+                    수정
+                  </Button>
+                )}
+
+                <Button htmlType="button" onClick={cancelHandle}>
+                  취소
                 </Button>
-                <Button htmlType="button">취소</Button>
               </Space>
             </Form.Item>
           </div>

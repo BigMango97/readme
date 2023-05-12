@@ -23,6 +23,7 @@ export interface eventCardListType {
   friday: boolean;
   saturday: boolean;
   sunday: boolean;
+  newChecking:boolean;
 }
 
 export interface eventtagType {
