@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
 import { Space, Input, Tag, Tooltip, theme, Form } from "antd";
-import { inputNovelType, tagType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 
 export default function AdminTag(props: {
   //tags: tagType[];
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const { token } = theme.useToken();
   //const [tags, setTags] = useState([""]);

@@ -1,13 +1,13 @@
 import React from "react";
 import { Input } from "antd";
 import { Dispatch, SetStateAction } from "react";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 import { episodeInputType } from "@/types/admin/episodeType";
 
 export default function NovelInput(props: {
   type: string;
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const changeInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();

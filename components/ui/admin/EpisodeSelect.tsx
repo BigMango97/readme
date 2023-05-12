@@ -1,6 +1,5 @@
 import React from "react";
 import { Select } from "antd";
-import { inputNovelType } from "@/types/admin/novelType";
 import { episodeInputType } from "@/types/admin/episodeType";
 
 export default function EpisodeSelect(props: {

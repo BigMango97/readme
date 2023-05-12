@@ -2,7 +2,6 @@ import React from "react";
 import { DatePicker } from "antd";
 import type { DatePickerProps } from "antd";
 import dayjs from "dayjs";
-import { inputNovelType } from "@/types/admin/novelType";
 import { episodeInputType } from "@/types/admin/episodeType";
 
 export default function EpisodeDatePicker(props: {
