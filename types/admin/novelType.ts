@@ -20,7 +20,7 @@ export interface inputNovelType{
 }
 
 export interface novelType{
-    id:number;
+    id: number;
     title: string;
     description: string;
     author: string;
@@ -32,4 +32,8 @@ export interface novelType{
     grade: number;
     genre: string;
     tags: string[];
+}
+
+export interface novelListType{
+    novelList:novelType[]
 }

@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { novelType } from "@/types/admin/novelType";
+import { novelListType, novelType } from "@/types/admin/novelType";
+import { NextPageContext } from "next";
+import dayjs from "dayjs";
 
-export default function NovelSortTable() {
+function NovelSortTable({ data }: any) {
   const router = useRouter();
+
+  const [data1, setData1] = useState<novelListType>();
   const moveEditForm = (id: number) => {
     router.push(`/admin/novelForm?id=${id}`);
   };
+
   const deleteHandle = (id: number) => {
     axios
       .delete(`http://43.200.189.164:8000/novels-service/v1/admin/novels/${id}`)
@@ -20,9 +25,13 @@ export default function NovelSortTable() {
   };
   useEffect(() => {
     axios
-      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels}`)
+      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data.contents);
+
+        setData1({
+          novelList: res.data.data.contents,
+        });
       });
   }, []);
 
@@ -33,22 +42,20 @@ export default function NovelSortTable() {
       title: "번호",
       sorter: (a, b) => a.id - b.id,
       width: "6%",
+      render: (_, { id }) => <>{id}</>,
     },
     {
       key: "이미지",
       dataIndex: "이미지",
       title: "이미지",
       width: "7%",
+      render: (_, { thumbnail }) => <>{thumbnail}</>,
     },
     {
       key: "제목",
       dataIndex: "제목",
       title: "제목",
       filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
         {
           text: "Category 1",
           value: "Category 1",
@@ -63,6 +70,7 @@ export default function NovelSortTable() {
       onFilter: (value: string | number | boolean, record) =>
         record.title.startsWith(value.toLocaleString()),
       width: "13%",
+      render: (_, { title }) => <>{title}</>,
     },
     {
       key: "작가",
@@ -87,13 +95,15 @@ export default function NovelSortTable() {
       onFilter: (value: string | number | boolean, record) =>
         record.author.startsWith(value.toLocaleString()),
       width: "8%",
+      render: (_, { author }) => <>{author}</>,
     },
     {
       key: "연재시작일",
       dataIndex: "연재시작일",
       title: "연재시작일",
-      // sorter: (a, b) => a.age - b.age,
+      sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
       width: "12%",
+      render: (_, { startDate }) => <>{startDate}</>,
     },
 
     {
@@ -130,10 +140,11 @@ export default function NovelSortTable() {
           value: "일",
         },
       ],
-      onFilter: (value: string | number | boolean, record) =>
-        record.serializationDay.startsWith(value.toLocaleString()),
-      filterSearch: true,
+      //onFilter: (value: string | number | boolean, record) =>
+      //record.serializationDay.startsWith(value.toLocaleString()),
+      //filterSearch: true,
       width: "8%",
+      render: (_, { serializationDay }) => <>{serializationDay}</>,
     },
 
     {
@@ -170,6 +181,7 @@ export default function NovelSortTable() {
         record.genre.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "6%",
+      render: (_, { genre }) => <>{genre}</>,
     },
 
     {
@@ -194,10 +206,11 @@ export default function NovelSortTable() {
           value: "15",
         },
       ],
-      onFilter: (value: string | number | boolean, record) =>
-        record.grade.startsWith(value.toLocaleString()),
+      //onFilter: (value: string | number | boolean, record) =>
+      //record.grade.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
+      render: (_, { grade }) => <>{grade}</>,
     },
     {
       key: "태그",
@@ -238,20 +251,23 @@ export default function NovelSortTable() {
         record.serializationStatus.startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
+      render: (_, { serializationStatus }) => <>{serializationStatus}</>,
     },
     {
       key: "수정",
       dataIndex: "수정",
       title: "수정",
       width: "5%",
-      render: () => <EditOutlined onClick={() => moveEditForm(9)} />,
+      render: (_, { id }) => <EditOutlined onClick={() => moveEditForm(id)} />,
     },
     {
       key: "삭제",
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",
-      render: () => <DeleteOutlined onClick={() => deleteHandle(9)} />,
+      render: (_, { id }) => (
+        <DeleteOutlined onClick={() => deleteHandle(id)} />
+      ),
     },
   ];
 
@@ -264,12 +280,28 @@ export default function NovelSortTable() {
     console.log("params", pagination, filters, sorter, extra);
   };
 
+  const data2: novelType[] | undefined = data1?.novelList;
+  console.log(`data2 =  `, data2);
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={data2}
       onChange={onChange}
       style={{ fontSize: "1rem" }}
     />
   );
+}
+export default NovelSortTable;
+export async function getServerSideProps(context: NextPageContext) {
+  // Fetch data from external API
+  const res = await axios.get(
+    `http://43.200.189.164:8000/novels-service/v1/admin/novels`
+  );
+  console.log("res = ", res);
+  const data3 = await res.data;
+  console.log("sssr = ", data3);
+  //const data = await res.data;
+
+  // Pass data to the page via props
+  return { props: { data: data3.data.contents } };
 }
