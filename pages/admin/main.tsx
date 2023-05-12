@@ -12,7 +12,7 @@ import Image from "next/image";
 import AdminButton from "@/components/pages/admin/AdminButton";
 import ScheduleTable from "@/components/pages/admin/ScheduleTable";
 import CardTable from "@/components/pages/admin/CardTable";
-import NovelSortTable from "@/components/pages/admin/NovelSortTable";
+import NovelList from "@/components/pages/admin/NovelList";
 import { Input } from "antd";
 import { DatePicker, Space } from "antd";
 import { Select } from "antd";
@@ -121,7 +121,7 @@ const Main: React.FC = () => {
                 >
                   <AdminButton title={"소설등록"} onClick={moveNovelForm} />
                 </div>
-                <NovelSortTable />
+                <NovelList />
               </Content>
             </>
           )}

@@ -1,43 +1,81 @@
 import { PlusOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Upload,
-  Space,
-} from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload, Space } from "antd";
 import React, { useState } from "react";
 import style from "@/components/pages/admin/EpisodeForm.module.css";
 import dayjs from "dayjs";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
-const normFile = (e: any) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
+// const normFile = (e: any) => {
+//   if (Array.isArray(e)) {
+//     return e;
+//   }
+//   return e?.fileList;
+// };
 
-export default function NovelForm(props: { id: number }) {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  //-1은 등록 0부터 수정
-  const epiData = {
+export default function EpisodeForm(props: { id: number }) {
+  const router = useRouter();
+  const epiId = props.id;
+  const [inputData, setInputData] = useState<inputEpisodeType>({
     title: "",
-    content: "",
-    registration: dayjs(),
-    free: "",
-    status: "",
+    author: "",
+    grade: -1,
+    genre: "",
+    serializationStatus: "",
+    authorComment: "",
+    serializationDay: [],
+    startDate: dayjs(),
+    description: "",
+    thumbnail: "",
+    tags: [],
+  });
+  const cancelHandle = () => {
+    router.push("/admin/episode"); //
   };
-  let buttonTxt = "등록";
-  if (props.id >= 0) {
-    //useEffect axios.get
-    //
-    buttonTxt = "수정";
-  }
+  const postHandle = () => {
+    axios
+      .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+        title: inputData.title,
+        author: inputData.author,
+        grade: inputData.grade,
+        genre: inputData.genre,
+        serializationStatus: inputData.serializationStatus,
+        authorComment: inputData.authorComment,
+        serializationDay: inputData.serializationDay,
+        startDate: inputData.startDate,
+        description: inputData.description,
+        thumbnail: inputData.thumbnail,
+        tags: inputData.tags,
+      })
+      .then((res) => {
+        router.push("/admin/main");
+      });
+  };
+
+  const putHandle = () => {
+    axios
+      .put(
+        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`,
+        {
+          title: inputData.title,
+          author: inputData.author,
+          grade: inputData.grade,
+          genre: inputData.genre,
+          serializationStatus: inputData.serializationStatus,
+          authorComment: inputData.authorComment,
+          serializationDay: inputData.serializationDay,
+          startDate: inputData.startDate,
+          description: inputData.description,
+          thumbnail: inputData.thumbnail,
+          tags: inputData.tags,
+        }
+      )
+      .then((res) => {
+        router.push("/admin/main");
+      });
+  };
   return (
     <>
       <div className={style.container}>
@@ -45,7 +83,6 @@ export default function NovelForm(props: { id: number }) {
           labelCol={{ span: 20 }}
           wrapperCol={{ span: 14 }}
           layout="vertical"
-          disabled={componentDisabled}
           style={{ maxWidth: 1500 }}
         >
           <div className={style.normal}>
@@ -79,10 +116,26 @@ export default function NovelForm(props: { id: number }) {
           <div className={style.button}>
             <Form.Item>
               <Space>
-                <Button type="primary" htmlType="submit">
-                  {buttonTxt}
+                {episodeId === undefined ? (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => postHandle()}
+                  >
+                    등록
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => putHandle()}
+                  >
+                    수정
+                  </Button>
+                )}
+                <Button htmlType="button" onClick={cancelHandle}>
+                  취소
                 </Button>
-                <Button htmlType="button">취소</Button>
               </Space>
             </Form.Item>
           </div>

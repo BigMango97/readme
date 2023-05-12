@@ -1,11 +1,13 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Input, Badge } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/components/pages/admin/Episode.module.css";
 import dayjs from "dayjs";
 import { Image } from "antd";
-
-const { TextArea } = Input;
+import axios from "axios";
+import Config from "@/configs/config.export";
+import { novelType } from "@/types/admin/novelType";
+import { useRouter } from "next/router";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -14,18 +16,47 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-export default function EpisodeView() {
-  const novelData = {
-    novelId: 0,
+export default function NovelDetail(props: { novelId: any }) {
+  const router = useRouter();
+  const novelId = props.novelId;
+  const [novelData, setNovelData] = useState<novelType>({
+    id: 0,
     title: "",
-    description: "",
     author: "",
+    grade: -1,
     genre: "",
-    grade: "",
-    thumbnail: "",
-    serializationDays: "",
     serializationStatus: "",
-  };
+    authorComment: "",
+    serializationDay: [],
+    startDate: dayjs(),
+    description: "",
+    thumbnail: "",
+    tags: [],
+  });
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
+      )
+      .then((res) => {
+        console.log("res.data = ", res.data);
+        setNovelData({
+          id: res.data.data.id,
+          title: res.data.data.title,
+          author: res.data.data.author,
+          grade: res.data.data.grade,
+          genre: res.data.data.genre,
+          serializationStatus: res.data.data.serializationStatus,
+          authorComment: res.data.data.authorComment,
+          serializationDay: res.data.data.serializationDay,
+          startDate: res.data.data.startDate,
+          description: res.data.data.description,
+          thumbnail: res.data.data.thumbnail,
+          tags: res.data.data.tags,
+        });
+      });
+  }, []);
 
   return (
     <>
@@ -39,7 +70,7 @@ export default function EpisodeView() {
           </Descriptions.Item>
           <Descriptions.Item label="연령">{novelData.grade}</Descriptions.Item>
           <Descriptions.Item label="연재요일" span={2}>
-            {novelData.serializationDays}
+            {novelData.serializationDay}
           </Descriptions.Item>
           <Descriptions.Item label="연재상태" span={3}>
             <Badge status="processing" text={novelData.serializationStatus} />

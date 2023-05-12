@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
-import SortTable from "@/components/pages/admin/SortTable";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
 import Image from "next/image";
 import EpisodeForm from "@/components/pages/admin/EpisodeForm";

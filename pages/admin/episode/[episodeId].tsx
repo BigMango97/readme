@@ -6,8 +6,9 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
-import Episode from "@/components/pages/admin/Episode";
 import Image from "next/image";
+import EpisodeDetail from "@/components/pages/admin/EpisodeDetail";
+import { useRouter } from "next/router";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -37,6 +38,7 @@ const Main: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { query } = useRouter();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -67,7 +69,7 @@ const Main: React.FC = () => {
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "0 16px" }}>
-          <Episode />
+          <EpisodeDetail episodeId={query.episodeId} />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©2023 Created by Ant UED

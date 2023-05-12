@@ -8,7 +8,7 @@ import { novelListType, novelType } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
 import dayjs from "dayjs";
 
-function NovelSortTable({ data }: any) {
+export default function NovelList({ data }: any) {
   const router = useRouter();
 
   const [data1, setData1] = useState<novelListType>();
@@ -22,6 +22,9 @@ function NovelSortTable({ data }: any) {
       .then((res) => {
         console.log(res);
       });
+  };
+  const moveNovelDetail = (id: number) => {
+    router.push(`/admin/novel/${id}`);
   };
   useEffect(() => {
     axios
@@ -70,7 +73,9 @@ function NovelSortTable({ data }: any) {
       onFilter: (value: string | number | boolean, record) =>
         record.title.startsWith(value.toLocaleString()),
       width: "13%",
-      render: (_, { title }) => <>{title}</>,
+      render: (_, { id, title }) => (
+        <div onClick={() => moveNovelDetail(id)}>{title}</div>
+      ),
     },
     {
       key: "작가",
@@ -281,7 +286,7 @@ function NovelSortTable({ data }: any) {
   };
 
   const data2: novelType[] | undefined = data1?.novelList;
-  console.log(`data2 =  `, data2);
+
   return (
     <Table
       columns={columns}
@@ -291,17 +296,16 @@ function NovelSortTable({ data }: any) {
     />
   );
 }
-export default NovelSortTable;
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps() {
   // Fetch data from external API
   const res = await axios.get(
     `http://43.200.189.164:8000/novels-service/v1/admin/novels`
   );
-  console.log("res = ", res);
-  const data3 = await res.data;
-  console.log("sssr = ", data3);
+  //console.log("레스  = ", res);
+  //const resData = await res.data;
+  //console.log("sssr = ", data3);
   //const data = await res.data;
 
   // Pass data to the page via props
-  return { props: { data: data3.data.contents } };
+  return { props: { data: res.data } };
 }
