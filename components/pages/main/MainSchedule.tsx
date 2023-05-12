@@ -24,6 +24,7 @@ export default function MainSchedule(props: { id: number; name: string }) {
           scheduleCard.map((item) => {
             return (
               <NovelCard
+              key={item.novelId}
                 styleType="event"
                 thumbnail={item.thumbnail}
                 serializationStatus={item.serializationStatus}

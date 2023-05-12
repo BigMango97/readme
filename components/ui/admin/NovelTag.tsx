@@ -30,13 +30,13 @@ export default function AdminTag(props: {
 
   //태그 삭제
   const handleClose = (removedTag: string) => {
-    const newTags: tagType[] = props.inputData.tag.filter(
-      (tag) => tag.name !== removedTag
+    const newTags: string[] = props.inputData.tags.filter(
+      (tag) => tag !== removedTag
     );
     console.log(newTags);
     props.setInputData({
       ...props.inputData,
-      tag: newTags,
+      tags: newTags,
     });
   };
 
@@ -49,20 +49,20 @@ export default function AdminTag(props: {
   };
 
   const handleInputConfirm = () => {
-    const tagNames = props.inputData.tag.map((item) => item.name);
+    //const tagNames = props.inputData.tag.map((item) => item.name);
 
     if (
       inputValue &&
-      tagNames.indexOf(inputValue) === -1 &&
-      props.inputData.tag.length <= 2
+      props.inputData.tags.indexOf(inputValue) === -1 &&
+      props.inputData.tags.length <= 2
     ) {
-      const newItem: tagType = {
-        id: props.inputData.tag.length,
-        name: inputValue,
-      };
+      // const newItem: tagType = {
+      //   id: props.inputData.tag.length,
+      //   name: inputValue,
+      // };
       props.setInputData({
         ...props.inputData,
-        tag: [...props.inputData.tag, newItem],
+        tags: [...props.inputData.tags, inputValue],
       });
     }
 
@@ -75,20 +75,14 @@ export default function AdminTag(props: {
   };
 
   const handleEditInputConfirm = () => {
-    const newTags = [...props.inputData.tag];
-    console.log(`newTags = ${newTags}`);
-
-    newTags.map((item) => {
-      if (item.id === editInputIndex) {
-        item.name = editInputValue;
-        props.setInputData({
-          ...props.inputData,
-          tag: newTags,
-        });
-        setEditInputIndex(-1);
-        setInputValue("");
-      }
+    const newTags = [...props.inputData.tags];
+    newTags[editInputIndex] = editInputValue;
+    props.setInputData({
+      ...props.inputData,
+      tags: newTags,
     });
+    setEditInputIndex(-1);
+    setInputValue("");
   };
 
   const tagInputStyle: React.CSSProperties = {
@@ -104,12 +98,12 @@ export default function AdminTag(props: {
   return (
     <Space size={[0, 8]} wrap>
       <Space size={[0, 8]} wrap>
-        {props.inputData.tag.map((tag, index) => {
+        {props.inputData.tags.map((tag, index) => {
           if (editInputIndex === index) {
             return (
               <Input
                 ref={editInputRef}
-                key={tag.id}
+                key={index}
                 size="small"
                 style={tagInputStyle}
                 value={editInputValue}
@@ -119,30 +113,27 @@ export default function AdminTag(props: {
               />
             );
           }
-          const isLongTag = tag.name.length > 20;
+          const isLongTag = tag.length > 20;
           const tagElem = (
             <Tag
-              key={tag.id}
+              key={index}
               closable={true}
               style={{ userSelect: "none" }}
-              onClose={() => handleClose(tag.name)}
+              onClose={() => handleClose(tag)}
             >
               <span
                 onDoubleClick={(e) => {
-                  //if (index !== 0) {
-                  console.log("qqqqqqqqqqqqqqqqqqqqqqqq");
                   setEditInputIndex(index);
-                  setEditInputValue(tag.name);
+                  setEditInputValue(tag);
                   e.preventDefault();
-                  //}
                 }}
               >
-                {isLongTag ? `${tag.name.slice(0, 20)}...` : tag.name}
+                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </span>
             </Tag>
           );
           return isLongTag ? (
-            <Tooltip title={tag.name} key={tag.id}>
+            <Tooltip title={tag} key={index}>
               {tagElem}
             </Tooltip>
           ) : (

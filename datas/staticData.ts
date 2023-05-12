@@ -8,7 +8,7 @@ export const footerMenu = [
   {
     id: 2,
     title: "novels",
-    link: "/novels",
+    link: "/novel?categoryId=%EC%9A%94%EC%9D%BC&subcategoryId=%EC%9B%94",
     iconUrl: "/assets/images/icons/book.svg",
   },
   {
@@ -20,7 +20,7 @@ export const footerMenu = [
   {
     id: 4,
     title: "mybooks",
-    link: "/mybooks",
+    link: "/library",
     iconUrl: "/assets/images/icons/library.svg",
   },
   {
@@ -45,3 +45,10 @@ export const subStatusMenu = [
   { id: 2, title: "연재중" },
   { id: 3, title: "완결" },
 ];
+
+export const mypageMenu = [
+  { id: 1, title: "좋아요 한 작품" },
+  { id: 2, title: "댓글 단 작품" },
+  { id: 3, title: "포인트 충전 목록" },
+  { id: 4, title: "환경설정" }
+]

@@ -64,6 +64,7 @@ export default function NovelCard({
             <p>{grade}</p>
           )}
         </div>
+        <div className={style.ageCheck}><span>19</span></div>
       </div>
       <div>
         <div className={style.allNovelStatus}>{serializationStatus}</div>

@@ -19,7 +19,11 @@ export default function NovelTextArea(props: {
   };
   return (
     <>
-      <TextArea rows={props.rows} onChange={changeInputHandle} />
+      <TextArea
+        rows={props.rows}
+        onChange={changeInputHandle}
+        value={props.inputData.description}
+      />
     </>
   );
 }

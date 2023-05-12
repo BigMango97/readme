@@ -1,6 +1,5 @@
 import React from "react";
 import { Checkbox } from "antd";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { inputNovelType } from "@/types/admin/novelType";
 
 export default function NovelCheckbox(props: {
@@ -8,13 +7,6 @@ export default function NovelCheckbox(props: {
   setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
 }) {
   const options = [
-    // { value: "월", label: "월" },
-    // { value: "화", label: "화" },
-    // { value: "수", label: "수" },
-    // { value: "목", label: "목" },
-    // { value: "금", label: "금" },
-    // { value: "토", label: "토" },
-    // { value: "일", label: "일" },
     { label: "월", value: 1 },
     { label: "화", value: 2 },
     { label: "수", value: 3 },
@@ -24,7 +16,6 @@ export default function NovelCheckbox(props: {
     { label: "일", value: 7 },
   ];
   const changeCheckHandle = (checkedValues: number[]) => {
-    console.log("checked = ", checkedValues);
     const days: string[] = [];
     checkedValues.map((item) => {
       let strDay: string = "";
@@ -53,15 +44,48 @@ export default function NovelCheckbox(props: {
       }
       days.push(strDay);
     });
-    //props.setCheck(checkedValues);
     props.setInputData({
       ...props.inputData,
       serializationDay: days,
     });
   };
+  const numDays: number[] = [];
+  props.inputData.serializationDay;
+  props.inputData.serializationDay.map((item) => {
+    let numDay: number = 0;
+    switch (item) {
+      case "월":
+        numDay = 1;
+        break;
+      case "화":
+        numDay = 2;
+        break;
+      case "수":
+        numDay = 3;
+        break;
+      case "목":
+        numDay = 4;
+        break;
+      case "금":
+        numDay = 5;
+        break;
+      case "토":
+        numDay = 6;
+        break;
+      case "일":
+        numDay = 7;
+        break;
+    }
+    numDays.push(numDay);
+  });
+
   return (
     <>
-      <Checkbox.Group options={options} onChange={changeCheckHandle} />
+      <Checkbox.Group
+        options={options}
+        onChange={changeCheckHandle}
+        value={numDays}
+      />
     </>
   );
 }

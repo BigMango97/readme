@@ -50,6 +50,18 @@
   justify-content: center;
   align-items: center;
 }
+.ageCheck {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: chartreuse;
+  width: 30px;
+  height: 20px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .allNovelStatus {
   font-size: 0.75rem;
