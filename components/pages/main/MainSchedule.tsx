@@ -24,14 +24,16 @@ export default function MainSchedule(props: { id: number; name: string }) {
           scheduleCard.map((item) => {
             return (
               <NovelCard
-              key={item.novelId}
-                styleType="event"
+                key={item.novelId}
                 thumbnail={item.thumbnail}
                 serializationStatus={item.serializationStatus}
                 title={item.title}
                 author={item.author}
                 starRating={item.starRating}
                 genre={item.genre}
+                novelId={item.novelId}
+                grade={item.grade}
+                newChecking={item.newChecking}
               />
             );
           })}
