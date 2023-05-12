@@ -1,53 +1,64 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Form, Input, Select, Upload, Space } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/components/pages/admin/EpisodeForm.module.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { episodeInputType } from "@/types/admin/episodeType";
+import NovelInput from "@/components/ui/admin/NovelInput";
+import EpisodeInput from "@/components/ui/admin/EpisodeInput";
+import EpisodeSelect from "@/components/ui/admin/EpisodeSelect";
+import EpisodeTextArea from "@/components/ui/admin/EpisodeTextArea";
+import EpisodeDatePicker from "@/components/ui/admin/EpisodeDatePicker";
 
 const { TextArea } = Input;
 
-// const normFile = (e: any) => {
-//   if (Array.isArray(e)) {
-//     return e;
-//   }
-//   return e?.fileList;
-// };
-
-export default function EpisodeForm(props: { id: number }) {
+export default function EpisodeForm() {
   const router = useRouter();
-  const epiId = props.id;
-  const [inputData, setInputData] = useState<inputEpisodeType>({
+  const epiId = router.query.id;
+
+  const [inputData, setInputData] = useState<episodeInputType>({
     title: "",
-    author: "",
-    grade: -1,
-    genre: "",
-    serializationStatus: "",
-    authorComment: "",
-    serializationDay: [],
-    startDate: dayjs(),
-    description: "",
-    thumbnail: "",
-    tags: [],
+    content: "",
+    registration: dayjs(),
+    createDate: dayjs(),
+    updateDate: dayjs(),
+    free: false,
+    status: "",
   });
+  useEffect(() => {
+    if (epiId !== undefined) {
+      axios
+        .get(
+          `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${epiId}`
+        )
+        .then((res) => {
+          setInputData({
+            title: res.data.data.title,
+            content: res.data.data.content,
+            registration: res.data.data.registration,
+            createDate: res.data.data.createDate,
+            updateDate: res.data.data.updateDate,
+            free: res.data.data.free,
+            status: res.data.data.status,
+          });
+        });
+    }
+  }, []);
   const cancelHandle = () => {
-    router.push("/admin/episode"); //
+    router.push("/admin/episode"); //수정하기
   };
   const postHandle = () => {
     axios
-      .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+      .post(`http://43.200.189.164:8000/novels-service/v1/admin/episodes`, {
         title: inputData.title,
-        author: inputData.author,
-        grade: inputData.grade,
-        genre: inputData.genre,
-        serializationStatus: inputData.serializationStatus,
-        authorComment: inputData.authorComment,
-        serializationDay: inputData.serializationDay,
-        startDate: inputData.startDate,
-        description: inputData.description,
-        thumbnail: inputData.thumbnail,
-        tags: inputData.tags,
+        content: inputData.content,
+        registration: inputData.registration,
+        createDate: inputData.createDate,
+        updateDate: inputData.updateDate,
+        free: inputData.free,
+        status: inputData.status,
       })
       .then((res) => {
         router.push("/admin/main");
@@ -57,23 +68,19 @@ export default function EpisodeForm(props: { id: number }) {
   const putHandle = () => {
     axios
       .put(
-        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`,
+        `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${epiId}`,
         {
           title: inputData.title,
-          author: inputData.author,
-          grade: inputData.grade,
-          genre: inputData.genre,
-          serializationStatus: inputData.serializationStatus,
-          authorComment: inputData.authorComment,
-          serializationDay: inputData.serializationDay,
-          startDate: inputData.startDate,
-          description: inputData.description,
-          thumbnail: inputData.thumbnail,
-          tags: inputData.tags,
+          content: inputData.content,
+          registration: inputData.registration,
+          createDate: inputData.createDate,
+          updateDate: inputData.updateDate,
+          free: inputData.free,
+          status: inputData.status,
         }
       )
       .then((res) => {
-        router.push("/admin/main");
+        router.push(`/admin/episode/${epiId}`);
       });
   };
   return (
@@ -87,36 +94,50 @@ export default function EpisodeForm(props: { id: number }) {
         >
           <div className={style.normal}>
             <Form.Item label="작품명" style={{ width: 600 }}>
-              <Input value={epiData.title} />
+              <EpisodeInput
+                type={"title"}
+                inputData={inputData}
+                setInputData={setInputData}
+              />
             </Form.Item>
             <Form.Item label="무료/유료" style={{ width: 600 }}>
-              <Input value={epiData.free} />
+              <EpisodeSelect
+                type={"free"}
+                inputData={inputData}
+                setInputData={setInputData}
+              />
             </Form.Item>
           </div>
           <div className={style.horizontal}>
             <Form.Item label="등록일" style={{ width: 300 }}>
-              <DatePicker value={epiData.registration} />
+              <EpisodeDatePicker
+                inputData={inputData}
+                setInputData={setInputData}
+              />
             </Form.Item>
             <Form.Item label="상태" style={{ width: 300 }}>
-              <Select value={epiData.status}>
-                <Select.Option value="demo">판매중</Select.Option>
-                <Select.Option value="demo">판매전</Select.Option>
-                <Select.Option value="demo">판매중지</Select.Option>
-              </Select>
+              <EpisodeSelect
+                type={"status"}
+                inputData={inputData}
+                setInputData={setInputData}
+              />
             </Form.Item>
           </div>
 
           <div className={style.normal}>
-            {" "}
             <Form.Item label="컨텐츠 (소설내용)" style={{ width: 1400 }}>
-              <TextArea rows={12} value={epiData.content} />
+              <EpisodeTextArea
+                rows={4}
+                inputData={inputData}
+                setInputData={setInputData}
+              />
             </Form.Item>
           </div>
 
           <div className={style.button}>
             <Form.Item>
               <Space>
-                {episodeId === undefined ? (
+                {epiId === undefined ? (
                   <Button
                     type="primary"
                     htmlType="submit"

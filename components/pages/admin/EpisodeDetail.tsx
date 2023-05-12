@@ -8,17 +8,20 @@ import axios from "axios";
 import { episodeType } from "@/types/admin/episodeType";
 import { useRouter } from "next/router";
 
-const normFile = (e: any) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
+// const normFile = (e: any) => {
+//   if (Array.isArray(e)) {
+//     return e;
+//   }
+//   return e?.fileList;
+// };
 
-export default function EpisodeDetail(props: { episodeId: any }) {
+export default function EpisodeDetail() {
   const router = useRouter();
+  const epiId = router.query.episodeId;
+
   const [epiData, setEpiData] = useState<episodeType>({
     id: 0,
+    novelId: 0,
     title: "",
     content: "",
     registration: dayjs(),
@@ -30,23 +33,26 @@ export default function EpisodeDetail(props: { episodeId: any }) {
 
   const baseUrl = Config().baseUrl;
   useEffect(() => {
-    axios.get(`${baseUrl}/novels-service/v1/admin/episodes/10`).then((res) => {
-      console.log(res.data);
-      setEpiData({
-        id: res.data.data.id,
-        title: res.data.data.title,
-        content: res.data.data.content,
-        registration: res.data.data.registration,
-        createDate: res.data.data.createDate,
-        updateDate: res.data.data.updateDate,
-        free: res.data.data.free,
-        status: res.data.data.status,
+    axios
+      .get(`${baseUrl}/novels-service/v1/admin/episodes/${epiId}`)
+      .then((res) => {
+        console.log(res.data);
+        setEpiData({
+          id: res.data.data.id,
+          novelId: res.data.data.novelId,
+          title: res.data.data.title,
+          content: res.data.data.content,
+          registration: res.data.data.registration,
+          createDate: res.data.data.createDate,
+          updateDate: res.data.data.updateDate,
+          free: res.data.data.free,
+          status: res.data.data.status,
+        });
       });
-    });
   }, []);
 
   const moveBack = () => {
-    router.back();
+    router.push(`/admin/novel/${epiData.novelId}`);
   };
 
   const createDate = epiData.createDate.toString().substring(0, 10);

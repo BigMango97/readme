@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 
 export interface episodeType{
     id : number;
+    novelId : number;
     title : string;
     content : string;
     registration : Dayjs;
@@ -12,9 +13,8 @@ export interface episodeType{
 
 }
 export interface episodeInputType{
-    id : number;
     title : string;
-    //content : string;
+    content : string;
     registration : Dayjs;
     createDate : Dayjs;
     updateDate : Dayjs;

@@ -1,13 +1,12 @@
 import React from "react";
 import { Input } from "antd";
 import { Dispatch, SetStateAction } from "react";
-import { inputNovelType } from "@/types/admin/novelType";
 import { episodeInputType } from "@/types/admin/episodeType";
 
-export default function NovelInput(props: {
+export default function EpisodeInput(props: {
   type: string;
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: episodeInputType;
+  setInputData: React.Dispatch<React.SetStateAction<episodeInputType>>;
 }) {
   const changeInputHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -20,12 +19,11 @@ export default function NovelInput(props: {
   if (props.type === "title") {
     value = props.inputData.title;
   }
-  if (props.type === "author") {
-    if (props.inputData) value = props.inputData.author;
-  }
-  if (props.type === "authorComment") {
-    value = props.inputData.authorComment;
-  }
+  //   if (props.type === "free") {
+  //     let free = ""
+  //     props.inputData.free === true? free ="무료" : free ="유료"
+  //     value = props.inputData.free;
+  //   }
 
   return (
     <>
