@@ -23,11 +23,14 @@ const FooterMenuItem = (props: { item: footerMenuType }) => {
   const router = useRouter();
 
   return (
-      <li
-        key={props.item.id}
-        className={router.route !== props.item.link.split('?')[0] ? style.active : ""}
-      >
-          <Link href={props.item.link}>
+    <li
+      key={props.item.id}
+      className={
+        router.route !== props.item.link.split("?")[0] ? style.active : ""
+      }
+    >
+      <Link href={props.item.link}>
+
         <Image
           src={props.item.iconUrl}
           alt={props.item.title}
