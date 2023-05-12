@@ -1,7 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import style from "@/components/pages/noveldetail/NovelDetailHeader.module.css";
-export default function NovelDatailHeader() {
+import { useRouter } from "next/router";
+export default function NovelDatailHeader(props: {
+  title: string;
+  author: string;
+  genre: string;
+  serializationStatus: string;
+  serializationDays: string;
+}) {
+  const router = useRouter();
   return (
     <>
       <header className={style.detailHeadercontainer}>
@@ -13,11 +21,15 @@ export default function NovelDatailHeader() {
               width={15}
               height={15}
               priority
+              onClick={() => router.back()}
             />
           </div>
           <div className={style.novelDetailTitle}>
-            <div className={style.noevelMainTitle}>신과 함께 레벨업</div>
-            <p>흑아인 | 완결 | 웹소설판타지</p>
+            <div className={style.noevelMainTitle}>{props.title}</div>
+            <p>
+              {props.author} | {props.serializationStatus} | {props.genre} |{" "}
+              {props.serializationDays}
+            </p>
           </div>
         </div>
       </header>
