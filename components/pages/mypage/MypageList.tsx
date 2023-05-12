@@ -7,7 +7,7 @@ export default function MypageList() {
     <>
       <div className={style.mypageListContainer}>
         {mypageMenu.map((index) => (
-          <div className={style.mypageList}>
+          <div className={style.mypageList} key={index.id}>
             <p>{index.title}</p>
             <LineSeparator colorline="grayline" />
           </div>
