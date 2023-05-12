@@ -9,9 +9,9 @@ import { NextPageContext } from "next";
 import dayjs from "dayjs";
 import { episodeListType, episodeType } from "@/types/admin/episodeType";
 
-export default function EpisodeList(props: { novelId: any }) {
+export default function EpisodeList() {
   const router = useRouter();
-  const novelId = props.novelId;
+  const novelId = router.query.novelId;
 
   const [data1, setData1] = useState<episodeListType>();
   const moveEditForm = (id: number) => {
@@ -28,6 +28,7 @@ export default function EpisodeList(props: { novelId: any }) {
       });
   };
   useEffect(() => {
+    if (!router.isReady) return;
     axios
       .get(
         `http://43.200.189.164:8000/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
@@ -39,7 +40,7 @@ export default function EpisodeList(props: { novelId: any }) {
           episodeList: res.data.data.contents,
         });
       });
-  }, []);
+  }, [router.isReady]);
 
   const moveEpisodeDetail = (id: number) => {
     router.push(`/admin/episode/${id}`);

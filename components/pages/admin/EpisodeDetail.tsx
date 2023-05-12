@@ -33,6 +33,7 @@ export default function EpisodeDetail() {
 
   const baseUrl = Config().baseUrl;
   useEffect(() => {
+    if (!router.isReady) return;
     axios
       .get(`${baseUrl}/novels-service/v1/admin/episodes/${epiId}`)
       .then((res) => {
@@ -49,7 +50,7 @@ export default function EpisodeDetail() {
           status: res.data.data.status,
         });
       });
-  }, []);
+  }, [router.isReady]);
 
   const moveBack = () => {
     router.push(`/admin/novel/${epiData.novelId}`);

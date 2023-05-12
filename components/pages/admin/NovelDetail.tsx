@@ -16,9 +16,11 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-export default function NovelDetail(props: { novelId: any }) {
+export default function NovelDetail() {
   const router = useRouter();
-  const novelId = props.novelId;
+  const novelId = router.query.novelId;
+  console.log(" novelIdnovelId ", router);
+
   const [novelData, setNovelData] = useState<novelType>({
     id: 0,
     title: "",
@@ -35,28 +37,31 @@ export default function NovelDetail(props: { novelId: any }) {
   });
 
   useEffect(() => {
-    axios
-      .get(
-        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
-      )
-      .then((res) => {
-        console.log("res.data = ", res.data);
-        setNovelData({
-          id: res.data.data.id,
-          title: res.data.data.title,
-          author: res.data.data.author,
-          grade: res.data.data.grade,
-          genre: res.data.data.genre,
-          serializationStatus: res.data.data.serializationStatus,
-          authorComment: res.data.data.authorComment,
-          serializationDay: res.data.data.serializationDay,
-          startDate: res.data.data.startDate,
-          description: res.data.data.description,
-          thumbnail: res.data.data.thumbnail,
-          tags: res.data.data.tags,
+    if (!router.isReady) return;
+    else {
+      axios
+        .get(
+          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
+        )
+        .then((res) => {
+          console.log("res.data = ", res.data);
+          setNovelData({
+            id: res.data.data.id,
+            title: res.data.data.title,
+            author: res.data.data.author,
+            grade: res.data.data.grade,
+            genre: res.data.data.genre,
+            serializationStatus: res.data.data.serializationStatus,
+            authorComment: res.data.data.authorComment,
+            serializationDay: res.data.data.serializationDay,
+            startDate: res.data.data.startDate,
+            description: res.data.data.description,
+            thumbnail: res.data.data.thumbnail,
+            tags: res.data.data.tags,
+          });
         });
-      });
-  }, []);
+    }
+  }, [router.isReady]);
 
   return (
     <>

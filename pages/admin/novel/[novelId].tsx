@@ -41,8 +41,6 @@ const Main: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { query } = useRouter();
-
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -72,8 +70,8 @@ const Main: React.FC = () => {
       <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "0 16px" }}>
-          <NovelDetail novelId={query.novelId} />
-          <EpisodeList novelId={query.novelId} />
+          <NovelDetail />
+          <EpisodeList />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Ant Design ©2023 Created by Ant UED
