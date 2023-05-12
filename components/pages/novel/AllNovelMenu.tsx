@@ -19,9 +19,8 @@ interface novelSubMenuType {
 export default function AllNovelMenu() {
   const [categoryMenus, setCategoryMenus] = useState<novelMenuType[]>([]);
   const router = useRouter();
-  console.log("router", router);
-  const { categoryId, subcategoryId }: any = router.query;
-  //메인카테고리
+  const { category, subCategory }: any = router.query;
+
   useEffect(() => {
     axios
       .get(`http://43.200.189.164:8000/novels-service/v1/main-category`)
@@ -34,13 +33,13 @@ export default function AllNovelMenu() {
   const selectmenuHandler = (index: string, subindex: string) => {
     {
       index == "요일"
-        ? router.push(`/novel?categoryId=${index}&subcategoryId=${"월"}`)
-        : router.push(`/novel?categoryId=${index}&subcategoryId=${"신작"}`);
+        ? router.push(`/novel?category=${index}&subCategory=${"월"}`)
+        : router.push(`/novel?category=${index}&subCategory=${"신작"}`);
     }
   };
 
   const selectsubHandler = (index: string, subindex: string) => {
-    router.push(`/novel?categoryId=${index}&subcategoryId=${subindex}`);
+    router.push(`/novel?category=${index}&subCategory=${subindex}`);
   };
   return (
     <>
@@ -48,12 +47,12 @@ export default function AllNovelMenu() {
         <div className={style.novelMainMenu}>
           <div className={style.novelMenuTitle}>웹소설</div>
           <ul className={style.novelMenuList}>
-            {categoryMenus.map((item, i) => (
+            {categoryMenus.map((item) => (
               <li
                 key={item.id}
                 onClick={() => selectmenuHandler(item.title, item.title)}
                 className={`${
-                  categoryId === item.title ? style.novelMenuBoxActive : null
+                  category === item.title ? style.novelMenuBoxActive :  style.novelMenuBox
                 }`}
               >
                 {item.title}
@@ -64,14 +63,14 @@ export default function AllNovelMenu() {
         </div>
       </div>
       <div className={style.novelSubMenu}>
-        {categoryId === "요일" ? (
+        {category === "요일" ? (
           <ul className={style.novelSubMenuList}>
             {subDayMenu.map((item) => (
               <li
                 key={item.id}
-                onClick={() => selectsubHandler(categoryId, item.title)}
+                onClick={() => selectsubHandler(category, item.title)}
                 className={`${
-                  subcategoryId === item.title
+                  subCategory === item.title
                     ? style.novelSubMenuBoxActive
                     : style.novelSubMenuBox
                 }`}
@@ -86,9 +85,9 @@ export default function AllNovelMenu() {
               <>
                 <li
                   key={item.id}
-                  onClick={() => selectsubHandler(categoryId, item.title)}
+                  onClick={() => selectsubHandler(category, item.title)}
                   className={`${
-                    subcategoryId === item.title
+                    subCategory === item.title
                       ? style.novelSubMenuBoxActive
                       : style.novelSubMenuBox
                   }`}
