@@ -22,3 +22,47 @@ export interface tagType {
   id: number;
   name: string;
 }
+
+export interface cardType {
+  novelId: number;
+  title: string;
+  description: string;
+  author: string;
+  genre: string;
+  grade: number;
+  thumbnail: string;
+  serializationStatus: string;
+  starRating: number;
+  episodeCount: number;
+  newChecking: boolean;
+}
+
+export interface allNovelCardType {
+  novelCardsData: [cardType];
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface allDetailDatatype {
+  novelId: number;
+  title: string;
+  description: string;
+  author: string;
+  genre: string;
+  grade: number;
+  thumbnail: string;
+  startDate: string;
+  views: number;
+  serializationStatus: string;
+  tags: [allDetailTag];
+  scheduleId: number;
+  starRating: number;
+  serializationDays: string;
+  newChecking: boolean;
+  episodeCount: number;
+}
+
+export interface allDetailTag {
+  id: number;
+  name: string;
+}

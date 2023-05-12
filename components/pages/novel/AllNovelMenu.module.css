@@ -33,15 +33,19 @@
   list-style: none;
 }
 .novelMenuBoxActive {
-  font-weight: 800;
+  font-weight: bolder;
   color: var(--readme-primary);
 }
 .novelMenuBox {
-  color: var(--readme-gray);
+
+  color: var(--readme-title-gray);
 }
 .novelSubMenu {
   width: 100%;
   padding: 0.5rem 1rem;
+  background-color: #636363;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .novelSubMenuList {
   display: flex;
@@ -53,16 +57,15 @@
 .novelSubMenuList li{
   list-style: none;
   margin-right: 0.5rem;
-  background-color: var(--readme-gray-light);
   padding: 0.5rem 1rem;
   border-radius: 20px;
 
 }
 .novelSubMenuBoxActive {
-  color: var(--readme-primary);
+  color: var(--readme-secondary);
+  font-weight: bolder;
 }
 
 .novelSubMenuBox {
-  color:var(--readme-darkgray);
-  font-weight: bolder;
+  color:var(--readme-gray-light);
 }

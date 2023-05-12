@@ -1,6 +1,6 @@
 import React from "react";
-import style from "@/components/ui/NovelCard.module.css";
 import Image from "next/image";
+import style from "@/components/ui/NovelList.module.css";
 import { useRouter } from "next/router";
 interface Props {
   thumbnail: string;
@@ -13,7 +13,7 @@ interface Props {
   grade: number;
   newChecking: boolean;
 }
-export default function NovelCard({
+export default function NovelList({
   thumbnail,
   serializationStatus,
   genre,
@@ -27,15 +27,15 @@ export default function NovelCard({
   const router = useRouter();
   return (
     <div
-      className={style.allNovelCard}
+      className={style.allNovelList}
       onClick={() => router.push(`/noveldetail/${novelId}`)}
     >
       <div className={style.allNovelImgContainer}>
-        <div className={style.allCardImg}>
+        <div className={style.allListImg}>
           <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
         </div>
         {newChecking == true ? (
-          <div className={style.cardNewIcon}>
+          <div className={style.listNewIcon}>
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
               alt={"이미지"}
@@ -46,7 +46,6 @@ export default function NovelCard({
         ) : (
           ""
         )}
-
         <div className={style.ageCheck}>
           {grade === 19 ? (
             <p style={{ backgroundColor: "red", color: "white" }}>{grade}</p>
@@ -65,7 +64,7 @@ export default function NovelCard({
           )}
         </div>
       </div>
-      <div>
+      <div className={style.allNovelInfo}>
         <div className={style.allNovelStatus}>{serializationStatus}</div>
         <div className={style.allNovelTitle}>
           <p>{title}</p>
