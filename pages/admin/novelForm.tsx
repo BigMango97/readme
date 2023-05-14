@@ -4,75 +4,45 @@ import {
   FileOutlined,
   PieChartOutlined,
 } from "@ant-design/icons";
-import type { MenuProps } from "antd";
+import { Input, MenuProps, Modal } from "antd";
 import { Layout, Menu, theme } from "antd";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
 import Image from "next/image";
 import NovelForm from "@/components/pages/admin/NovelForm";
+import AdminButton from "@/components/pages/admin/AdminButton";
+import NovelList from "@/components/pages/admin/NovelList";
+import SideBar from "@/components/layouts/SideBar";
+import AdminFooter from "@/components/layouts/AdminFooter";
 const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem("소설관리", "1", <PieChartOutlined />),
-  getItem("스케줄관리", "2", <DesktopOutlined />),
-  getItem("CARD관리", "3", <FileOutlined />),
-];
-
 const novelForm = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
+  //const [collapsed, setCollapsed] = useState(false);
+  const [currentTap, setCurrentTap] = useState("1");
+  // const {
+  //   token: { colorBgContainer },
+  // } = theme.useToken();
+  const onClickHandler = (item: any) => {
+    setCurrentTap(item.key as string);
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
-        <div
-          style={{
-            margin: "0.5rem",
-          }}
-        >
-          <Image
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={180}
-            height={100}
-          />
-        </div>
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
-      </Sider>
+      <SideBar />
       <Layout className="site-layout">
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: "0 16px" }}>
-          <NovelForm />
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+        <>
+          <Content style={{ margin: "0 16px" }}>
+            {/* <NovelSearch /> */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "right",
+                margin: "1rem",
+              }}
+            >
+              <NovelForm />
+            </div>
+          </Content>
+        </>
+        <AdminFooter />
       </Layout>
     </Layout>
   );

@@ -2,8 +2,9 @@ import { NextPageWithLayout } from "./_app";
 import MainBestItem from "@/components/pages/main/MainBestItem";
 import MainEvent from "@/components/pages/main/MainEvent";
 import Layout from "@/components/layouts/layout";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MainScheduleContainer from "@/components/pages/main/MainScheduleContainer";
+
 const Home: NextPageWithLayout = () => {
   return (
     <>

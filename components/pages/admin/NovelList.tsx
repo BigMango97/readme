@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
-import { Space, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { novelListType, novelType } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
-import dayjs from "dayjs";
+
+import AdminButton from "./AdminButton";
 
 export default function NovelList({ data }: any) {
   const router = useRouter();
@@ -14,6 +15,9 @@ export default function NovelList({ data }: any) {
   const [data1, setData1] = useState<novelListType>();
   const moveEditForm = (id: number) => {
     router.push(`/admin/novelForm?id=${id}`);
+  };
+  const moveNovelForm = () => {
+    router.push("/admin/novelForm");
   };
 
   const deleteHandle = (id: number) => {
@@ -26,6 +30,7 @@ export default function NovelList({ data }: any) {
   const moveNovelDetail = (id: number) => {
     router.push(`/admin/novel/${id}`);
   };
+
   useEffect(() => {
     axios
       .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels`)
@@ -230,9 +235,9 @@ export default function NovelList({ data }: any) {
               color = "volcano";
             }
             return (
-              <Tag color={color} key={idx}>
-                {tag.toUpperCase()}
-              </Tag>
+              <div key={idx}>
+                <Tag color={color}>{tag.toUpperCase()}</Tag>
+              </div>
             );
           })}
         </>
@@ -288,12 +293,23 @@ export default function NovelList({ data }: any) {
   const data2: novelType[] | undefined = data1?.novelList;
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data2}
-      onChange={onChange}
-      style={{ fontSize: "1rem" }}
-    />
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "right",
+          margin: "1rem",
+        }}
+      >
+        <AdminButton title="소설등록" onClick={moveNovelForm} />
+      </div>
+      <Table
+        columns={columns}
+        dataSource={data2}
+        onChange={onChange}
+        style={{ fontSize: "1rem" }}
+      />
+    </>
   );
 }
 export async function getServerSideProps() {
