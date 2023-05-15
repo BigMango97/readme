@@ -3,10 +3,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  position: relative;
+  width: 100%;
+  position: fixed;
+  top: 0;
   z-index: 100;
-  background-color: var(--readme-white);
-  
 }
 .novelMainMenu {
   width: 100%;
@@ -15,6 +15,7 @@
   align-items: center;
   flex-direction: column;
   padding: 3.5rem 1rem 1rem 1rem;
+  background-color: var(--readme-white);
 }
 .novelMenuTitle {
   font-size: 1.125rem;
@@ -37,7 +38,6 @@
   color: var(--readme-primary);
 }
 .novelMenuBox {
-
   color: var(--readme-title-gray);
 }
 .novelSubMenu {
@@ -49,17 +49,16 @@
 }
 .novelSubMenuList {
   display: flex;
-  justify-content:left;
+  justify-content: left;
   align-items: center;
   height: 2rem;
   font-size: 0.75rem;
 }
-.novelSubMenuList li{
+.novelSubMenuList li {
   list-style: none;
   margin-right: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-
 }
 .novelSubMenuBoxActive {
   color: var(--readme-secondary);
@@ -67,5 +66,5 @@
 }
 
 .novelSubMenuBox {
-  color:var(--readme-gray-light);
+  color: var(--readme-gray-light);
 }
