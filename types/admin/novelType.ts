@@ -1,11 +1,5 @@
 import { Dayjs } from "dayjs";
-
-export interface tagType{
-    id: number;
-    name: string;
-}
-
-export interface inputNovelType{
+export interface novelInputType{
     title: string;
     description: string;
     author: string;

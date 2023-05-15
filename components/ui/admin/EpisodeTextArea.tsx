@@ -1,20 +1,19 @@
 import React from "react";
 import { Input } from "antd";
-import { novelInputType } from "@/types/admin/novelType";
+import { episodeInputType } from "@/types/admin/episodeType";
 
 const { TextArea } = Input;
 
-export default function NovelTextArea(props: {
+export default function EpisodeTextArea(props: {
   rows: number;
-  inputData: novelInputType;
-  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
+  inputData: episodeInputType;
+  setInputData: React.Dispatch<React.SetStateAction<episodeInputType>>;
 }) {
   const changeInputHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
-    //props.setInput(e.target.value);
     props.setInputData({
       ...props.inputData,
-      description: e.target.value,
+      content: e.target.value,
     });
   };
   return (
@@ -22,7 +21,7 @@ export default function NovelTextArea(props: {
       <TextArea
         rows={props.rows}
         onChange={changeInputHandle}
-        value={props.inputData.description}
+        value={props.inputData.content}
       />
     </>
   );
