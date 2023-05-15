@@ -12,6 +12,8 @@
   --readme-main-font: 'DM Sans', sans-serif;
   --readme-title-gray:#7f7f7f;
   --readme-darkgray:#7f7f7f;
+  --readme-red: #f80000;
+  --readme-green :  #2d7c26;
 }
 
 * {
