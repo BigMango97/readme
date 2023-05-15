@@ -14,6 +14,9 @@ export default function EpisodeList() {
   const novelId = router.query.novelId;
 
   const [data1, setData1] = useState<episodeListType>();
+  const moveEpisodeDetail = (id: number) => {
+    router.push(`/admin/novels/${novelId}/episodes/${id}`);
+  };
   const moveEditForm = (id: number) => {
     router.push(`/admin/episodeForm?id=${id}`);
   };
@@ -41,10 +44,6 @@ export default function EpisodeList() {
         });
       });
   }, [router.isReady]);
-
-  const moveEpisodeDetail = (id: number) => {
-    router.push(`/admin/episode/${id}`);
-  };
 
   const columns: ColumnsType<episodeType> = [
     {

@@ -1,7 +1,6 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Descriptions, Input, Badge } from "antd";
+import { Descriptions, Badge, Button } from "antd";
 import React, { useEffect, useState } from "react";
-import style from "@/components/pages/admin/Episode.module.css";
+import style from "@/components/pages/admin/NovelDetail.module.css";
 import dayjs from "dayjs";
 import { Image } from "antd";
 import axios from "axios";
@@ -19,7 +18,6 @@ const normFile = (e: any) => {
 export default function NovelDetail() {
   const router = useRouter();
   const novelId = router.query.novelId;
-  console.log(" novelIdnovelId ", router);
 
   const [novelData, setNovelData] = useState<novelType>({
     id: 0,
@@ -62,10 +60,16 @@ export default function NovelDetail() {
         });
     }
   }, [router.isReady]);
+  const moveBack = () => {
+    router.push(`/admin/main`);
+  };
 
   return (
     <>
       <div className={style.container}>
+        <Button type="primary" htmlType="submit" onClick={moveBack}>
+          뒤로가기
+        </Button>
         <Descriptions title="소설 정보" bordered>
           <Descriptions.Item label="작품명" span={3}>
             {novelData.title}
@@ -73,17 +77,19 @@ export default function NovelDetail() {
           <Descriptions.Item label="작가" span={2}>
             {novelData.author}
           </Descriptions.Item>
-          <Descriptions.Item label="연령">{novelData.grade}</Descriptions.Item>
+          <Descriptions.Item label="연령" span={1}>
+            {novelData.grade}
+          </Descriptions.Item>
           <Descriptions.Item label="연재요일" span={2}>
             {novelData.serializationDay}
           </Descriptions.Item>
-          <Descriptions.Item label="연재상태" span={3}>
+          <Descriptions.Item label="연재상태" span={1}>
             <Badge status="processing" text={novelData.serializationStatus} />
           </Descriptions.Item>
           <Descriptions.Item label="작품소개" span={3}>
             {novelData.description}
           </Descriptions.Item>
-          <Descriptions.Item label="대표 이미지">
+          <Descriptions.Item label="대표 이미지" span={3}>
             <Image width={200} height={250} src={novelData.thumbnail} />
           </Descriptions.Item>
         </Descriptions>

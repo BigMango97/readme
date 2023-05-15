@@ -16,7 +16,9 @@ const { TextArea } = Input;
 
 export default function EpisodeForm() {
   const router = useRouter();
-  const epiId = router.query.id;
+  const novelId = router.query.novel;
+  console.log("router.query.novel", router.query);
+  const epiId = router.query.episode;
 
   const [inputData, setInputData] = useState<episodeInputType>({
     title: "",
@@ -47,7 +49,7 @@ export default function EpisodeForm() {
     }
   }, []);
   const cancelHandle = () => {
-    router.push("/admin/episode"); //수정하기
+    router.push(`/admin/novels/${novelId}`); //수정하기
   };
   const postHandle = () => {
     axios
@@ -80,7 +82,7 @@ export default function EpisodeForm() {
         }
       )
       .then((res) => {
-        router.push(`/admin/episode/${epiId}`);
+        router.push(`/admin/episodes/${epiId}`);
       });
   };
   return (

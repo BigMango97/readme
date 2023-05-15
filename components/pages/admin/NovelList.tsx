@@ -28,7 +28,7 @@ export default function NovelList({ data }: any) {
       });
   };
   const moveNovelDetail = (id: number) => {
-    router.push(`/admin/novel/${id}`);
+    router.push(`/admin/novels/${id}`);
   };
 
   useEffect(() => {
