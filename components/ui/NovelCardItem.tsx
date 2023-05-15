@@ -1,5 +1,5 @@
 import React from "react";
-import style from "@/components/ui/NovelCard.module.css";
+import style from "@/components/ui/NovelCardItem.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   grade: number;
   newChecking: boolean;
 }
-export default function NovelCard({
+export default function NovelCardItem({
   thumbnail,
   serializationStatus,
   genre,
@@ -25,6 +25,8 @@ export default function NovelCard({
   newChecking,
 }: Props) {
   const router = useRouter();
+  const IS_READABLE_BY_All = 0;
+  const IS_NINETEEN_PLUS = 19;
   return (
     <div
       className={style.allNovelCard}
@@ -34,7 +36,7 @@ export default function NovelCard({
         <div className={style.allCardImg}>
           <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
         </div>
-        {newChecking == true ? (
+        {newChecking && (
           <div className={style.cardNewIcon}>
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
@@ -43,25 +45,14 @@ export default function NovelCard({
               height={30}
             />
           </div>
-        ) : (
-          ""
         )}
-
         <div className={style.ageCheck}>
-          {grade === 19 ? (
-            <p style={{ backgroundColor: "red", color: "white" }}>{grade}</p>
-          ) : grade === 0 ? (
-            <p
-              style={{
-                fontSize: "1px",
-                backgroundColor: "green",
-                color: "white",
-              }}
-            >
-              All
-            </p>
+          {grade === IS_NINETEEN_PLUS ? (
+            <p className={style.nineteenCheck}>{grade}</p>
+          ) : grade === IS_READABLE_BY_All ? (
+            <p className={style.allCheck}>All</p>
           ) : (
-            <p>{grade}</p>
+            <p className={style.basicCheck}>{grade}</p>
           )}
         </div>
       </div>
