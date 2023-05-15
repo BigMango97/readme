@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/components/pages/novel/AllNovelCardSection.module.css";
-import NovelCard from "@/components/ui/NovelCard";
-import { useEffect, useState } from "react";
+import NovelCardItem from "@/components/ui/NovelCardItem";
+import NovelListItem from "@/components/ui/NovelListItem";
+
 import axios from "axios";
 import { useRouter } from "next/router";
-import { allNovelCardType } from "@/types/model/mainDataType";
 import Image from "next/image";
-import NovelList from "@/components/ui/NovelList";
+import { allNovelCardType } from "@/types/model/mainDataType";
+
 export default function AllNovelCardSection() {
   const [data, setData] = useState<allNovelCardType>();
   const router = useRouter();
   const { category, subCategory }: any = router.query;
 
+  const [viwerType, setViwerType] = useState<"card" | "list">("card");
+
+  const typetrueHandler = () => {
+    setViwerType("card");
+  };
+  const typefalseHandler = () => {
+    setViwerType("list");
+  };
+  
   useEffect(() => {
     axios
       .get(
@@ -23,14 +33,6 @@ export default function AllNovelCardSection() {
       .catch((err) => console.log(err));
   }, [category, subCategory]);
 
-  const [type, setType] = useState<boolean>(true);
-
-  const typetrueHandler = () => {
-    setType(true);
-  };
-  const typefalseHandler = () => {
-    setType(false);
-  };
   return (
     <>
       <div className={style.container}>
@@ -43,8 +45,7 @@ export default function AllNovelCardSection() {
             height={20}
             priority
             onClick={() => typetrueHandler()}
-            style={{ filter: type ? "none":"grayscale(1)"}}
-
+            style={{ filter: viwerType ? "none" : "grayscale(1)" }}
           />
 
           <Image
@@ -54,16 +55,15 @@ export default function AllNovelCardSection() {
             height={20}
             priority
             onClick={() => typefalseHandler()}
-            style={{ filter: type ?  "grayscale(1)" :"none"}}
-
+            style={{ filter: viwerType ? "grayscale(1)" : "none" }}
           />
         </div>
       </div>
-      {type ? (
+      {viwerType=="card" ? (
         <div className={style.novelContainer}>
           {data &&
             data.novelCardsData.map((item) => (
-              <NovelCard
+              <NovelCardItem
                 key={item.novelId}
                 thumbnail={item.thumbnail}
                 title={item.title}
@@ -81,7 +81,7 @@ export default function AllNovelCardSection() {
         <div className={style.novelContainer}>
           {data &&
             data.novelCardsData.map((item) => (
-              <NovelList
+              <NovelListItem
                 key={item.novelId}
                 thumbnail={item.thumbnail}
                 title={item.title}
