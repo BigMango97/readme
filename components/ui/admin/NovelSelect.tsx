@@ -1,11 +1,11 @@
 import React from "react";
 import { Select } from "antd";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 
 export default function NovelSelect(props: {
   type: string;
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const changeSelectHandle = (select: string) => {
     if (props.type === "grade") {
