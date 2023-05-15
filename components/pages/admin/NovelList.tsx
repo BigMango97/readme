@@ -11,6 +11,7 @@ import AdminButton from "./AdminButton";
 
 export default function NovelList({ data }: any) {
   const router = useRouter();
+  const search = router.query.search ? router.query.search : "";
 
   const [data1, setData1] = useState<novelListType>();
   const moveEditForm = (id: number) => {
@@ -33,7 +34,9 @@ export default function NovelList({ data }: any) {
 
   useEffect(() => {
     axios
-      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels`)
+      .get(
+        `http://43.200.189.164:8000/novels-service/v1/admin/novels?author=${search}&title=${search}`
+      )
       .then((res) => {
         console.log(res.data.data.contents);
 
@@ -41,7 +44,7 @@ export default function NovelList({ data }: any) {
           novelList: res.data.data.contents,
         });
       });
-  }, []);
+  }, [router]);
 
   const columns: ColumnsType<novelType> = [
     {
