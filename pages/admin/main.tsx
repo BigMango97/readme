@@ -8,10 +8,15 @@ import CardList from "@/components/pages/admin/CardList";
 import { useRouter } from "next/router";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
 import { createContext } from "react";
+import NovelSelect from "@/components/ui/admin/NovelSelect";
+import { novelInputType } from "@/types/admin/novelType";
+import dayjs from "dayjs";
+import { Select } from "antd";
 
 const Main: NextPageWithLayout = () => {
   const router = useRouter();
   let currentTap = router.query.type;
+
   return (
     <>
       <NovelSearch />
