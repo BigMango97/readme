@@ -60,9 +60,28 @@ export interface allDetailDatatype {
   serializationDays: string;
   newChecking: boolean;
   episodeCount: number;
+  authorComment: string;
 }
 
 export interface allDetailTag {
   id: number;
   name: string;
+}
+
+export interface episodesAllDatatype {
+  novelId: number;
+  episodes: [episodeCardDataType];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface episodeCardDataType {
+  id: number;
+  name: string;
+  free: boolean;
+  registrationDate: string;
+  starRating: number;
+  isNew: boolean;
 }

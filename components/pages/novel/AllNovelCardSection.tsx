@@ -21,7 +21,7 @@ export default function AllNovelCardSection() {
   const typefalseHandler = () => {
     setViwerType("list");
   };
-  
+
   useEffect(() => {
     axios
       .get(
@@ -59,7 +59,7 @@ export default function AllNovelCardSection() {
           />
         </div>
       </div>
-      {viwerType=="card" ? (
+      {viwerType == "card" ? (
         <div className={style.novelContainer}>
           {data &&
             data.novelCardsData.map((item) => (

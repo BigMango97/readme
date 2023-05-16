@@ -30,7 +30,7 @@ export default function NovelCardItem({
   return (
     <div
       className={style.allNovelCard}
-      onClick={() => router.push(`/noveldetail/${novelId}`)}
+      onClick={() => router.push(`/noveldetail/${novelId}?menu=작품소개`)}
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allCardImg}>
