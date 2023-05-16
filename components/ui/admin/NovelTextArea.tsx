@@ -1,13 +1,13 @@
 import React from "react";
 import { Input } from "antd";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 
 const { TextArea } = Input;
 
 export default function NovelTextArea(props: {
   rows: number;
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const changeInputHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();

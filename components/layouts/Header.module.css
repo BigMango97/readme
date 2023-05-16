@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(0deg, #FFFFFF00 0%,  #FFFFFF 30%);
+  background: linear-gradient(0deg, #ffffff00 0%, #ffffff 30%);
   position: fixed;
   top: 0;
   z-index: 100;

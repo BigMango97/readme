@@ -4,7 +4,6 @@ import Image from "next/image";
 export default function MainEvent(props: { thumbnail: string }) {
   return (
     <section className={style.mainEvent}>
-      <div className={style.cardContainer}>
         <div className={style.cardContainerInfo}>
           <h2>Event</h2>
           <div className={style.cardContainerEventTitle}>
@@ -18,11 +17,10 @@ export default function MainEvent(props: { thumbnail: string }) {
           <Image
             src={"/assets/images/dummy/bestItem01.png"}
             alt="썸네일 이미지"
-            width={150}
-            height={150}
+            width={180}
+            height={160}
           />
         </div>
-      </div>
     </section>
   );
 }

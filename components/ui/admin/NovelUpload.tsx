@@ -3,11 +3,11 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 import axios from "axios";
 export default function NovelUpload(props: {
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const getBase64 = async (img: RcFile, callback: (url: string) => void) => {
     const reader = new FileReader();

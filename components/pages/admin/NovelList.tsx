@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
-import { Space, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { novelListType, novelType } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
-import dayjs from "dayjs";
 
-function NovelSortTable({ data }: any) {
+import AdminButton from "./AdminButton";
+
+export default function NovelList({ data }: any) {
   const router = useRouter();
+  const search = router.query.search ? router.query.search : "";
+  const select = router.query.select;
+  console.log("select = ", select);
 
   const [data1, setData1] = useState<novelListType>();
   const moveEditForm = (id: number) => {
     router.push(`/admin/novelForm?id=${id}`);
+  };
+  const moveNovelForm = () => {
+    router.push("/admin/novelForm");
   };
 
   const deleteHandle = (id: number) => {
@@ -23,17 +30,27 @@ function NovelSortTable({ data }: any) {
         console.log(res);
       });
   };
-  useEffect(() => {
-    axios
-      .get(`http://43.200.189.164:8000/novels-service/v1/admin/novels`)
-      .then((res) => {
-        console.log(res.data.data.contents);
+  const moveNovelDetail = (id: number) => {
+    router.push(`/admin/novels/${id}`);
+  };
 
-        setData1({
-          novelList: res.data.data.contents,
-        });
+  useEffect(() => {
+    let url = "";
+    if (select === "title") {
+      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?title=${search}`;
+    } else if (select === "author") {
+      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?author=${search}`;
+    } else {
+      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels`;
+    }
+
+    axios.get(url).then((res) => {
+      console.log(res.data.data.contents);
+      setData1({
+        novelList: res.data.data.contents,
       });
-  }, []);
+    });
+  }, [router]);
 
   const columns: ColumnsType<novelType> = [
     {
@@ -70,7 +87,9 @@ function NovelSortTable({ data }: any) {
       onFilter: (value: string | number | boolean, record) =>
         record.title.startsWith(value.toLocaleString()),
       width: "13%",
-      render: (_, { title }) => <>{title}</>,
+      render: (_, { id, title }) => (
+        <div onClick={() => moveNovelDetail(id)}>{title}</div>
+      ),
     },
     {
       key: "작가",
@@ -225,9 +244,9 @@ function NovelSortTable({ data }: any) {
               color = "volcano";
             }
             return (
-              <Tag color={color} key={idx}>
-                {tag.toUpperCase()}
-              </Tag>
+              <div key={idx}>
+                <Tag color={color}>{tag.toUpperCase()}</Tag>
+              </div>
             );
           })}
         </>
@@ -281,27 +300,37 @@ function NovelSortTable({ data }: any) {
   };
 
   const data2: novelType[] | undefined = data1?.novelList;
-  console.log(`data2 =  `, data2);
+
   return (
-    <Table
-      columns={columns}
-      dataSource={data2}
-      onChange={onChange}
-      style={{ fontSize: "1rem" }}
-    />
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "right",
+          margin: "1rem",
+        }}
+      >
+        <AdminButton title="소설등록" onClick={moveNovelForm} />
+      </div>
+      <Table
+        columns={columns}
+        dataSource={data2}
+        onChange={onChange}
+        style={{ fontSize: "1rem" }}
+      />
+    </>
   );
 }
-export default NovelSortTable;
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps() {
   // Fetch data from external API
   const res = await axios.get(
     `http://43.200.189.164:8000/novels-service/v1/admin/novels`
   );
-  console.log("res = ", res);
-  const data3 = await res.data;
-  console.log("sssr = ", data3);
+  //console.log("레스  = ", res);
+  //const resData = await res.data;
+  //console.log("sssr = ", data3);
   //const data = await res.data;
 
   // Pass data to the page via props
-  return { props: { data: data3.data.contents } };
+  return { props: { data: res.data } };
 }
