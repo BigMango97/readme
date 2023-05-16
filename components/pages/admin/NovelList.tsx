@@ -38,10 +38,12 @@ export default function NovelList({ data }: any) {
     let url = "";
     if (select === "title") {
       url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?title=${search}`;
-    }
-    if (select === "author") {
+    } else if (select === "author") {
       url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?author=${search}`;
+    } else {
+      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels`;
     }
+
     axios.get(url).then((res) => {
       console.log(res.data.data.contents);
       setData1({
