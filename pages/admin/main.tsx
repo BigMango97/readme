@@ -2,7 +2,7 @@ import React, { ReactElement, use, useEffect, useState } from "react";
 import NovelList from "@/components/pages/admin/NovelList";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { NextPageWithLayout } from "../_app";
-import ScheduleList from "@/components/pages/admin/ScheduleList";
+import ScheduleList from "@/components/pages/admin/ScheduleManage";
 import CardList from "@/components/pages/admin/CardList";
 
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import NovelSelect from "@/components/ui/admin/NovelSelect";
 import { novelInputType } from "@/types/admin/novelType";
 import dayjs from "dayjs";
 import { Select } from "antd";
+import ScheduleManage from "@/components/pages/admin/ScheduleManage";
 
 const Main: NextPageWithLayout = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const Main: NextPageWithLayout = () => {
       {currentTap === "3" ? (
         <CardList />
       ) : currentTap === "2" ? (
-        <ScheduleList />
+        <ScheduleManage />
       ) : (
         <NovelList />
       )}
