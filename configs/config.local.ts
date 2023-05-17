@@ -1,7 +1,7 @@
 import getConfigs from "./config.common";
 
 // 환경마다 달라져야 할 변수, 값들을 정의합니다. (여기는 local 환경에 맞는 값을 지정합니다.)
-const baseUrl = 'http://43.200.189.164:8000';
+const baseUrl = 'https://localhost:8080';
 const mode = 'local';
 
 // 환경마다 달라져야 할 값들을 getConfig 함수에 전달합니다.

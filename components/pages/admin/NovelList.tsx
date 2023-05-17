@@ -8,6 +8,7 @@ import { novelListType, novelType } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
 
 import AdminButton from "./AdminButton";
+import Config from "@/configs/config.export";
 
 export default function NovelList({ data }: any) {
   const router = useRouter();
@@ -34,14 +35,15 @@ export default function NovelList({ data }: any) {
     router.push(`/admin/novels/${id}`);
   };
 
+  const baseUrl = Config().baseUrl;
   useEffect(() => {
     let url = "";
     if (select === "title") {
-      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?title=${search}`;
+      url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
     } else if (select === "author") {
-      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels?author=${search}`;
+      url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
     } else {
-      url = `http://43.200.189.164:8000/novels-service/v1/admin/novels`;
+      url = `${baseUrl}/novels-service/v1/admin/novels`;
     }
 
     axios.get(url).then((res) => {
