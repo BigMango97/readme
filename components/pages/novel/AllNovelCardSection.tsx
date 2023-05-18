@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
-import style from "@/components/pages/novel/AllNovelCardSection.module.css";
-import NovelCardItem from "@/components/ui/NovelCardItem";
-import NovelListItem from "@/components/ui/NovelListItem";
-
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { allNovelCardType } from "@/types/model/mainDataType";
+import style from "@/components/pages/novel/AllNovelCardSection.module.css";
+import NovelCardItem from "@/components/ui/NovelCardItem";
+import NovelListItem from "@/components/ui/NovelListItem";
+
 
 export default function AllNovelCardSection() {
   const [data, setData] = useState<allNovelCardType>();
   const router = useRouter();
   const { category, subCategory }: any = router.query;
 
-  const [viwerType, setViwerType] = useState<"card" | "list">("card");
+  const [viewerType, setViewerType] = useState<"card" | "list">("card");
 
-  const typetrueHandler = () => {
-    setViwerType("card");
+  const handleViewerType = (type: "card" | "list") => {
+    setViewerType(type);
   };
-  const typefalseHandler = () => {
-    setViwerType("list");
-  };
-  
   useEffect(() => {
     axios
       .get(
@@ -43,9 +39,11 @@ export default function AllNovelCardSection() {
             alt="left-arrow"
             width={20}
             height={20}
-            priority
-            onClick={() => typetrueHandler()}
-            style={{ filter: viwerType ? "none" : "grayscale(1)" }}
+            style={{
+              filter: viewerType === "card" ? "none" : "grayscale(1)",
+              cursor: "pointer",
+            }}
+            onClick={() => handleViewerType("card")}
           />
 
           <Image
@@ -53,13 +51,15 @@ export default function AllNovelCardSection() {
             alt="left-arrow"
             width={20}
             height={20}
-            priority
-            onClick={() => typefalseHandler()}
-            style={{ filter: viwerType ? "grayscale(1)" : "none" }}
+            style={{
+              filter: viewerType === "list" ? "none" : "grayscale(1)",
+              cursor: "pointer",
+            }}
+            onClick={() => handleViewerType("list")}
           />
         </div>
       </div>
-      {viwerType=="card" ? (
+      {viewerType == "card" ? (
         <div className={style.novelContainer}>
           {data &&
             data.novelCardsData.map((item) => (
