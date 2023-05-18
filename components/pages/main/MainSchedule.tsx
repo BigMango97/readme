@@ -8,17 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function MainSchedule(props: { id: number; name: string }) {
-  const [scheduleCard, setScheduleCard] = useState<eventCardListType[]>();
-  useEffect(() => {
-    axios
-      .get(
-        `http://43.200.189.164:8000/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
-      )
-      .then((res) => {
-        setScheduleCard(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const [scheduleCard, setScheduleCard] = useState<eventCardListType[]>([]);
   const settings = {
     infinite: true, //무한 반복 옵션
     autoplay: true, //자동플레이
@@ -28,31 +18,42 @@ export default function MainSchedule(props: { id: number; name: string }) {
     arrows: true, // 옆으로 이동하는 화살표 표시 여부
     dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `http://43.200.189.164:8000/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
+        );
+        setScheduleCard(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, [props.id]);
   return (
     <div className={style.mainScheduleContainer}>
-      {scheduleCard &&
-        scheduleCard.map((item) => {
-          return item.novelId == props.id && <h3>{props.name}</h3>;
-        })}
+      <h3>{props.name}</h3>
+
       <div className={style.mainSchedule}>
         <Slider {...settings}>
           {scheduleCard &&
-            scheduleCard.map((item) => {
-              return (
-                <NovelCardItem
-                  key={item.novelId}
-                  thumbnail={item.thumbnail}
-                  serializationStatus={item.serializationStatus}
-                  title={item.title}
-                  author={item.author}
-                  starRating={item.starRating}
-                  genre={item.genre}
-                  novelId={item.novelId}
-                  grade={item.grade}
-                  newChecking={item.newChecking}
-                />
-              );
-            })}
+            scheduleCard.map((item) => (
+              <NovelCardItem
+                key={item.novelId}
+                thumbnail={item.thumbnail}
+                serializationStatus={item.serializationStatus}
+                title={item.title}
+                author={item.author}
+                starRating={item.starRating}
+                genre={item.genre}
+                novelId={item.novelId}
+                grade={item.grade}
+                newChecking={item.newChecking}
+              />
+            ))}
         </Slider>
       </div>
     </div>
