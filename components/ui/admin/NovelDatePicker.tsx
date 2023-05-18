@@ -2,11 +2,11 @@ import React from "react";
 import { DatePicker } from "antd";
 import type { DatePickerProps } from "antd";
 import dayjs from "dayjs";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 
 export default function NovelDatePicker(props: {
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const changeDateHandle: DatePickerProps["onChange"] = (date) => {
     if (date !== null) {

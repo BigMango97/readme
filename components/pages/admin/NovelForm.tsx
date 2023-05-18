@@ -11,7 +11,7 @@ import NovelCheckbox from "@/components/ui/admin/NovelCheckbox";
 import NovelDatePicker from "@/components/ui/admin/NovelDatePicker";
 import NovelTextArea from "@/components/ui/admin/NovelTextArea";
 import NovelUpload from "@/components/ui/admin/NovelUpload";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 import { useRouter } from "next/router";
 
 const normFile = (e: any) => {
@@ -24,7 +24,7 @@ export default function NovelForm() {
   const router = useRouter();
   const novelId = router.query.id;
 
-  const [inputData, setInputData] = useState<inputNovelType>({
+  const [inputData, setInputData] = useState<novelInputType>({
     title: "",
     author: "",
     grade: -1,

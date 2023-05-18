@@ -4,7 +4,7 @@ import RecentSearchTop from "@/components/pages/search/RecentSearchTop";
 import RecentSearchItems from "@/components/pages/search/RecentSearchItems";
 import RecommendTop from "@/components/pages/search/RecommendTop";
 import RecommendItems from "@/components/pages/search/RecommendItems";
-import SearchBottom from "@/components/pages/search/SearchBottom";
+import Footer from "@/components/layouts/Footer";
 
 export default function Search() {
   return (
@@ -14,7 +14,7 @@ export default function Search() {
       <RecentSearchItems />
       <RecommendTop />
       <RecommendItems />
-      <SearchBottom />
+      <Footer />
     </>
   );
 }

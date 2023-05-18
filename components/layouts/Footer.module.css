@@ -4,7 +4,7 @@
   background: linear-gradient(180deg, #FFFFFF00 0%,  #FFFFFF 20%);
   position: fixed;
   bottom: 0;
-  z-index: 100;
+  z-index: 90;
 }
 
 .mainFooter nav ul {

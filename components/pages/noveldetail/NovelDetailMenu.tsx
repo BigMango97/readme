@@ -1,25 +1,51 @@
 import React, { useState } from "react";
 import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
-import NovelIntroduce from "./NovelIntroduce";
 import EpisodeInfo from "./EpisodeInfo";
 import LineSeparator from "@/components/ui/LineSeparator";
 import CommentsCheck from "./CommentsCheck";
 import CommentList from "./CommentList";
-
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import axios from "axios";
+import { episodeCardDataType } from "@/types/model/mainDataType";
 export interface menuType {
   id: number;
   title: string;
 }
-export default function NovelDetailMenu() {
-  const [currentTab, setCurrentTap] = useState(0);
+export default function NovelDetailMenu(props: {
+  novelId: number;
+  description: string;
+  authorComment: string;
+}) {
+  const router = useRouter();
   const menulist: menuType[] = [
     { id: 0, title: "작품소개" },
     { id: 1, title: "에피소드" },
     { id: 2, title: "댓글" },
   ];
-  const selectmenuHandler = (index: number) => {
-    setCurrentTap(index);
-  };
+
+  const menuTitle = router.query;
+  const [episodes, setEpisodes] = useState<episodeCardDataType[] | []>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (menuTitle.menu === "에피소드" && menuTitle.novelId) {
+      setLoading(true);
+      axios
+        .get(
+          `http://43.200.189.164:8000/sections-service/v1/cards/episodes/${menuTitle.novelId}`
+        )
+        .then((res) => {
+          setEpisodes(res.data.data.episodes);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
+  }, [menuTitle.menu, menuTitle.novelId]);
+
+  useEffect(() => {}, [episodes]);
 
   return (
     <>
@@ -27,32 +53,32 @@ export default function NovelDetailMenu() {
         {menulist.map((item, i) => (
           <p
             key={item.id}
-            onClick={() => selectmenuHandler(i)}
-            className={`${currentTab === i ? style.menuactive : null}`}
+            onClick={() => {
+              router.push(`/noveldetail/${props.novelId}?menu=${item.title}`);
+            }}
+            className={`${
+              menuTitle.menu === item.title ? style.menuactive : null
+            }`}
           >
             {item.title}
-            {item.title === "Episode" && (
-              <span className={style.Episodecount}>(24)</span>
-            )}
-            {item.title === "Comments" && (
-              <span className={style.Episodecount}>(24)</span>
-            )}
           </p>
         ))}
       </div>
-      {currentTab === 0 && (
+      {menuTitle.menu === "작품소개" && (
         <>
           <div className={style.infoCentainer}>
             <div className={style.detailTitle}>시놉시스</div>
-            <NovelIntroduce />
+            <div className={style.authorinfo}>{props.description}</div>
             <LineSeparator colorline="grayline" />
             <div className={style.detailTitle}>작가의 한마디</div>
-            <NovelIntroduce />
+            <div className={style.authorinfo}>{props.authorComment}</div>
           </div>
         </>
       )}
-      {currentTab === 1 && <EpisodeInfo />}{" "}
-      {currentTab === 2 && (
+      {menuTitle.menu === "에피소드" && menuTitle.novelId && (
+        <EpisodeInfo episodes={episodes} />
+      )}
+      {menuTitle.menu === "댓글" && (
         <>
           <div className={style.infoCentainer}>
             <CommentsCheck />

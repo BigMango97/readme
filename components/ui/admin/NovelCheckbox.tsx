@@ -1,10 +1,10 @@
 import React from "react";
 import { Checkbox } from "antd";
-import { inputNovelType } from "@/types/admin/novelType";
+import { novelInputType } from "@/types/admin/novelType";
 
 export default function NovelCheckbox(props: {
-  inputData: inputNovelType;
-  setInputData: React.Dispatch<React.SetStateAction<inputNovelType>>;
+  inputData: novelInputType;
+  setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const options = [
     { label: "월", value: 1 },

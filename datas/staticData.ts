@@ -20,7 +20,7 @@ export const footerMenu = [
   {
     id: 4,
     title: "mybooks",
-    link: "/library",
+    link: "/library?id=1",
     iconUrl: "/assets/images/icons/library.svg",
   },
   {
@@ -51,4 +51,10 @@ export const mypageMenu = [
   { id: 2, title: "댓글 단 작품" },
   { id: 3, title: "포인트 충전 목록" },
   { id: 4, title: "환경설정" }
+]
+
+export const mybookMenu = [
+  { id: 1, title: "최근 본 소설" },
+  { id: 2, title: "좋아요" },
+  { id: 3, title: "구매완료" }
 ]

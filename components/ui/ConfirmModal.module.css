@@ -1,0 +1,54 @@
+.container {
+  background-color: var(--readme-modal-color);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  z-index: 900;
+}
+.confirmTotalContainer {
+  width: 80%;
+  height: 20%;
+  background-color: var(--readme-white);
+  border-radius: 10px;
+}
+.closeBtn {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: right;
+}
+.containerInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.textInfo {
+  font-size: 0.9rem;
+  font-weight: bolder;
+  color: var(--readme-primary);
+  margin: 0.5rem;
+}
+.confirmInfo {
+  background-color: var(--readme-primary);
+  width: 35%;
+  height: 40px;
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirmBtn img {
+  display: flex;
+  justify-content: center;
+}
+.confirmInfoTitle {
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  color: var(--readme-white);
+}

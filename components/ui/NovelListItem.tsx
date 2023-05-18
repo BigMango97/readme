@@ -30,7 +30,7 @@ export default function NovelListItem({
   return (
     <div
       className={style.allNovelList}
-      onClick={() => router.push(`/noveldetail/${novelId}`)}
+      onClick={() => router.push(`/noveldetail/${novelId}?menu=작품소개`)}
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allListImg}>
