@@ -12,12 +12,14 @@ import { useRouter } from "next/router";
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
+  let type = "";
+  router.query.type ? (type = router.query.type.toString()) : (type = "");
 
   const clickMenuHandler = (item: any) => {
     router.push(`/admin/main?type=${item.key}`);
   };
   const clickLogoHandler = () => {
-    router.push(`/admin/main`);
+    router.push(`/admin/main?type=1`);
   };
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -62,7 +64,7 @@ export default function SideBar() {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[type]}
           mode="inline"
           items={items}
           onClick={clickMenuHandler}

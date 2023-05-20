@@ -1,63 +1,28 @@
-import React, { useEffect } from "react";
+import Config from "@/configs/config.export";
+import { useRouter } from "next/router";
 import style from "@/components/ui/Login.module.css";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import axios from "axios";
-declare global {
-  interface Window {
-    naver: any;
-  }
-}
-export default function Login() {
-  const router = useRouter();
+import React, { useEffect } from "react";
 
-  const NAVER_CLIENT_ID = "mtrCdQIuhi9lx9cDpPsJ";
-  const NAVER_CALLBACK_URL = "http://localhost:3000";
+export default function login() {
+  const router = useRouter();
+  const baseUrl = Config().baseUrl;
+
   useEffect(() => {
-    const { naver } = window;
-    initializeNaverLogin(naver);
-    //userAccessToken();
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init("44a4ffe52adbc9affd97e7029493a34d"); //
+      console.log(window.Kakao.isInitialized());
+    }
   }, []);
 
-  const initializeNaverLogin = (naver: any) => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: NAVER_CLIENT_ID,
-      callbackUrl: NAVER_CALLBACK_URL,
-      // 팝업창으로 로그인을 진행할 것인지?
-      isPopup: false,
-      // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
-      loginButton: { color: "green", type: 3, height: 58 },
-      callbackHandle: true,
+  const kakaoLogin = () => {
+    console.log(window.Kakao.Auth);
+    window.Kakao.Auth.authorize({
+      redirectUri: `http://readme.life/kakao`, //수정필요
+      scope:
+        "name, profile_image, account_email, gender, birthyear, phone_number",
     });
-    naverLogin.init();
   };
-
-  const naverLogin = () => {
-    axios
-      .get(`http://10.10.10.197:8080/auth/login?code=V0YnWlXU0XMkSBbYk0`)
-      .then((res) => {
-        console.log("resres = ", res);
-      });
-  };
-
-  //const code = router.query.code;
-  //console.log("code = ", router.query);
-
-  // useEffect(() => {
-  //   if (!window.Kakao.isInitialized()) {
-  //     window.Kakao.init("0348a267c9ce5b29131c78ad1384a83e");
-  //     console.log(window.Kakao.isInitialized());
-  //   }
-  // }, []);
-
-  // function kakaoLogin() {
-  //   console.log(window.Kakao.Auth);
-  //   window.Kakao.Auth.authorize({
-  //     redirectUri: `http://localhost:3000/naverLogin`,
-  //   });
-  //   //loginHandler
-  // }
-
   return (
     <div className={style.container}>
       <div className={style.mainContainer}>
@@ -73,13 +38,13 @@ export default function Login() {
 
           <div className={style.naverBtn}>
             <div id="naverIdLogin" />
-            {/* <Image
+            <Image
               src="/assets/images/naver_btnG.png"
               alt="naver login Btn"
               width={150}
               height={40}
-              onClick={naverLogin}
-            /> */}
+              onClick={kakaoLogin}
+            />
           </div>
         </div>
         <div className={style.closeBtn}>
