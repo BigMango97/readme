@@ -11,14 +11,14 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    key: "번호",
+    //key: "번호",
     dataIndex: "번호",
     title: "번호",
     sorter: (a, b) => a.번호 - b.번호,
     width: "5%",
   },
   {
-    key: "썸네일",
+    //key: "썸네일",
     dataIndex: "썸네일",
     title: "썸네일",
     width: "10%",
@@ -85,32 +85,7 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    번호: 1,
-    썸네일: "/assets/images/dummy/bestItem01.png",
-    작가: "김민개미",
-    스케줄: "이번주 핫신작!!!!!!!!",
-  },
-  {
-    번호: 2,
-    썸네일: "/assets/images/dummy/bestItem01.png",
-    작가: "김민개미",
-    스케줄: "이번주 핫신작!!!!!!!!",
-  },
-  {
-    번호: 3,
-    썸네일: "/assets/images/dummy/bestItem01.png",
-    작가: "김민개미",
-    스케줄: "이번주 핫신작!!!!!!!!",
-  },
-  {
-    번호: 4,
-    썸네일: "/assets/images/dummy/bestItem01.png",
-    작가: "김민개미",
-    스케줄: "이번주 핫신작!!!!!!!!",
-  },
-];
+const data: DataType[] = [];
 
 const onChange: TableProps<DataType>["onChange"] = (
   pagination,

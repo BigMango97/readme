@@ -10,3 +10,11 @@ export interface scheduleType{
 export interface scheduleListType{
     scheduleList : scheduleType[]
 }
+
+export interface scheduleTableType{
+    key : number;
+    id: number;
+    name: string;
+    startDate: Dayjs;
+    endDate: Dayjs;
+}
