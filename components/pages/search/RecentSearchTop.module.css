@@ -1,26 +1,18 @@
-.recentSearchTopWrap{
-    margin-top: 2.5rem;
-    width: 100%;
-    height: 10%;
-    font-weight: bold;
-    font-size: 0.75rem;
+.recentSearchTopWrap {
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
 }
-.recentSearchTopTitle{
-    padding-left: 2rem;
-    float: left;
-    
+.recentSearchTopTitle {
+  opacity: 0.5;
 }
-.recentSearchTopTitle p{
-    opacity: 0.5;
+.recentSearchTopDelete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.recentSearchTopDelete{
-    position: relative;
-    left: 13rem;
-    display:flex;
-}
-.recentSearchTopDelete p{
-    color: var(--readme-primary);
-}
-.recentSearchTopDelete img{
-    vertical-align:text-bottom;
+.recentSearchTopDelete p {
+  color: var(--readme-primary);
 }
