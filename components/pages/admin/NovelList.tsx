@@ -4,7 +4,11 @@ import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { novelListType, novelType } from "@/types/admin/novelType";
+import {
+  novelListType,
+  novelTableType,
+  novelType,
+} from "@/types/admin/novelType";
 import { NextPageContext } from "next";
 
 import AdminButton from "./AdminButton";
@@ -14,7 +18,6 @@ export default function NovelList({ data }: any) {
   const router = useRouter();
   const search = router.query.search ? router.query.search : "";
   const select = router.query.select;
-  console.log("select = ", select);
 
   const [data1, setData1] = useState<novelListType>();
   const moveEditForm = (id: number) => {
@@ -52,11 +55,11 @@ export default function NovelList({ data }: any) {
         novelList: res.data.data.contents,
       });
     });
-  }, [router]);
+  }, []);
 
   const columns: ColumnsType<novelType> = [
     {
-      key: "번호",
+      //key: data1?.novelList.map(item=>item.id),
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
@@ -64,14 +67,14 @@ export default function NovelList({ data }: any) {
       render: (_, { id }) => <>{id}</>,
     },
     {
-      key: "이미지",
+      //key: "이미지",
       dataIndex: "이미지",
       title: "이미지",
       width: "7%",
       render: (_, { thumbnail }) => <>{thumbnail}</>,
     },
     {
-      key: "제목",
+      //key: "제목",
       dataIndex: "제목",
       title: "제목",
       filters: [
@@ -94,7 +97,7 @@ export default function NovelList({ data }: any) {
       ),
     },
     {
-      key: "작가",
+      // key: "작가",
       dataIndex: "작가",
       title: "작가",
       filters: [
@@ -119,7 +122,7 @@ export default function NovelList({ data }: any) {
       render: (_, { author }) => <>{author}</>,
     },
     {
-      key: "연재시작일",
+      //key: "연재시작일",
       dataIndex: "연재시작일",
       title: "연재시작일",
       sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
@@ -128,7 +131,7 @@ export default function NovelList({ data }: any) {
     },
 
     {
-      key: "연재요일",
+      //key: "연재요일",
       dataIndex: "연재요일",
       title: "연재요일",
       filters: [
@@ -169,7 +172,7 @@ export default function NovelList({ data }: any) {
     },
 
     {
-      key: "장르",
+      //key: "장르",
       dataIndex: "장르",
       title: "장르",
       filters: [
@@ -206,7 +209,7 @@ export default function NovelList({ data }: any) {
     },
 
     {
-      key: "관람등급",
+      //key: "관람등급",
       dataIndex: "관람등급",
       title: "관람등급",
       filters: [
@@ -234,7 +237,7 @@ export default function NovelList({ data }: any) {
       render: (_, { grade }) => <>{grade}</>,
     },
     {
-      key: "태그",
+      //key: "태그",
       dataIndex: "태그",
       title: "태그",
       width: "13%",
@@ -301,7 +304,25 @@ export default function NovelList({ data }: any) {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  const data2: novelType[] | undefined = data1?.novelList;
+  //const data2: novelType[] | undefined = data1?.novelList;
+  const dataSource: novelTableType[] = [];
+  data1?.novelList.map((item) => {
+    dataSource.push({
+      key: item.id,
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      author: item.author,
+      startDate: item.startDate,
+      serializationDay: item.serializationDay,
+      serializationStatus: item.serializationStatus,
+      thumbnail: item.thumbnail,
+      authorComment: item.authorComment,
+      grade: item.grade,
+      genre: item.genre,
+      tags: item.tags,
+    });
+  });
 
   return (
     <>
@@ -316,23 +337,23 @@ export default function NovelList({ data }: any) {
       </div>
       <Table
         columns={columns}
-        dataSource={data2}
+        dataSource={dataSource}
         onChange={onChange}
         style={{ fontSize: "1rem" }}
       />
     </>
   );
 }
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/admin/novels`
-  );
-  //console.log("레스  = ", res);
-  //const resData = await res.data;
-  //console.log("sssr = ", data3);
-  //const data = await res.data;
+// export async function getServerSideProps() {
+//   // Fetch data from external API
+//   const res = await axios.get(
+//     `http://43.200.189.164:8000/novels-service/v1/admin/novels`
+//   );
+//   //console.log("레스  = ", res);
+//   //const resData = await res.data;
+//   //console.log("sssr = ", data3);
+//   //const data = await res.data;
 
-  // Pass data to the page via props
-  return { props: { data: res.data } };
-}
+//   // Pass data to the page via props
+//   return { props: { data: res.data } };
+// }
