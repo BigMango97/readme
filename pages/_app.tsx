@@ -2,7 +2,9 @@ import "@/styles/globals.css";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import type { ReactElement, ReactNode } from "react";
-
+import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
+import { ReactQueryDevtools } from "react-query/devtools";
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -13,7 +15,21 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  return getLayout(<Component {...pageProps} />);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { staleTime: Infinity },
+    },
+  });
+  return getLayout(
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <Component {...pageProps} />
+        </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      </QueryClientProvider>
+    </>
+  );
 }
 
 declare global {
