@@ -42,23 +42,23 @@ export default function Kakao() {
       });
     }
   }, [code]);
-  window.Kakao.API.request({
-    url: "/v2/user/me",
-    data: {
-      property_keys: ["kakao_account.email", "kakao_account.gender"],
-    },
-  })
-    .then(function (res: any) {
-      console.log(res);
-    })
-    .catch(function (err: any) {
-      console.log(err);
-    });
-  window.Kakao.Auth.logout()
-    .then(function (res: any) {
-      console.log(window.Kakao.Auth.getAccessToken()); // null
-    })
-    .catch(function (err: any) {
-      console.log("Not logged in.");
-    });
+  // window.Kakao.API.request({
+  //   url: "/v2/user/me",
+  //   data: {
+  //     property_keys: ["kakao_account.email", "kakao_account.gender"],
+  //   },
+  // })
+  //   .then(function (res: any) {
+  //     console.log(res);
+  //   })
+  //   .catch(function (err: any) {
+  //     console.log(err);
+  //   });
+  // window.Kakao.Auth.logout()
+  //   .then(function (res: any) {
+  //     console.log(window.Kakao.Auth.getAccessToken()); // null
+  //   })
+  //   .catch(function (err: any) {
+  //     console.log("Not logged in.");
+  //   });
 }
