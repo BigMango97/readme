@@ -50,7 +50,7 @@ export default function Search() {
 
   return (
     <>
-      <SearchBox data={data} />
+      {/* <SearchBox data={data} /> */}
       {!data && (
         <>
           <RecentSearchTop />

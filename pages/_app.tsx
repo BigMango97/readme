@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import type { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -13,6 +13,11 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export default function App({
   Component,
@@ -24,6 +29,7 @@ export default function App({
       queries: { staleTime: Infinity },
     },
   });
+
   return getLayout(
     <>
       <QueryClientProvider client={queryClient}>
@@ -33,13 +39,5 @@ export default function App({
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </>
-
   );
-}
-
-declare global {
-  // Kakao 함수를 전역에서 사용할 수 있도록 선언
-  interface Window {
-    Kakao: any;
-  }
 }

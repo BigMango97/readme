@@ -4,19 +4,40 @@ import style from "@/components/ui/Login.module.css";
 import Image from "next/image";
 import React, { useEffect } from "react";
 
-export default function login() {
-  const router = useRouter();
-  const baseUrl = Config().baseUrl;
+export default function Login() {
+  //const router = useRouter();
+  //const baseUrl = Config().baseUrl;
+
+  // const initKakao = () => {
+  //   const jsKey = "3c5fd0d61672a00438664be501823461";
+  //   if (typeof window !== undefined) {
+  //     const Kakao = window.Kakao;
+  //     if (Kakao && !Kakao.isInitialized()) {
+  //       Kakao.init(jsKey);
+  //       console.log(Kakao.isInitialized());
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
+    //initKakao();
+    const jsKey = "3c5fd0d61672a00438664be501823461";
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init("44a4ffe52adbc9affd97e7029493a34d"); //
+      window.Kakao.init(jsKey);
       console.log(window.Kakao.isInitialized());
     }
+    // if (typeof window !== undefined) {
+    //   const Kakao = window.Kakao;
+    //   if (Kakao && !Kakao.isInitialized()) {
+    //     Kakao.init(jsKey);
+    //     console.log(Kakao.isInitialized());
+    //   }
+    // }
   }, []);
 
   const kakaoLogin = () => {
-    console.log(window.Kakao.Auth);
+    if (!window.Kakao.isInitialized()) return;
+    //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
       redirectUri: `http://readme.life/kakao`, //수정필요
       scope:
