@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "react-query/devtools";
 
@@ -22,7 +22,8 @@ declare global {
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) {
+}: AppPropsWithLayout
+) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,9 +34,11 @@ export default function App({
   return getLayout(
     <>
       <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>
+            <Component {...pageProps} />
+          </RecoilRoot>
+        </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </>

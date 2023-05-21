@@ -18,6 +18,7 @@
 }
 .novelContainer {
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
   box-sizing: border-box;
