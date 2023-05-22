@@ -27,38 +27,25 @@ const novelDatas = async (
   );
   return response.data;
 };
-
 const queryClient = new QueryClient();
 
-export async function getServerSideProps(context: any) {
-  const { category, subCategory } = context.query;
-  await Promise.all([
-    queryClient.prefetchQuery(["novelMenus"], () => novelMenus()),
-    queryClient.prefetchQuery(
-      ["category", category, "subCategory", subCategory],
-      () => novelDatas(category, subCategory)
-    ),
-  ]);
-
-  return {
-    props: {
-      dehydrateState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
-}
 
 export default function Novel() {
   const router = useRouter();
   const { category, subCategory }: any = router.query;
   const novelMenusQuery = useQuery(["novelMenus"], novelMenus, {
-    staleTime: Infinity,
+    cacheTime: 10 * 60 * 1000, // 10분
+    staleTime: 5 * 60 * 1000, // 5분
+    refetchOnWindowFocus: false, // 포커스를 얻을 때마다 다시 요청
   });
 
   const novelDatasQuery = useQuery(
     ["category", category, "subCategory", subCategory],
     () => novelDatas(category, subCategory),
     {
-      staleTime: Infinity,
+      cacheTime: 10 * 60 * 1000, // 10분
+      staleTime: 5 * 60 * 1000, // 5분
+      refetchOnWindowFocus: false, // 포커스를 얻을 때마다 다시 요청
     }
   );
 
@@ -73,3 +60,22 @@ export default function Novel() {
     </QueryClientProvider>
   );
 }
+
+// export async function getServerSideProps(context: any) {
+//   const { category, subCategory } = context.query;
+
+//   await Promise.all([
+//     queryClient.prefetchQuery(["novelMenus"], () => novelMenus()),
+//     queryClient.prefetchQuery(
+//       ["category", category, "subCategory", subCategory],
+//       () => novelDatas(category, subCategory)
+//     ),
+//   ]);
+
+//   return {
+//     props: {
+//       dehydrateState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+//     },
+
+//   };
+// }
