@@ -1,0 +1,39 @@
+.mypageContainer{
+    width: 100%;
+    height: 14rem;
+    font-weight: bolder;
+}
+.mypageContainerInfo{
+    padding: 4rem 2rem 1rem 2rem;
+}
+.mypageContainerInfo p{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--readme-title-gray);
+}
+.mypageContainerPointInfo{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.mypageContainerPoint{
+    font-size: 1.25rem;
+    color:var(--readme-primary)
+}
+.mypageContainerPointBtn{
+    width: 4.25rem;
+    height: 1.6rem;
+    border-radius: 50px; 
+    border:none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--readme-primary);
+    background-color: var(--readme-white);
+    color:var(--readme-primary)
+}

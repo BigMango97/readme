@@ -1,0 +1,29 @@
+.menutitle {
+  margin: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+.menutitle p {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.infoCentainer {
+  display: flex;
+  margin: 0rem 2rem 7rem 2rem;
+  flex-direction: column;
+}
+.menuactive {
+  padding-bottom: 0.4rem;
+  color: var(--readme-primary);
+  font-weight: 800;
+  border-bottom: 2px solid var(--readme-primary);
+}
+.detailTitle {
+  font-size: 0.875rem;
+  font-weight: 550;
+  margin: 0.5rem 0rem;
+}
+.authorinfo {
+  font-size: 0.75rem;
+  margin: 0.5rem 0rem;
+}

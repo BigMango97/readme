@@ -1,0 +1,65 @@
+.searchBoxWarp {
+  height: 6rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  background-color: var(--readme-white);
+  z-index: 100;
+}
+.searchBox {
+  position: relative;
+  width: 100vw;
+  height: 3rem;
+  background: rgba(243, 243, 243, 0.5);
+  border: 1px solid var(--readme-primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin: 1.5rem;
+}
+.searchBox input:focus {
+  outline: none;
+  cursor: pointer;
+}
+.inputText {
+  height: 60%;
+  width: 80%;
+  text-justify: center;
+  border: none;
+  font-size: 1rem;
+  position: absolute;
+  top: 0.6rem;
+  left: 1rem;
+  background-color: #f8f8f8;
+}
+.searchIcon {
+  position: absolute;
+  right: 10px;
+}
+.novelContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  margin-top: 6rem;
+}
+.novelContainerTitle {
+  padding: 0rem 1.5rem;
+}
+.novelContainerTitle p:first-child {
+  margin-bottom: 1rem;
+}
+.novelInfo {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 1rem 1rem 7rem 1rem;
+}
+.notData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20rem;
+}

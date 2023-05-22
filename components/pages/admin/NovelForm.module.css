@@ -1,0 +1,15 @@
+.container{
+    width: 100%;
+    margin-top: 2rem;
+    margin-left: 3rem;
+}
+.horizontal{
+    margin-top: 0.3rem;
+    display:inline-flex;
+}
+.normal{
+    margin-top: 0.3rem;
+}
+.button{
+    margin-top: 1rem;
+}

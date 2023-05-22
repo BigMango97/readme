@@ -1,0 +1,31 @@
+.mainFooter {
+  width: 100%;
+  padding: 4rem 2rem 2rem 2rem;
+  background: linear-gradient(180deg, #FFFFFF00 0%,  #FFFFFF 20%);
+  position: fixed;
+  bottom: 0;
+  z-index: 90;
+}
+
+.mainFooter nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainFooter nav ul li {
+  cursor: pointer;
+  width: 7%;
+  max-width: 2.5rem;
+  list-style: none;
+}
+
+.mainFooter nav ul li img {
+  width: 100%;
+  height: auto;
+}
+
+.mainFooter nav ul li.active img {
+  filter: grayscale(1);
+  opacity: 0.5;
+}

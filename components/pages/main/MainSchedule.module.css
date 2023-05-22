@@ -1,0 +1,11 @@
+.mainScheduleContainer {
+  padding: 0.5rem 1rem 2rem 1rem;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+}
+.mainScheduleContainer h3 {
+  margin-bottom: 0.5rem;
+  color: var(--readme-primary);
+  padding-left: 0.5rem;
+}

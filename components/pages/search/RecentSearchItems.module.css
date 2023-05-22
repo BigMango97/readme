@@ -1,0 +1,43 @@
+.continer {
+  height: 14rem;
+  margin: 0.5rem 1.5rem 3rem 1.5rem;
+}
+.recentSearchNotKeyword {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 14rem;
+  margin: 5px 20px;
+}
+.recentSearchNotKeyword p {
+  font-size: 0.8rem;
+}
+.recentSearchKeyword {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.recentSearchContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  min-width: 100px;
+}
+.recentSearchWordList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 35px;
+  padding: 10px;
+  margin: 5px;
+  font-size: 0.8rem;
+  background-color: var(--readme-gray-light);
+  border-radius: 5px;
+}
+.recentSearchTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 110px;
+}

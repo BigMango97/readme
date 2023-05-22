@@ -1,0 +1,48 @@
+.mainEvent {
+  height: 12rem;
+  margin: 2rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardContainerInfo {
+  margin-right: 1.5rem;
+}
+.cardContainerInfo h2 {
+  margin-bottom: 0.1rem;
+  font-size: 1.2rem;
+  color: var(--readme-secondary);
+}
+/* .cardContainer {
+  display: flex;
+  align-items: center;
+} */
+.cardContainerEventTitle {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: var(--readme-primary);
+}
+.cardContainerTitle {
+  color: var(--readme-grey-dark);
+  font-size: 1rem;
+  font-weight: 800;
+}
+.cardContainerInfo p {
+  color: var(--readme-grey-light);
+  font-size: 0.7em;
+}
+.cardContainerImgInfo {
+  width: 140px;
+  height: 170px;
+  border-radius: 20px;
+  position: relative;
+  background-color: var(--readme-primary);
+  margin-left: 1rem;
+  transform: rotate(10deg);
+  box-shadow: 10px 0px 0px 0px var(--readme-gray);
+}
+.cardContainerImgInfo img {
+  position: absolute;
+  right: -10px;
+  bottom: 0px;
+}

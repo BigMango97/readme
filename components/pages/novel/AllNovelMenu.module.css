@@ -1,0 +1,71 @@
+.novelMenuContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  cursor: pointer;
+}
+.novelMainMenu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 3.5rem 1rem 1rem 1rem;
+  background-color: var(--readme-white);
+}
+.novelMenuTitle {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--readme-primary);
+  margin-bottom: 2rem;
+}
+.novelMenuList {
+  display: flex;
+  justify-content: space-between;
+  margin: 0rem 2rem;
+  width: 100%;
+  font-size: 0.875rem;
+}
+.novelMenuList li {
+  list-style: none;
+}
+.novelMenuBoxActive {
+  font-weight: bolder;
+  color: var(--readme-primary);
+}
+.novelMenuBox {
+  color: var(--readme-title-gray);
+}
+.novelSubMenu {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: #636363;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 5px 5px 20px 0px #636363;
+}
+.novelSubMenuList {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 2rem;
+  font-size: 0.75rem;
+}
+.novelSubMenuList li {
+  list-style: none;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+.novelSubMenuBoxActive {
+  color: var(--readme-secondary);
+  font-weight: bolder;
+}
+.novelSubMenuBox {
+  color: var(--readme-gray-light);
+}
