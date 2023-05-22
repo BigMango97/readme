@@ -86,7 +86,7 @@ export default function EpisodeDetail() {
           </Descriptions>
           <Descriptions>
             <Descriptions.Item label="컨텐츠(소설내용)">
-              {epiData.content}
+              <div dangerouslySetInnerHTML={{ __html: epiData.content }} />
             </Descriptions.Item>
           </Descriptions>
         </div>

@@ -21,7 +21,7 @@ export default function Login() {
 
   useEffect(() => {
     //initKakao();
-    const jsKey = "3c5fd0d61672a00438664be501823461";
+    const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(jsKey);
       console.log(window.Kakao.isInitialized());
@@ -39,7 +39,7 @@ export default function Login() {
     if (!window.Kakao.isInitialized()) return;
     //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
-      redirectUri: `http://readme.life/kakao`,
+      redirectUri: `https://readme.life/kakao`,
       // scope:
       //   "name, profile_image, account_email, gender, birthyear, phone_number",
     });
