@@ -18,7 +18,7 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
-  margin: 1.5rem;
+  margin: 1.5rem 1rem;
 }
 .searchBox input:focus {
   outline: none;
@@ -46,7 +46,7 @@
   margin-top: 6rem;
 }
 .novelContainerTitle {
-  padding: 0rem 1.5rem;
+  padding: 0rem 1rem;
 }
 .novelContainerTitle p:first-child {
   margin-bottom: 1rem;
@@ -55,7 +55,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 1rem 1rem 7rem 1rem;
+  margin: 1rem 0.5rem 7rem 0.5rem;
 }
 .notData {
   display: flex;
