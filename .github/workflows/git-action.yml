@@ -33,3 +33,21 @@ jobs:
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker build -t ${{ secrets.DOCKER_REPO }}/front .
             docker push ${{ secrets.DOCKER_REPO }}/front
+            
+            
+      ## deploy to production
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@master
+        id: deploy-prod
+        with:
+          host: ${{ secrets.HOST_EC2 }} # EC2 퍼블릭 IPv4 DNS
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker ps
+            sudo docker stop front
+            sudo docker rm front
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/front
+            sudo docker run -d --name front -p 80:3000 --network bts-network ${{ secrets.DOCKER_USERNAME }}/front
+            sudo docker image prune -f
