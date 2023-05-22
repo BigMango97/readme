@@ -13,7 +13,7 @@ import NovelTextArea from "@/components/ui/admin/NovelTextArea";
 import NovelUpload from "@/components/ui/admin/NovelUpload";
 import { novelInputType } from "@/types/admin/novelType";
 import { useRouter } from "next/router";
-
+import Config from "@/configs/config.export";
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -23,6 +23,7 @@ const normFile = (e: any) => {
 export default function NovelForm() {
   const router = useRouter();
   const novelId = router.query.id;
+  const baseUrl = Config().baseUrl;
 
   const [inputData, setInputData] = useState<novelInputType>({
     title: "",
@@ -42,7 +43,7 @@ export default function NovelForm() {
     if (novelId !== undefined) {
       axios
         .get(
-          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
+          `${baseUrl}/novels-service/v1/admin/novels/${novelId}`
         )
         .then((res) => {
           setInputData({
@@ -64,7 +65,7 @@ export default function NovelForm() {
 
   const postHandle = () => {
     axios
-      .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+      .post(`${baseUrl}/novels-service/v1/admin/novels`, {
         title: inputData.title,
         author: inputData.author,
         grade: inputData.grade,
@@ -89,7 +90,7 @@ export default function NovelForm() {
   const putHandle = () => {
     axios
       .put(
-        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`,
+        `${baseUrl}/novels-service/v1/admin/novels/${novelId}`,
         {
           title: inputData.title,
           author: inputData.author,

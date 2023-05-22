@@ -11,7 +11,7 @@ import EpisodeInput from "@/components/ui/admin/EpisodeInput";
 import EpisodeSelect from "@/components/ui/admin/EpisodeSelect";
 import EpisodeTextArea from "@/components/ui/admin/EpisodeTextArea";
 import EpisodeDatePicker from "@/components/ui/admin/EpisodeDatePicker";
-
+import Config from "@/configs/config.export";
 const { TextArea } = Input;
 
 export default function EpisodeForm() {
@@ -19,7 +19,7 @@ export default function EpisodeForm() {
   const novelId = router.query.novel;
   console.log("router.query.novel", router.query);
   const epiId = router.query.episode;
-
+  const baseUrl = Config().baseUrl;
   const [inputData, setInputData] = useState<episodeInputType>({
     title: "",
     content: "",
@@ -33,7 +33,7 @@ export default function EpisodeForm() {
     if (epiId !== undefined) {
       axios
         .get(
-          `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${epiId}`
+          `${baseUrl}/novels-service/v1/admin/episodes/${epiId}`
         )
         .then((res) => {
           setInputData({
@@ -53,7 +53,7 @@ export default function EpisodeForm() {
   };
   const postHandle = () => {
     axios
-      .post(`http://43.200.189.164:8000/novels-service/v1/admin/episodes`, {
+      .post(`${baseUrl}/novels-service/v1/admin/episodes`, {
         title: inputData.title,
         content: inputData.content,
         registration: inputData.registration,
@@ -70,7 +70,7 @@ export default function EpisodeForm() {
   const putHandle = () => {
     axios
       .put(
-        `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${epiId}`,
+        `${baseUrl}/novels-service/v1/admin/episodes/${epiId}`,
         {
           title: inputData.title,
           content: inputData.content,

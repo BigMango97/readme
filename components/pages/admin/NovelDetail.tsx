@@ -18,7 +18,7 @@ const normFile = (e: any) => {
 export default function NovelDetail() {
   const router = useRouter();
   const novelId = router.query.novelId;
-
+  const baseUrl = Config().baseUrl;
   const [novelData, setNovelData] = useState<novelType>({
     id: 0,
     title: "",
@@ -39,7 +39,7 @@ export default function NovelDetail() {
     else {
       axios
         .get(
-          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
+          `${baseUrl}/novels-service/v1/admin/novels/${novelId}`
         )
         .then((res) => {
           console.log("res.data = ", res.data);

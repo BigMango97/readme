@@ -10,7 +10,6 @@ import {
   novelType,
 } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
-
 import AdminButton from "./AdminButton";
 import Config from "@/configs/config.export";
 
@@ -26,10 +25,10 @@ export default function NovelList({ data }: any) {
   const moveNovelForm = () => {
     router.push("/admin/novelForm");
   };
-
+  const baseUrl = Config().baseUrl;
   const deleteHandle = (id: number) => {
     axios
-      .delete(`http://43.200.189.164:8000/novels-service/v1/admin/novels/${id}`)
+      .delete(`${baseUrl}0/novels-service/v1/admin/novels/${id}`)
       .then((res) => {
         console.log(res);
       });
@@ -38,7 +37,6 @@ export default function NovelList({ data }: any) {
     router.push(`/admin/novels/${id}`);
   };
 
-  const baseUrl = Config().baseUrl;
   useEffect(() => {
     let url = "";
     if (select === "title") {

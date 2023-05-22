@@ -12,11 +12,12 @@ import {
   episodeTableType,
   episodeType,
 } from "@/types/admin/episodeType";
+import Config from "@/configs/config.export";
 
 export default function EpisodeList() {
   const router = useRouter();
   const novelId = router.query.novelId;
-
+  const baseUrl = Config().baseUrl;
   const [data1, setData1] = useState<episodeListType>();
   const moveEpisodeDetail = (id: number) => {
     router.push(`/admin/novels/${novelId}/episodes/${id}`);
@@ -28,7 +29,7 @@ export default function EpisodeList() {
   const deleteHandle = (id: number) => {
     axios
       .delete(
-        `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${id}`
+        `${baseUrl}/novels-service/v1/admin/episodes/${id}`
       )
       .then((res) => {
         console.log(res);
@@ -38,7 +39,7 @@ export default function EpisodeList() {
     if (!router.isReady) return;
     axios
       .get(
-        `http://43.200.189.164:8000/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
+        `${baseUrl}/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
       )
       .then((res) => {
         console.log(res.data.data.contents);
@@ -192,9 +193,10 @@ export default function EpisodeList() {
   );
 }
 export async function getServerSideProps() {
+  const baseUrl = Config().baseUrl;
   // Fetch data from external API
   const res = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/admin/novels`
+    `${baseUrl}/novels-service/v1/admin/novels`
   );
   //console.log("레스  = ", res);
   //const resData = await res.data;

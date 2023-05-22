@@ -6,8 +6,9 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import Config from "@/configs/config.export";
 export default function MainSchedule(props: { id: number; name: string }) {
+  const baseUrl = Config().baseUrl;
   const [scheduleCard, setScheduleCard] = useState<eventCardListType[]>([]);
   const settings = {
     infinite: true, //무한 반복 옵션
@@ -23,7 +24,7 @@ export default function MainSchedule(props: { id: number; name: string }) {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://43.200.189.164:8000/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
+          `${baseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
         );
         setScheduleCard(res.data.data);
       } catch (err) {

@@ -9,13 +9,14 @@ import RecentSearchItems from "@/components/pages/search/RecentSearchItems";
 import RecommendTop from "@/components/pages/search/RecommendTop";
 import RecommendItems from "@/components/pages/search/RecommendItems";
 import Footer from "@/components/layouts/Footer";
-
+import Config from "@/configs/config.export";
 interface ErrorType extends Error {
   message: string;
 }
+const baseUrl = Config().baseUrl;
 const fetchKeyword = async (keyword: string) => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/sections-service/v1/cards/novels/search?keyword=${keyword}`
+    `${baseUrl}/sections-service/v1/cards/novels/search?keyword=${keyword}`
   );
   return response;
 };
@@ -47,7 +48,6 @@ export default function Search() {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-  console.log("datadata", data);
   return (
     <>
       <SearchBox data={data?.data.novelCardsData} />
