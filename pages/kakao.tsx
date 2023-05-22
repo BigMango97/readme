@@ -22,7 +22,7 @@ export default function Kakao() {
   useEffect(() => {
     if (code !== undefined) {
       axios
-        .get(`https://api.readme.life/v1/user/login?code=${code}`)
+        .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
         .then((res) => {
           console.log(JSON.stringify(res.headers));
           console.log("res.headers ", res.headers);
