@@ -9,11 +9,6 @@ import { useCallback, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useRecoilState } from "recoil";
 
-// interface ResponseType {
-//   ok: boolean;
-//   error?: any;
-// }
-
 export default function Kakao() {
   const router = useRouter();
   const code = router.query.code;
@@ -26,26 +21,22 @@ export default function Kakao() {
   useEffect(() => {
     if (code !== undefined) {
       axios.get(`${baseUrl}/login/kakao?code=${code}`).then((res) => {
-        console.log("@@@" + JSON.stringify(res));
         console.log(JSON.stringify(res.headers));
-        // let sessionStorage = window.sessionStorage;
-        // sessionStorage.setItem("userId", res.data.data.userId);
-        // sessionStorage.setItem("refreshToken", res.headers.refreshtoken);
-        // sessionStorage.setItem("nickname", res.data.data.name);
+        console.log("res.headers ", res.headers);
 
-        let myLogin = localStorage;
-        myLogin.setItem("userId", res.data.data.userId);
-        myLogin.setItem("refreshToken", res.headers.refreshtoken);
-        myLogin.setItem("nickname", res.data.data.name);
+        // let myLogin = localStorage;
+        // myLogin.setItem("userId", res.data.data.userId);
+        // myLogin.setItem("refreshToken", res.headers.refreshtoken);
+        // myLogin.setItem("nickname", res.data.data.name);
 
-        setLoginCheck(true);
-        //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${res.headers.accesstoken}`;
+        // setLoginCheck(true);
+        // //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `Bearer ${res.headers.accesstoken}`;
 
-        //refreshToken 쿠키에 저장
-        setCookie("id", res.headers.refreshtoken, { path: "/" });
+        // //refreshToken 쿠키에 저장
+        // setCookie("id", res.headers.refreshtoken, { path: "/" });
         router.push("/mypage");
       });
     }
@@ -70,3 +61,21 @@ export default function Kakao() {
   //     console.log("Not logged in.");
   //   });
 }
+// const onSilentRefresh = () => {
+//   axios
+//     .post("/silent-refresh", data)
+//     .then(onLoginSuccess)
+//     .catch((error) => {
+//       // ... 로그인 실패 처리
+//     });
+//   const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
+//   const onLoginSuccess = (response: any) => {
+//     const { accessToken } = response.data;
+
+//     // accessToken 설정
+//     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+//     // accessToken 만료하기 1분 전에 로그인 연장
+//     setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
+//   };
+// };

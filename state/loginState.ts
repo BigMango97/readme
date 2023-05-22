@@ -5,3 +5,7 @@ export const loginCheckState = atom<boolean>({
     key: 'loginCheckState',
     default: false
 })
+export const userDataState = atom<boolean>({
+    key: 'userDataState',
+    default: false
+})

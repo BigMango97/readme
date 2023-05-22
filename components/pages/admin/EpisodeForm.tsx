@@ -19,8 +19,8 @@ const { TextArea } = Input;
 export default function EpisodeForm() {
   const router = useRouter();
   const novelId = router.query.novel;
-
   const epiId = router.query.episode;
+
   const baseUrl = Config().baseUrl;
   const [inputData, setInputData] = useState<episodeInputType>({
     title: "",
@@ -52,7 +52,8 @@ export default function EpisodeForm() {
     router.push(`/admin/novels/${novelId}`);
   };
   const postHandle = () => {
-    console.log("content = ", inputData.content);
+    //console.log("content = ", inputData.content);
+    //console.log("novelId = ", novelId);
     axios
       .post(`${baseUrl}/novels-service/v1/admin/episodes`, {
         title: inputData.title,
@@ -70,19 +71,20 @@ export default function EpisodeForm() {
   };
 
   const putHandle = () => {
-    axios
-      .put(`${baseUrl}/novels-service/v1/admin/episodes/${epiId}`, {
-        title: inputData.title,
-        content: inputData.content,
-        registration: inputData.registration,
-        createDate: inputData.createDate,
-        updateDate: inputData.updateDate,
-        free: inputData.free,
-        status: inputData.status,
-      })
-      .then((res) => {
-        router.push(`/admin/novels/${novelId}`);
-      });
+    axios.put(`${baseUrl}/novels-service/v1/admin/episodes/${epiId}`, {
+      title: inputData.title,
+      content: inputData.content,
+      registration: inputData.registration,
+      createDate: inputData.createDate,
+      updateDate: inputData.updateDate,
+      free: inputData.free,
+      status: inputData.status,
+    });
+    // .then((res) => {
+    //   console.log(`novelId = ${novelId}`);
+    //   router.push(`/admin/novels/${novelId}`);
+    // });
+    router.push(`/admin/novels/${novelId}`);
   };
   return (
     <>
@@ -127,11 +129,6 @@ export default function EpisodeForm() {
 
           <div className={style.normal}>
             <Form.Item label="컨텐츠 (소설내용)" style={{ width: 1600 }}>
-              {/* <EpisodeTextArea
-                rows={4}
-                inputData={inputData}
-                setInputData={setInputData}
-              /> */}
               <EpisodeEditor
                 inputData={inputData}
                 setInputData={setInputData}
