@@ -7,7 +7,11 @@ import axios from "axios";
 import { novelListType, novelType } from "@/types/admin/novelType";
 import { NextPageContext } from "next";
 import dayjs from "dayjs";
-import { episodeListType, episodeType } from "@/types/admin/episodeType";
+import {
+  episodeListType,
+  episodeTableType,
+  episodeType,
+} from "@/types/admin/episodeType";
 
 export default function EpisodeList() {
   const router = useRouter();
@@ -47,7 +51,7 @@ export default function EpisodeList() {
 
   const columns: ColumnsType<episodeType> = [
     {
-      key: "번호",
+      //key: "번호",
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
@@ -55,7 +59,7 @@ export default function EpisodeList() {
       render: (_, { id }) => <>{id}</>,
     },
     {
-      key: "제목",
+      //key: "제목",
       dataIndex: "제목",
       title: "제목",
       filters: [
@@ -79,7 +83,7 @@ export default function EpisodeList() {
     },
 
     {
-      key: "등록일",
+      //key: "등록일",
       dataIndex: "등록일",
       title: "등록일",
       sorter: (a, b) => Number(a.createDate) - Number(b.createDate),
@@ -87,7 +91,7 @@ export default function EpisodeList() {
       render: (_, { createDate }) => <>{createDate}</>,
     },
     {
-      key: "수정일",
+      //key: "수정일",
       dataIndex: "수정일",
       title: "수정일",
       sorter: (a, b) => Number(a.updateDate) - Number(b.updateDate),
@@ -95,7 +99,7 @@ export default function EpisodeList() {
       render: (_, { updateDate }) => <>{updateDate}</>,
     },
     {
-      key: "무료/유료",
+      //key: "무료/유료",
       dataIndex: "무료/유료",
       title: "무료/유료",
       filters: [
@@ -116,7 +120,7 @@ export default function EpisodeList() {
       render: (_, { free }) => <>{free ? "무료" : "유료"}</>,
     },
     {
-      key: "회차상태",
+      //key: "회차상태",
       dataIndex: "회차상태",
       title: "회차상태",
       filters: [
@@ -136,14 +140,14 @@ export default function EpisodeList() {
       render: (_, { status }) => <>{status}</>,
     },
     {
-      key: "수정",
+      //key: "수정",
       dataIndex: "수정",
       title: "수정",
       width: "5%",
       render: (_, { id }) => <EditOutlined onClick={() => moveEditForm(id)} />,
     },
     {
-      key: "삭제",
+      //key: "삭제",
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",
@@ -162,12 +166,26 @@ export default function EpisodeList() {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  const data2: episodeType[] | undefined = data1?.episodeList;
+  const dataSource: episodeTableType[] = [];
+  data1?.episodeList.map((item) => {
+    dataSource.push({
+      key: item.id,
+      id: item.id,
+      novelId: item.novelId,
+      title: item.title,
+      content: item.content,
+      registration: item.registration,
+      createDate: item.createDate,
+      updateDate: item.updateDate,
+      free: item.free,
+      status: item.status,
+    });
+  });
 
   return (
     <Table
       columns={columns}
-      dataSource={data2}
+      dataSource={dataSource}
       onChange={onChange}
       style={{ fontSize: "1rem" }}
     />

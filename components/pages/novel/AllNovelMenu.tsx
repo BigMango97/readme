@@ -59,26 +59,9 @@ export default function AllNovelMenu() {
           <div />
         </div>
         <div className={style.novelSubMenu}>
-        {category === "요일" ? (
-          <ul className={style.novelSubMenuList}>
-            {subDayMenu.map((item) => (
-              <li
-                key={item.id}
-                onClick={() => selectsubHandler(category, item.title)}
-                className={`${
-                  subCategory === item.title
-                    ? style.novelSubMenuBoxActive
-                    : style.novelSubMenuBox
-                }`}
-              >
-                {item.title}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul className={style.novelSubMenuList}>
-            {subStatusMenu.map((item) => (
-              <>
+          {category === "요일" ? (
+            <ul className={style.novelSubMenuList}>
+              {subDayMenu.map((item) => (
                 <li
                   key={item.id}
                   onClick={() => selectsubHandler(category, item.title)}
@@ -90,13 +73,27 @@ export default function AllNovelMenu() {
                 >
                   {item.title}
                 </li>
-              </>
-            ))}
-          </ul>
-        )}
+              ))}
+            </ul>
+          ) : (
+            <ul className={style.novelSubMenuList}>
+              {subStatusMenu.map((item) => (
+                <li
+                  key={item.id}
+                  onClick={() => selectsubHandler(category, item.title)}
+                  className={`${
+                    subCategory === item.title
+                      ? style.novelSubMenuBoxActive
+                      : style.novelSubMenuBox
+                  }`}
+                >
+                  {item.title}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-      </div>
-     
     </>
   );
 }
