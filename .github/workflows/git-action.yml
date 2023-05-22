@@ -24,9 +24,6 @@ jobs:
       - name: npm evn install
         run: npm install env-cmd
         
-      - name: npm install quill
-        run: npm install react-quill --save
-        
       - name: npm build
         run: npm run build
 
