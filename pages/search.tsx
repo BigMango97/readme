@@ -35,7 +35,7 @@ export default function Search() {
         console.log(error.message);
       },
       select: (data) => {
-        return data.data.data.novelCardsData;
+        return data.data;
       },
       enabled: !!keyword,
       cacheTime: Infinity,
@@ -47,10 +47,10 @@ export default function Search() {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-
+  console.log("datadata", data);
   return (
     <>
-      <SearchBox data={data} />
+      <SearchBox data={data?.data.novelCardsData} />
       {!data && (
         <>
           <RecentSearchTop />
