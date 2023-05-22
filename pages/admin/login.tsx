@@ -7,7 +7,6 @@ export default function login() {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
-  const [collapsed, setCollapsed] = useState(false); //지우기
 
   return (
     <div className={style.container}>

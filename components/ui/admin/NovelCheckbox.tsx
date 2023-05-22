@@ -1,6 +1,7 @@
 import React from "react";
 import { Checkbox } from "antd";
 import { novelInputType } from "@/types/admin/novelType";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 export default function NovelCheckbox(props: {
   inputData: novelInputType;
@@ -15,7 +16,7 @@ export default function NovelCheckbox(props: {
     { label: "토", value: 6 },
     { label: "일", value: 7 },
   ];
-  const changeCheckHandle = (checkedValues: number[]) => {
+  const changeCheckHandle = (checkedValues: CheckboxValueType[]) => {
     const days: string[] = [];
     checkedValues.map((item) => {
       let strDay: string = "";
