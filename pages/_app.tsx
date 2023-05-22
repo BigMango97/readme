@@ -5,6 +5,7 @@ import { ReactElement, ReactNode, useEffect } from "react";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "react-query/devtools";
+import axios from "axios";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -18,12 +19,12 @@ declare global {
     Kakao: any;
   }
 }
+//axios.defaults.withCredentials = true;
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppPropsWithLayout
-) {
+}: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const queryClient = new QueryClient({
     defaultOptions: {

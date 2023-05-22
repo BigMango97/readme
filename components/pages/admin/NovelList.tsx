@@ -28,7 +28,7 @@ export default function NovelList({ data }: any) {
   const baseUrl = Config().baseUrl;
   const deleteHandle = (id: number) => {
     axios
-      .delete(`${baseUrl}0/novels-service/v1/admin/novels/${id}`)
+      .delete(`${baseUrl}/novels-service/v1/admin/novels/${id}`)
       .then((res) => {
         console.log(res);
       });
