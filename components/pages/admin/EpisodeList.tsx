@@ -17,20 +17,19 @@ import Config from "@/configs/config.export";
 export default function EpisodeList() {
   const router = useRouter();
   const novelId = router.query.novelId;
+
   const baseUrl = Config().baseUrl;
   const [data1, setData1] = useState<episodeListType>();
   const moveEpisodeDetail = (id: number) => {
     router.push(`/admin/novels/${novelId}/episodes/${id}`);
   };
   const moveEditForm = (id: number) => {
-    router.push(`/admin/episodeForm?id=${id}`);
+    router.push(`/admin/episodeForm?novel=${novelId}&episode=${id}`);
   };
 
   const deleteHandle = (id: number) => {
     axios
-      .delete(
-        `${baseUrl}/novels-service/v1/admin/episodes/${id}`
-      )
+      .delete(`${baseUrl}/novels-service/v1/admin/episodes/${id}`)
       .then((res) => {
         console.log(res);
       });
@@ -195,9 +194,7 @@ export default function EpisodeList() {
 export async function getServerSideProps() {
   const baseUrl = Config().baseUrl;
   // Fetch data from external API
-  const res = await axios.get(
-    `${baseUrl}/novels-service/v1/admin/novels`
-  );
+  const res = await axios.get(`${baseUrl}/novels-service/v1/admin/novels`);
   //console.log("레스  = ", res);
   //const resData = await res.data;
   //console.log("sssr = ", data3);

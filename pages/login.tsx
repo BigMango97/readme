@@ -26,13 +26,6 @@ export default function Login() {
       window.Kakao.init(jsKey);
       console.log(window.Kakao.isInitialized());
     }
-    // if (typeof window !== undefined) {
-    //   const Kakao = window.Kakao;
-    //   if (Kakao && !Kakao.isInitialized()) {
-    //     Kakao.init(jsKey);
-    //     console.log(Kakao.isInitialized());
-    //   }
-    // }
   }, []);
 
   const kakaoLogin = () => {
