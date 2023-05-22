@@ -21,6 +21,9 @@ jobs:
       - name: npm install
         run: npm install
         
+      - name: npm evn install
+        run: npm install env-cmd
+        
       - name: npm build
         run: npm run build
 
