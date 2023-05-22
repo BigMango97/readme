@@ -1,5 +1,5 @@
 import Config from "@/configs/config.export";
-import { loginCheckState } from "@/state/loginState";
+import { loginCheckState, userDataState } from "@/state/loginState";
 //import { userLoginState } from "@/state/atom/userLoginState";
 import axios from "axios";
 import { NextPage } from "next";
@@ -16,6 +16,7 @@ export default function Kakao() {
   const baseUrl = Config().baseUrl;
   const [cookies, setCookie, removeCookie] = useCookies(["id"]);
   const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
+  const [userData, setUserData] = useRecoilState(userDataState);
 
   console.log(code);
   useEffect(() => {

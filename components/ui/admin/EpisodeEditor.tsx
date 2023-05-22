@@ -1,6 +1,6 @@
 import { episodeInputType } from "@/types/admin/episodeType";
 import { Dispatch, SetStateAction, useMemo, useRef } from "react";
-import ReactQuill from "react-quill";
+//import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 // props 타입정의
@@ -8,6 +8,12 @@ type QuillEditorProps = {
   inputData: episodeInputType;
   setInputData: Dispatch<SetStateAction<episodeInputType>>;
 };
+
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 
 const EpisodeEditor = ({ inputData, setInputData }: QuillEditorProps) => {
   const quillRef = useRef(null);
@@ -49,7 +55,7 @@ const EpisodeEditor = ({ inputData, setInputData }: QuillEditorProps) => {
   return (
     <>
       <ReactQuill
-        ref={quillRef}
+        //ref={quillRef}
         value={inputData.content}
         onChange={(e) =>
           setInputData({

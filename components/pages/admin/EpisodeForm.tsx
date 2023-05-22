@@ -9,12 +9,15 @@ import { episodeInputType } from "@/types/admin/episodeType";
 import NovelInput from "@/components/ui/admin/NovelInput";
 import EpisodeInput from "@/components/ui/admin/EpisodeInput";
 import EpisodeSelect from "@/components/ui/admin/EpisodeSelect";
-import EpisodeTextArea from "@/components/ui/admin/EpisodeTextArea";
+
 import EpisodeDatePicker from "@/components/ui/admin/EpisodeDatePicker";
 import Config from "@/configs/config.export";
 import EpisodeEditor from "@/components/ui/admin/EpisodeEditor";
 import dynamic from "next/dynamic";
+
 const { TextArea } = Input;
+
+//const EpisodeEditor = dynamic(() => import('@/components/pages/admin/EpisodeForm'), { ssr: false });
 
 export default function EpisodeForm() {
   const router = useRouter();

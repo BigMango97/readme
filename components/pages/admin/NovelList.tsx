@@ -75,20 +75,20 @@ export default function NovelList({ data }: any) {
       //key: "제목",
       dataIndex: "제목",
       title: "제목",
-      filters: [
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string | number | boolean, record) =>
-        record.title.startsWith(value.toLocaleString()),
+      // filters: [
+      //   {
+      //     text: "Category 1",
+      //     value: "Category 1",
+      //   },
+      //   {
+      //     text: "Category 2",
+      //     value: "Category 2",
+      //   },
+      // ],
+      // filterMode: "tree",
+      // filterSearch: true,
+      // onFilter: (value: string | number | boolean, record) =>
+      //   record.title.startsWith(value.toLocaleString()),
       width: "13%",
       render: (_, { id, title }) => (
         <div onClick={() => moveNovelDetail(id)}>{title}</div>
