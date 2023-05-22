@@ -3,6 +3,7 @@ import style from "@/components/ui/Login.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
+
 declare global {
   interface Window {
     naver: any;

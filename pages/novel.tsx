@@ -10,10 +10,11 @@ import {
   QueryClientProvider,
   dehydrate,
 } from "react-query";
-
+import Config from "@/configs/config.export";
+const baseUrl = Config().baseUrl;
 const novelMenus = async () => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/main-category`
+    `${baseUrl}/novels-service/v1/main-category`
   );
   return response.data;
 };
@@ -22,7 +23,7 @@ const novelDatas = async (
   subCategory: string
 ): Promise<AxiosResponse> => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
+    `${baseUrl}/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
   );
   return response.data;
 };

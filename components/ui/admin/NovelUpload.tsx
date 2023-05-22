@@ -5,6 +5,7 @@ import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { novelInputType } from "@/types/admin/novelType";
 import axios from "axios";
+import Config from "@/configs/config.export";
 export default function NovelUpload(props: {
   inputData: novelInputType;
   setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
@@ -13,13 +14,13 @@ export default function NovelUpload(props: {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result as string));
     reader.readAsDataURL(img);
-
+    const baseUrl = Config().baseUrl;
     const formData = new FormData();
     formData.append("multipartFile", img);
     try {
       //
       const imageRes = await axios.post(
-        `http://43.200.189.164:8000/novels-service/s3/file`,
+        `${baseUrl}/novels-service/s3/file`,
         formData,
         {
           // 헤더에 보낼 파일의 타입이 multipart라 말해줘야 한다. 이미지 파일은 크기 때문에 부분으로 나눠서 보내기 때문

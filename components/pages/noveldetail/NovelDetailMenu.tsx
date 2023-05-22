@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import axios from "axios";
 import { episodeCardDataType } from "@/types/model/mainDataType";
+import Config from "@/configs/config.export";
 export interface menuType {
   id: number;
   title: string;
@@ -27,12 +28,13 @@ export default function NovelDetailMenu(props: {
   const menuTitle = router.query;
   const [episodes, setEpisodes] = useState<episodeCardDataType[] | []>([]);
   const [loading, setLoading] = useState(true);
+  const baseUrl = Config().baseUrl;
   useEffect(() => {
     if (menuTitle.menu === "에피소드" && menuTitle.novelId) {
       setLoading(true);
       axios
         .get(
-          `http://43.200.189.164:8000/sections-service/v1/cards/episodes/${menuTitle.novelId}`
+          `${baseUrl}/sections-service/v1/cards/episodes/${menuTitle.novelId}`
         )
         .then((res) => {
           setEpisodes(res.data.data.episodes);
