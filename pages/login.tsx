@@ -39,9 +39,9 @@ export default function Login() {
     if (!window.Kakao.isInitialized()) return;
     //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
-      redirectUri: `http://readme.life/kakao`, //수정필요
-      scope:
-        "name, profile_image, account_email, gender, birthyear, phone_number",
+      redirectUri: `http://readme.life/kakao`,
+      // scope:
+      //   "name, profile_image, account_email, gender, birthyear, phone_number",
     });
   };
   return (
