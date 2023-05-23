@@ -85,3 +85,10 @@ export interface episodeCardDataType {
   starRating: number;
   isNew: boolean;
 }
+
+export interface viewerData {
+  id:number;
+  title:string;
+  content:string;
+  registration:string;
+}
