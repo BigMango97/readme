@@ -1,45 +1,25 @@
 import React from "react";
 import style from "@/components/pages/point/PointBottom.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
+import { listAmountData } from "@/data/amountData";
 
 export default function pointBottom() {
+  const clickMoney = () => {
+    //결제진행
+  };
   return (
     <>
       <div className={style.container}>
         <div className={style.box}>
-          <div className={style.text}>
-            <p>P 1500</p>
-            <span>1,800</span>
-          </div>
-          <LineSeparator colorline="grayline" />
-        </div>
-        <div className={style.box}>
-          <div className={style.text}>
-            <p>P 3000</p>
-            <span>3,200</span>
-          </div>
-          <LineSeparator colorline="grayline" />
-        </div>
-        <div className={style.box}>
-          <div className={style.text}>
-            <p>P 5000</p>
-            <span>5,100</span>
-          </div>
-          <LineSeparator colorline="grayline" />
-        </div>
-        <div className={style.box}>
-          <div className={style.text}>
-            <p>P 5000</p>
-            <span>5,100</span>
-          </div>
-          <LineSeparator colorline="grayline" />
-        </div>
-        <div className={style.box}>
-          <div className={style.text}>
-            <p>P 5000</p>
-            <span>5,100</span>
-          </div>
-          <LineSeparator colorline="grayline" />
+          {listAmountData.map((item) => (
+            <>
+              <div className={style.text}>
+                <p>P {item.point}</p>
+                <span>{item.amount.toLocaleString("en")}</span>
+              </div>
+              <LineSeparator colorline="grayline" />
+            </>
+          ))}
         </div>
       </div>
     </>
