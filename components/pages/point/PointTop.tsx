@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "@/components/pages/point/PointTop.module.css";
 import Image from "next/image";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 export default function PointTop() {
+  //useEffect(() => {});
+  const router = useRouter();
+  const closeHandle = () => {
+    router.back();
+  };
+
+  const notServiceHandle = () => {
+    Swal.fire("지원하지 않는 서비스 입니다.");
+  };
   return (
     <>
       <div className={style.container}>
@@ -14,7 +25,7 @@ export default function PointTop() {
               alt="close"
               width={30}
               height={30}
-              priority
+              onClick={closeHandle}
             />
           </div>
         </div>
@@ -28,28 +39,28 @@ export default function PointTop() {
             alt="close"
             width={60}
             height={60}
-            priority
+            onClick={notServiceHandle}
           />
           <Image
             src="/assets/images/switch.png"
             alt="close"
             width={60}
             height={60}
-            priority
+            onClick={notServiceHandle}
           />
           <Image
             src="/assets/images/cash.png"
             alt="close"
             width={60}
             height={60}
-            priority
+            onClick={notServiceHandle}
           />
           <Image
             src="/assets/images/qr.png"
             alt="close"
             width={60}
             height={60}
-            priority
+            onClick={notServiceHandle}
           />
         </div>
       </div>

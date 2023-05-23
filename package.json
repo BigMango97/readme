@@ -42,5 +42,8 @@
     "@tanstack/eslint-plugin-query": "^4.29.8",
     "@tanstack/react-query-devtools": "^4.29.7",
     "@types/react-slick": "^0.23.10"
-  }
+  },
+  
+  "proxy": "https://kapi.kakao.com"
+  
 }

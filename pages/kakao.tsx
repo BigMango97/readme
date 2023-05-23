@@ -24,10 +24,6 @@ export default function Kakao() {
       axios
         .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
         .then((res) => {
-          console.log("res.headers ", res.headers);
-          console.log("res1111111111", res.headers.accesstoken);
-          console.log("name", res.data.data.name);
-
           let myLogin = localStorage;
           myLogin.setItem("accessToken", res.headers.accesstoken);
           myLogin.setItem("uuid", res.headers.uuid);
