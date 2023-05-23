@@ -24,22 +24,21 @@ export default function Kakao() {
       axios
         .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
         .then((res) => {
-          console.log(JSON.stringify(res.headers));
           console.log("res.headers ", res.headers);
+          console.log("res.data ", res);
 
-          // let myLogin = localStorage;
-          // myLogin.setItem("userId", res.data.data.userId);
+          let myLogin = localStorage;
+          myLogin.setItem("accessToken", res.headers.tI.accesstoken);
           // myLogin.setItem("refreshToken", res.headers.refreshtoken);
           // myLogin.setItem("nickname", res.data.data.name);
 
-          // setLoginCheck(true);
+          setLoginCheck(true);
           // //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
           // axios.defaults.headers.common[
           //   "Authorization"
           // ] = `Bearer ${res.headers.accesstoken}`;
 
-          // //refreshToken 쿠키에 저장
-          // setCookie("id", res.headers.refreshtoken, { path: "/" });
+          setCookie("id", res.headers.tI.accesstoken, { path: "/" });
           router.push("/mypage");
         });
     }
