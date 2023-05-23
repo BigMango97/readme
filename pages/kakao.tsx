@@ -14,7 +14,7 @@ export default function Kakao() {
   const code = router.query.code;
 
   const baseUrl = Config().baseUrl;
-  const [cookies, setCookie, removeCookie] = useCookies(["id"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
   const [userData, setUserData] = useRecoilState(userDataState);
 
@@ -35,12 +35,8 @@ export default function Kakao() {
           myLogin.setItem("age", res.data.data.age);
 
           setLoginCheck(true);
-          // //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
-          // axios.defaults.headers.common[
-          //   "Authorization"
-          // ] = `Bearer ${res.headers.accesstoken}`;
 
-          setCookie("id", res.headers.accesstoken, { path: "/" });
+          setCookie("accessToken", res.headers.accesstoken, { path: "/" });
           router.push("/mypage");
         });
     }
