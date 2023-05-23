@@ -23,6 +23,8 @@ export default function PointCharge() {
       }).then((result) => {
         if (result.isConfirmed) {
           router.push("/login");
+        } else {
+          router.back();
         }
       });
     }

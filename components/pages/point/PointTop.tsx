@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "@/components/pages/point/PointTop.module.css";
 import Image from "next/image";
 
 export default function PointTop() {
+  useEffect(() => {});
+
   return (
     <>
       <div className={style.container}>

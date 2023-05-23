@@ -8,7 +8,7 @@ export default function PointMiddle() {
       <div className={style.container}>
         <div className={style.amount}>
           <LineSeparator colorline="grayline" />
-          <p>충전 캐시 금액을 입력하세요</p>
+          <p>충전 캐시 금액을 클릭하세요</p>
           <span>50,000</span>
           <LineSeparator colorline="grayline" />
         </div>
