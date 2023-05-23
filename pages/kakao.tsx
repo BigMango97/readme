@@ -29,8 +29,9 @@ export default function Kakao() {
 
           let myLogin = localStorage;
           myLogin.setItem("accessToken", res.headers.tI.accesstoken);
-          // myLogin.setItem("refreshToken", res.headers.refreshtoken);
-          // myLogin.setItem("nickname", res.data.data.name);
+          myLogin.setItem("accessToken", res.headers.tI.uuid);
+          myLogin.setItem("name", res.data.data.data.name);
+          myLogin.setItem("age", res.data.data.data.age);
 
           setLoginCheck(true);
           // //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
@@ -43,25 +44,6 @@ export default function Kakao() {
         });
     }
   }, [code]);
-  // window.Kakao.API.request({
-  //   url: "/v2/user/me",
-  //   data: {
-  //     property_keys: ["kakao_account.email", "kakao_account.gender"],
-  //   },
-  // })
-  //   .then(function (res: any) {
-  //     console.log(res);
-  //   })
-  //   .catch(function (err: any) {
-  //     console.log(err);
-  //   });
-  // window.Kakao.Auth.logout()
-  //   .then(function (res: any) {
-  //     console.log(window.Kakao.Auth.getAccessToken()); // null
-  //   })
-  //   .catch(function (err: any) {
-  //     console.log("Not logged in.");
-  //   });
 }
 // const onSilentRefresh = () => {
 //   axios
