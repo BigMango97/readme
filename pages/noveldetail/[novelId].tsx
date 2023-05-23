@@ -11,7 +11,7 @@ import Config from "@/configs/config.export";
 export default function Novel() {
   const [data, setData] = useState<allDetailDatatype>();
   const router = useRouter();
-  const [novelId, setNovelId] = useState(Number(router.query.novelId));
+  const [novelId, setnovelId] = useState(Number(router.query.novelId));
   const baseUrl = Config().baseUrl;
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +27,7 @@ export default function Novel() {
     if (novelId) {
       fetchData();
     }
-  }, [novelId]);
+  }, [baseUrl,novelId]);
 
   return (
     <>
