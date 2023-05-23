@@ -25,11 +25,12 @@ export default function Kakao() {
         .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
         .then((res) => {
           console.log("res.headers ", res.headers);
-          console.log("res.data ", res);
+          console.log("res1111111111", res.headers.tI.accesstoken);
+          console.log("res1111111111", res.headers.tI);
 
           let myLogin = localStorage;
           myLogin.setItem("accessToken", res.headers.tI.accesstoken);
-          myLogin.setItem("accessToken", res.headers.tI.uuid);
+          myLogin.setItem("uuid", res.headers.tI.uuid);
           myLogin.setItem("name", res.data.data.data.name);
           myLogin.setItem("age", res.data.data.data.age);
 

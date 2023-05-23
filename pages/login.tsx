@@ -33,8 +33,6 @@ export default function Login() {
     //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
       redirectUri: `https://readme.life/kakao`,
-      // scope:
-      //   "name, profile_image, account_email, gender, birthyear, phone_number",
     });
   };
   return (
