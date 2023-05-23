@@ -46,7 +46,7 @@ export default function Login() {
             height={80}
             priority
           />
-          <p>로그인 후 이용해주세요</p>
+          <p>로그인 후 이용할 수 있는 서비스 입니다</p>
 
           <div className={style.naverBtn}>
             <div id="naverIdLogin" />
