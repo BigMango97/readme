@@ -26,13 +26,13 @@ export default function Kakao() {
         .then((res) => {
           console.log("res.headers ", res.headers);
           console.log("res1111111111", res.headers.accesstoken);
-          console.log("name", res.data.data.data.name);
+          console.log("name", res.data.data.name);
 
           let myLogin = localStorage;
-          myLogin.setItem("accessToken", res.headers.tI.accesstoken);
-          myLogin.setItem("uuid", res.headers.tI.uuid);
-          myLogin.setItem("name", res.data.data.data.name);
-          myLogin.setItem("age", res.data.data.data.age);
+          myLogin.setItem("accessToken", res.headers.accesstoken);
+          myLogin.setItem("uuid", res.headers.uuid);
+          myLogin.setItem("name", res.data.data.name);
+          myLogin.setItem("age", res.data.data.age);
 
           setLoginCheck(true);
           // //api 콜 마다 헤더에 accessToken 담아 보내도록 설정
@@ -40,7 +40,7 @@ export default function Kakao() {
           //   "Authorization"
           // ] = `Bearer ${res.headers.accesstoken}`;
 
-          setCookie("id", res.headers.tI.accesstoken, { path: "/" });
+          setCookie("id", res.headers.accesstoken, { path: "/" });
           router.push("/mypage");
         });
     }
