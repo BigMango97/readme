@@ -1,5 +1,5 @@
 import { payState } from "@/state/payState";
-import axios from "axios";
+import axios from "@/configs/axiosConfig";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
