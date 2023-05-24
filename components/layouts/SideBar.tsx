@@ -13,7 +13,7 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   let type = "";
-  router.query.type ? (type = router.query.type.toString()) : (type = "");
+  router.query.type ? (type = router.query.type.toString()) : (type = "1");
 
   const clickMenuHandler = (item: any) => {
     router.push(`/admin/main?type=${item.key}`);

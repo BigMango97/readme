@@ -5,22 +5,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 
 export default function Login() {
-  //const router = useRouter();
-  //const baseUrl = Config().baseUrl;
-
-  // const initKakao = () => {
-  //   const jsKey = "3c5fd0d61672a00438664be501823461";
-  //   if (typeof window !== undefined) {
-  //     const Kakao = window.Kakao;
-  //     if (Kakao && !Kakao.isInitialized()) {
-  //       Kakao.init(jsKey);
-  //       console.log(Kakao.isInitialized());
-  //     }
-  //   }
-  // };
-
   useEffect(() => {
-    //initKakao();
     const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(jsKey);
@@ -32,7 +17,8 @@ export default function Login() {
     if (!window.Kakao.isInitialized()) return;
     //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
-      redirectUri: `https://readme.life/kakao`,
+      //redirectUri: `https://readme.life/kakao`,
+      redirectUri: `http://localhost:3000/kakao`,
     });
   };
   return (

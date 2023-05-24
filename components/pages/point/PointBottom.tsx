@@ -5,8 +5,12 @@ import { listAmountData } from "@/data/amountData";
 import axios from "@/configs/axiosConfig";
 
 export default function pointBottom() {
-  const clickMoney = (point1: number) => {
-    axios.get(`/users-service/v1/payments/ready`);
+  //const uuid = localStorage.getItem("uuid");
+  const clickMoney = (point: number) => {
+    axios.post(`/users-service/v1/payments/ready`, {
+      point: point,
+      uuid: "11",
+    });
   };
   return (
     <>
@@ -17,6 +21,7 @@ export default function pointBottom() {
               <div
                 className={style.text}
                 onClick={() => clickMoney(item.point)}
+                key={item.id}
               >
                 <p>P {item.point}</p>
                 <span>{item.amount.toLocaleString("en")}</span>
