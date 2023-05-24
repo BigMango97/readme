@@ -57,13 +57,11 @@ export default function NovelList({ data }: any) {
   };
 
   useEffect(() => {
-
     console.log(data);
     setNovelData({
-      novelList: data.data.contents
-      });
+      novelList: data.data.contents,
     });
-  }, []);
+  });
 
   // useEffect(() => {
   //   let url = "";

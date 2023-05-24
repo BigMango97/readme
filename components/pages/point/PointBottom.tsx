@@ -2,10 +2,11 @@ import React from "react";
 import style from "@/components/pages/point/PointBottom.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { listAmountData } from "@/data/amountData";
+import axios from "@/configs/axiosConfig";
 
 export default function pointBottom() {
-  const clickMoney = () => {
-    //결제진행
+  const clickMoney = (point1: number) => {
+    axios.get(`/users-service/v1/payments/ready`);
   };
   return (
     <>
@@ -13,7 +14,10 @@ export default function pointBottom() {
         <div className={style.box}>
           {listAmountData.map((item) => (
             <>
-              <div className={style.text}>
+              <div
+                className={style.text}
+                onClick={() => clickMoney(item.point)}
+              >
                 <p>P {item.point}</p>
                 <span>{item.amount.toLocaleString("en")}</span>
               </div>
