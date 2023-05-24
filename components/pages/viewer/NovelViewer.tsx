@@ -21,19 +21,17 @@ export default function NovelViewer(props: { viewerData: string }) {
   const [xNumber, setXNumber] = React.useState<number>(0);
   const [yNumber, setYNumber] = React.useState<number>(0);
   const [targetId, setTargetId] = React.useState<number>(0);
-  console.log('textDatatextDatatextDatatextDatatextData',textData)
   const emojiList = [
     { id: 1, emoji: "😀", count: 0 },
     { id: 2, emoji: "🤣", count: 0 },
     { id: 3, emoji: "😨", count: 0 },
   ];
-
   const [isEmojiPanelVisible, setIsEmojiPanelVisible] = useState(false);
 
   const closeEmojiPanel = () => {
     setIsEmojiPanelVisible(false);
   };
-  
+
   const targetHandler = (id: number, event: React.TouchEvent<HTMLDivElement>) => {
     console.log("click", id);
     setTargetId(id);
@@ -77,11 +75,13 @@ export default function NovelViewer(props: { viewerData: string }) {
         targetRef.current.removeEventListener("touchmove", touchMoveHandler);
       }
     };
-  }, [targetRef.current]);
+  }, []);
 
   const touchMoveHandler = (e: TouchEvent) => {
-    setXNumber(e.touches[0].clientX);
-    setYNumber(e.touches[0].clientY);
+    if (e.touches && e.touches.length > 0) {
+      setXNumber(e.touches[0].clientX);
+      setYNumber(e.touches[0].clientY);
+    }
   };
 
   const handleAddEmoji = (emojiId: number) => {

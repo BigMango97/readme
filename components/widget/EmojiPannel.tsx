@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./EmojiPannel.module.css";
 
 interface Emoji {
@@ -14,74 +14,80 @@ interface EmojiPannelProps {
 
 export default function EmojiPannel(props: EmojiPannelProps) {
   const { xNumber, yNumber, emojiHandler } = props;
-
   const data: Emoji[] = [
     { id: 1, emoji: "😀" },
     { id: 2, emoji: "🤣" },
     { id: 3, emoji: "😨" },
   ];
+
   const [position, setPosition] = useState<{ x: number; y: number }>({
     x: xNumber,
     y: yNumber,
   });
-  console.log("position", position);
+  const [isPanelVisible, setIsPanelVisible] = useState(true);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleMove = (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+    if (event instanceof MouseEvent) {
+      setPosition({ x: event.clientX, y: event.clientY });
+    } else {
+      setPosition({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+    }
+  };
 
   useEffect(() => {
-    const handleMove = (event: MouseEvent | TouchEvent) => {
-      setPosition((prevPosition) => {
-        if (event instanceof MouseEvent) {
-          return { x: event.pageX, y: event.pageY - window.scrollY };
-        } else {
-          return {
-            x: event.touches[0].pageX,
-            y: event.touches[0].pageY - window.scrollY,
-          };
-        }
-      });
-    };
-  
     window.addEventListener("mousemove", handleMove as any);
     window.addEventListener("touchmove", handleMove as any);
-  
+
     return () => {
       window.removeEventListener("mousemove", handleMove as any);
       window.removeEventListener("touchmove", handleMove as any);
     };
   }, []);
 
-  const [isPanelVisible, setIsPanelVisible] = useState(true);
-
-  const handleScroll = () => {
-    window.removeEventListener("scroll", handleScroll);
+  const handleClick = (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+    if (panelRef.current) {
+      const rect = panelRef.current.getBoundingClientRect();
+      const offsetX = rect.width / 2;
+      const offsetY = rect.height / 2;
+      if (event instanceof MouseEvent) {
+        setPosition({ x: event.clientX - offsetX, y: event.clientY - offsetY });
+      } else {
+        setPosition({ x: event.touches[0].clientX - offsetX, y: event.touches[0].clientY - offsetY });
+      }
+    }
   };
 
   useEffect(() => {
-    const handleTouchMove = (event: TouchEvent) => {
-      setPosition({ x: event.touches[0].pageX, y: event.touches[0].pageY - window.scrollY });
-    };
-    window.addEventListener("touchmove", handleTouchMove);
-
     const handleRender = () => {
-      const emojiWrapElement = document.getElementById("emojiWrap");
-      if (emojiWrapElement) {
-        emojiWrapElement.style.left = `${position.x}px`;
-        emojiWrapElement.style.top = `${position.y}px`;
+      if (panelRef.current) {
+        const rect = panelRef.current.getBoundingClientRect();
+        const offsetX = rect.width / 2;
+        const offsetY = rect.height / 2;
+        setPosition((prevPosition) => ({
+          x: prevPosition.x - offsetX,
+          y: prevPosition.y - offsetY,
+        }));
       }
     };
     handleRender();
-
-    return () => {
-      window.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [position]);
+  }, []);
 
   return (
     <div
+      ref={panelRef}
       id="emojiWrap"
       className={`${style.emojiWrap} ${
         isPanelVisible ? style.visible : style.hidden
       }`}
-      style={{ position: "absolute" }}
+      style={{
+        position: "fixed",
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+      }}
+    
     >
       {data.map((item) => (
         <div
