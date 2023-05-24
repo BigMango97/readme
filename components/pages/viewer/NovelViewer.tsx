@@ -21,7 +21,7 @@ export default function NovelViewer(props: { viewerData: string }) {
   const [xNumber, setXNumber] = React.useState<number>(0);
   const [yNumber, setYNumber] = React.useState<number>(0);
   const [targetId, setTargetId] = React.useState<number>(0);
-
+console.log('textDatatextDatatextDatatextDatatextData',textData)
   const emojiList = [
     { id: 1, emoji: "😀", count: 0 },
     { id: 2, emoji: "🤣", count: 0 },
@@ -39,9 +39,9 @@ export default function NovelViewer(props: { viewerData: string }) {
     setIsEmojiPanelVisible(true);
   };
 
-  const mouseMoveHandler = (e: MouseEvent) => {
-    setXNumber(e.pageX);
-    setYNumber(e.pageY);
+  const touchMoveHandler  = (e: TouchEvent) => {
+    setXNumber(e.touches[0].pageX);
+    setYNumber(e.touches[0].pageY);
   };
 
   const emojiHandler = (id: number) => {
@@ -72,11 +72,11 @@ export default function NovelViewer(props: { viewerData: string }) {
 
   useEffect(() => {
     if (targetRef.current) {
-      targetRef.current.addEventListener("mousemove", mouseMoveHandler);
+      targetRef.current.addEventListener("touchmove", touchMoveHandler);
     }
     return () => {
       if (targetRef.current) {
-        targetRef.current.removeEventListener("mousemove", mouseMoveHandler);
+        targetRef.current.removeEventListener("touchmove", touchMoveHandler);
       }
     };
   }, [targetRef.current]);
