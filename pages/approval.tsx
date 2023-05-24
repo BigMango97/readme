@@ -9,10 +9,12 @@ export default function Approval() {
   const pg_token = router.query.pg_token;
   const [payData, setPayData] = useRecoilState(payState);
 
-  console.log("pg_token", router.query.pg_token);
+  console.log("pg_token1", pg_token);
   useEffect(() => {
     if (pg_token !== undefined) {
-      console.log("pg_token", pg_token);
+      console.log("pg_token2", pg_token);
+      console.log("payData.tid", payData.tid);
+      console.log("payData.partnerOrderId", payData.partnerOrderId);
       axios
         .post(`/payments-service/v1/payments/approve`, {
           tid: payData.tid,
@@ -24,7 +26,7 @@ export default function Approval() {
           console.log(res);
         });
     }
-  }, []);
+  }, [pg_token]);
 
   return <div>approval</div>;
 }
