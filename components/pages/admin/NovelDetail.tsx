@@ -34,6 +34,24 @@ export default function NovelDetail() {
     tags: [],
   });
 
+  // console.log(data.data);
+  // useEffect(() => {
+  //   setNovelData({
+  //     id: data.data.id,
+  //     title: data.data.title,
+  //     author: data.data.author,
+  //     grade: data.data.grade,
+  //     genre: data.data.genre,
+  //     serializationStatus: data.data.serializationStatus,
+  //     authorComment: data.data.authorComment,
+  //     serializationDay: data.data.serializationDay,
+  //     startDate: data.data.startDate,
+  //     description: data.data.description,
+  //     thumbnail: data.data.thumbnail,
+  //     tags: data.data.tags,
+  //   });
+  // }, []);
+
   useEffect(() => {
     if (!router.isReady) return;
     else {

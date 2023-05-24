@@ -76,6 +76,7 @@ export default function EpisodeForm() {
   const putHandle = () => {
     axios.put(`${baseUrl}/novels-service/v1/admin/episodes/${epiId}`, {
       title: inputData.title,
+      novelsId: novelId,
       content: inputData.content,
       registration: inputData.registration,
       createDate: inputData.createDate,

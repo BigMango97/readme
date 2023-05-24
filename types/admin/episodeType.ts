@@ -10,7 +10,6 @@ export interface episodeType{
     updateDate : Dayjs;
     free : boolean;
     status : string;
-
 }
 export interface episodeInputType{
     title : string;
