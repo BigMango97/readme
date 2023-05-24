@@ -7,7 +7,7 @@ import axios from "@/configs/axiosConfig";
 export default function pointBottom() {
   //const uuid = localStorage.getItem("uuid");
   const clickMoney = (point: number) => {
-    axios.post(`/users-service/v1/payments/ready`, {
+    axios.post(`/payments-service/v1/payments/ready`, {
       point: point,
       uuid: "11",
     });
