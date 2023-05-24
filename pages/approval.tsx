@@ -7,14 +7,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function Approval() {
   const router = useRouter();
   const pg_token = router.query.pg_token;
+  const payData = useRecoilValue(payState);
 
   console.log("pg_token1", pg_token);
   useEffect(() => {
     // const tid = localStorage.getItem("tid");
     // const partnerOrderId = localStorage.getItem("partnerOrderId");
-    const payData = useRecoilValue(payState);
-
-    if (pg_token !== undefined) {
+    if (pg_token !== undefined && payData !== undefined) {
       console.log("pg_token2", pg_token);
       console.log("payData.tid", payData.tid);
       console.log("payData.partnerOrderId", payData.partnerOrderId);
@@ -29,7 +28,7 @@ export default function Approval() {
           console.log(res);
         });
     }
-  }, [pg_token]);
+  }, [pg_token, payData]);
 
   return <div>approval</div>;
 }
