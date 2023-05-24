@@ -7,18 +7,20 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function Approval() {
   const router = useRouter();
   const pg_token = router.query.pg_token;
-  const payData = useRecoilValue(payState);
+  //const payData = useRecoilValue(payState);
+  const tid = localStorage.getItem("tid");
+  const partnerOrderId = localStorage.getItem("partnerOrderId");
 
   console.log("pg_token1", pg_token);
   useEffect(() => {
     if (pg_token !== undefined) {
       console.log("pg_token2", pg_token);
-      console.log("payData.tid", payData.tid);
-      console.log("payData.partnerOrderId", payData.partnerOrderId);
+      console.log("payData.tid", tid);
+      console.log("payData.partnerOrderId", partnerOrderId);
       axios
         .post(`/payments-service/v1/payments/approve`, {
-          tid: payData.tid,
-          partnerOrderId: payData.partnerOrderId,
+          tid: tid,
+          partnerOrderId: partnerOrderId,
           uuid: "11",
           pgToken: pg_token,
         })
