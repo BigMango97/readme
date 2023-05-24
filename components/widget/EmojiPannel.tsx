@@ -27,38 +27,39 @@ export default function EmojiPannel(props: EmojiPannelProps) {
   console.log("position", position);
 
   useEffect(() => {
-    setPosition({ x: xNumber, y: yNumber }); // 이 부분 추가
-  }, [xNumber, yNumber]);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setPosition({ x: event.pageX, y: event.pageY - window.scrollY });
+    const handleMove = (event: MouseEvent | TouchEvent) => {
+      setPosition((prevPosition) => {
+        if (event instanceof MouseEvent) {
+          return { x: event.pageX, y: event.pageY - window.scrollY };
+        } else {
+          return {
+            x: event.touches[0].pageX,
+            y: event.touches[0].pageY - window.scrollY,
+          };
+        }
+      });
     };
-    window.addEventListener("mousemove", handleMouseMove);
-
+  
+    window.addEventListener("mousemove", handleMove as any);
+    window.addEventListener("touchmove", handleMove as any);
+  
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMove as any);
+      window.removeEventListener("touchmove", handleMove as any);
     };
   }, []);
 
   const [isPanelVisible, setIsPanelVisible] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+  const handleScroll = () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setPosition({ x: event.pageX, y: event.pageY - window.scrollY });
+    const handleTouchMove = (event: TouchEvent) => {
+      setPosition({ x: event.touches[0].pageX, y: event.touches[0].pageY - window.scrollY });
     };
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove);
 
     const handleRender = () => {
       const emojiWrapElement = document.getElementById("emojiWrap");
@@ -70,9 +71,10 @@ export default function EmojiPannel(props: EmojiPannelProps) {
     handleRender();
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, [position]);
+
   return (
     <div
       id="emojiWrap"
@@ -86,6 +88,7 @@ export default function EmojiPannel(props: EmojiPannelProps) {
           key={item.id}
           className={style.emoji}
           onClick={() => emojiHandler(item.id)}
+          onTouchStart={() => emojiHandler(item.id)}
         >
           {item.emoji}
         </div>
