@@ -1,11 +1,11 @@
 import Config from "@/configs/config.export";
 import { loginCheckState, userDataState } from "@/state/loginState";
 //import { userLoginState } from "@/state/atom/userLoginState";
-import axios from "axios";
-import { NextPage } from "next";
+import axios from "@/configs/axiosConfig";
+
 import { useRouter } from "next/router";
-import { resolve } from "path/posix";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
+
 import { useCookies } from "react-cookie";
 import { useRecoilState } from "recoil";
 
@@ -13,10 +13,9 @@ export default function Kakao() {
   const router = useRouter();
   const code = router.query.code;
 
-  const baseUrl = Config().baseUrl;
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
-  const [userData, setUserData] = useRecoilState(userDataState);
+  //const [userData, setUserData] = useRecoilState(userDataState);
 
   console.log(code);
   useEffect(() => {
@@ -33,26 +32,11 @@ export default function Kakao() {
           setLoginCheck(true);
 
           setCookie("accessToken", res.headers.accesstoken, { path: "/" });
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${res.headers.accesstoken}`;
           router.push("/mypage");
         });
     }
   }, [code]);
 }
-// const onSilentRefresh = () => {
-//   axios
-//     .post("/silent-refresh", data)
-//     .then(onLoginSuccess)
-//     .catch((error) => {
-//       // ... 로그인 실패 처리
-//     });
-//   const JWT_EXPIRY_TIME = 24 * 3600 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
-//   const onLoginSuccess = (response: any) => {
-//     const { accessToken } = response.data;
-
-//     // accessToken 설정
-//     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-
-//     // accessToken 만료하기 1분 전에 로그인 연장
-//     setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
-//   };
-// };

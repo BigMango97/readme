@@ -7,7 +7,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios from "@/configs/axiosConfig";
 import {
   novelListType,
   novelTableType,
@@ -57,9 +57,11 @@ export default function NovelList({ data }: any) {
   };
 
   useEffect(() => {
+
     console.log(data);
     setNovelData({
-      novelList: data.data.contents,
+      novelList: data.data.contents
+      });
     });
   }, []);
 
