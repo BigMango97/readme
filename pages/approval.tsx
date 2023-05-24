@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
-export default function approval() {
+export default function Approval() {
   const router = useRouter();
   const pg_token = router.query.pg_token;
   const [payData, setPayData] = useRecoilState(payState);

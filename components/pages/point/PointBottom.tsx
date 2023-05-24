@@ -6,7 +6,7 @@ import axios from "@/configs/axiosConfig";
 import { useRecoilState } from "recoil";
 import { payState } from "@/state/payState";
 
-export default function pointBottom() {
+export default function PointBottom() {
   //const uuid = localStorage.getItem("uuid");
   const [payData, setPayData] = useRecoilState(payState);
   const clickMoney = (point: number) => {
