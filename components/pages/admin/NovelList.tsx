@@ -3,7 +3,7 @@ import type { ColumnsType, TableProps } from "antd/es/table";
 import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios from "@/configs/axiosConfig";
 import {
   novelListType,
   novelTableType,
@@ -40,11 +40,11 @@ export default function NovelList({ data }: any) {
   useEffect(() => {
     let url = "";
     if (select === "title") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
+      url = `/novels-service/v1/admin/novels?title=${search}`;
     } else if (select === "author") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
+      url = `/novels-service/v1/admin/novels?author=${search}`;
     } else {
-      url = `${baseUrl}/novels-service/v1/admin/novels`;
+      url = `/novels-service/v1/admin/novels`;
     }
 
     axios.get(url).then((res) => {
