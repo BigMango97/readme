@@ -1,0 +1,12 @@
+.emojiWrap {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #f5f5f5;
+    border: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 110px; 
+    z-index: 1;
+  }
