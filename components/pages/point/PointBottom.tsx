@@ -16,20 +16,13 @@ export default function PointBottom() {
         uuid: "11",
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data.tid);
         setPayData({
           tid: res.data.data.tid,
           partnerOrderId: res.data.data.partner_order_id,
         });
-        window.open(res.data.data.next_redirect_pc_url);
 
-        // axios.post(`/payments-service/v1/payments/approve`, {
-        //   partner_order_id: res.data.data.partner_order_id,
-        //   tid: res.data.data.tid,
-        // });
-        // res.data.data
-        // partner_order_id
-        // tid
+        window.open(res.data.data.next_redirect_pc_url);
       });
   };
   return (
