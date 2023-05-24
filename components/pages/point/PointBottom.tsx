@@ -31,17 +31,16 @@ export default function PointBottom() {
       <div className={style.container}>
         <div className={style.box}>
           {listAmountData.map((item) => (
-            <>
+            <div key={item.id}>
               <div
                 className={style.text}
                 onClick={() => clickMoney(item.point)}
-                key={item.id}
               >
                 <p>P {item.point}</p>
                 <span>{item.amount.toLocaleString("en")}</span>
               </div>
               <LineSeparator colorline="grayline" />
-            </>
+            </div>
           ))}
         </div>
       </div>
