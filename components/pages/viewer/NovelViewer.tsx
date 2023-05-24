@@ -134,10 +134,10 @@ const ListView = (props: {
   const [isView, setIsView] = useState(false);
   const emojiList = props.data.emojiList || [];
 
-  const listHandler = () => {
+  const listHandler = (event: React.TouchEvent<HTMLDivElement>) => {
     if (props.data.content !== "<br>") {
       setIsView(!isView);
-      props.targetHandler(props.data.id);
+      props.targetHandler(props.data.id, event);
     }
   };
 
