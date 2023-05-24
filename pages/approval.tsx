@@ -2,12 +2,12 @@ import { payState } from "@/state/payState";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function Approval() {
   const router = useRouter();
   const pg_token = router.query.pg_token;
-  const [payData, setPayData] = useRecoilState(payState);
+  const payData = useRecoilValue(payState);
 
   console.log("pg_token1", pg_token);
   useEffect(() => {

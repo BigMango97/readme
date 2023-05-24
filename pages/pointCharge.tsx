@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import { RecoilRoot } from "recoil";
 
 export default function PointCharge() {
   const [cookies] = useCookies(["accessToken"]);
@@ -17,9 +18,11 @@ export default function PointCharge() {
 
   return (
     <>
-      <PointTop />
-      <PointMiddle />
-      <PointBottom />
+      <RecoilRoot>
+        <PointTop />
+        <PointMiddle />
+        <PointBottom />
+      </RecoilRoot>
     </>
   );
 }
