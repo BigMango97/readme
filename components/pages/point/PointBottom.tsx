@@ -21,7 +21,8 @@ export default function PointBottom() {
           tid: res.data.data.tid,
           partnerOrderId: res.data.data.partner_order_id,
         });
-
+        localStorage.setItem("tid", res.data.data.tid);
+        localStorage.setItem("partnerOrderId", res.data.data.partner_order_id);
         window.open(res.data.data.next_redirect_pc_url);
       });
   };
