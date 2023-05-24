@@ -18,11 +18,9 @@ export default function PointCharge() {
 
   return (
     <>
-      <RecoilRoot>
-        <PointTop />
-        <PointMiddle />
-        <PointBottom />
-      </RecoilRoot>
+      <PointTop />
+      <PointMiddle />
+      <PointBottom />
     </>
   );
 }
