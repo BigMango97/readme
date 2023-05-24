@@ -21,7 +21,7 @@ export default function NovelViewer(props: { viewerData: string }) {
   const [xNumber, setXNumber] = React.useState<number>(0);
   const [yNumber, setYNumber] = React.useState<number>(0);
   const [targetId, setTargetId] = React.useState<number>(0);
-console.log('textDatatextDatatextDatatextDatatextData',textData)
+  console.log('textDatatextDatatextDatatextDatatextData',textData)
   const emojiList = [
     { id: 1, emoji: "😀", count: 0 },
     { id: 2, emoji: "🤣", count: 0 },
@@ -33,15 +33,13 @@ console.log('textDatatextDatatextDatatextDatatextData',textData)
   const closeEmojiPanel = () => {
     setIsEmojiPanelVisible(false);
   };
-  const targetHandler = (id: number) => {
+  
+  const targetHandler = (id: number, event: React.TouchEvent<HTMLDivElement>) => {
     console.log("click", id);
     setTargetId(id);
     setIsEmojiPanelVisible(true);
-  };
-
-  const touchMoveHandler  = (e: TouchEvent) => {
-    setXNumber(e.touches[0].pageX);
-    setYNumber(e.touches[0].pageY);
+    setXNumber(event.touches[0].clientX);
+    setYNumber(event.touches[0].clientY);
   };
 
   const emojiHandler = (id: number) => {
@@ -80,6 +78,11 @@ console.log('textDatatextDatatextDatatextDatatextData',textData)
       }
     };
   }, [targetRef.current]);
+
+  const touchMoveHandler = (e: TouchEvent) => {
+    setXNumber(e.touches[0].clientX);
+    setYNumber(e.touches[0].clientY);
+  };
 
   const handleAddEmoji = (emojiId: number) => {
     const updatedTextData = textData.map((item) => {
@@ -155,7 +158,7 @@ const ListView = (props: {
 
   return (
     <>
-      <div className={style.emojiContainer} onClick={listHandler}>
+      <div className={style.emojiContainer} onTouchStart={listHandler}>
         <span
           dangerouslySetInnerHTML={{
             __html: props.data.content
