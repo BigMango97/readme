@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import style from "@/components/pages/noveldetail/ViewerPage.module.css";
-import { useRouter } from "next/router";
 import EmojiPannel from "@/components/widget/EmojiPannel";
 
 interface NovelViewerProps {
@@ -32,12 +31,21 @@ export default function NovelViewer(props: { viewerData: string }) {
     setIsEmojiPanelVisible(false);
   };
 
-  const targetHandler = (id: number, event: React.TouchEvent<HTMLDivElement>) => {
+  const targetHandler = (
+    id: number,
+    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+  ) => {
     console.log("click", id);
     setTargetId(id);
     setIsEmojiPanelVisible(true);
-    setXNumber(event.touches[0].clientX);
-    setYNumber(event.touches[0].clientY);
+
+    if ("touches" in event) {
+      setXNumber(event.touches[0].clientX);
+      setYNumber(event.touches[0].clientY);
+    } else {
+      setXNumber(event.clientX);
+      setYNumber(event.clientY);
+    }
   };
 
   const emojiHandler = (id: number) => {
@@ -59,7 +67,6 @@ export default function NovelViewer(props: { viewerData: string }) {
     const handleScroll = () => {
       closeEmojiPanel();
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -77,10 +84,17 @@ export default function NovelViewer(props: { viewerData: string }) {
     };
   }, []);
 
-  const touchMoveHandler = (e: TouchEvent) => {
-    if (e.touches && e.touches.length > 0) {
-      setXNumber(e.touches[0].clientX);
-      setYNumber(e.touches[0].clientY);
+  const touchMoveHandler = (e: TouchEvent | MouseEvent) => {
+    if ("touches" in e) {
+      // TouchEvent인 경우
+      if (e.touches && e.touches.length > 0) {
+        setXNumber(e.touches[0].clientX);
+        setYNumber(e.touches[0].clientY);
+      }
+    } else {
+      // MouseEvent인 경우
+      setXNumber(e.clientX);
+      setYNumber(e.clientY);
     }
   };
 
@@ -107,7 +121,9 @@ export default function NovelViewer(props: { viewerData: string }) {
     });
     setTextData(updatedTextData);
   };
-
+  const onHidePanel = () => {
+    setIsEmojiPanelVisible(false);
+  };
   return (
     <div ref={targetRef}>
       {isEmojiPanelVisible && (
@@ -115,6 +131,8 @@ export default function NovelViewer(props: { viewerData: string }) {
           xNumber={xNumber}
           yNumber={yNumber}
           emojiHandler={emojiHandler}
+          isEmojiPanelVisible={isEmojiPanelVisible}
+          onHidePanel={onHidePanel}
         />
       )}
       <ul className={style.novelViewWrap}>
@@ -134,7 +152,9 @@ const ListView = (props: {
   const [isView, setIsView] = useState(false);
   const emojiList = props.data.emojiList || [];
 
-  const listHandler = (event: React.TouchEvent<HTMLDivElement>) => {
+  const listHandler = (
+    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+  ) => {
     if (props.data.content !== "<br>") {
       setIsView(!isView);
       props.targetHandler(props.data.id, event);
@@ -158,7 +178,11 @@ const ListView = (props: {
 
   return (
     <>
-      <div className={style.emojiContainer} onTouchStart={listHandler}>
+      <div
+        className={style.emojiContainer}
+        onTouchStart={listHandler}
+        onMouseDown={listHandler}
+      >
         <span
           dangerouslySetInnerHTML={{
             __html: props.data.content

@@ -10,10 +10,12 @@ interface EmojiPannelProps {
   xNumber: number;
   yNumber: number;
   emojiHandler: (id: number) => void;
+  isEmojiPanelVisible: boolean;
+  onHidePanel: () => void;
 }
 
 export default function EmojiPannel(props: EmojiPannelProps) {
-  const { xNumber, yNumber, emojiHandler } = props;
+  const { xNumber, yNumber, emojiHandler, isEmojiPanelVisible, onHidePanel } = props;
   const data: Emoji[] = [
     { id: 1, emoji: "😀" },
     { id: 2, emoji: "🤣" },
@@ -24,20 +26,7 @@ export default function EmojiPannel(props: EmojiPannelProps) {
     x: xNumber,
     y: yNumber,
   });
-  const [isPanelVisible, setIsPanelVisible] = useState(true);
   const panelRef = useRef<HTMLDivElement>(null);
-
-  const handleMove = (event: TouchEvent) => {
-    event.preventDefault();
-  };
-
-  useEffect(() => {
-    window.addEventListener("touchmove", handleMove as any);
-
-    return () => {
-      window.removeEventListener("touchmove", handleMove as any);
-    };
-  }, []);
 
   useEffect(() => {
     const handleRender = () => {
@@ -55,22 +44,17 @@ export default function EmojiPannel(props: EmojiPannelProps) {
   }, []);
 
   useEffect(() => {
-    setIsPanelVisible(true);
-    const timer = setTimeout(() => {
-      setIsPanelVisible(false);
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+    if (!isEmojiPanelVisible) {
+      onHidePanel();
+    }
+  }, [isEmojiPanelVisible, onHidePanel]);
 
   return (
     <div
       ref={panelRef}
       id="emojiWrap"
       className={`${style.emojiWrap} ${
-        isPanelVisible ? style.visible : style.hidden
+        isEmojiPanelVisible ? style.visible : style.hidden
       }`}
       style={{
         position: "fixed",
@@ -82,8 +66,10 @@ export default function EmojiPannel(props: EmojiPannelProps) {
         <div
           key={item.id}
           className={style.emoji}
-          onClick={() => emojiHandler(item.id)}
-          onTouchStart={() => emojiHandler(item.id)}
+          onClick={() => {
+            emojiHandler(item.id);
+            onHidePanel();
+          }}
         >
           {item.emoji}
         </div>
