@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -14,41 +14,59 @@ import {
 } from "@/types/admin/episodeType";
 import Config from "@/configs/config.export";
 
-export default function EpisodeList() {
+export default function EpisodeList({ data }: any) {
   const router = useRouter();
   const novelId = router.query.novelId;
+
   const baseUrl = Config().baseUrl;
-  const [data1, setData1] = useState<episodeListType>();
+  const [epiData, setEpiData] = useState<episodeListType>();
+  const [epiState, setEpiState] = useState<string>("");
   const moveEpisodeDetail = (id: number) => {
     router.push(`/admin/novels/${novelId}/episodes/${id}`);
   };
   const moveEditForm = (id: number) => {
-    router.push(`/admin/episodeForm?id=${id}`);
+    router.push(`/admin/episodeForm?novel=${novelId}&episode=${id}`);
   };
 
   const deleteHandle = (id: number) => {
     axios
-      .delete(
-        `${baseUrl}/novels-service/v1/admin/episodes/${id}`
-      )
+      .delete(`${baseUrl}/novels-service/v1/admin/episodes/${id}`)
       .then((res) => {
-        console.log(res);
+        if (epiData !== undefined) {
+          const newData = epiData.episodeList.map((item: episodeType) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                status: "삭제",
+              };
+            }
+            return item;
+          });
+          setEpiData({ episodeList: newData });
+        }
       });
   };
   useEffect(() => {
-    if (!router.isReady) return;
-    axios
-      .get(
-        `${baseUrl}/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
-      )
-      .then((res) => {
-        console.log(res.data.data.contents);
+    setEpiData({
+      episodeList: data.data.contents,
+    });
+    //
+  }, []);
 
-        setData1({
-          episodeList: res.data.data.contents,
-        });
-      });
-  }, [router.isReady]);
+  // useEffect(() => {
+  //   if (!router.isReady) return;
+  //   axios
+  //     .get(
+  //       `${baseUrl}/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
+  //     )
+  //     .then((res) => {
+  //       console.log(res.data.data.contents);
+
+  //       setData1({
+  //         episodeList: res.data.data.contents,
+  //       });
+  //     });
+  // }, [router.isReady]);
 
   const columns: ColumnsType<episodeType> = [
     {
@@ -168,7 +186,7 @@ export default function EpisodeList() {
   };
 
   const dataSource: episodeTableType[] = [];
-  data1?.episodeList.map((item) => {
+  epiData?.episodeList.map((item) => {
     dataSource.push({
       key: item.id,
       id: item.id,
@@ -191,18 +209,4 @@ export default function EpisodeList() {
       style={{ fontSize: "1rem" }}
     />
   );
-}
-export async function getServerSideProps() {
-  const baseUrl = Config().baseUrl;
-  // Fetch data from external API
-  const res = await axios.get(
-    `${baseUrl}/novels-service/v1/admin/novels`
-  );
-  //console.log("레스  = ", res);
-  //const resData = await res.data;
-  //console.log("sssr = ", data3);
-  //const data = await res.data;
-
-  // Pass data to the page via props
-  return { props: { data: res.data } };
 }

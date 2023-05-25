@@ -3,10 +3,19 @@ import style from "@/components/pages/noveldetail/EpisodeInfo.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { episodeCardDataType } from "@/types/model/mainDataType";
 import EpisodeCard from "./EpisodeCard";
+import { useRouter } from "next/router";
+import Config from "@/configs/config.export";
+import { useEffect } from "react";
+import axios from "axios";
 export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
 }) {
   const [episodesData, setEpisodesData] = useState(props.episodes);
+  const router = useRouter();
+
+  const directVeiwPage = (index: number) => {
+    router.push(`/viewer/${index}`);
+  };
   return (
     <div className={style.container}>
       <div className={style.sortNovel}>
@@ -17,8 +26,8 @@ export default function EpisodeInfo(props: {
         </div>
       </div>
       {episodesData &&
-        episodesData.map((item) => (
-          <>
+        episodesData.map((item,index) => (
+          <div key={index} onClick={() => directVeiwPage(item.id)}>
             <EpisodeCard
               name={item.name}
               free={item.free}
@@ -26,7 +35,7 @@ export default function EpisodeInfo(props: {
               starRating={item.starRating}
               isNew={item.isNew}
             />
-          </>
+          </div>
         ))}
     </div>
   );

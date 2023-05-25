@@ -1,0 +1,21 @@
+.container{
+    width: 100%;
+    height: 20rem;
+    padding: 1rem 2rem 1rem;
+}
+.text{
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 0.6rem;
+}
+.text p{ 
+    font-size: 1rem;
+}
+.text span{
+    font-weight: bolder;
+    font-size: 1.25rem;
+    color: #03C75A;
+}
+.box{
+    padding-bottom: 0.4rem;
+}

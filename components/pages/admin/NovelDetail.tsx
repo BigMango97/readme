@@ -1,4 +1,4 @@
-import { Descriptions, Badge, Button } from "antd";
+import { Descriptions, Badge, Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import style from "@/components/pages/admin/NovelDetail.module.css";
 import dayjs from "dayjs";
@@ -34,13 +34,29 @@ export default function NovelDetail() {
     tags: [],
   });
 
+  // console.log(data.data);
+  // useEffect(() => {
+  //   setNovelData({
+  //     id: data.data.id,
+  //     title: data.data.title,
+  //     author: data.data.author,
+  //     grade: data.data.grade,
+  //     genre: data.data.genre,
+  //     serializationStatus: data.data.serializationStatus,
+  //     authorComment: data.data.authorComment,
+  //     serializationDay: data.data.serializationDay,
+  //     startDate: data.data.startDate,
+  //     description: data.data.description,
+  //     thumbnail: data.data.thumbnail,
+  //     tags: data.data.tags,
+  //   });
+  // }, []);
+
   useEffect(() => {
     if (!router.isReady) return;
     else {
       axios
-        .get(
-          `${baseUrl}/novels-service/v1/admin/novels/${novelId}`
-        )
+        .get(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`)
         .then((res) => {
           console.log("res.data = ", res.data);
           setNovelData({
@@ -64,12 +80,18 @@ export default function NovelDetail() {
     router.push(`/admin/main`);
   };
 
+  const moveEditForm = () => {
+    router.push(`/admin/episodeForm?novel=${novelData.id}`);
+  };
+
   return (
     <>
       <div className={style.container}>
         <Button type="primary" htmlType="submit" onClick={moveBack}>
           뒤로가기
         </Button>
+        <Button onClick={moveEditForm}>에피소드 등록</Button>
+
         <Descriptions title="소설 정보" bordered>
           <Descriptions.Item label="작품명" span={3}>
             {novelData.title}

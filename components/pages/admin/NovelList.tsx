@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Table, Tag } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DatabaseFilled,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios from "@/configs/axiosConfig";
 import {
   novelListType,
   novelTableType,
   novelType,
 } from "@/types/admin/novelType";
-import { NextPageContext } from "next";
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPageContext,
+} from "next";
 import AdminButton from "./AdminButton";
 import Config from "@/configs/config.export";
 
 export default function NovelList({ data }: any) {
   const router = useRouter();
-  const search = router.query.search ? router.query.search : "";
-  const select = router.query.select;
+  //const search = router.query.search ? router.query.search : "";
+  //const select = router.query.select;
 
-  const [data1, setData1] = useState<novelListType>();
+  const [novelData, setNovelData] = useState<novelListType>();
   const moveEditForm = (id: number) => {
     router.push(`/admin/novelForm?id=${id}`);
   };
@@ -28,9 +36,20 @@ export default function NovelList({ data }: any) {
   const baseUrl = Config().baseUrl;
   const deleteHandle = (id: number) => {
     axios
-      .delete(`${baseUrl}0/novels-service/v1/admin/novels/${id}`)
+      .delete(`${baseUrl}/novels-service/v1/admin/novels/${id}`)
       .then((res) => {
-        console.log(res);
+        if (novelData !== undefined) {
+          const newData = novelData.novelList.map((item: novelType) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                serializationStatus: "삭제",
+              };
+            }
+            return item;
+          });
+          setNovelData({ novelList: newData });
+        }
       });
   };
   const moveNovelDetail = (id: number) => {
@@ -38,22 +57,29 @@ export default function NovelList({ data }: any) {
   };
 
   useEffect(() => {
-    let url = "";
-    if (select === "title") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
-    } else if (select === "author") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
-    } else {
-      url = `${baseUrl}/novels-service/v1/admin/novels`;
-    }
-
-    axios.get(url).then((res) => {
-      console.log(res.data.data.contents);
-      setData1({
-        novelList: res.data.data.contents,
-      });
+    console.log(data);
+    setNovelData({
+      novelList: data.data.contents,
     });
   }, []);
+
+  // useEffect(() => {
+  //   let url = "";
+  //   if (select === "title") {
+  //     url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
+  //   } else if (select === "author") {
+  //     url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
+  //   } else {
+  //     url = `${baseUrl}/novels-service/v1/admin/novels`;
+  //   }
+
+  //   axios.get(url).then((res) => {
+  //     console.log(res.data.data.contents);
+  //     setData1({
+  //       novelList: res.data.data.contents,
+  //     });
+  //   });
+  // }, []);
 
   const columns: ColumnsType<novelType> = [
     {
@@ -75,20 +101,20 @@ export default function NovelList({ data }: any) {
       //key: "제목",
       dataIndex: "제목",
       title: "제목",
-      filters: [
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string | number | boolean, record) =>
-        record.title.startsWith(value.toLocaleString()),
+      // filters: [
+      //   {
+      //     text: "Category 1",
+      //     value: "Category 1",
+      //   },
+      //   {
+      //     text: "Category 2",
+      //     value: "Category 2",
+      //   },
+      // ],
+      // filterMode: "tree",
+      // filterSearch: true,
+      // onFilter: (value: string | number | boolean, record) =>
+      //   record.title.startsWith(value.toLocaleString()),
       width: "13%",
       render: (_, { id, title }) => (
         <div onClick={() => moveNovelDetail(id)}>{title}</div>
@@ -302,9 +328,8 @@ export default function NovelList({ data }: any) {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  //const data2: novelType[] | undefined = data1?.novelList;
   const dataSource: novelTableType[] = [];
-  data1?.novelList.map((item) => {
+  novelData?.novelList.map((item) => {
     dataSource.push({
       key: item.id,
       id: item.id,
@@ -342,16 +367,3 @@ export default function NovelList({ data }: any) {
     </>
   );
 }
-// export async function getServerSideProps() {
-//   // Fetch data from external API
-//   const res = await axios.get(
-//     `http://43.200.189.164:8000/novels-service/v1/admin/novels`
-//   );
-//   //console.log("레스  = ", res);
-//   //const resData = await res.data;
-//   //console.log("sssr = ", data3);
-//   //const data = await res.data;
-
-//   // Pass data to the page via props
-//   return { props: { data: res.data } };
-// }
