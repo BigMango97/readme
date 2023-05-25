@@ -6,7 +6,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
-
+import { useState } from "react";
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -14,27 +14,23 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
 declare global {
   interface Window {
     Kakao: any;
   }
 }
-//axios.defaults.withCredentials = true;
+
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { staleTime: Infinity },
-    },
-  });
-
-  return getLayout(
+  const [queryClient] = useState(() => new QueryClient())
+  return (
     <>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <RecoilRoot>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </RecoilRoot>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
