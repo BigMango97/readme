@@ -34,14 +34,18 @@ export default function EmojiPannel(props: EmojiPannelProps) {
         const rect = panelRef.current.getBoundingClientRect();
         const offsetX = rect.width / 2;
         const offsetY = rect.height / 2;
-        setPosition((prevPosition) => ({
-          x: prevPosition.x - offsetX,
-          y: prevPosition.y - offsetY,
-        }));
+
+        let right = props.xNumber - offsetX;
+        let top = props.yNumber - offsetY;
+
+        right += 50;
+        top -= 30;
+
+        setPosition({ x: right, y: top });
       }
     };
     handleRender();
-  }, []);
+  }, [props.xNumber, props.yNumber]);
 
   const handleClick = (id: number) => {
     emojiHandler(id);

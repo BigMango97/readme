@@ -179,9 +179,11 @@ const ListView = (props: {
   return (
     <>
     <div
-      className={style.emojiContainer}
-      onTouchStart={listHandler}
-      onMouseUp={listHandler}
+       className={style.emojiContainer}
+       onTouchStart={listHandler}
+       onTouchEnd={listHandler}
+       onMouseDown={listHandler} 
+       onMouseUp={listHandler}
     >
       <span
         dangerouslySetInnerHTML={{
