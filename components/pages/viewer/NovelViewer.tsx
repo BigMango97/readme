@@ -40,8 +40,8 @@ export default function NovelViewer(props: { viewerData: string }) {
     setIsEmojiPanelVisible(true);
 
     if ("touches" in event) {
-      setXNumber(event.touches[0].clientX);
-      setYNumber(event.touches[0].clientY);
+      setXNumber(event.changedTouches[0].clientX);
+      setYNumber(event.changedTouches[0].clientY);
     } else {
       setXNumber(event.clientX);
       setYNumber(event.clientY);
@@ -178,33 +178,33 @@ const ListView = (props: {
 
   return (
     <>
-      <div
-        className={style.emojiContainer}
-        onTouchStart={listHandler}
-        onMouseDown={listHandler}
-      >
-        <span
-          dangerouslySetInnerHTML={{
-            __html: props.data.content
-              .replace(/<p>/g, "")
-              .replace(/<\/p>/g, ""),
-          }}
-        />
-        {emojiList &&
-          emojiList.map(
-            (item: EmojiList) =>
-              item.count > 0 && (
-                <span
-                  key={item.id}
-                  className={style.emojiItem}
-                  onClick={() => handleAddEmoji(item.id)}
-                >
-                  {item.emoji}
-                  {item.count}
-                </span>
-              )
-          )}
-      </div>
-    </>
+    <div
+      className={style.emojiContainer}
+      onTouchStart={listHandler}
+      onMouseUp={listHandler}
+    >
+      <span
+        dangerouslySetInnerHTML={{
+          __html: props.data.content
+            .replace(/<p>/g, "")
+            .replace(/<\/p>/g, ""),
+        }}
+      />
+      {emojiList &&
+        emojiList.map(
+          (item: EmojiList) =>
+            item.count > 0 && (
+              <span
+                key={item.id}
+                className={style.emojiItem}
+                onClick={() => handleAddEmoji(item.id)}
+              >
+                {item.emoji}
+                {item.count}
+              </span>
+            )
+        )}
+    </div>
+  </>
   );
 };
