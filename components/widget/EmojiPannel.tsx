@@ -43,11 +43,10 @@ export default function EmojiPannel(props: EmojiPannelProps) {
     handleRender();
   }, []);
 
-  useEffect(() => {
-    if (!isEmojiPanelVisible) {
-      onHidePanel();
-    }
-  }, [isEmojiPanelVisible, onHidePanel]);
+  const handleClick = (id: number) => {
+    emojiHandler(id);
+    onHidePanel();
+  };
 
   return (
     <div
@@ -66,10 +65,7 @@ export default function EmojiPannel(props: EmojiPannelProps) {
         <div
           key={item.id}
           className={style.emoji}
-          onClick={() => {
-            emojiHandler(item.id);
-            onHidePanel();
-          }}
+          onClick={() => handleClick(item.id)}
         >
           {item.emoji}
         </div>
