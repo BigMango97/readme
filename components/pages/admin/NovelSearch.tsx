@@ -7,10 +7,10 @@ export default function NovelSearch() {
   const router = useRouter();
   const [select, setSelect] = useState<string>("title");
   const onSearch = (value: string) => {
-    const type = router.query.type;
+    const menu = router.query.menu;
     //소설검색 수정하기
-    if (type === "1" || type === undefined) {
-      router.push(`/admin/main?type=1&search=${value}&select=${select}`);
+    if (menu === "novel" || menu === undefined) {
+      router.push(`/admin/main?menu=1&search=${value}&select=${select}`);
     }
   };
 

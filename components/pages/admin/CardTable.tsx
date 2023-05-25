@@ -4,7 +4,7 @@ import { Space, Table, Tag } from "antd";
 
 interface DataType {
   번호: number;
-  썸네일: string;
+  작품명: string;
   작가: string;
   스케줄: string;
 }
@@ -19,8 +19,8 @@ const columns: ColumnsType<DataType> = [
   },
   {
     //key: "썸네일",
-    dataIndex: "썸네일",
-    title: "썸네일",
+    dataIndex: "작품명",
+    title: "작품명",
     width: "10%",
   },
   {
