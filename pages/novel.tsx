@@ -8,8 +8,6 @@ import React from "react";
 import {
   useQuery,
   QueryClient,
-  QueryClientProvider,
-  Hydrate,
   dehydrate,
 } from "react-query";
 import Config from "@/configs/config.export";
@@ -20,7 +18,6 @@ const novelMenus = async () => {
   );
   return response.data;
 };
-
 
 const novelDatas = async (
   category: string,
@@ -44,21 +41,20 @@ export default function Novel({ dehydratedState }: Props) {
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
-  const queryClient = queryClientRef.current;
 
   const novelMenusQuery = useQuery(["novelMenus"], novelMenus, {
     cacheTime: 10 * 60 * 1000,
     staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false, 
+    refetchOnWindowFocus: false,
   });
 
   const novelDatasQuery = useQuery(
     ["category", category, "subCategory", subCategory],
     () => novelDatas(category, subCategory),
     {
-      cacheTime: 10 * 60 * 1000, 
-      staleTime: 5 * 60 * 1000, 
-      refetchOnWindowFocus: false, 
+      cacheTime: 10 * 60 * 1000,
+      staleTime: 5 * 60 * 1000,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -67,11 +63,9 @@ export default function Novel({ dehydratedState }: Props) {
 
   return (
     <>
-
-          {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
-          {novelDatasResult && <AllNovelCardSection data={novelDatasResult} />}
-          <Footer />
-
+      {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
+      {novelDatasResult && <AllNovelCardSection data={novelDatasResult} />}
+      <Footer />
     </>
   );
 }
