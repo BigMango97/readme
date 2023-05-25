@@ -138,7 +138,7 @@ export default function NovelViewer(props: { viewerData: string }) {
         setXNumber(event.clientX);
         setYNumber(event.clientY);
       }
-    }, 200);
+    }, 400);
   };
 
   const handleLongPressEnd = () => {
