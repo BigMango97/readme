@@ -16,16 +16,17 @@ interface EmojiList {
 
 export default function NovelViewer(props: { viewerData: string }) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [textData, setTextData] = React.useState<NovelViewerProps[]>([]);
-  const [xNumber, setXNumber] = React.useState<number>(0);
-  const [yNumber, setYNumber] = React.useState<number>(0);
-  const [targetId, setTargetId] = React.useState<number>(0);
+  const [textData, setTextData] = useState<NovelViewerProps[]>([]);
+  const [xNumber, setXNumber] = useState<number>(0);
+  const [yNumber, setYNumber] = useState<number>(0);
+  const [targetId, setTargetId] = useState<number>(0);
   const emojiList = [
     { id: 1, emoji: "😀", count: 0 },
     { id: 2, emoji: "🤣", count: 0 },
     { id: 3, emoji: "😨", count: 0 },
   ];
   const [isEmojiPanelVisible, setIsEmojiPanelVisible] = useState(false);
+  const longPressTimerRef = useRef<number | null>(null);
 
   const closeEmojiPanel = () => {
     setIsEmojiPanelVisible(false);
@@ -121,9 +122,36 @@ export default function NovelViewer(props: { viewerData: string }) {
     });
     setTextData(updatedTextData);
   };
+
+  const handleLongPressStart = (
+    id: number,
+    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+  ) => {
+    longPressTimerRef.current = window.setTimeout(() => {
+      setTargetId(id);
+      setIsEmojiPanelVisible(true);
+
+      if ("touches" in event) {
+        setXNumber(event.changedTouches[0].clientX);
+        setYNumber(event.changedTouches[0].clientY);
+      } else {
+        setXNumber(event.clientX);
+        setYNumber(event.clientY);
+      }
+    }, 200);
+  };
+
+  const handleLongPressEnd = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
   const onHidePanel = () => {
     setIsEmojiPanelVisible(false);
   };
+
   return (
     <div ref={targetRef}>
       {isEmojiPanelVisible && (
@@ -138,7 +166,13 @@ export default function NovelViewer(props: { viewerData: string }) {
       <ul className={style.novelViewWrap}>
         {props.viewerData.length > 0 &&
           textData.map((item: NovelViewerProps) => (
-            <ListView key={item.id} data={item} targetHandler={targetHandler} />
+            <ListView
+              key={item.id}
+              data={item}
+              targetHandler={targetHandler}
+              handleLongPressStart={handleLongPressStart}
+              handleLongPressEnd={handleLongPressEnd}
+            />
           ))}
       </ul>
     </div>
@@ -148,17 +182,20 @@ export default function NovelViewer(props: { viewerData: string }) {
 const ListView = (props: {
   data: NovelViewerProps;
   targetHandler: Function;
+  handleLongPressStart: Function;
+  handleLongPressEnd: Function;
 }) => {
   const [isView, setIsView] = useState(false);
   const emojiList = props.data.emojiList || [];
 
-  const listHandler = (
+  const handleLongPress = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
   ) => {
-    if (props.data.content !== "<br>") {
-      setIsView(!isView);
-      props.targetHandler(props.data.id, event);
-    }
+    props.handleLongPressStart(props.data.id, event);
+  };
+
+  const handleRelease = () => {
+    props.handleLongPressEnd();
   };
 
   const handleAddEmoji = (emojiId: number) => {
@@ -178,35 +215,33 @@ const ListView = (props: {
 
   return (
     <>
-    <div
-       className={style.emojiContainer}
-       onTouchStart={listHandler}
-       onTouchEnd={listHandler}
-       onMouseDown={listHandler} 
-       onMouseUp={listHandler}
-    >
-      <span
-        dangerouslySetInnerHTML={{
-          __html: props.data.content
-            .replace(/<p>/g, "")
-            .replace(/<\/p>/g, ""),
-        }}
-      />
-      {emojiList &&
-        emojiList.map(
-          (item: EmojiList) =>
-            item.count > 0 && (
-              <span
-                key={item.id}
-                className={style.emojiItem}
-                onClick={() => handleAddEmoji(item.id)}
-              >
-                {item.emoji}
-                {item.count}
-              </span>
-            )
-        )}
-    </div>
-  </>
+      <div
+        className={style.emojiContainer}
+        onTouchStart={handleLongPress}
+        onTouchEnd={handleRelease}
+        onMouseDown={handleLongPress}
+        onMouseUp={handleRelease}
+      >
+        <span
+          dangerouslySetInnerHTML={{
+            __html: props.data.content.replace(/<p>/g, "").replace(/<\/p>/g, ""),
+          }}
+        />
+        {emojiList &&
+          emojiList.map(
+            (item: EmojiList) =>
+              item.count > 0 && (
+                <span
+                  key={item.id}
+                  className={style.emojiItem}
+                  onClick={() => handleAddEmoji(item.id)}
+                >
+                  {item.emoji}
+                  {item.count}
+                </span>
+              )
+          )}
+      </div>
+    </>
   );
 };
