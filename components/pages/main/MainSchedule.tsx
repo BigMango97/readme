@@ -33,7 +33,7 @@ export default function MainSchedule(props: { id: number; name: string }) {
     };
 
     fetchData();
-  }, [props.id]);
+  }, [baseUrl,props.id]);
   return (
     <div className={style.mainScheduleContainer}>
       <h3>{props.name}</h3>
@@ -53,6 +53,8 @@ export default function MainSchedule(props: { id: number; name: string }) {
                 novelId={item.novelId}
                 grade={item.grade}
                 newChecking={item.newChecking}
+                episodeCount={item.episodeCount}
+                imgSize="100%"
               />
             ))}
         </Slider>

@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import React, { useEffect, ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import style from "@/components/pages/search/SearchBox.module.css";
@@ -63,18 +63,20 @@ export default function SearchBox(props: { data: searchDataType[] }) {
               <p>{`총 ${props.data.length}건`}</p>
             </div>
             <div className={style.novelInfo}>
-              {props.data.map((index) => (
+              {props.data.map((item) => (
                 <NovelCardItem
-                  novelId={index.novelId}
-                  key={index.novelId}
-                  thumbnail={index.thumbnail}
-                  serializationStatus={index.serializationStatus}
-                  title={index.title}
-                  author={index.author}
-                  starRating={index.starRating}
-                  genre={index.genre}
-                  grade={index.grade}
-                  newChecking={index.newChecking}
+                  novelId={item.novelId}
+                  key={item.novelId}
+                  thumbnail={item.thumbnail}
+                  serializationStatus={item.serializationStatus}
+                  title={item.title}
+                  author={item.author}
+                  starRating={item.starRating}
+                  genre={item.genre}
+                  grade={item.grade}
+                  newChecking={item.newChecking}
+                  imgSize="50%"
+                  episodeCount={item.episodeCount}
                 />
               ))}
             </div>

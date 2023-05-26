@@ -8,5 +8,6 @@ export interface searchDataType {
   novelId: number;
   grade: number;
   newChecking: boolean;
+  episodeCount:number
   }
   
