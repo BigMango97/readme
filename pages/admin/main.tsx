@@ -18,14 +18,14 @@ import Config from "@/configs/config.export";
 
 const Main: NextPageWithLayout = ({ data }: any) => {
   const router = useRouter();
-  let currentTap = router.query.type;
+  let currentTap = router.query.menu;
 
   return (
     <>
       <NovelSearch />
-      {currentTap === "3" ? (
+      {currentTap === "card" ? (
         <CardList />
-      ) : currentTap === "2" ? (
+      ) : currentTap === "schedule" ? (
         <ScheduleManage />
       ) : (
         <NovelList data={data} />

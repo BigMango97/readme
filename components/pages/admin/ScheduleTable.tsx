@@ -72,7 +72,7 @@ export default function ScheduleTable() {
       // onFilter: (value: string | number | boolean, record) =>
       //   record.startDate.date,
       width: "20%",
-      render: (_, { startDate, endDate }) => <>{`${startDate}~${endDate}`}</>,
+      render: (_, { startDate, endDate }) => <>{`${startDate} ~ ${endDate}`}</>,
     },
     {
       //key: "수정",

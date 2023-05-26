@@ -71,10 +71,8 @@ export default function ScheduleModal(props: {
     }
   };
 
-  let title = "스케줄 등록";
   useEffect(() => {
     if (props.id !== 0) {
-      title = "스케줄 수정";
       axios
         .get(`${baseUrl}/sections-service/v1/admin/schedules/${props.id}`)
         .then((res) => {
@@ -91,7 +89,7 @@ export default function ScheduleModal(props: {
   return (
     <>
       <Modal
-        title={title}
+        title={props.id === 0 ? "스케줄등록" : "스케줄수정"}
         open={props.isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}

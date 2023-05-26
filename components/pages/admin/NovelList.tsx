@@ -99,8 +99,8 @@ export default function NovelList({ data }: any) {
     },
     {
       //key: "제목",
-      dataIndex: "제목",
-      title: "제목",
+      dataIndex: "작품명",
+      title: "작품명",
       // filters: [
       //   {
       //     text: "Category 1",
