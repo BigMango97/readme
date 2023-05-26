@@ -39,7 +39,9 @@ export default function Search() {
         return data.data;
       },
       enabled: !!keyword,
-      cacheTime: Infinity,
+      staleTime:  5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+
     }
   );
   if (isLoading) {
