@@ -6,7 +6,7 @@ import style from "@/components/pages/search/SearchBox.module.css";
 import { recentSearchWord } from "@/state/recentSearchWord";
 import { searchDataType } from "@/types/model/searchDataType";
 import NovelCardItem from "@/components/ui/NovelCardItem";
-import { useRef,useEffect } from "react";
+import { useRef, useEffect } from "react";
 export default function SearchBox(props: { data: searchDataType[] }) {
   const router = useRouter();
   const [searchValue, setSearchValue] = useRecoilState(recentSearchWord);
@@ -48,7 +48,6 @@ export default function SearchBox(props: { data: searchDataType[] }) {
     }
   }, [shouldFocus]);
 
-
   return (
     <>
       <div className={style.searchBoxWarp}>
@@ -68,8 +67,13 @@ export default function SearchBox(props: { data: searchDataType[] }) {
             value={inputData}
             placeholder="검색어를 입력하세요"
             onChange={handleChange}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSearchKeyword();
+              }
+            }}
             ref={inputRef}
-            autoFocus={shouldFocus} 
+            autoFocus={shouldFocus}
           />
           <div className={style.closeIcon}>
             <Image
