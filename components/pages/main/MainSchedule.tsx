@@ -1,15 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import style from "@/components/pages/main/MainSchedule.module.css";
 import NovelCardItem from "@/components/ui/NovelCardItem";
-import { eventCardListType } from "@/types/eventDataType";
 import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Config from "@/configs/config.export";
+
+import { useQuery } from "react-query";
+
 export default function MainSchedule(props: { id: number; name: string }) {
-  const baseUrl = Config().baseUrl;
-  const [scheduleCard, setScheduleCard] = useState<eventCardListType[]>([]);
+  const BaseUrl = "http://43.200.189.164:8000";
+  const scheduleData = async () => {
+    const response = await axios.get(
+      `${BaseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
+    );
+    return response.data.data;
+  };
+
+  const scheduleResultQuery = useQuery(
+    ["scheduleData", scheduleData,"props.id",props.id],
+    scheduleData,
+    {
+      staleTime: 3 * 60 * 1000,
+      cacheTime: 5 * 60 * 1000, // 5분 (밀리초 단위)
+    }
+  );
+  const scheduleResultData = scheduleResultQuery.data;
+
   const settings = {
     infinite: true, //무한 반복 옵션
     autoplay: true, //자동플레이
@@ -34,14 +51,15 @@ export default function MainSchedule(props: { id: number; name: string }) {
 
     fetchData();
   }, [baseUrl,props.id]);
+
   return (
     <div className={style.mainScheduleContainer}>
       <h3>{props.name}</h3>
 
       <div className={style.mainSchedule}>
         <Slider {...settings}>
-          {scheduleCard &&
-            scheduleCard.map((item) => (
+          {scheduleResultData &&
+            scheduleResultData.map((item: any) => (
               <NovelCardItem
                 key={item.novelId}
                 thumbnail={item.thumbnail}
