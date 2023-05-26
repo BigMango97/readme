@@ -12,6 +12,7 @@ interface Props {
   novelId?: number;
   grade: number;
   newChecking: boolean;
+  episodeCount:number
 }
 export default function NovelListItem({
   thumbnail,
@@ -23,6 +24,7 @@ export default function NovelListItem({
   novelId,
   grade,
   newChecking,
+  episodeCount
 }: Props) {
   const router = useRouter();
   const IS_READABLE_BY_All = 0;
@@ -78,7 +80,7 @@ export default function NovelListItem({
             width={15}
             height={15}
           />
-          <span>123</span>
+          <span>{episodeCount}</span>
         </div>
       </div>
     </div>

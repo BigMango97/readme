@@ -56,6 +56,8 @@ export default function AllNovelCardSection({ data }: Props) {
                 novelId={item.novelId}
                 grade={item.grade}
                 newChecking={item.newChecking}
+                episodeCount={item.episodeCount}
+                imgSize="50%"
               />
             ))}
         </div>
@@ -74,6 +76,7 @@ export default function AllNovelCardSection({ data }: Props) {
                 novelId={item.novelId}
                 grade={item.grade}
                 newChecking={item.newChecking}
+                episodeCount={item.episodeCount}
               />
             ))}
         </div>
