@@ -100,14 +100,22 @@ export default function EpisodeForm() {
           style={{ maxWidth: 1500 }}
         >
           <div className={style.normal}>
-            <Form.Item label="작품명" style={{ width: 600 }}>
+            <Form.Item
+              label="작품명"
+              style={{ width: 600 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <EpisodeInput
                 type={"title"}
                 inputData={inputData}
                 setInputData={setInputData}
               />
             </Form.Item>
-            <Form.Item label="무료/유료" style={{ width: 600 }}>
+            <Form.Item
+              label="무료/유료"
+              style={{ width: 600 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <EpisodeSelect
                 type={"free"}
                 inputData={inputData}
@@ -116,13 +124,21 @@ export default function EpisodeForm() {
             </Form.Item>
           </div>
           <div className={style.horizontal}>
-            <Form.Item label="등록일" style={{ width: 300 }}>
+            <Form.Item
+              label="등록일"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <EpisodeDatePicker
                 inputData={inputData}
                 setInputData={setInputData}
               />
             </Form.Item>
-            <Form.Item label="상태" style={{ width: 300 }}>
+            <Form.Item
+              label="상태"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <EpisodeSelect
                 type={"status"}
                 inputData={inputData}
@@ -132,7 +148,11 @@ export default function EpisodeForm() {
           </div>
 
           <div className={style.normal}>
-            <Form.Item label="컨텐츠 (소설내용)" style={{ width: 1600 }}>
+            <Form.Item
+              label="컨텐츠 (소설내용)"
+              style={{ width: 1600 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <EpisodeEditor
                 inputData={inputData}
                 setInputData={setInputData}
@@ -141,7 +161,9 @@ export default function EpisodeForm() {
           </div>
 
           <div className={style.button}>
-            <Form.Item>
+            <Form.Item
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <Space>
                 {epiId === undefined ? (
                   <Button
