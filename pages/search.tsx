@@ -25,7 +25,7 @@ export default function Search() {
   const router = useRouter();
   const keyword = router.query.keyword as string;
 
-  const { isLoading, isError, data, error } = useQuery(
+  const { isError, data, error } = useQuery(
     ["keyword", keyword],
     () => fetchKeyword(keyword),
     {
@@ -39,14 +39,10 @@ export default function Search() {
         return data.data;
       },
       enabled: !!keyword,
-      staleTime:  5 * 60 * 1000,
+      staleTime: 5 * 60 * 1000,
       cacheTime: 10 * 60 * 1000,
-
     }
   );
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
   if (isError) {
     return <span>Error: {error.message}</span>;
   }

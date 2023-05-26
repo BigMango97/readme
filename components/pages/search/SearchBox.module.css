@@ -8,17 +8,22 @@
   top: 0;
   background-color: var(--readme-white);
   z-index: 100;
+  padding: 1.5rem 1rem;
+}
+.leftArrow{
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .searchBox {
   position: relative;
   width: 100vw;
   height: 3rem;
   background: rgba(243, 243, 243, 0.5);
-  border: 1px solid var(--readme-primary);
-  border-radius: 10px;
+  border-bottom: 1px solid var(--readme-primary);
   display: flex;
   align-items: center;
-  margin: 1.5rem 1rem;
 }
 .searchBox input:focus {
   outline: none;
@@ -26,14 +31,26 @@
 }
 .inputText {
   height: 60%;
-  width: 80%;
+  width: 70%;
   text-justify: center;
   border: none;
   font-size: 1rem;
   position: absolute;
   top: 0.6rem;
-  left: 1rem;
+  left: 0.8rem;
   background-color: #f8f8f8;
+  cursor: default;
+}
+.closeIcon {
+  position: absolute;
+  right: 45px;
+  background-color:var(--readme-gray-dark);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .searchIcon {
   position: absolute;
