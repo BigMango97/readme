@@ -8,7 +8,18 @@ import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import { allDetailDatatype } from "@/types/model/mainDataType";
 import Config from "@/configs/config.export";
+import { useCookies } from "react-cookie";
+import Login from "../login";
+import isLogin from "@/configs/isLogin";
+
 export default function Novel() {
+  const [cookies] = useCookies(["accessToken"]);
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      router.push("/login");
+    }
+  }, []);
   const [data, setData] = useState<allDetailDatatype>();
   const router = useRouter();
   const [novelId, setnovelId] = useState(Number(router.query.novelId));
@@ -27,34 +38,40 @@ export default function Novel() {
     if (novelId) {
       fetchData();
     }
-  }, [baseUrl,novelId]);
+  }, [baseUrl, novelId]);
 
   return (
     <>
-      {data && (
+      {isLogin() ? (
         <>
-          <NovelDatailHeader
-            title={data.title}
-            author={data.author}
-            genre={data.genre}
-            serializationStatus={data.serializationStatus}
-            serializationDays={data.serializationDays}
-          />
-          <NovelDetailInfo
-            views={data.views}
-            starRating={data.starRating}
-            episodeCount={data.episodeCount}
-            thumbnail={data.thumbnail}
-          />
-          <NovelTages tags={data.tags} />
-          <NovelDetailMenu
-            novelId={novelId}
-            description={data.description}
-            authorComment={data.authorComment}
-          />
+          {data && (
+            <>
+              <NovelDatailHeader
+                title={data.title}
+                author={data.author}
+                genre={data.genre}
+                serializationStatus={data.serializationStatus}
+                serializationDays={data.serializationDays}
+              />
+              <NovelDetailInfo
+                views={data.views}
+                starRating={data.starRating}
+                episodeCount={data.episodeCount}
+                thumbnail={data.thumbnail}
+              />
+              <NovelTages tags={data.tags} />
+              <NovelDetailMenu
+                novelId={novelId}
+                description={data.description}
+                authorComment={data.authorComment}
+              />
+            </>
+          )}
+          <DetailFooter />
         </>
+      ) : (
+        <Login />
       )}
-      <DetailFooter />
     </>
   );
 }
