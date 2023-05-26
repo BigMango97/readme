@@ -13,7 +13,7 @@ import NovelTextArea from "@/components/ui/admin/NovelTextArea";
 import NovelUpload from "@/components/ui/admin/NovelUpload";
 import { novelInputType } from "@/types/admin/novelType";
 import { useRouter } from "next/router";
-
+import Config from "@/configs/config.export";
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -23,6 +23,7 @@ const normFile = (e: any) => {
 export default function NovelForm() {
   const router = useRouter();
   const novelId = router.query.id;
+  const baseUrl = Config().baseUrl;
 
   const [inputData, setInputData] = useState<novelInputType>({
     title: "",
@@ -41,9 +42,7 @@ export default function NovelForm() {
   useEffect(() => {
     if (novelId !== undefined) {
       axios
-        .get(
-          `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`
-        )
+        .get(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`)
         .then((res) => {
           setInputData({
             title: res.data.data.title,
@@ -64,7 +63,7 @@ export default function NovelForm() {
 
   const postHandle = () => {
     axios
-      .post(`http://43.200.189.164:8000/novels-service/v1/admin/novels`, {
+      .post(`${baseUrl}/novels-service/v1/admin/novels`, {
         title: inputData.title,
         author: inputData.author,
         grade: inputData.grade,
@@ -88,22 +87,19 @@ export default function NovelForm() {
 
   const putHandle = () => {
     axios
-      .put(
-        `http://43.200.189.164:8000/novels-service/v1/admin/novels/${novelId}`,
-        {
-          title: inputData.title,
-          author: inputData.author,
-          grade: inputData.grade,
-          genre: inputData.genre,
-          serializationStatus: inputData.serializationStatus,
-          authorComment: inputData.authorComment,
-          serializationDay: inputData.serializationDay,
-          startDate: inputData.startDate,
-          description: inputData.description,
-          thumbnail: inputData.thumbnail,
-          tags: inputData.tags,
-        }
-      )
+      .put(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`, {
+        title: inputData.title,
+        author: inputData.author,
+        grade: inputData.grade,
+        genre: inputData.genre,
+        serializationStatus: inputData.serializationStatus,
+        authorComment: inputData.authorComment,
+        serializationDay: inputData.serializationDay,
+        startDate: inputData.startDate,
+        description: inputData.description,
+        thumbnail: inputData.thumbnail,
+        tags: inputData.tags,
+      })
       .then((res) => {
         router.push("/admin/main");
       });
@@ -119,14 +115,22 @@ export default function NovelForm() {
           style={{ maxWidth: 1500 }}
         >
           <div className={style.horizontal}>
-            <Form.Item label="작품명" style={{ width: 600 }}>
+            <Form.Item
+              label="작품명"
+              style={{ width: 600 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelInput
                 type={"title"}
                 inputData={inputData}
                 setInputData={setInputData}
               />
             </Form.Item>
-            <Form.Item label="작가" style={{ width: 600 }}>
+            <Form.Item
+              label="작가"
+              style={{ width: 600 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelInput
                 type={"author"}
                 inputData={inputData}
@@ -135,21 +139,33 @@ export default function NovelForm() {
             </Form.Item>
           </div>
           <div className={style.horizontal}>
-            <Form.Item label="관람등급" style={{ width: 300 }}>
+            <Form.Item
+              label="관람등급"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelSelect
                 type={"grade"}
                 inputData={inputData}
                 setInputData={setInputData}
               />
             </Form.Item>
-            <Form.Item label="장르" style={{ width: 300 }}>
+            <Form.Item
+              label="장르"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelSelect
                 type={"genre"}
                 inputData={inputData}
                 setInputData={setInputData}
               />
             </Form.Item>
-            <Form.Item label="연재상태" style={{ width: 300 }}>
+            <Form.Item
+              label="연재상태"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelSelect
                 type={"serializationStatus"}
                 inputData={inputData}
@@ -158,7 +174,11 @@ export default function NovelForm() {
             </Form.Item>
           </div>
           <div className={style.normal}>
-            <Form.Item label="작가의 말" style={{ width: 640 }}>
+            <Form.Item
+              label="작가의 말"
+              style={{ width: 640 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelInput
                 type={"authorComment"}
                 inputData={inputData}
@@ -172,6 +192,7 @@ export default function NovelForm() {
               name="disabled"
               valuePropName="checked"
               style={{ width: 640 }}
+              rules={[{ required: true, message: "${another} is required" }]}
             >
               <NovelCheckbox
                 inputData={inputData}
@@ -180,7 +201,11 @@ export default function NovelForm() {
             </Form.Item>
           </div>
           <div className={style.normal}>
-            <Form.Item label="연재 시작일" style={{ width: 300 }}>
+            <Form.Item
+              label="연재 시작일"
+              style={{ width: 300 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelDatePicker
                 inputData={inputData}
                 setInputData={setInputData}
@@ -188,7 +213,11 @@ export default function NovelForm() {
             </Form.Item>
           </div>
           <div className={style.horizontal}>
-            <Form.Item label="작품소개" style={{ width: 640 }}>
+            <Form.Item
+              label="작품소개"
+              style={{ width: 640 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <NovelTextArea
                 rows={4}
                 inputData={inputData}
@@ -199,17 +228,24 @@ export default function NovelForm() {
               label="대표 이미지"
               valuePropName="fileList"
               getValueFromEvent={normFile}
+              rules={[{ required: true, message: "${another} is required" }]}
             >
               <NovelUpload inputData={inputData} setInputData={setInputData} />
             </Form.Item>
           </div>
           <div className={style.normal}>
-            <Form.Item label="태그 (최대 3개)" style={{ width: 640 }}>
+            <Form.Item
+              label="태그 (최대 3개)"
+              style={{ width: 640 }}
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <Noveltag inputData={inputData} setInputData={setInputData} />
             </Form.Item>
           </div>
           <div className={style.button}>
-            <Form.Item>
+            <Form.Item
+              rules={[{ required: true, message: "${another} is required" }]}
+            >
               <Space>
                 {novelId === undefined ? (
                   <Button

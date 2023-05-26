@@ -12,6 +12,9 @@ interface Props {
   novelId?: number;
   grade: number;
   newChecking: boolean;
+  imgSize:string;
+  episodeCount:number;
+
 }
 export default function NovelCardItem({
   thumbnail,
@@ -23,6 +26,8 @@ export default function NovelCardItem({
   novelId,
   grade,
   newChecking,
+  imgSize,
+  episodeCount
 }: Props) {
   const router = useRouter();
   const IS_READABLE_BY_All = 0;
@@ -30,6 +35,7 @@ export default function NovelCardItem({
   return (
     <div
       className={style.allNovelCard}
+      style={{width:imgSize}}
       onClick={() => router.push(`/noveldetail/${novelId}?menu=작품소개`)}
     >
       <div className={style.allNovelImgContainer}>
@@ -78,7 +84,7 @@ export default function NovelCardItem({
             width={15}
             height={15}
           />
-          <span>123</span>
+          <span>{episodeCount}</span>
         </div>
       </div>
     </div>

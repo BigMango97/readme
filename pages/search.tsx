@@ -9,13 +9,14 @@ import RecentSearchItems from "@/components/pages/search/RecentSearchItems";
 import RecommendTop from "@/components/pages/search/RecommendTop";
 import RecommendItems from "@/components/pages/search/RecommendItems";
 import Footer from "@/components/layouts/Footer";
-
+import Config from "@/configs/config.export";
 interface ErrorType extends Error {
   message: string;
 }
+const baseUrl = Config().baseUrl;
 const fetchKeyword = async (keyword: string) => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/sections-service/v1/cards/novels/search?keyword=${keyword}`
+    `${baseUrl}/sections-service/v1/cards/novels/search?keyword=${keyword}`
   );
   return response;
 };
@@ -24,7 +25,7 @@ export default function Search() {
   const router = useRouter();
   const keyword = router.query.keyword as string;
 
-  const { isLoading, isError, data, error } = useQuery(
+  const { isError, data, error } = useQuery(
     ["keyword", keyword],
     () => fetchKeyword(keyword),
     {
@@ -35,22 +36,19 @@ export default function Search() {
         console.log(error.message);
       },
       select: (data) => {
-        return data.data.data.novelCardsData;
+        return data.data;
       },
       enabled: !!keyword,
-      cacheTime: Infinity,
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
     }
   );
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-
   return (
     <>
-      {/* <SearchBox data={data} /> */}
+      <SearchBox data={data?.data.novelCardsData} />
       {!data && (
         <>
           <RecentSearchTop />

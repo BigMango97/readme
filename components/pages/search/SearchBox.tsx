@@ -1,20 +1,25 @@
 import { useRecoilState } from "recoil";
-import React, { useEffect, ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import style from "@/components/pages/search/SearchBox.module.css";
 import { recentSearchWord } from "@/state/recentSearchWord";
 import { searchDataType } from "@/types/model/searchDataType";
 import NovelCardItem from "@/components/ui/NovelCardItem";
-
+import { useRef, useEffect } from "react";
 export default function SearchBox(props: { data: searchDataType[] }) {
   const router = useRouter();
   const [searchValue, setSearchValue] = useRecoilState(recentSearchWord);
   const [inputData, setInputData] = useState<string>("");
+  const [shouldFocus, setShouldFocus] = useState<boolean>(true); //포커스 유지
   const VALUE = router.query.keyword;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputData(e.target.value);
+  };
+
+  const handleDeleteKeyWord = () => {
+    setInputData("");
   };
 
   const handleSearchKeyword = () => {
@@ -22,6 +27,7 @@ export default function SearchBox(props: { data: searchDataType[] }) {
       Router.push(`/search?keyword=${inputData}`);
       setSearchValue((prev) => [inputData, ...prev.slice(0, 9)]);
       setInputData("");
+      setShouldFocus(true);
     } else if (searchValue.includes(inputData) && inputData.length > 0) {
       Router.push(`/search?keyword=${inputData}`);
       const newList = [
@@ -30,12 +36,30 @@ export default function SearchBox(props: { data: searchDataType[] }) {
       ];
       setSearchValue(newList.slice(0, 10));
       setInputData("");
+      setShouldFocus(true);
     }
   };
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current && shouldFocus) {
+      inputRef.current.focus();
+      setShouldFocus(false);
+    }
+  }, [shouldFocus]);
 
   return (
     <>
       <div className={style.searchBoxWarp}>
+        <div className={style.leftArrow} onClick={() => router.back()}>
+          <Image
+            src="/assets/images/icons/leftarrowpurple.svg"
+            alt="searchIcon"
+            width={15}
+            height={15}
+            onClick={handleSearchKeyword}
+          />
+        </div>
         <div className={style.searchBox}>
           <input
             type="text"
@@ -43,10 +67,26 @@ export default function SearchBox(props: { data: searchDataType[] }) {
             value={inputData}
             placeholder="검색어를 입력하세요"
             onChange={handleChange}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSearchKeyword();
+              }
+            }}
+            ref={inputRef}
+            autoFocus={shouldFocus}
           />
+          <div className={style.closeIcon}>
+            <Image
+              src="/assets/images/icons/close.svg"
+              alt="searchIcon"
+              width={10}
+              height={10}
+              onClick={handleDeleteKeyWord}
+            />
+          </div>
           <div className={style.searchIcon}>
             <Image
-              src="/assets/images/icons/searchicon.png"
+              src="/assets/images/icons/search-normal.svg"
               alt="searchIcon"
               width={22}
               height={22}
@@ -63,18 +103,20 @@ export default function SearchBox(props: { data: searchDataType[] }) {
               <p>{`총 ${props.data.length}건`}</p>
             </div>
             <div className={style.novelInfo}>
-              {props.data.map((index) => (
+              {props.data.map((item) => (
                 <NovelCardItem
-                  novelId={index.novelId}
-                  key={index.novelId}
-                  thumbnail={index.thumbnail}
-                  serializationStatus={index.serializationStatus}
-                  title={index.title}
-                  author={index.author}
-                  starRating={index.starRating}
-                  genre={index.genre}
-                  grade={index.grade}
-                  newChecking={index.newChecking}
+                  novelId={item.novelId}
+                  key={item.novelId}
+                  thumbnail={item.thumbnail}
+                  serializationStatus={item.serializationStatus}
+                  title={item.title}
+                  author={item.author}
+                  starRating={item.starRating}
+                  genre={item.genre}
+                  grade={item.grade}
+                  newChecking={item.newChecking}
+                  imgSize="50%"
+                  episodeCount={item.episodeCount}
                 />
               ))}
             </div>

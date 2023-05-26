@@ -7,16 +7,17 @@ import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import { allDetailDatatype } from "@/types/model/mainDataType";
-
+import Config from "@/configs/config.export";
 export default function Novel() {
   const [data, setData] = useState<allDetailDatatype>();
   const router = useRouter();
-  const [novelId, setNovelId] = useState(Number(router.query.novelId));
+  const [novelId, setnovelId] = useState(Number(router.query.novelId));
+  const baseUrl = Config().baseUrl;
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://43.200.189.164:8000/sections-service/v1/cards/novels/${novelId}`
+          `${baseUrl}/sections-service/v1/cards/novels/${novelId}`
         );
         setData(res.data.data);
       } catch (error) {
@@ -26,7 +27,7 @@ export default function Novel() {
     if (novelId) {
       fetchData();
     }
-  }, [novelId]);
+  }, [baseUrl,novelId]);
 
   return (
     <>

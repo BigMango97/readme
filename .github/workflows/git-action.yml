@@ -1,0 +1,53 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: CI/CD
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [ "main", "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          
+      
+      - name: npm install
+        run: npm install
+        
+      - name: npm evn install
+        run: npm install env-cmd
+        
+      - name: npm build
+        run: npm run build
+
+      ## docker build & push to production
+      - name: Docker build & push to prod
+        run: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker build -t ${{ secrets.DOCKER_REPO }}/front .
+            docker push ${{ secrets.DOCKER_REPO }}/front
+            
+            
+      ## deploy to production
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@master
+        id: deploy-prod
+        with:
+          host: ${{ secrets.HOST_EC2 }} # EC2 퍼블릭 IPv4 DNS
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker ps
+            sudo docker stop front
+            sudo docker rm front
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/front
+            sudo docker run -d --name front -p 80:3000 --network bts-network ${{ secrets.DOCKER_USERNAME }}/front
+            sudo docker image prune -f

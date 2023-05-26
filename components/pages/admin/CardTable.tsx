@@ -1,108 +1,137 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import axios from "@/configs/axiosConfig";
+import {
+  cardColumnsType,
+  cardListType,
+  cardTableType,
+  cardType,
+} from "@/types/admin/cardType";
+import CardModal from "@/components/ui/admin/CardModal";
 
-interface DataType {
-  번호: number;
-  썸네일: string;
-  작가: string;
-  스케줄: string;
+export default function CardTable() {
+  const [editId, setEditId] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cardData, setCardData] = useState<cardListType>();
+
+  useEffect(() => {
+    axios.get(`/sections-service/v1/admin/schedules/novels`).then((res) => {
+      setCardData({ cardList: res.data.data });
+    });
+  }, []);
+
+  const showEditModal = (id: number) => {
+    setEditId(id);
+    setIsModalOpen(!isModalOpen);
+  };
+  const deleteHandle = (id: number) => {
+    axios.delete(`/sections-service/v1/admin/schedules/${id}`);
+  };
+
+  const dataSource: cardTableType[] = [];
+  let novelNames = "",
+    novelIds = "";
+  console.log(cardData);
+  cardData?.cardList.map((item) => {
+    item.novelCardsList.map((item) => {
+      novelIds = item.novelId + "/" + novelIds;
+    });
+
+    item.novelCardsList.map((item) => {
+      novelNames = item.novelTitle + "/" + novelNames;
+    });
+    dataSource.push({
+      key: item.scheduleId,
+      scheduleId: item.scheduleId,
+      scheduleName: item.scheduleName,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      novelIds: novelIds,
+      novelNames: novelNames,
+    });
+  });
+
+  const columns: ColumnsType<cardColumnsType> = [
+    {
+      //key: "번호",
+      dataIndex: "스케줄번호",
+      title: "스케줄번호",
+      sorter: (a, b) => a.scheduleId - b.scheduleId,
+      width: "7%",
+      render: (_, { scheduleId }) => <>{scheduleId}</>,
+    },
+    {
+      key: "스케줄명",
+      dataIndex: "스케줄명",
+      title: "스케줄명",
+      width: "10%",
+      render: (_, { scheduleName }) => <>{scheduleName}</>,
+    },
+    {
+      key: "작품번호",
+      dataIndex: "작품번호",
+      title: "작품번호",
+      width: "13%",
+      render: (_, { novelIds }) => <>{novelIds}</>,
+    },
+    {
+      key: "작품명",
+      dataIndex: "작품명",
+      title: "작품명",
+      width: "13%",
+      render: (_, { novelNames }) => <>{novelNames}</>,
+    },
+    {
+      key: "이벤트기간",
+      dataIndex: "이벤트기간",
+      title: "이벤트기간",
+      width: "13%",
+      render: (_, { startDate, endDate }) => <>{`${startDate} ~ ${endDate}`}</>,
+    },
+    {
+      key: "수정",
+      dataIndex: "수정",
+      title: "수정",
+      width: "3%",
+      render: (_, { scheduleId }) => (
+        <EditOutlined onClick={() => showEditModal(scheduleId)} />
+      ),
+    },
+    {
+      key: "삭제",
+      dataIndex: "삭제",
+      title: "삭제",
+      width: "3%",
+      render: (_, { scheduleId }) => (
+        <DeleteOutlined onClick={() => deleteHandle(scheduleId)} />
+      ),
+    },
+  ];
+
+  // const onChange: TableProps<cardType>["onChange"] = (
+  //   pagination,
+  //   filters,
+  //   sorter,
+  //   extra
+  // ) => {
+  //   console.log("params", pagination, filters, sorter, extra);
+  // };
+
+  return (
+    <>
+      <CardModal
+        id={editId}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        //onChange={onChange}
+        style={{ fontSize: "1rem" }}
+      />
+    </>
+  );
 }
-
-const columns: ColumnsType<DataType> = [
-  {
-    //key: "번호",
-    dataIndex: "번호",
-    title: "번호",
-    sorter: (a, b) => a.번호 - b.번호,
-    width: "5%",
-  },
-  {
-    //key: "썸네일",
-    dataIndex: "썸네일",
-    title: "썸네일",
-    width: "10%",
-  },
-  {
-    key: "작가",
-    dataIndex: "작가",
-    title: "작가",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Category 1",
-        value: "Category 1",
-      },
-      {
-        text: "Category 2",
-        value: "Category 2",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    onFilter: (value: string | number | boolean, record) =>
-      record.작가.startsWith(value.toLocaleString()),
-    width: "13%",
-  },
-  {
-    key: "스케줄",
-    dataIndex: "스케줄",
-    title: "스케줄",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Category 1",
-        value: "Category 1",
-      },
-      {
-        text: "Category 2",
-        value: "Category 2",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    onFilter: (value: string | number | boolean, record) =>
-      record.스케줄.startsWith(value.toLocaleString()),
-    width: "13%",
-  },
-  {
-    key: "수정",
-    dataIndex: "수정",
-    title: "수정",
-    width: "5%",
-  },
-  {
-    key: "삭제",
-    dataIndex: "삭제",
-    title: "삭제",
-    width: "5%",
-  },
-];
-
-const data: DataType[] = [];
-
-const onChange: TableProps<DataType>["onChange"] = (
-  pagination,
-  filters,
-  sorter,
-  extra
-) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
-
-const CardTable: React.FC = () => (
-  <Table
-    columns={columns}
-    dataSource={data}
-    onChange={onChange}
-    style={{ fontSize: "1rem" }}
-  />
-);
-
-export default CardTable;

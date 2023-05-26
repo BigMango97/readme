@@ -5,6 +5,7 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import { useQuery } from "react-query";
 
 export default function MainSchedule(props: { id: number; name: string }) {
@@ -36,6 +37,21 @@ export default function MainSchedule(props: { id: number; name: string }) {
     dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `${baseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
+        );
+        setScheduleCard(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, [baseUrl,props.id]);
+
   return (
     <div className={style.mainScheduleContainer}>
       <h3>{props.name}</h3>
@@ -55,6 +71,8 @@ export default function MainSchedule(props: { id: number; name: string }) {
                 novelId={item.novelId}
                 grade={item.grade}
                 newChecking={item.newChecking}
+                episodeCount={item.episodeCount}
+                imgSize="100%"
               />
             ))}
         </Slider>

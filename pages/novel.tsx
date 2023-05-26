@@ -3,61 +3,58 @@ import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
 import Footer from "@/components/layouts/Footer";
 import { useRouter } from "next/router";
 import axios, { AxiosResponse } from "axios";
+import { GetServerSideProps } from "next";
 import React from "react";
 import {
   useQuery,
   QueryClient,
-  QueryClientProvider,
   dehydrate,
 } from "react-query";
-
+import Config from "@/configs/config.export";
+const baseUrl = Config().baseUrl;
 const novelMenus = async () => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/main-category`
+    `${baseUrl}/novels-service/v1/main-category`
   );
   return response.data;
 };
+
 const novelDatas = async (
   category: string,
   subCategory: string
 ): Promise<AxiosResponse> => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
+    `${baseUrl}/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
   );
   return response.data;
 };
 
-const queryClient = new QueryClient();
-
-export async function getServerSideProps(context: any) {
-  const { category, subCategory } = context.query;
-  await Promise.all([
-    queryClient.prefetchQuery(["novelMenus"], () => novelMenus()),
-    queryClient.prefetchQuery(
-      ["category", category, "subCategory", subCategory],
-      () => novelDatas(category, subCategory)
-    ),
-  ]);
-
-  return {
-    props: {
-      dehydrateState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
+interface Props {
+  dehydratedState: unknown;
 }
 
-export default function Novel() {
+export default function Novel({ dehydratedState }: Props) {
   const router = useRouter();
   const { category, subCategory }: any = router.query;
+
+  const queryClientRef = React.useRef<QueryClient>();
+  if (!queryClientRef.current) {
+    queryClientRef.current = new QueryClient();
+  }
+
   const novelMenusQuery = useQuery(["novelMenus"], novelMenus, {
-    staleTime: Infinity,
+    cacheTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const novelDatasQuery = useQuery(
     ["category", category, "subCategory", subCategory],
     () => novelDatas(category, subCategory),
     {
-      staleTime: Infinity,
+      cacheTime: 10 * 60 * 1000,
+      staleTime: 5 * 60 * 1000,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -65,10 +62,27 @@ export default function Novel() {
   const novelDatasResult = novelDatasQuery?.data;
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
       {novelDatasResult && <AllNovelCardSection data={novelDatasResult} />}
       <Footer />
-    </QueryClientProvider>
+    </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { category, subCategory } = context.query;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["novelMenus"], novelMenus);
+  await queryClient.prefetchQuery(
+    ["category", category, "subCategory", subCategory],
+    () => novelDatas(String(category), String(subCategory))
+  );
+
+  const dehydratedState = dehydrate(queryClient);
+  return {
+    props: {
+      dehydratedState,
+    },
+  };
+};

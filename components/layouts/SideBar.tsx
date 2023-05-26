@@ -12,14 +12,14 @@ import { useRouter } from "next/router";
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-  let type = "";
-  router.query.type ? (type = router.query.type.toString()) : (type = "");
+  let menu: undefined | string = router.query.menu?.toString();
+  if (menu === undefined) menu = "novel";
 
   const clickMenuHandler = (item: any) => {
-    router.push(`/admin/main?type=${item.key}`);
+    router.push(`/admin/main?menu=${item.key}`);
   };
   const clickLogoHandler = () => {
-    router.push(`/admin/main?type=1`);
+    router.push(`/admin/main?menu=novel`);
   };
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -37,9 +37,9 @@ export default function SideBar() {
     } as MenuItem;
   }
   const items: MenuItem[] = [
-    getItem("소설관리", "1", <PieChartOutlined />),
-    getItem("스케줄관리", "2", <DesktopOutlined />),
-    getItem("CARD관리", "3", <FileOutlined />),
+    getItem("소설관리", "novel", <PieChartOutlined />),
+    getItem("스케줄관리", "schedule", <DesktopOutlined />),
+    getItem("CARD관리", "card", <FileOutlined />),
   ];
 
   return (
@@ -64,7 +64,7 @@ export default function SideBar() {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[type]}
+          defaultSelectedKeys={[menu]}
           mode="inline"
           items={items}
           onClick={clickMenuHandler}
