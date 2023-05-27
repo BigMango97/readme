@@ -4,23 +4,22 @@ import React, { useEffect, useState } from "react";
 import { scheduleListType } from "@/types/admin/scheduleType";
 import dayjs from "dayjs";
 import { novelListType } from "@/types/admin/novelType";
-import { cardEditType } from "@/types/admin/cardType";
+import { novelOptionType, novelType } from "@/types/admin/cardType";
+import { useRouter } from "next/router";
 
 export default function CardModal(props: {
   id: number;
+  scheduleName: string;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  //모든 스케줄 목록과 소설 목록
   const [scheduleList, setScheduleList] = useState<scheduleListType>();
   const [novelList, setNovelList] = useState<novelListType>();
 
   const [scheduleId, setScheduleId] = useState<number>();
-  const [novelIds, setNovelIds] = useState<number[]>();
-  const [cardEditData, setCardEditData] = useState<cardEditType>({
-    scheduleId: 0,
-    scheduleName: "",
-    novelCardsList: [],
-  });
+  const [novelIds, setNovelIds] = useState<string[]>([]);
+  const [cardEditData, setCardEditData] = useState<novelType[]>([]);
   const handleOk = () => {
     //카드 등록
     if (props.id === 0) {
@@ -37,23 +36,25 @@ export default function CardModal(props: {
     //카드 수정
     else {
       //edit에는 있는데 ids에는 없으면 삭제 ids에는 있는데 edit에 없으면 추가
-      const deleteIds = novelIds?.map((ids) => {
-        return cardEditData.novelCardsList.filter((item) => {
-          item.novelId !== ids;
-        });
-      });
+      const cardIds = cardEditData.map((item) => item.novelId.toString());
+      const deleteIds = novelIds.filter((item) => !cardIds.includes(item));
+      const addIds = cardIds.filter((item) => !novelIds.includes(item));
       console.log("deleteIds", deleteIds);
-      // deleteIds?.map(id=>{
-      //   axios.delete(`/sections-service/v1/admin/cards/novels/${id}`)
-      //         .then((res) => {
-      //           console.log(res);
-      //         })})
-      const addIds = cardEditData.novelCardsList.map((item) => {
-        return novelIds?.filter((ids) => {
-          ids !== item.novelId;
-        });
-      });
       console.log("addIds", addIds);
+      // console.log("select", novelIds);
+      // deleteIds?.map((id) => {
+      //   axios
+      //     .delete(`/sections-service/v1/admin/cards/novels/${id}`)
+      //     .then((res) => {
+      //       console.log(res);
+      //     });
+      // });
+      // const addIds = cardEditData.map((item) => {
+      //   return novelIds?.filter((ids) => {
+      //     ids !== item.novelId.toString();
+      //   });
+      // });
+      // console.log("addIds", addIds);
       // addIds?.map((novelId) => {
       //   axios
       //     .patch(`/sections-service/v1/admin/cards/novels/${novelId}`, {
@@ -70,6 +71,7 @@ export default function CardModal(props: {
 
   const handleCancel = () => {
     props.setIsModalOpen(false);
+    setNovelIds([]);
   };
 
   //스케줄 선택
@@ -77,13 +79,22 @@ export default function CardModal(props: {
     setScheduleId(Number(selectValue));
   };
   //소설 선택
+
   const selectNovelHandle = (selectValues: string[]) => {
     const values = selectValues.map((item) => {
-      return Number(item);
+      return item;
     });
+
+    //const deleteIds = novelIds.filter((item) => !values.includes(item));
+    //console.log("deleteIds", deleteIds);
+    //const addIds = values.filter((item) => !novelIds.includes(item));
+    //console.log("addIds", addIds);
     setNovelIds(values);
   };
 
+  const novelOption: optionType[] = [];
+  const scheduleOption: optionType[] = [];
+  const router = useRouter();
   useEffect(() => {
     axios.get(`/novels-service/v1/admin/novels`).then((res) => {
       setNovelList({ novelList: res.data.data.contents });
@@ -94,34 +105,29 @@ export default function CardModal(props: {
     //수정 시
     if (props.id !== 0) {
       axios
-        .get(
-          `/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
-        )
+        .get(`/sections-service/v1/admin/schedules/novels/${props.id}`)
         .then((res) => {
-          console.log("res", res.data.data);
-          setCardEditData({
-            scheduleId: res.data.data.scheduleId,
-            scheduleName: res.data.data.scheduleName,
-            novelCardsList: res.data.data.novelCardsList,
-          });
+          setCardEditData(res.data.data.novelCardsBySchedules);
         });
     }
-  }, [props.id]);
+  }, [props.isModalOpen, props.id]);
+
+  useEffect(() => {
+    const novelEditIds = cardEditData.map((item) => item.novelId.toString());
+    setNovelIds(novelEditIds);
+  }, [cardEditData]);
 
   interface optionType {
     value: string;
     label: string;
   }
-  const novelOption: optionType[] = [];
   novelList?.novelList.map((item) => {
     novelOption.push({ value: item.id.toString(), label: item.title });
   });
 
-  const scheduleOption: optionType[] = [];
   scheduleList?.scheduleList.map((item) => {
     scheduleOption.push({ value: item.id.toString(), label: item.name });
   });
-  //const novelTitles = cardEditData.novelCardsList.map(item=>{return item.novelTitle})
 
   return (
     <Modal
@@ -135,10 +141,11 @@ export default function CardModal(props: {
           <div style={{ width: "80px" }}>스케줄</div>
           <Space wrap>
             <Select
-              defaultValue={cardEditData.scheduleName}
+              value={props.scheduleName}
               style={{ width: "280px" }}
               onChange={selectScheduleHandle}
               options={scheduleOption}
+              disabled={props.id === 0 ? false : true}
             />
           </Space>
         </div>
@@ -146,15 +153,10 @@ export default function CardModal(props: {
           <div style={{ width: "100px" }}>소설</div>
           <Select
             mode="multiple"
-            value={novelIds?.map((item) => {
-              return item.toString();
-            })}
             onChange={selectNovelHandle}
             style={{ width: "100%" }}
             options={novelOption}
-            defaultValue={cardEditData.novelCardsList.map((item) => {
-              return item.novelTitle;
-            })}
+            value={novelIds}
           />
         </div>
       </div>

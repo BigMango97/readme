@@ -12,7 +12,8 @@ import {
 import CardModal from "@/components/ui/admin/CardModal";
 
 export default function CardTable() {
-  const [editId, setEditId] = useState(0);
+  const [editId, setEditId] = useState<number>(0);
+  const [editScheduleName, setEditScheduleName] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cardData, setCardData] = useState<cardListType>();
 
@@ -22,12 +23,17 @@ export default function CardTable() {
     });
   }, []);
 
-  const showEditModal = (id: number) => {
+  const showEditModal = (id: number, name: string) => {
     setEditId(id);
+    setEditScheduleName(name);
     setIsModalOpen(!isModalOpen);
   };
   const deleteHandle = (id: number) => {
-    axios.delete(`/sections-service/v1/admin/schedules/${id}`);
+    axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
+      // setCardData({cardList: cardData?.cardList.map(item=>{
+      //   item.
+      // })})
+    });
   };
 
   const dataSource: cardTableType[] = [];
@@ -95,8 +101,8 @@ export default function CardTable() {
       dataIndex: "수정",
       title: "수정",
       width: "3%",
-      render: (_, { scheduleId }) => (
-        <EditOutlined onClick={() => showEditModal(scheduleId)} />
+      render: (_, { scheduleId, scheduleName }) => (
+        <EditOutlined onClick={() => showEditModal(scheduleId, scheduleName)} />
       ),
     },
     {
@@ -110,7 +116,7 @@ export default function CardTable() {
     },
   ];
 
-  // const onChange: TableProps<cardType>["onChange"] = (
+  // const onChange: TableProps<cardTableType>["onChange"] = (
   //   pagination,
   //   filters,
   //   sorter,
@@ -123,6 +129,7 @@ export default function CardTable() {
     <>
       <CardModal
         id={editId}
+        scheduleName={editScheduleName}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />

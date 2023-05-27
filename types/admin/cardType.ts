@@ -40,11 +40,12 @@ export interface cardColumnsType{
     novelNames: string,
 }
 
-export interface cardEditType{
-    scheduleId : number;
-    scheduleName : string;
-    novelCardsList: novelType[];
+export interface novelOptionType{
+    value: number;
+    label: string;
 }
+
+
 
 
 
