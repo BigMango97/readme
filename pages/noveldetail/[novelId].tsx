@@ -12,18 +12,6 @@ import Config from "@/configs/config.export";
 import { useQuery } from "react-query";
 
 export default function NovelDetail() {
-import { useCookies } from "react-cookie";
-import Login from "../login";
-import isLogin from "@/configs/isLogin";
-
-const [cookies] = useCookies(["accessToken"]);
-
-  useEffect(() => {
-    if (!cookies.accessToken) {
-      router.push("/login");
-    }
-  }, []);
-  const [data, setData] = useState<allDetailDatatype>();
   const router = useRouter();
   const [novelId, setnovelId] = useState(Number(router.query.novelId));
 
@@ -67,7 +55,8 @@ const [cookies] = useCookies(["accessToken"]);
             description={novelbyIdDataResult.description}
             authorComment={novelbyIdDataResult.authorComment}
           />
-        )}
+        </>
+      )}
     </>
   );
 }
