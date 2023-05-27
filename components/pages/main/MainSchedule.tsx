@@ -5,7 +5,6 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import { useQuery } from "react-query";
 
 export default function MainSchedule(props: { id: number; name: string }) {
@@ -32,25 +31,10 @@ export default function MainSchedule(props: { id: number; name: string }) {
     autoplay: true, //자동플레이
     slidesToShow: 2, // 한 화면에 보여질 컨텐츠 개수
     slidesToScroll: 2, //스크롤 한번에 움직일 컨텐츠 개수
-    speed: 1000, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+    speed: 1500, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
     arrows: true, // 옆으로 이동하는 화살표 표시 여부
-    dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          `${baseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
-        );
-        setScheduleCard(res.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchData();
-  }, [baseUrl,props.id]);
 
   return (
     <div className={style.mainScheduleContainer}>
