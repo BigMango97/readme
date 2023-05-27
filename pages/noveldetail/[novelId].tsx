@@ -10,7 +10,7 @@ import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import Config from "@/configs/config.export";
 import { useQuery } from "react-query";
 
-export default function Novel() {
+export default function NovelDetail() {
   const router = useRouter();
   const [novelId, setnovelId] = useState(Number(router.query.novelId));
 
