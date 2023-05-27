@@ -13,20 +13,22 @@ import { novelInputType } from "@/types/admin/novelType";
 import dayjs from "dayjs";
 import { Select } from "antd";
 import ScheduleManage from "@/components/pages/admin/ScheduleManage";
+import { GetServerSideProps } from "next";
+import Config from "@/configs/config.export";
 
-const Main: NextPageWithLayout = () => {
+const Main: NextPageWithLayout = ({ data }: any) => {
   const router = useRouter();
-  let currentTap = router.query.type;
+  let currentTap = router.query.menu;
 
   return (
     <>
       <NovelSearch />
-      {currentTap === "3" ? (
+      {currentTap === "card" ? (
         <CardList />
-      ) : currentTap === "2" ? (
+      ) : currentTap === "schedule" ? (
         <ScheduleManage />
       ) : (
-        <NovelList />
+        <NovelList data={data} />
       )}
     </>
   );
@@ -37,3 +39,26 @@ Main.getLayout = function getLayout(page: React.ReactNode) {
 };
 
 export default Main;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const baseUrl = Config().baseUrl;
+
+  const search = context.query.search ? context.query.search : "";
+  const select = context.query.select;
+  let url = "";
+  if (select === "title") {
+    url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
+  } else if (select === "author") {
+    url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
+  } else {
+    url = `${baseUrl}/novels-service/v1/admin/novels`;
+  }
+  const res = await fetch(url);
+  const data = await res.json();
+
+  return {
+    props: {
+      data: data,
+    },
+  };
+};

@@ -8,9 +8,22 @@ import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 
 import Config from "@/configs/config.export";
+
 import { useQuery } from "react-query";
 
 export default function NovelDetail() {
+import { useCookies } from "react-cookie";
+import Login from "../login";
+import isLogin from "@/configs/isLogin";
+
+const [cookies] = useCookies(["accessToken"]);
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      router.push("/login");
+    }
+  }, []);
+  const [data, setData] = useState<allDetailDatatype>();
   const router = useRouter();
   const [novelId, setnovelId] = useState(Number(router.query.novelId));
 
@@ -54,9 +67,7 @@ export default function NovelDetail() {
             description={novelbyIdDataResult.description}
             authorComment={novelbyIdDataResult.authorComment}
           />
-        </>
-      )}
-      <DetailFooter />
+        )}
     </>
   );
 }
