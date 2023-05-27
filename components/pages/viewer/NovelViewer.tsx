@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import style from "@/components/pages/noveldetail/ViewerPage.module.css";
+import style from "@/components/pages/viewer/NovelViewer.module.css";
 import EmojiPannel from "@/components/widget/EmojiPannel";
 
 interface NovelViewerProps {

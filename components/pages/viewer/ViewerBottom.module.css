@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    z-index: 100;
+    background-color: var(--readme-white);
+  }
+  
+.menuIcon,
+.starRatingIcon,
+.commentsIcon,
+.leftArrowIcon,
+.rightArrowIcon{
+display: flex;
+justify-content: center;
+align-items: center;
+}
