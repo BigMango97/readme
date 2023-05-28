@@ -4,10 +4,12 @@ import { allNovelCardType } from "@/types/model/mainDataType";
 import style from "@/components/pages/novel/AllNovelCardSection.module.css";
 import NovelCardItem from "@/components/ui/NovelCardItem";
 import NovelListItem from "@/components/ui/NovelListItem";
+import { allDetailDatatype } from "@/types/model/mainDataType";
 interface Props {
-  data: { data: allNovelCardType };
+  data: allDetailDatatype[];
+  totalElements: number;
 }
-export default function AllNovelCardSection({ data }: Props) {
+export default function AllNovelCardSection({ data, totalElements }: Props) {
   const [viewerType, setViewerType] = useState<"card" | "list">("card");
   const handleViewerType = (type: "card" | "list") => {
     setViewerType(type);
@@ -15,7 +17,7 @@ export default function AllNovelCardSection({ data }: Props) {
   return (
     <>
       <div className={style.container}>
-        <div>소설 {data.data.totalElements}건</div>
+        <div>소설 {totalElements}건</div>
         <div className={style.allNovelTotalIcon}>
           <Image
             src="/assets/images/icons/book-open.svg"
@@ -43,10 +45,10 @@ export default function AllNovelCardSection({ data }: Props) {
       </div>
       {viewerType == "card" ? (
         <div className={style.novelContainer}>
-          {data.data.novelCardsData &&
-            data.data.novelCardsData.map((item: any) => (
+          {data &&
+            data.map((item, index) => (
               <NovelCardItem
-                key={item.novelId}
+                key={index}
                 thumbnail={item.thumbnail}
                 title={item.title}
                 serializationStatus={item.serializationStatus}
@@ -63,10 +65,10 @@ export default function AllNovelCardSection({ data }: Props) {
         </div>
       ) : (
         <div className={style.novelContainer}>
-          {data.data.novelCardsData &&
-            data.data.novelCardsData.map((item: any) => (
+          {data &&
+            data.map((item, index) => (
               <NovelListItem
-                key={item.novelId}
+                key={index}
                 thumbnail={item.thumbnail}
                 title={item.title}
                 serializationStatus={item.serializationStatus}
