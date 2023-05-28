@@ -1,0 +1,11 @@
+.commentsTitle {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bolder;
+  margin: 1rem;
+}
+.commentsList {
+  height: 550px;
+  overflow-y: scroll;
+  margin-bottom: 2rem;
+}

@@ -15,7 +15,8 @@ interface EmojiPannelProps {
 }
 
 export default function EmojiPannel(props: EmojiPannelProps) {
-  const { xNumber, yNumber, emojiHandler, isEmojiPanelVisible, onHidePanel } = props;
+  const { xNumber, yNumber, emojiHandler, isEmojiPanelVisible, onHidePanel } =
+    props;
   const data: Emoji[] = [
     { id: 1, emoji: "😀" },
     { id: 2, emoji: "🤣" },
@@ -40,6 +41,20 @@ export default function EmojiPannel(props: EmojiPannelProps) {
 
         right += 50;
         top -= 30;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        if (right + rect.width > windowWidth) {
+          right = windowWidth - rect.width;
+        }
+        if (top + rect.height > windowHeight) {
+          top = windowHeight - rect.height;
+        }
+        if (right < 0) {
+          right = 0;
+        }
+        if (top < 0) {
+          top = 0;
+        }
 
         setPosition({ x: right, y: top });
       }

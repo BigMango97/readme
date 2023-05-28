@@ -37,8 +37,6 @@ export default function NovelViewer(props: { viewerData: string }) {
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
   ) => {
     console.log("click", id);
-    setTargetId(id);
-    setIsEmojiPanelVisible(true);
 
     if ("touches" in event) {
       setXNumber(event.changedTouches[0].clientX);
@@ -86,7 +84,7 @@ export default function NovelViewer(props: { viewerData: string }) {
   }, []);
 
   const touchMoveHandler = (e: TouchEvent | MouseEvent) => {
-    if ("touches" in e) {
+    if (e && "touches" in e) {
       // TouchEvent인 경우
       if (e.touches && e.touches.length > 0) {
         setXNumber(e.touches[0].clientX);
@@ -185,32 +183,36 @@ const ListView = (props: {
   handleLongPressStart: Function;
   handleLongPressEnd: Function;
 }) => {
-  const [isView, setIsView] = useState(false);
   const emojiList = props.data.emojiList || [];
 
   const handleLongPress = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
   ) => {
-    props.handleLongPressStart(props.data.id, event);
+    if (!props.data.content.includes("<br>")) {
+      props.handleLongPressStart(props.data.id, event);
+    }
   };
 
   const handleRelease = () => {
-    props.handleLongPressEnd();
+    if (!props.data.content.includes("<br>")) {
+      props.handleLongPressEnd();
+    }
   };
 
   const handleAddEmoji = (emojiId: number) => {
-    const updatedEmojiList = emojiList.map((emoji) => {
-      if (emoji.id === emojiId) {
-        return {
-          ...emoji,
-          count: emoji.count + 1,
-        };
-      } else {
-        return emoji;
-      }
-    });
-
-    props.targetHandler(props.data.id);
+    if (!props.data.content.includes("<br>")) {
+      const updatedEmojiList = emojiList.map((emoji) => {
+        if (emoji.id === emojiId) {
+          return {
+            ...emoji,
+            count: emoji.count + 1,
+          };
+        } else {
+          return emoji;
+        }
+      });
+      props.targetHandler(props.data.id);
+    }
   };
 
   return (
@@ -224,7 +226,9 @@ const ListView = (props: {
       >
         <span
           dangerouslySetInnerHTML={{
-            __html: props.data.content.replace(/<p>/g, "").replace(/<\/p>/g, ""),
+            __html: props.data.content
+              .replace(/<p>/g, "")
+              .replace(/<\/p>/g, ""),
           }}
         />
         {emojiList &&
