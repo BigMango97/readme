@@ -1,6 +1,6 @@
 import React from "react";
 import style from "@/components/ui/ReviewRating.module.css";
-import { FiStar } from "react-icons/Fi";
+import { FiStar } from "react-icons/fi";
 
 interface RatingProps {
   clicked: boolean[];
