@@ -30,6 +30,7 @@ export default function Kakao() {
           myLogin.setItem("age", res.data.data.age);
 
           setLoginCheck(true);
+          console.log("login Res", res);
 
           setCookie("accessToken", res.headers.accesstoken, { path: "/" });
           axios.defaults.headers.common[
