@@ -4,15 +4,11 @@ import LineSeparator from "@/components/ui/LineSeparator";
 import { episodeCardDataType } from "@/types/model/mainDataType";
 import EpisodeCard from "./EpisodeCard";
 import { useRouter } from "next/router";
-import Config from "@/configs/config.export";
-import { useEffect } from "react";
-import axios from "axios";
+
 export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
 }) {
-  const [episodesData, setEpisodesData] = useState(props.episodes);
   const router = useRouter();
-
   const directVeiwPage = (index: number) => {
     router.push(`/viewer/${index}`);
   };
@@ -25,8 +21,8 @@ export default function EpisodeInfo(props: {
           <div>1화부터</div>
         </div>
       </div>
-      {episodesData &&
-        episodesData.map((item,index) => (
+      {props.episodes &&
+        props.episodes.map((item, index) => (
           <div key={index} onClick={() => directVeiwPage(item.id)}>
             <EpisodeCard
               name={item.name}
