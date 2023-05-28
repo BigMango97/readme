@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import Comments from "@/components/pages/viewer/Comments";
+import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import Config from "@/configs/config.export";
 import { viewerData } from "@/types/model/mainDataType";
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
 import ViewerTop from "@/components/pages/viewer/ViewerTop";
-import { useQuery } from "react-query";
 import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
 
 interface ErrorType extends Error {
@@ -52,7 +51,6 @@ export default function ViewerPage() {
             registration={episodeDetailDataResult.registration}
           />
           <NovelViewer viewerData={episodeDetailDataResult.content} />
-          {/* <Comments /> */}
           <ViewerBottom />
         </>
       )}

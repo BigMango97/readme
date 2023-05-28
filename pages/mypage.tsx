@@ -6,7 +6,8 @@ import MypageList from "@/components/pages/mypage/MypageList";
 import isLogin from "@/configs/isLogin";
 import Login from "./login";
 
-export default function mypage() {
+export default function Mypage() {
+  console.log(isLogin());
   return (
     <>
       {isLogin() ? (

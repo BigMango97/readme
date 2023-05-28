@@ -1,11 +1,11 @@
-import React from "react";
 import { useCookies } from "react-cookie";
 
 const isLogin = () => {
   const [cookies] = useCookies(["accessToken"]);
-  if (cookies) {
-    return false;
-  } else return true;
+
+  if (cookies.accessToken) {
+    return true;
+  } else return false;
 };
 
 export default isLogin;
