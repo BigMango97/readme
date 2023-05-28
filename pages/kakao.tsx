@@ -13,7 +13,7 @@ export default function Kakao() {
   const router = useRouter();
   const code = router.query.code;
 
-  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [cookies, setCookie] = useCookies(["accessToken"]);
   const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
   //const [userData, setUserData] = useRecoilState(userDataState);
 
@@ -30,12 +30,13 @@ export default function Kakao() {
           myLogin.setItem("age", res.data.data.age);
 
           setLoginCheck(true);
+          console.log("login Res", res);
 
           setCookie("accessToken", res.headers.accesstoken, { path: "/" });
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.headers.accesstoken}`;
-          router.push("/mypage");
+          //router.push("/mypage");
         });
     }
   }, [code]);
