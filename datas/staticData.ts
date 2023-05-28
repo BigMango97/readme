@@ -30,6 +30,50 @@ export const footerMenu = [
     iconUrl: "/assets/images/icons/user.svg",
   },
 ];
+
+export const viewerBottomMenu = [
+  {
+    id: 1,
+    title: "menu",
+    iconUrl: "/assets/images/icons/menu.svg",
+    width:15,
+    height:15,
+    alt:"menuIcon"
+  },
+  {
+    id: 2,
+    title: "reviewRating",
+    iconUrl: "/assets/images/icons/star.svg",
+    width:20,
+    height:20,
+    alt:"starIcon"
+  },
+  {
+    id: 3,
+    title: "comment",
+    iconUrl: "/assets/images/icons/comment.svg",
+    width:25,
+    height:25,
+    alt:"commentIcon"
+  },
+  {
+    id: 4,
+    title: "beforenovel",
+    iconUrl: "/assets/images/icons/chevron-left.svg",
+    width:25,
+    height:25,
+    alt:"leftIcon"
+  },
+  {
+    id: 5,
+    title: "nextnovel",
+    iconUrl: "/assets/images/icons/chevron-right.svg",
+    width:25,
+    height:25,
+    alt:"rightIcon"
+  },
+];
+
 export const subDayMenu = [
   { id: 1, title: "월" },
   { id: 2, title: "화" },

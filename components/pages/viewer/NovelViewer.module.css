@@ -1,35 +1,33 @@
-.novelViewWrap{
-    list-style: none;
-    margin: 9rem 1rem 7rem 1rem;
- }
- 
- .emojiContainer{
-    cursor: pointer;
-    position: relative;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
- }
+.novelViewWrap {
+  list-style: none;
+  margin: 9rem 1rem 7rem 1rem;
+}
 
- .novelViewWrap .emoji {
-   position: absolute;
-   right: -2rem;
-   top: 0;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   margin-right: 0.5rem;
- }
- .emoji span {
-   padding: 0.2rem 0.3rem;
-   background: black;
-   border-radius: 50%;
-   position: relative;
-   top: -5px;
-   left: -5px;
-   font-size: 0.5rem;
-   color: white;
- }
- .emoji{
-    display: flex;
- }
+.emojiContainer {
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.novelViewWrap .emoji {
+  position: absolute;
+  right: -2rem;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+.emoji span {
+  padding: 0.2rem 0.3rem;
+  background: black;
+  border-radius: 50%;
+  position: relative;
+  top: -5px;
+  left: -5px;
+  font-size: 0.5rem;
+  color: white;
+}
+.emoji {
+  display: flex;
+}

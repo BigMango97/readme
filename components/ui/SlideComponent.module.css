@@ -1,0 +1,29 @@
+.container {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: fit-content;
+  max-height: 900px;
+  min-height: 200px;
+  background-color: white;
+  color: black;
+  transition: transform 0.5s ease-out;
+  padding: 2rem 1rem 1rem 1rem;
+  background: linear-gradient(180deg, white 0%, rgb(243, 242, 242) 10%);
+}
+.closeBtn {
+  width: 3rem;
+  height: 0.2rem;
+  border-radius: 1rem;
+  background-color: var(--readme-modal-color);
+}
+.container.show {
+  transform: translateY(0);
+}
+.container.noshow {
+  transform: translateY(100%);
+}
