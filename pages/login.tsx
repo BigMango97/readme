@@ -8,7 +8,7 @@ export default function Login() {
   useEffect(() => {
     //const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.KAKAO_JS_KEY);
+      window.Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
       console.log(window.Kakao.isInitialized());
     }
   }, []);
