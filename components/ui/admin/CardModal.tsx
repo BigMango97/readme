@@ -41,7 +41,7 @@ export default function CardModal(props: {
       const addIds = cardIds.filter((item) => !novelIds.includes(item));
       console.log("deleteIds", deleteIds);
       console.log("addIds", addIds);
-      // console.log("select", novelIds);
+
       // deleteIds?.map((id) => {
       //   axios
       //     .delete(`/sections-service/v1/admin/cards/novels/${id}`)

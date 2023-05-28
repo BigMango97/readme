@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { Table, Tag } from "antd";
-import {
-  DatabaseFilled,
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
 import {
@@ -13,18 +9,13 @@ import {
   novelTableType,
   novelType,
 } from "@/types/admin/novelType";
-import {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  NextPageContext,
-} from "next";
 import AdminButton from "./AdminButton";
 import Config from "@/configs/config.export";
 
-export default function NovelList({ data }: any) {
+export default function NovelList() {
   const router = useRouter();
-  //const search = router.query.search ? router.query.search : "";
-  //const select = router.query.select;
+  const search = router.query.search ? router.query.search : "";
+  const select = router.query.select;
 
   const [novelData, setNovelData] = useState<novelListType>();
   const moveEditForm = (id: number) => {
@@ -56,30 +47,30 @@ export default function NovelList({ data }: any) {
     router.push(`/admin/novels/${id}`);
   };
 
-  useEffect(() => {
-    console.log(data);
-    setNovelData({
-      novelList: data.data.contents,
-    });
-  }, []);
-
   // useEffect(() => {
-  //   let url = "";
-  //   if (select === "title") {
-  //     url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
-  //   } else if (select === "author") {
-  //     url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
-  //   } else {
-  //     url = `${baseUrl}/novels-service/v1/admin/novels`;
-  //   }
-
-  //   axios.get(url).then((res) => {
-  //     console.log(res.data.data.contents);
-  //     setData1({
-  //       novelList: res.data.data.contents,
-  //     });
+  //   console.log(data);
+  //   setNovelData({
+  //     novelList: data.data.contents,
   //   });
   // }, []);
+
+  useEffect(() => {
+    let url = "";
+    if (select === "title") {
+      url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
+    } else if (select === "author") {
+      url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
+    } else {
+      url = `${baseUrl}/novels-service/v1/admin/novels`;
+    }
+
+    axios.get(url).then((res) => {
+      console.log(res.data.data.contents);
+      setNovelData({
+        novelList: res.data.data.contents,
+      });
+    });
+  }, []);
 
   const columns: ColumnsType<novelType> = [
     {
