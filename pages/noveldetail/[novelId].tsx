@@ -6,9 +6,7 @@ import NovelDetailInfo from "@/components/pages/noveldetail/NovelDetailInfo";
 import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
-
 import Config from "@/configs/config.export";
-
 import { useQuery } from "react-query";
 
 export default function NovelDetail() {
@@ -27,7 +25,7 @@ export default function NovelDetail() {
     novelbyIdData,
     {
       staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000, // 5분 (밀리초 단위)
+      cacheTime: 10 * 60 * 1000, 
     }
   );
   const novelbyIdDataResult = novelbyIdDataQuery?.data?.data;
@@ -57,6 +55,7 @@ export default function NovelDetail() {
           />
         </>
       )}
+      <DetailFooter/>
     </>
   );
 }
