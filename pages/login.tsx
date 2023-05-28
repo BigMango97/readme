@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 
 export default function Login() {
+  const router = useRouter();
   useEffect(() => {
     const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
     if (!window.Kakao.isInitialized()) {
@@ -33,13 +34,12 @@ export default function Login() {
             priority
           />
           <p>로그인 후 이용할 수 있는 서비스 입니다</p>
-
           <div className={style.naverBtn}>
             <div id="naverIdLogin" />
             <Image
-              src="/assets/images/naver_btnG.png"
-              alt="naver login Btn"
-              width={150}
+              src="/assets/images/kakaoLogin.png"
+              alt="kakao login Btn"
+              width={235}
               height={40}
               onClick={kakaoLogin}
             />
@@ -51,6 +51,7 @@ export default function Login() {
             alt="close Btn"
             width={30}
             height={30}
+            onClick={() => router.back()}
           />
         </div>
       </div>
