@@ -4,7 +4,11 @@ import style from "@/components/pages/viewer/ViewerBottom.module.css";
 import SlideComponent from "@/components/ui/SlideComponent";
 import { viewerBottomMenu } from "@/datas/staticData";
 
-export default function ViewerBottom() {
+interface Props{
+  novelId:number,
+
+}
+export default function ViewerBottom({novelId}:Props) {
   const [activeIcon, setActiveIcon] = useState<null | undefined | string>(null);
 
   const handleIconClick = (title: string) => {
@@ -32,7 +36,7 @@ export default function ViewerBottom() {
             />
           </div>
         ))}
-        <SlideComponent activeIcon={activeIcon} onClose={closeSlide} />
+        <SlideComponent activeIcon={activeIcon} onClose={closeSlide} novelId={novelId}/>
       </div>
     </>
   );
