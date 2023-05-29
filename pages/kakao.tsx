@@ -33,12 +33,15 @@ export default function Kakao() {
           setLoginCheck(true);
           console.log("login Res", res);
 
-          setCookie("accessToken", res.headers.accesstoken, { path: "/" });
+          setCookie("accessToken", res.headers.accesstoken, {
+            path: "/",
+            // expires: res.headers.expires,
+          });
           setCookie("uuid", res.headers.uuid, { path: "/" });
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.headers.accesstoken}`;
-          //router.push("/mypage");
+          router.back();
         });
     }
   }, [code]);

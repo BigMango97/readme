@@ -37,7 +37,7 @@ export default function Login() {
             <Image
               src="/assets/images/kakaoLogin.png"
               alt="kakao login Btn"
-              width={235}
+              width={245}
               height={40}
               onClick={kakaoLogin}
             />
