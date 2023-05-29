@@ -51,7 +51,7 @@ export default function ViewerPage() {
             registration={episodeDetailDataResult.registration}
           />
           <NovelViewer viewerData={episodeDetailDataResult.content} />
-          <ViewerBottom />
+          <ViewerBottom novelId={episodeDetailDataResult.id}/>
         </>
       )}
     </>

@@ -5,11 +5,13 @@ import CommentsContainer from "../pages/viewer/CommentsContainer";
 interface SlideComponentProps {
   onClose: () => void;
   activeIcon?: string | null | undefined;
+  novelId:number
 }
 
 export default function SlideComponent({
   onClose,
   activeIcon,
+  novelId
 }: SlideComponentProps) {
   let content;
   switch (activeIcon) {
@@ -17,7 +19,7 @@ export default function SlideComponent({
       content = <div>수정필요</div>;
       break;
     case "reviewRating":
-      content = <ReviewContainer />;
+      content = <ReviewContainer novelId={novelId}/>;
       break;
     case "comment":
       content = <CommentsContainer />;

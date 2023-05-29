@@ -1,14 +1,15 @@
 import React from "react";
 import style from "@/components/ui/ReviewRating.module.css";
 import { FiStar } from "react-icons/fi";
-
+import { useState } from "react";
 interface RatingProps {
   clicked: boolean[];
   onStarClick: Function;
 }
 export default function ReviewRating({ clicked, onStarClick }: RatingProps) {
   const starArray = [0, 1, 2, 3, 4];
-  const rating = clicked.filter(Boolean).length;
+  const [rating,setRating] = useState<number>(clicked.filter(Boolean).length);
+
   return (
     <div className={style.stars}>
       <div className={style.starContainer}>
