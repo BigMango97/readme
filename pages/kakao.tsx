@@ -13,7 +13,8 @@ export default function Kakao() {
   const router = useRouter();
   const code = router.query.code;
 
-  const [cookies, setCookie] = useCookies(["accessToken"]);
+  const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
+
   const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
   //const [userData, setUserData] = useRecoilState(userDataState);
 
@@ -24,7 +25,7 @@ export default function Kakao() {
         .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
         .then((res) => {
           let myLogin = localStorage;
-          myLogin.setItem("accessToken", res.headers.accesstoken);
+          //myLogin.setItem("accessToken", res.headers.accesstoken);
           myLogin.setItem("uuid", res.headers.uuid);
           myLogin.setItem("name", res.data.data.name);
           myLogin.setItem("age", res.data.data.age);
@@ -33,6 +34,7 @@ export default function Kakao() {
           console.log("login Res", res);
 
           setCookie("accessToken", res.headers.accesstoken, { path: "/" });
+          setCookie("uuid", res.headers.uuid, { path: "/" });
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.headers.accesstoken}`;
