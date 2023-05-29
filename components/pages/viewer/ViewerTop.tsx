@@ -6,9 +6,10 @@ import { useRouter } from "next/router";
 
 interface Props {
   title: string;
+  novelsTitle:string;
   registration: string;
 }
-export default function ViewerTop({ title, registration }: Props) {
+export default function ViewerTop({ title, novelsTitle,registration }: Props) {
   const router = useRouter();
 
   return (
@@ -22,7 +23,7 @@ export default function ViewerTop({ title, registration }: Props) {
             height={25}
           />
         </div>
-        <p>{title}</p>
+        <p>{novelsTitle}</p>
         <div className={style.homeImg}>
           <Image
             src={"/assets/images/icons/my.svg"}

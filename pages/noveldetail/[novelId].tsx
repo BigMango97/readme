@@ -8,10 +8,10 @@ import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import Config from "@/configs/config.export";
 import { useQuery } from "react-query";
-
+import { useEffect } from "react";
 export default function NovelDetail() {
   const router = useRouter();
-  const [novelId, setnovelId] = useState(Number(router.query.novelId));
+  const [novelId, setNovelId] = useState(Number(router.query.novelId));
 
   const novelbyIdData = async () => {
     const baseUrl = Config().baseUrl;
@@ -21,14 +21,20 @@ export default function NovelDetail() {
     return response.data;
   };
   const novelbyIdDataQuery = useQuery(
-    ["novelbyIdData", novelbyIdData, "novelId", novelId],
+    ["novelbyIdData", novelId],
     novelbyIdData,
     {
+      enabled: !!novelId,
       staleTime: 5 * 60 * 1000,
       cacheTime: 10 * 60 * 1000, 
     }
   );
+  useEffect(() => {
+    setNovelId(Number(router.query.novelId));
+  }, [router.query.novelId]);
+
   const novelbyIdDataResult = novelbyIdDataQuery?.data?.data;
+
 
   return (
     <>
@@ -49,7 +55,7 @@ export default function NovelDetail() {
           />
           <NovelTages tags={novelbyIdDataResult.tags} />
           <NovelDetailMenu
-            novelId={novelId}
+            novelId={novelbyIdDataResult.novelId}
             description={novelbyIdDataResult.description}
             authorComment={novelbyIdDataResult.authorComment}
           />

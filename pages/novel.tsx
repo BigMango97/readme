@@ -70,6 +70,7 @@ export default function Novel({ dehydratedState }: Props) {
         cacheTime: 10 * 1000 * 60,
       }
     );
+    
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       console.log("fetching next page...");

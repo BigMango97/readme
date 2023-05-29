@@ -13,10 +13,10 @@ interface ErrorType extends Error {
 }
 export default function ViewerPage() {
   const router = useRouter();
-  const episodeid = router.asPath.split("/")[2];
+  const episodeid = Number(router.asPath.split("/")[2]);
 
   const baseUrl = Config().baseUrl;
-  const episodeDetailData = async (episodeid: any) => {
+  const episodeDetailData = async (episodeid: number) => {
     const response = await axios.get(
       `${baseUrl}/novels-service/v1/episodes/${episodeid}`
     );
@@ -37,21 +37,22 @@ export default function ViewerPage() {
         return data.data;
       },
       enabled: !!episodeid,
-      cacheTime: Infinity,
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
     }
   );
   const episodeDetailDataResult: viewerData = data?.data;
-
   return (
     <>
       {episodeDetailDataResult && (
         <>
           <ViewerTop
             title={episodeDetailDataResult.title}
+            novelsTitle={episodeDetailDataResult.novelsTitle}
             registration={episodeDetailDataResult.registration}
           />
           <NovelViewer viewerData={episodeDetailDataResult.content} />
-          <ViewerBottom novelId={episodeDetailDataResult.id}/>
+          <ViewerBottom novelId={episodeDetailDataResult.novelId} />
         </>
       )}
     </>
