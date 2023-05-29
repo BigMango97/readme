@@ -4,11 +4,13 @@ import Footer from "@/components/layouts/Footer";
 import { useRouter } from "next/router";
 import axios, { AxiosResponse } from "axios";
 import { GetServerSideProps } from "next";
-import React from "react";
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   useQuery,
   QueryClient,
   dehydrate,
+  useInfiniteQuery,
 } from "react-query";
 import Config from "@/configs/config.export";
 const baseUrl = Config().baseUrl;
@@ -19,16 +21,16 @@ const novelMenus = async () => {
   return response.data;
 };
 
-const novelDatas = async (
+const fetchnovelDatas = async (
   category: string,
-  subCategory: string
+  subCategory: string,
+  pageParam = 0
 ): Promise<AxiosResponse> => {
   const response = await axios.get(
-    `${baseUrl}/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
+    `${baseUrl}/sections-service/v1/cards/novels?pagination=${pageParam}&category=${category}&subCategory=${subCategory}`
   );
   return response.data;
 };
-
 interface Props {
   dehydratedState: unknown;
 }
@@ -47,24 +49,55 @@ export default function Novel({ dehydratedState }: Props) {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
 
-  const novelDatasQuery = useQuery(
-    ["category", category, "subCategory", subCategory],
-    () => novelDatas(category, subCategory),
-    {
-      cacheTime: 10 * 60 * 1000,
-      staleTime: 5 * 60 * 1000,
-      refetchOnWindowFocus: false,
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery(
+      ["novelDatas", category, subCategory],
+      ({ pageParam = 0 }) => fetchnovelDatas(category, subCategory, pageParam),
+      {
+        getNextPageParam: (lastPage) => {
+          const currentPage = lastPage?.data?.page ?? 0;
+          const totalPages = lastPage?.data?.totalPages ?? 0;
+          if (currentPage < totalPages) {
+            return currentPage + 1;
+          }
+          return null;
+        },
+        staleTime: 5 * 1000 * 60,
+        cacheTime: 10 * 1000 * 60,
+      }
+    );
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      console.log("fetching next page...");
+      fetchNextPage();
     }
-  );
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   const novelMenusResult = novelMenusQuery?.data?.data;
-  const novelDatasResult = novelDatasQuery?.data;
-
+  const novelDatasResult = data?.pages.flatMap(
+    (page) => page.data.novelCardsData
+  );
+  const totalElementsResult = data?.pages.flatMap(
+    (page) => page.data.totalElements
+  );
   return (
     <>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
-      {novelDatasResult && <AllNovelCardSection data={novelDatasResult} />}
+      {novelDatasResult && totalElementsResult && (
+        <AllNovelCardSection
+          data={novelDatasResult}
+          totalElements={totalElementsResult[0]}
+        />
+      )}
+      <div ref={ref}></div>
       <Footer />
     </>
   );
@@ -76,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await queryClient.prefetchQuery(["novelMenus"], novelMenus);
   await queryClient.prefetchQuery(
     ["category", category, "subCategory", subCategory],
-    () => novelDatas(String(category), String(subCategory))
+    () => fetchnovelDatas(String(category), String(subCategory))
   );
 
   const dehydratedState = dehydrate(queryClient);
