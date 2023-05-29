@@ -40,7 +40,7 @@ export default function Kakao() {
           setCookie("uuid", res.headers.uuid, { path: "/" });
           axios.defaults.headers.common[
             "Authorization"
-          ] = `Bearer ${res.headers.accesstoken}`;
+          ] = `Bearer ${res.headers.uuid}`;
           router.back();
         });
     }
