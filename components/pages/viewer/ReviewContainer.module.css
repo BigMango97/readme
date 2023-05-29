@@ -17,12 +17,13 @@
   width: 6rem;
   height: 1.8rem;
   margin: 0.2rem;
-  border-radius: 1rem;
+  border-radius: 2rem;
   font-size: 0.7rem;
   font-weight: bold;
 }
 .checkBtn button:first-child {
   border: 1px solid var(--readme-primary);
+  background-color: var(--readme-white);
   box-sizing: border-box;
   color: var(--readme-primary);
 }
