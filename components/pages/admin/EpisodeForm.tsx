@@ -161,9 +161,7 @@ export default function EpisodeForm() {
           </div>
 
           <div className={style.button}>
-            <Form.Item
-              rules={[{ required: true, message: "${another} is required" }]}
-            >
+            <Form.Item>
               <Space>
                 {epiId === undefined ? (
                   <Button
