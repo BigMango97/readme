@@ -6,9 +6,9 @@ import React, { useEffect } from "react";
 export default function Login() {
   const router = useRouter();
   useEffect(() => {
-    //const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
+    const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
+      window.Kakao.init(jsKey);
       console.log(window.Kakao.isInitialized());
     }
   }, []);
