@@ -1,7 +1,7 @@
 import Config from "@/configs/config.export";
 import { loginCheckState, userDataState } from "@/state/loginState";
+import axios from "axios";
 //import { userLoginState } from "@/state/atom/userLoginState";
-import axios from "@/configs/axiosConfig";
 
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -20,7 +20,7 @@ export default function Kakao() {
 
   // const code =
   //   "EqQphy6bHvQPes2YYcUzLcLpwPRNk1xb3I6lCw-MtZX_GTX8qR5R5BggV-r3a8pvAWOJ1wo9dRkAAAGIZUcVcw";
-  console.log(code);
+
   useEffect(() => {
     if (code !== undefined) {
       axios
@@ -40,9 +40,11 @@ export default function Kakao() {
             // expires: res.headers.expires,
           });
           setCookie("uuid", res.headers.uuid, { path: "/" });
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${res.headers.uuid}`;
+          console.log(res);
+          // axios.defaults.headers.common[
+          //   "Authorization"
+          // ] = `Bearer ${res.headers.accesstoken}`;
+          // axios.defaults.headers.common["uuid"] = `${res.headers.uuid}`;
           router.back();
         });
     }
