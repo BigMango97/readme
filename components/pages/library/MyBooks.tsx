@@ -5,7 +5,9 @@ import { useCookies } from "react-cookie";
 import { likeListType } from "@/types/user/likeType";
 export default function MyBooks() {
   const [cookies] = useCookies(["uuid"]);
-  const [likeList, setLikeList] = useState<likeListType>();
+  const [userLikeList, setUserLikeList] = useState<likeListType>({
+    likeList: [],
+  });
   useEffect(() => {
     console.log(cookies.uuid);
     axios
@@ -17,10 +19,13 @@ export default function MyBooks() {
       })
       .then((res) => {
         console.log(res);
-        //setLikeList({})
+        //setUserLikeList({ likeList: res.request.data.contents });
       });
   }, []);
   return (
+    // {userLikeList.map(item=>{
+
+    // })}
     <div className={style.container}>
       <p>최근 본 소설이 없습니다</p>
     </div>
