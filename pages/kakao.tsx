@@ -1,6 +1,7 @@
 import Config from "@/configs/config.export";
 import { loginCheckState, userDataState } from "@/state/loginState";
 import axios from "axios";
+import { default as customAxios } from "@/configs/axiosConfig";
 //import { userLoginState } from "@/state/atom/userLoginState";
 
 import { useRouter } from "next/router";
@@ -44,7 +45,7 @@ export default function Kakao() {
           // axios.defaults.headers.common[
           //   "Authorization"
           // ] = `Bearer ${res.headers.accesstoken}`;
-          // axios.defaults.headers.common["uuid"] = `${res.headers.uuid}`;
+          //customAxios.defaults.headers.common["uuid"] = `${res.headers.uuid}`;
           router.back();
         });
     }

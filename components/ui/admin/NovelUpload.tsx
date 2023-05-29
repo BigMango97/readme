@@ -14,13 +14,14 @@ export default function NovelUpload(props: {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result as string));
     reader.readAsDataURL(img);
-    //const baseUrl = Config().baseUrl;
+    const baseUrl = Config().baseUrl;
     const formData = new FormData();
     formData.append("multipartFile", img);
     try {
       //
       const imageRes = await axios.post(
-        `http://43.200.189.164/novels-service/s3/file`,
+        //`https://api.readme.life/novels-service/s3/file`,
+        `${baseUrl}/novels-service/s3/file`,
         formData,
         {
           // 헤더에 보낼 파일의 타입이 multipart라 말해줘야 한다. 이미지 파일은 크기 때문에 부분으로 나눠서 보내기 때문
@@ -28,7 +29,7 @@ export default function NovelUpload(props: {
         }
       );
       const image_URL = imageRes.data;
-      console.log(`imageRes = `, imageRes.data);
+
       props.setInputData({
         ...props.inputData,
         thumbnail: image_URL,
