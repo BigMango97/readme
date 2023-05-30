@@ -6,11 +6,12 @@ import { viewerBottomMenu } from "@/datas/staticData";
 
 interface Props{
   novelId:number,
+
 }
 export default function ViewerBottom({novelId}:Props) {
-  const [activeIcon, setActiveIcon] = useState< "menu" | "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null>(null);
+  const [activeIcon, setActiveIcon] = useState<null | undefined | string>(null);
 
-  const handleIconClick = (title:any) => {
+  const handleIconClick = (title: string) => {
     setActiveIcon(title);
   };
 
