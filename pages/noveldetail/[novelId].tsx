@@ -24,9 +24,7 @@ export default function NovelDetail() {
     ["novelbyIdData", novelId],
     novelbyIdData,
     {
-      enabled: !!novelId,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000, 
+      enabled: !!novelId
     }
   );
   useEffect(() => {

@@ -29,7 +29,7 @@ export default function NovelDetailMenu(props: {
 
   const menuTitle = router.query.menu;
   const baseUrl = Config().baseUrl;
-
+  console.log("props.novelIdprops.novelId", props.novelId);
   const fetchEpisodes = async ({ pageParam = 0 }) => {
     const res = await axios.get(
       `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}`
@@ -50,8 +50,6 @@ export default function NovelDetailMenu(props: {
         }
         return null;
       },
-      staleTime: 5 * 1000 * 60,
-      cacheTime: 10 * 1000 * 60,
     });
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
