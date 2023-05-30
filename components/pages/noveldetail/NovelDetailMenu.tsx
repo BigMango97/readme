@@ -2,50 +2,48 @@ import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import EpisodeInfo from "./EpisodeInfo";
 import CommentList from "./CommentList";
-import { useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import Config from "@/configs/config.export";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Config from "@/configs/config.export";
 
-export interface menuType {
+interface menuType {
   id: number;
   menu: string;
 }
+const MENULIST = [
+  { id: 0, menu: "작품소개" },
+  { id: 1, menu: "에피소드" },
+  { id: 2, menu: "댓글" },
+];
+
 export default function NovelDetailMenu(props: {
   novelId: number;
   description: string;
   authorComment: string;
 }) {
-  const router = useRouter();
-  const menulist: menuType[] = [
-    { id: 0, menu: "작품소개" },
-    { id: 1, menu: "에피소드" },
-    { id: 2, menu: "댓글" },
-  ];
-
-  const menuTitle = router.query.menu;
   const baseUrl = Config().baseUrl;
   const [sort, setSort] = useState<string>("최신순");
+  const [menuTitle, setMenuTitle] = useState<string>(MENULIST[0].menu);
 
   const handleSort = (newSort: string) => {
     setSort(newSort);
   };
 
   const fetchEpisodes = async ({ pageParam = 0 }) => {
-    const res = await axios.get(
+    const response = await axios.get(
       `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}&sort=${sort}`
     );
-    return res.data;
+    return response.data;
   };
   const { ref, inView } = useInView({
     threshold: 0,
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(["episodes",sort], fetchEpisodes, {
+    useInfiniteQuery(["episodes", sort], fetchEpisodes, {
       getNextPageParam: (lastPage) => {
         const currentPage = lastPage?.data?.page ?? 0;
         const totalPages = lastPage?.data?.totalPages ?? 0;
@@ -68,11 +66,11 @@ export default function NovelDetailMenu(props: {
   return (
     <>
       <div className={style.menutitle}>
-        {menulist.map((item, i) => (
+        {MENULIST.map((item) => (
           <p
             key={item.id}
             onClick={() => {
-              router.push(`/noveldetail/${props.novelId}?menu=${item.menu}`);
+              setMenuTitle(item.menu);
             }}
             className={`${menuTitle === item.menu ? style.menuactive : null}`}
           >
