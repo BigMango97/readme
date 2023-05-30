@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import style from "@/components/pages/noveldetail/EpisodeInfo.module.css";
-import LineSeparator from "@/components/ui/LineSeparator";
+import React from "react";
 import { episodeCardDataType } from "@/types/model/mainDataType";
 import EpisodeCard from "./EpisodeCard";
 import { useRouter } from "next/router";
-
+import style from "@/components/pages/noveldetail/EpisodeInfo.module.css";
+import LineSeparator from "@/components/ui/LineSeparator";
+import { SortType } from "./NovelDetailMenu";
 export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
-  sort: string;
-  onSortChange: (newSort: string) => void;
+  sort: SortType;
+  onSortChange: (newSort: SortType) => void;
 }) {
   const router = useRouter();
   const directVeiwPage = (index: number) => {
