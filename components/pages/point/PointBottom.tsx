@@ -6,13 +6,15 @@ import axios from "@/configs/axiosConfig";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { payState } from "@/state/payState";
+import { useCookies } from "react-cookie";
 
 export default function PointBottom() {
+  const [cookies] = useCookies(["uuid"]);
   const clickMoney = () => {
     axios
       .post(`/payments-service/v1/payments/ready`, {
         point: point,
-        uuid: "11",
+        uuid: cookies.uuid,
       })
       .then((res) => {
         //console.log(res.data.data.tid);

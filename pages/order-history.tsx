@@ -6,7 +6,7 @@ import style from "@/components/pages/point/Approval.module.css";
 import Image from "next/image";
 import LineSeparator from "@/components/ui/LineSeparator";
 
-export default function Approval() {
+export default function OrderHistory() {
   const router = useRouter();
   const pg_token = router.query.pg_token;
   const [cookies] = useCookies(["uuid"]);
@@ -17,9 +17,6 @@ export default function Approval() {
     const uuid = localStorage.getItem("uuid");
     const partnerOrderId = localStorage.getItem("partnerOrderId");
     if (pg_token !== undefined) {
-      // console.log("pg_token2", pg_token);
-      // console.log("payData.tid", tid);
-      // console.log("payData.partnerOrderId", partnerOrderId);
       axios
         .post(`/payments-service/v1/payments/approve`, {
           tid: tid,

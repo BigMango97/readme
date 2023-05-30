@@ -11,7 +11,6 @@ interface Props {
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
-  //console.log("datadatadatadata ", data);
   return (
     <>
       <div className={style.container}>
