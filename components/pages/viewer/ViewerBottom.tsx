@@ -9,9 +9,9 @@ interface Props{
 
 }
 export default function ViewerBottom({novelId}:Props) {
-  const [activeIcon, setActiveIcon] = useState<null | undefined | string>(null);
+  const [activeIcon, setActiveIcon] = useState<"menu" | "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null>(null);
 
-  const handleIconClick = (title: string) => {
+  const handleIconClick = (title:any) => {
     setActiveIcon(title);
   };
 
