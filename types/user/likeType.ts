@@ -8,3 +8,18 @@ export interface likeType{
 export interface likeListType{
     likeList : likeType[]
 }
+
+export interface likeNovelType{
+    id: number;
+    title: string;
+    author: string;
+    description: string;
+    startDate: Dayjs;
+    serializationDay: string[];
+    thumbnail: string;
+    serializationStatus: string;
+    authorComment: string;
+    genre: string;
+    grade: number;
+    tags: string[];
+}

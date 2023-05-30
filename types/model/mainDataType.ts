@@ -93,6 +93,3 @@ export interface viewerData {
   registration:string;
 }
 
-export interface allDetailDataListType {
-  allDetailDataList: allDetailDatatype[]
-}
