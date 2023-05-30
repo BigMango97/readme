@@ -5,7 +5,28 @@
   margin: 1rem;
 }
 .commentsList {
-  height: 550px;
+  height: 30rem;
   overflow-y: scroll;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.noCommentsContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.commentsImg img{
+  margin-bottom: 1rem;
+}
+.noComment{
+  height: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noComment p{
+  text-align: center;
+  font-size: 0.8rem;
 }

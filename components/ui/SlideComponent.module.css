@@ -21,9 +21,9 @@
   border-radius: 1rem;
   background-color: var(--readme-modal-color);
 }
-.container.show {
+.container.shown {
   transform: translateY(0);
 }
-.container.noshow {
+.container.hidden {
   transform: translateY(100%);
 }

@@ -1,33 +1,43 @@
 import React from "react";
-import style from "@/components/ui/SlideComponent.module.css";
 import ReviewContainer from "../pages/viewer/ReviewContainer";
 import CommentsContainer from "../pages/viewer/CommentsContainer";
+import style from "@/components/ui/SlideComponent.module.css";
+
+type ActiveIconType = "menu" | "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null;
+
 interface SlideComponentProps {
   onClose: () => void;
-  activeIcon?: string | null | undefined;
+  activeIcon?: ActiveIconType;
   novelId:number
 }
+const ICON_TYPES = {
+  MENU: "menu",
+  REVIEW_RATING: "reviewRating",
+  COMMENT: "comment",
+  BEFORENOVEL : "beforenovel",
+  NEXTNOVEL : "nextnovel",  
+};
 
 export default function SlideComponent({
   onClose,
   activeIcon,
   novelId
-}: SlideComponentProps) {
+}: SlideComponentProps): JSX.Element {
   let content;
   switch (activeIcon) {
-    case "menu":
+    case ICON_TYPES.MENU:
       content = <div>수정필요</div>;
       break;
-    case "reviewRating":
+    case ICON_TYPES.REVIEW_RATING:
       content = <ReviewContainer novelId={novelId} onClose={onClose}/>;
       break;
-    case "comment":
-      content = <CommentsContainer />;
+    case ICON_TYPES.COMMENT:
+      content = <CommentsContainer novelId={novelId}/>;
       break;
-    case "beforenovel":
+    case ICON_TYPES.BEFORENOVEL:
       content = <div>수정필요</div>;
       break;
-    case "nextnovel":
+    case ICON_TYPES.NEXTNOVEL:
       content = <div>수정필요</div>;
       break;
   }
@@ -35,7 +45,7 @@ export default function SlideComponent({
   return (
     <div
       className={`${style.container} ${
-        activeIcon !== null ? style.show : style.noshow
+        activeIcon !== null ? style.shown : style.hidden
       }`}
     >
       <div className={style.closeBtn} onClick={onClose} />
