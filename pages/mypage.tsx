@@ -7,19 +7,12 @@ import isLogin from "@/configs/isLogin";
 import Login from "./login";
 
 export default function Mypage() {
-  console.log(isLogin());
   return (
     <>
-      {isLogin() ? (
-        <>
-          <MypageInfo />
-          <MypageList />
-          <Logout />
-          <Footer />
-        </>
-      ) : (
-        <Login />
-      )}
+      <MypageInfo />
+      <MypageList />
+      <Logout />
+      <Footer />
     </>
   );
 }

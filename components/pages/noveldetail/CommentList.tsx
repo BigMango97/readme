@@ -1,170 +1,93 @@
 import React from "react";
+import axios from "axios";
 import style from "@/components/pages/noveldetail/CommentList.module.css";
-import NewUi from "@/components/ui/NewUi";
-import Image from "next/image";
-import LineSeparator from "@/components/ui/LineSeparator";
+import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
+import Config from "@/configs/config.export";
+import Comment from "@/components/ui/Comment";
+import Swal from "sweetalert2";
+import CommentsCheck from "./CommentsCheck";
+
 export default function CommentList() {
+  const router = useRouter();
+  const novelId = router.asPath.split("/")[2];
+  const [cookies] = useCookies(["uuid"]);
+  const baseUrl = Config().baseUrl;
+  const queryClient = useQueryClient();
+  const { data } = useQuery(
+    ["comments", novelId],
+    () =>
+      axios
+        .get(`${baseUrl}/utils-service/v1/comments/novels/${novelId}`, {
+          headers: {
+            uuid: cookies.uuid,
+          },
+        })
+        .then((res) => res.data),
+    { enabled: !!novelId }
+  );
+  const novelcommentData = data?.data?.contents;
+  const novelCommentLength = data?.data?.contents.length;
+
+  const deleteCommentMutation = useMutation(
+    (commentId: number) =>
+      axios.delete(`${baseUrl}/utils-service/v1/comments/${commentId}`, {
+        headers: {
+          uuid: cookies.uuid,
+        },
+      }),
+    {
+      onSuccess: () => {
+        console.log("댓글이 성공적으로 삭제되었습니다!");
+        queryClient.invalidateQueries(["comments", novelId]);
+      },
+      onError: (error) => {
+        console.error(error)
+        Swal.fire({
+          icon: "warning",
+          text: "댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      },
+    }
+  );
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      const result = await Swal.fire({
+        icon: "info",
+        text: "댓글을 삭제하시겠습니까?",
+        cancelButtonText: "취소",
+        showCancelButton: true,
+        customClass: {
+          confirmButton: "swal-confirm-button",
+          cancelButton: "swal-cancel-button",
+        },
+      });
+      if (result.isConfirmed) {
+        await deleteCommentMutation.mutateAsync(commentId);
+      }
+    } catch (error) {
+      console.log(
+        "댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.",
+        error
+      );
+    }
+  };
   return (
     <>
       <div className={style.CommentContainer}>
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미(작성자)</div>
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-            <div>
-              <Image
-                src="/assets/images/icons/write.svg"
-                alt="left-arrow"
-                width={20}
-                height={20}
-                priority
-              />
-              <Image
-                src="/assets/images/icons/trash-2.svg"
-                alt="left-arrow"
-                width={20}
-                height={20}
-                priority
-              />
-            </div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
-        <LineSeparator colorline="grayline" />
-        <div className={style.CommentCard}>
-          <div className={style.commentListInfo}>
-            <div className={style.commentListTitle}>
-              <div className={style.commentWriter}>밍개미</div>
-              <NewUi />
-            </div>
-            <div className={style.commentDay}>2023.04.25</div>
-          </div>
-          <div className={style.comment}>
-            무협 좀비아포칼립스는 ㄹㅇ 빡센데 ㄷㄷ 화전민촌들이 다 휩쓸리겟네
-          </div>
-          <div className={style.episodeIcons}>
-            <div className={style.episodeTitle}>신과함께 레벨업 080화</div>
-          </div>
-        </div>
+        <CommentsCheck commentcount={novelCommentLength} />
+        {novelcommentData &&
+          novelcommentData.map((comment: any) => (
+            <Comment
+              key={comment.id}
+              {...comment}
+              onDelete={handleDeleteComment}
+            />
+          ))}
       </div>
     </>
   );
