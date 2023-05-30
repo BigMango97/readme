@@ -26,7 +26,7 @@ export default function NovelDetailMenu(props: {
     { id: 1, menu: "에피소드" },
     { id: 2, menu: "댓글" },
   ];
-
+  
   const menuTitle = router.query.menu;
   const baseUrl = Config().baseUrl;
 
@@ -49,10 +49,9 @@ export default function NovelDetailMenu(props: {
           return currentPage + 1;
         }
         return null;
-      },
-      staleTime: 5 * 1000 * 60,
-      cacheTime: 10 * 1000 * 60,
+      }
     });
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();

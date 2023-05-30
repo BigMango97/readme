@@ -12,7 +12,6 @@ import { useEffect } from "react";
 export default function NovelDetail() {
   const router = useRouter();
   const [novelId, setNovelId] = useState(Number(router.query.novelId));
-
   const novelbyIdData = async () => {
     const baseUrl = Config().baseUrl;
     const response = await axios.get(
@@ -25,8 +24,6 @@ export default function NovelDetail() {
     novelbyIdData,
     {
       enabled: !!novelId,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000, 
     }
   );
   useEffect(() => {
