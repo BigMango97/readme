@@ -5,19 +5,21 @@ import CommentList from "./CommentList";
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
-import { useRouter } from "next/router";
 import axios from "axios";
 import Config from "@/configs/config.export";
 
-interface menuType {
-  id: number;
-  menu: string;
-}
+export const SORT_TYPES = {
+  RECENT: "최신순",
+  FROM_FIRST: "1화부터",
+} as const;
+
 const MENULIST = [
   { id: 0, menu: "작품소개" },
   { id: 1, menu: "에피소드" },
   { id: 2, menu: "댓글" },
 ];
+
+export type SortType = (typeof SORT_TYPES)[keyof typeof SORT_TYPES];
 
 export default function NovelDetailMenu(props: {
   novelId: number;
@@ -25,10 +27,9 @@ export default function NovelDetailMenu(props: {
   authorComment: string;
 }) {
   const baseUrl = Config().baseUrl;
-  const [sort, setSort] = useState<string>("최신순");
+  const [sort, setSort] = useState<SortType>(SORT_TYPES.RECENT);
   const [menuTitle, setMenuTitle] = useState<string>(MENULIST[0].menu);
-
-  const handleSort = (newSort: string) => {
+  const handleSort = (newSort: SortType) => {
     setSort(newSort);
   };
 
@@ -43,7 +44,7 @@ export default function NovelDetailMenu(props: {
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery(["episodes", sort], fetchEpisodes, {
+    useInfiniteQuery(["episodes", props.novelId, sort], fetchEpisodes, {
       getNextPageParam: (lastPage) => {
         const currentPage = lastPage?.data?.page ?? 0;
         const totalPages = lastPage?.data?.totalPages ?? 0;
@@ -72,7 +73,7 @@ export default function NovelDetailMenu(props: {
             onClick={() => {
               setMenuTitle(item.menu);
             }}
-            className={`${menuTitle === item.menu ? style.menuactive : null}`}
+            className={`${menuTitle === item.menu ? style.menuactive : ""}`}
           >
             {item.menu}
           </p>
@@ -94,7 +95,12 @@ export default function NovelDetailMenu(props: {
           <EpisodeInfo
             sort={sort}
             onSortChange={handleSort}
-            episodes={data.pages.flatMap((page) => page.data.episodes)}
+            episodes={data.pages.flatMap(
+              (page) =>
+                page.data.episodes?.filter(
+                  (episode: any) => episode !== undefined && episode !== null
+                ) || []
+            )}
           />
           <div className={style.refcheck} ref={ref}></div>
         </>
