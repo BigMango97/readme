@@ -28,7 +28,7 @@ export default function DetailFooter() {
         },
       })
       .then((res) => {
-        setUserLikeList({ likeList: res.data.data.contents });
+        // setUserLikeList({ likeList: res.data.data.contents });
         // userLikeList.likeList.map((item) => {
         //   if (item.novelsId === novelId) {
         //     return setClickLike(true);
