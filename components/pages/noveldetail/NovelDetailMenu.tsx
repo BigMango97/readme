@@ -50,8 +50,8 @@ export default function NovelDetailMenu(props: {
         }
         return null;
       },
-      staleTime: 5 * 1000 * 60 , 
-      cacheTime: 10 * 1000 * 60, 
+      staleTime: 5 * 1000 * 60,
+      cacheTime: 10 * 1000 * 60,
     });
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

@@ -19,7 +19,7 @@ export default function SlideComponent({
       content = <div>수정필요</div>;
       break;
     case "reviewRating":
-      content = <ReviewContainer novelId={novelId}/>;
+      content = <ReviewContainer novelId={novelId} onClose={onClose}/>;
       break;
     case "comment":
       content = <CommentsContainer />;

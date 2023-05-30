@@ -88,6 +88,8 @@ export interface episodeCardDataType {
 
 export interface viewerData {
   id:number;
+  novelId:number;
+  novelsTitle:string;
   title:string;
   content:string;
   registration:string;

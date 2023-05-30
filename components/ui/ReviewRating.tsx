@@ -8,7 +8,7 @@ interface RatingProps {
 }
 export default function ReviewRating({ clicked, onStarClick }: RatingProps) {
   const starArray = [0, 1, 2, 3, 4];
-  const [rating,setRating] = useState<number>(clicked.filter(Boolean).length);
+  const rating = clicked.filter(Boolean).length;
 
   return (
     <div className={style.stars}>
@@ -27,16 +27,16 @@ export default function ReviewRating({ clicked, onStarClick }: RatingProps) {
       </div>
       <div className={style.ratingText}>
         {rating === 5
-          ? "5.0"
+          ? "5"
           : rating === 4
-          ? "4.0"
+          ? "4"
           : rating === 3
-          ? "3.0"
+          ? "3"
           : rating === 2
-          ? "2.0"
+          ? "2"
           : rating === 1
-          ? "1.0"
-          : "0.0"}
+          ? "1"
+          : "0"}
       </div>
     </div>
   );
