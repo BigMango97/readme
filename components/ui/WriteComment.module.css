@@ -1,9 +1,9 @@
 .inputContainer {
-  width: 100%;
-  height: 2rem;
+  height: 3.5rem;
   display: flex;
   justify-content: space-between;
-  margin: 0.5rem 0rem;
+  padding: 0.5rem 1rem;
+  width: 100vw;
 }
 .inputContainer input {
   width: 90%;
