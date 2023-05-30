@@ -17,5 +17,22 @@
     color: #03C75A;
 }
 .box{
-    padding-bottom: 0.4rem;
+    padding-bottom: 2rem;
+}
+.payment{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
+.payButton{
+    width: 17rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;                  
+    background-color: var(--readme-primary);
+    color: white;
+    align-items: center;
+    border-radius: 3rem;
 }
