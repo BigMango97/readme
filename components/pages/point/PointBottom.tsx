@@ -8,8 +8,6 @@ import { useRecoilState } from "recoil";
 import { payState } from "@/state/payState";
 
 export default function PointBottom() {
-  //const uuid = localStorage.getItem("uuid");
-
   const clickMoney = () => {
     axios
       .post(`/payments-service/v1/payments/ready`, {
@@ -17,19 +15,16 @@ export default function PointBottom() {
         uuid: "11",
       })
       .then((res) => {
-        console.log(res.data.data.tid);
+        //console.log(res.data.data.tid);
 
         localStorage.setItem("tid", res.data.data.tid);
         localStorage.setItem("partnerOrderId", res.data.data.partner_order_id);
         window.open(res.data.data.next_redirect_pc_url);
       });
   };
-  // const [cash, setCash] = useState(15000);
+
   const [point, setPoint] = useRecoilState(payState);
-  //const clickButton = (id: number, amount: number) => {
-  //setClickAmount(id);
-  //setCash(amount);
-  //};
+
   return (
     <>
       <div className={style.container}>
