@@ -92,3 +92,7 @@ export interface viewerData {
   content:string;
   registration:string;
 }
+
+export interface allDetailDataListType {
+  allDetailDataList: allDetailDatatype[]
+}

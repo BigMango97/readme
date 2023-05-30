@@ -11,7 +11,7 @@ export default function LibraryTop() {
   return (
     <div className={style.libraryTopWrap}>
       <h1>
-        <span className={style.userName}>맹고미</span>의 서재
+        <span className={style.userName}>맹고미의 서재</span>
       </h1>
       <ul className={style.menu}>
         {mybookMenu.map((item) => (

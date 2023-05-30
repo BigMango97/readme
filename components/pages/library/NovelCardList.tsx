@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import {
+  allDetailDataListType,
   allDetailDatatype,
   allNovelCardType,
 } from "@/types/model/mainDataType";
 import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
-import { allDetailListType } from "@/types/model/mainDataType";
 interface Props {
-  data: allDetailDatatype[];
+  data: allDetailDataListType | undefined;
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
+  //console.log("datadatadatadata ", data);
   return (
     <>
       <div className={style.container}>
-        <div>소설 {totalElements}건</div>
+        <span>소설 {totalElements}건</span>
       </div>
       <div className={style.novelContainer}>
         {data ? (
-          data.map((item, index) => (
+          data.allDetailDataList.map((item, index) => (
             <NovelListItem
               key={index}
               thumbnail={item.thumbnail}
