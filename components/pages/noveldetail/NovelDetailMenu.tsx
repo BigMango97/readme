@@ -1,9 +1,8 @@
 import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import EpisodeInfo from "./EpisodeInfo";
-import CommentsCheck from "./CommentsCheck";
 import CommentList from "./CommentList";
-
+import { useState } from "react";
 import React, { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 import Config from "@/configs/config.export";
@@ -29,10 +28,15 @@ export default function NovelDetailMenu(props: {
 
   const menuTitle = router.query.menu;
   const baseUrl = Config().baseUrl;
+  const [sort, setSort] = useState<string>("최신순");
+
+  const handleSort = (newSort: string) => {
+    setSort(newSort);
+  };
 
   const fetchEpisodes = async ({ pageParam = 0 }) => {
     const res = await axios.get(
-      `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}`
+      `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}&sort=${sort}`
     );
     return res.data;
   };
@@ -41,7 +45,7 @@ export default function NovelDetailMenu(props: {
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery("episodes", fetchEpisodes, {
+    useInfiniteQuery(["episodes",sort], fetchEpisodes, {
       getNextPageParam: (lastPage) => {
         const currentPage = lastPage?.data?.page ?? 0;
         const totalPages = lastPage?.data?.totalPages ?? 0;
@@ -90,6 +94,8 @@ export default function NovelDetailMenu(props: {
       {menuTitle === "에피소드" && props.novelId && data && (
         <>
           <EpisodeInfo
+            sort={sort}
+            onSortChange={handleSort}
             episodes={data.pages.flatMap((page) => page.data.episodes)}
           />
           <div className={style.refcheck} ref={ref}></div>

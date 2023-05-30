@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 
 export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
+  sort: string;
+  onSortChange: (newSort: string) => void;
 }) {
   const router = useRouter();
   const directVeiwPage = (index: number) => {
@@ -16,9 +18,17 @@ export default function EpisodeInfo(props: {
     <div className={style.container}>
       <div className={style.sortNovel}>
         <LineSeparator colorline="greenline" />
-        <div className={style.sortTitle}>
-          <div>최신순</div>
-          <div>1화부터</div>
+        <div
+          className={props.sort === "최신순" ? style.activeSort : style.hidden}
+          onClick={() => props.onSortChange("최신순")}
+        >
+          최신순
+        </div>
+        <div
+          className={props.sort === "1화부터" ? style.activeSort : style.hidden}
+          onClick={() => props.onSortChange("1화부터")}
+        >
+          1화부터
         </div>
       </div>
       {props.episodes &&
