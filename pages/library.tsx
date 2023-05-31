@@ -10,20 +10,16 @@ import { loginCheckState } from "@/state/loginState";
 import { useRecoilState } from "recoil";
 import { useCookies } from "react-cookie";
 import isLogin from "@/configs/isLogin";
+import { NextPageWithLayout } from "./_app";
+import LibraryLayout from "@/components/layouts/LibraryLayout";
 
-export default function Library() {
+const Library: NextPageWithLayout = () => {
   const router = useRouter();
   const currentTap: string | undefined = router.query.id?.toString();
-  const [cookies] = useCookies(["accessToken"]);
-  const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
-  useEffect(() => {
-    setLoginCheck(cookies.accessToken);
-  }, []);
   return (
     <>
-      <LibraryTop />
-      {loginCheck ? (
+      {/* {loginCheck ? (
         currentTap === "3" ? (
           <LikeBooks />
         ) : currentTap === "2" ? (
@@ -33,9 +29,19 @@ export default function Library() {
         )
       ) : (
         <Login />
+      )} */}
+      {currentTap === "3" ? (
+        <LikeBooks />
+      ) : currentTap === "2" ? (
+        <LikeBooks />
+      ) : (
+        <LikeBooks />
       )}
-
-      <Footer />
     </>
   );
-}
+};
+export default Library;
+
+Library.getLayout = function getLayout(page: React.ReactNode) {
+  return <LibraryLayout>{page}</LibraryLayout>;
+};
