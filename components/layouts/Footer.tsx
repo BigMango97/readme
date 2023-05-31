@@ -22,12 +22,10 @@ export default function Footer() {
 
 const FooterMenuItem = (props: { item: footerMenuType }) => {
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
+  //const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
 
   const linkHandler = (link: string) => {
-    if (!cookies) {
-      sessionStorage.setItem("link", link);
-    }
+    sessionStorage.setItem("link", link);
   };
 
   return (
