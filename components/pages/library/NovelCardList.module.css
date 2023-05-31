@@ -8,14 +8,14 @@
 .allNovelTotalIcon img {
   margin-left: 0.5rem;
 }
-.novelContainer {
+/* .novelContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem;
-}
+} */
 .novelContainer {
   display: flex;
   justify-content: space-between;

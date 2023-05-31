@@ -8,7 +8,7 @@ import {
 import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
 interface Props {
-  data: allDetailDatatype[] | undefined;
+  data: allDetailDatatype[];
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
