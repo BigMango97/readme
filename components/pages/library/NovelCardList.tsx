@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import {
   allDetailDatatype,
   allNovelCardType,
 } from "@/types/model/mainDataType";
+
 import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
 interface Props {
@@ -10,7 +12,6 @@ interface Props {
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
-  //console.log("datadatadatadata ", data);
   return (
     <>
       <div className={style.container}>

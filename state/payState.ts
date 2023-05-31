@@ -1,7 +1,7 @@
 import { paymentType } from "@/types/paymentType";
 import { atom } from "recoil";
 
-export const payState = atom<paymentType>({
+export const payState = atom<number>({
     key: 'payState',
-    default: {tid:"", partnerOrderId:""}
+    default: 0
 })
