@@ -39,13 +39,17 @@ export default function Kakao() {
           });
           setCookie("uuid", res.headers.uuid, { path: "/" });
 
-          const link = sessionStorage.getItem("link");
-          if (link === "/mypage") {
-            router.push("/mypage");
+          const link = localStorage.getItem("link");
+          if (link !== null) {
+            router.push(link);
           }
-          if (link === "/library") {
-            router.push("/library");
-          }
+
+          // if (link === "/mypage") {
+          //   router.push(link);
+          // }
+          // if (link === "/library") {
+          //   router.push("/library");
+          // }
 
           // axios.defaults.headers.common[
           //   "Authorization"
