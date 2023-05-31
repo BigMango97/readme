@@ -25,7 +25,8 @@ const FooterMenuItem = (props: { item: footerMenuType }) => {
   //const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
 
   const linkHandler = (link: string) => {
-    sessionStorage.setItem("link", link);
+    router.push(link);
+    localStorage.setItem("link", link);
   };
 
   return (
@@ -35,16 +36,16 @@ const FooterMenuItem = (props: { item: footerMenuType }) => {
         router.route !== props.item.link.split("?")[0] ? style.active : ""
       }
     >
-      <Link href={props.item.link}>
-        <Image
-          src={props.item.iconUrl}
-          alt={props.item.title}
-          width={72}
-          height={72}
-          priority
-          onClick={() => linkHandler(props.item.link)}
-        />
-      </Link>
+      {/* <Link href={props.item.link}> */}
+      <Image
+        src={props.item.iconUrl}
+        alt={props.item.title}
+        width={72}
+        height={72}
+        priority
+        onClick={() => linkHandler(props.item.link)}
+      />
+      {/* </Link> */}
     </li>
   );
 };

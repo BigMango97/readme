@@ -9,6 +9,7 @@ export default function Logout() {
     localStorage.removeItem("uuid");
     localStorage.removeItem("name");
     localStorage.removeItem("age");
+
     removeCookie("accessToken", { path: "/" });
     removeCookie("uuid", { path: "/" });
 
