@@ -33,7 +33,7 @@ export default function Kakao() {
           myLogin.setItem("name", res.data.data.name);
           myLogin.setItem("age", res.data.data.age);
 
-          setLoginCheck(true);
+          //setLoginCheck(true);
           console.log("login Res", res);
 
           setCookie("accessToken", res.headers.accesstoken, {
