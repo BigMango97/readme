@@ -31,6 +31,8 @@ export default function Kakao() {
           localStorage.setItem("name", res.data.data.name);
           localStorage.setItem("age", res.data.data.age);
 
+          console.log("headers = ", res.headers);
+          console.log("accesssToken = ", res.headers.accesstoken);
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
             // expires: res.headers.expires,
