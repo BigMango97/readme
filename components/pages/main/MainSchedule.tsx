@@ -5,13 +5,14 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Config from "@/configs/config.export";
 import { useQuery } from "react-query";
 
 export default function MainSchedule(props: { id: number; name: string }) {
-  const BaseUrl = "http://43.200.189.164:8000";
+  const baseUrl = Config().baseUrl;
   const scheduleData = async () => {
     const response = await axios.get(
-      `${BaseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
+      `${baseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
     );
     return response.data.data;
   };
