@@ -51,11 +51,10 @@ export default function Kakao() {
           //   router.push("/library");
           // }
 
-          // axios.defaults.headers.common[
-          //   "Authorization"
-          // ] = `Bearer ${res.headers.accesstoken}`;
-          //customAxios.defaults.headers.common["uuid"] = `${res.headers.uuid}`;
-          //router.back();
+          customAxios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${res.headers.accesstoken}`;
+          customAxios.defaults.headers.common["uuid"] = `${res.headers.uuid}`;
         });
     }
   }, [code]);

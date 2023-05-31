@@ -14,14 +14,16 @@ export default function LikeBooks() {
   //const [likeNovelData, setLikeNovelData] = useState<allDetailDataListType>();
   const [cookies] = useCookies(["uuid", "accessToken"]);
 
-  let dataList: allDetailDatatype[] = [];
+  //let dataList: allDetailDatatype[] = [];
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get(`/utils-service/v1/pick`, {
-          headers: { uuid: `${cookies.uuid}` },
-        });
+        // const res = await axios.get(`/utils-service/v1/pick`, {
+        //   headers: { uuid: `${cookies.uuid}` },
+        // }
+        // );
+        const res = await axios.get(`/utils-service/v1/pick`);
 
         const res2 = await Promise.all(
           res.data.data.contents.map(async (item: likeType) => {
@@ -42,7 +44,7 @@ export default function LikeBooks() {
     getData();
   }, []);
 
-  console.log("likeNovelData", likeNovelData);
+  //onsole.log("likeNovelData", likeNovelData);
   return (
     <>
       <NovelCardList
