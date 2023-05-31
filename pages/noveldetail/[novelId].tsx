@@ -1,18 +1,17 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 import NovelDatailHeader from "@/components/pages/noveldetail/NovelDatailHeader";
 import NovelDetailInfo from "@/components/pages/noveldetail/NovelDetailInfo";
 import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import Config from "@/configs/config.export";
-import { useQuery } from "react-query";
-import { useEffect } from "react";
+
 export default function NovelDetail() {
   const router = useRouter();
-  const [novelId, setNovelId] = useState(Number(router.query.novelId));
-
+  const novelId = Number(router.query.novelId);
   const novelbyIdData = async () => {
     const baseUrl = Config().baseUrl;
     const response = await axios.get(
@@ -20,21 +19,14 @@ export default function NovelDetail() {
     );
     return response.data;
   };
-  const novelbyIdDataQuery = useQuery(
+  const { data, error, isLoading } = useQuery(
     ["novelbyIdData", novelId],
     novelbyIdData,
     {
       enabled: !!novelId,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000, 
     }
   );
-  useEffect(() => {
-    setNovelId(Number(router.query.novelId));
-  }, [router.query.novelId]);
-
-  const novelbyIdDataResult = novelbyIdDataQuery?.data?.data;
-
+  const novelbyIdDataResult = data?.data;
 
   return (
     <>
@@ -61,7 +53,7 @@ export default function NovelDetail() {
           />
         </>
       )}
-      <DetailFooter/>
+      <DetailFooter />
     </>
   );
 }

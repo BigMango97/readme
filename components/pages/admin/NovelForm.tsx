@@ -243,9 +243,7 @@ export default function NovelForm() {
             </Form.Item>
           </div>
           <div className={style.button}>
-            <Form.Item
-              rules={[{ required: true, message: "${another} is required" }]}
-            >
+            <Form.Item>
               <Space>
                 {novelId === undefined ? (
                   <Button

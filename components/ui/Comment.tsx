@@ -3,11 +3,7 @@ import LineSeparator from "./LineSeparator";
 import style from "@/components/ui/Comment.module.css";
 import NewUi from "./NewUi";
 import Image from "next/image";
-import { useCookies } from "react-cookie";
-import { useMutation, useQueryClient } from 'react-query';
-import Config from "@/configs/config.export";
-import axios from "axios"
-import Swal from "sweetalert2";
+
 interface Props {
   content: string;
   createDate: string;
@@ -32,20 +28,7 @@ export default function Comment({
   writer,
   onDelete
 }: Props) {
-  const [cookies] = useCookies(["uuid"]);
-  const queryClient = useQueryClient();
-  const baseUrl = Config().baseUrl;
 
-  const deleteComment = async () => {
-    const response = await axios.delete(
-      `${baseUrl}/utils-service/v1/comments/${id}`, {
-        headers: {
-          uuid: cookies.uuid,
-        },
-      }
-    );
-    return response.data;
-  };
   const handleDelete = () => {
     onDelete(id); 
   };

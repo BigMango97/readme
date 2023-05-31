@@ -4,9 +4,7 @@ import { Space, Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { novelListType, novelType } from "@/types/admin/novelType";
-import { NextPageContext } from "next";
-import dayjs from "dayjs";
+
 import {
   episodeListType,
   episodeTableType,
@@ -14,7 +12,7 @@ import {
 } from "@/types/admin/episodeType";
 import Config from "@/configs/config.export";
 
-export default function EpisodeList({ data }: any) {
+export default function EpisodeList() {
   const router = useRouter();
   const novelId = router.query.novelId;
 
@@ -46,27 +44,27 @@ export default function EpisodeList({ data }: any) {
         }
       });
   };
-  useEffect(() => {
-    setEpiData({
-      episodeList: data.data.contents,
-    });
-    //
-  }, []);
-
   // useEffect(() => {
-  //   if (!router.isReady) return;
-  //   axios
-  //     .get(
-  //       `${baseUrl}/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
-  //     )
-  //     .then((res) => {
-  //       console.log(res.data.data.contents);
+  //   setEpiData({
+  //     episodeList: data.data.contents,
+  //   });
+  //   //
+  // }, []);
 
-  //       setData1({
-  //         episodeList: res.data.data.contents,
-  //       });
-  //     });
-  // }, [router.isReady]);
+  useEffect(() => {
+    if (!router.isReady) return;
+    axios
+      .get(
+        `${baseUrl}/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
+      )
+      .then((res) => {
+        console.log(res.data.data.contents);
+
+        setEpiData({
+          episodeList: res.data.data.contents,
+        });
+      });
+  }, [router.isReady]);
 
   const columns: ColumnsType<episodeType> = [
     {

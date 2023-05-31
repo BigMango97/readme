@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { allDetailDataListType } from "@/types/model/mainDataType";
+
+import {
+  allDetailDatatype,
+  allNovelCardType,
+} from "@/types/model/mainDataType";
+
 import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
 interface Props {
-  data: allDetailDataListType | undefined;
+  data: allDetailDatatype[] | undefined;
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
@@ -14,7 +19,7 @@ export default function NovelCardList({ data, totalElements }: Props) {
       </div>
       <div className={style.novelContainer}>
         {data ? (
-          data.allDetailDataList.map((item, index) => (
+          data.map((item, index) => (
             <NovelListItem
               key={index}
               thumbnail={item.thumbnail}

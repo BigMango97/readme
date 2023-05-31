@@ -6,7 +6,9 @@ export default function NovelTages(props: { tags: allDetailTag[] }) {
   return (
     <div className={style.novelTagContainer}>
       {props.tags.map((tag) => (
-        <TagUi key={tag.id} title={tag.name} />
+        <div key={tag.id}>
+          <TagUi title={tag.name} />
+        </div>
       ))}
     </div>
   );

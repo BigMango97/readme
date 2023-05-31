@@ -36,7 +36,7 @@ export default function NovelCardItem({
     <div
       className={style.allNovelCard}
       style={{width:imgSize}}
-      onClick={() => router.push(`/noveldetail/${novelId}?menu=작품소개`)}
+      onClick={() => router.push(`/noveldetail/${novelId}`)}
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allCardImg}>

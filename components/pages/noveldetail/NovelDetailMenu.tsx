@@ -1,47 +1,50 @@
 import style from "@/components/pages/noveldetail/NovelDetailMenu.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import EpisodeInfo from "./EpisodeInfo";
-import CommentsCheck from "./CommentsCheck";
 import CommentList from "./CommentList";
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import Config from "@/configs/config.export";
 import { useInView } from "react-intersection-observer";
-import { useRouter } from "next/router";
 import axios from "axios";
+import Config from "@/configs/config.export";
 
-export interface menuType {
-  id: number;
-  menu: string;
-}
+export const SORT_TYPES = {
+  RECENT: "최신순",
+  FROM_FIRST: "1화부터",
+} as const;
+
+const MENULIST = [
+  { id: 0, menu: "작품소개" },
+  { id: 1, menu: "에피소드" },
+  { id: 2, menu: "댓글" },
+];
+
+export type SortType = (typeof SORT_TYPES)[keyof typeof SORT_TYPES];
+
 export default function NovelDetailMenu(props: {
   novelId: number;
   description: string;
   authorComment: string;
 }) {
-  const router = useRouter();
-  const menulist: menuType[] = [
-    { id: 0, menu: "작품소개" },
-    { id: 1, menu: "에피소드" },
-    { id: 2, menu: "댓글" },
-  ];
-
-  const menuTitle = router.query.menu;
   const baseUrl = Config().baseUrl;
+  const [sort, setSort] = useState<SortType>(SORT_TYPES.RECENT);
+  const [menuTitle, setMenuTitle] = useState<string>(MENULIST[0].menu);
+  const handleSort = (newSort: SortType) => {
+    setSort(newSort);
+  };
 
   const fetchEpisodes = async ({ pageParam = 0 }) => {
-    const res = await axios.get(
-      `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}`
+    const response = await axios.get(
+      `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}&sort=${sort}`
     );
-    return res.data;
+    return response.data;
   };
   const { ref, inView } = useInView({
     threshold: 0,
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery("episodes", fetchEpisodes, {
+    useInfiniteQuery(["episodes", props.novelId, sort], fetchEpisodes, {
       getNextPageParam: (lastPage) => {
         const currentPage = lastPage?.data?.page ?? 0;
         const totalPages = lastPage?.data?.totalPages ?? 0;
@@ -50,9 +53,8 @@ export default function NovelDetailMenu(props: {
         }
         return null;
       },
-      staleTime: 5 * 1000 * 60,
-      cacheTime: 10 * 1000 * 60,
     });
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -65,13 +67,13 @@ export default function NovelDetailMenu(props: {
   return (
     <>
       <div className={style.menutitle}>
-        {menulist.map((item, i) => (
+        {MENULIST.map((item) => (
           <p
             key={item.id}
             onClick={() => {
-              router.push(`/noveldetail/${props.novelId}?menu=${item.menu}`);
+              setMenuTitle(item.menu);
             }}
-            className={`${menuTitle === item.menu ? style.menuactive : null}`}
+            className={`${menuTitle === item.menu ? style.menuactive : ""}`}
           >
             {item.menu}
           </p>
@@ -91,7 +93,14 @@ export default function NovelDetailMenu(props: {
       {menuTitle === "에피소드" && props.novelId && data && (
         <>
           <EpisodeInfo
-            episodes={data.pages.flatMap((page) => page.data.episodes)}
+            sort={sort}
+            onSortChange={handleSort}
+            episodes={data.pages.flatMap(
+              (page) =>
+                page.data.episodes?.filter(
+                  (episode: any) => episode !== undefined && episode !== null
+                ) || []
+            )}
           />
           <div className={style.refcheck} ref={ref}></div>
         </>
@@ -99,7 +108,6 @@ export default function NovelDetailMenu(props: {
       {menuTitle === "댓글" && (
         <>
           <div className={style.infoCentainer}>
-            <CommentsCheck />
             <CommentList />
           </div>
         </>
