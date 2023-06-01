@@ -74,7 +74,7 @@ export default function ViewerPage() {
             registration={episodeDetailDataResult.registration}
           />
           <NovelViewer viewerData={episodeDetailDataResult.content} emojiData={emojiDataResult?.data}/>
-          <ViewerBottom novelId={episodeDetailDataResult.novelId} />
+          <ViewerBottom novelId={episodeDetailDataResult.novelId} title={episodeDetailDataResult.title}/>
         </>
       )}
     </>

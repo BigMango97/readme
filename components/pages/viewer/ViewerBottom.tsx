@@ -6,9 +6,9 @@ import { viewerBottomMenu } from "@/datas/staticData";
 
 interface Props{
   novelId:number,
-
+  title:string
 }
-export default function ViewerBottom({novelId}:Props) {
+export default function ViewerBottom({novelId,title}:Props) {
   const [activeIcon, setActiveIcon] = useState<"menu" | "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null>(null);
 
   const handleIconClick = (title:any) => {
@@ -36,7 +36,7 @@ export default function ViewerBottom({novelId}:Props) {
             />
           </div>
         ))}
-        <SlideComponent activeIcon={activeIcon} onClose={closeSlide} novelId={novelId}/>
+        <SlideComponent activeIcon={activeIcon} onClose={closeSlide} novelId={novelId} title={title}/>
       </div>
     </>
   );
