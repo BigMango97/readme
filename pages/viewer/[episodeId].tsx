@@ -2,12 +2,14 @@ import React from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 import Config from "@/configs/config.export";
 import { viewerData } from "@/types/model/mainDataType";
+
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
 import ViewerTop from "@/components/pages/viewer/ViewerTop";
 import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
-import { useCookies } from "react-cookie";
 interface ErrorType extends Error {
   message: string;
 }
@@ -69,12 +71,19 @@ export default function ViewerPage() {
       {episodeDetailDataResult && (
         <>
           <ViewerTop
+            novelId={episodeDetailDataResult.novelId}
             title={episodeDetailDataResult.title}
             novelsTitle={episodeDetailDataResult.novelsTitle}
             registration={episodeDetailDataResult.registration}
           />
-          <NovelViewer viewerData={episodeDetailDataResult.content} emojiData={emojiDataResult?.data}/>
-          <ViewerBottom novelId={episodeDetailDataResult.novelId} title={episodeDetailDataResult.title}/>
+          <NovelViewer
+            viewerData={episodeDetailDataResult.content}
+            emojiData={emojiDataResult?.data || []} 
+          />
+          <ViewerBottom
+            novelId={episodeDetailDataResult.novelId}
+            title={episodeDetailDataResult.title}
+          />
         </>
       )}
     </>
