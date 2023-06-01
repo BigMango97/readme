@@ -6,13 +6,11 @@ import { useRouter } from "next/router";
 import Login from "@/pages/login";
 import { useCookies } from "react-cookie";
 import axios from "@/configs/axiosConfig";
-import { likeListType, likeType } from "@/types/user/likeType";
+import { likeType } from "@/types/user/libraryType";
 export default function DetailFooter() {
   const [clickLike, setClickLike] = useState<boolean>(false);
   const [cookies] = useCookies(["accessToken", "uuid"]);
-  const [userLikeList, setUserLikeList] = useState<likeListType>({
-    likeList: [],
-  });
+
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   const router = useRouter();
   const novelId = router.query.novelId;

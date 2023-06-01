@@ -67,19 +67,7 @@ export default function AllNovelCardSection({ data, totalElements }: Props) {
         <div className={style.novelContainer}>
           {data &&
             data.map((item, index) => (
-              <NovelListItem
-                key={index}
-                thumbnail={item.thumbnail}
-                title={item.title}
-                serializationStatus={item.serializationStatus}
-                author={item.author}
-                starRating={item.starRating}
-                genre={item.genre}
-                novelId={item.novelId}
-                grade={item.grade}
-                newChecking={item.newChecking}
-                episodeCount={item.episodeCount}
-              />
+              <NovelListItem key={index} novelData={item} />
             ))}
         </div>
       )}

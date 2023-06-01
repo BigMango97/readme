@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MyBooks from "@/components/pages/library/MyBooks";
+
 import LibraryTop from "@/components/pages/library/LibraryTop";
 import Footer from "@/components/layouts/Footer";
 
@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import isLogin from "@/configs/isLogin";
 import { NextPageWithLayout } from "./_app";
 import LibraryLayout from "@/components/layouts/LibraryLayout";
+import RecentBooks from "@/components/pages/library/RecentBooks";
 
 const Library: NextPageWithLayout = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Library: NextPageWithLayout = () => {
       ) : currentTap === "2" ? (
         <LikeBooks />
       ) : (
-        <LikeBooks />
+        <RecentBooks />
       )}
     </>
   );
