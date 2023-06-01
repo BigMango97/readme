@@ -23,7 +23,7 @@ export default function CardList() {
       </div>
       <CardModal
         id={0}
-        scheduleName={""}
+        //scheduleName={0}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
