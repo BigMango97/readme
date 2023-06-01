@@ -129,7 +129,7 @@ export default function CardTable() {
     <>
       <CardModal
         id={editId}
-        scheduleName={editScheduleName}
+        //scheduleName={editScheduleName}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />

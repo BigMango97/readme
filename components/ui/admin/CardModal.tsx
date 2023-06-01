@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 export default function CardModal(props: {
   id: number;
-  scheduleName: string;
+  //scheduleName: number;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -42,6 +42,16 @@ export default function CardModal(props: {
       console.log("deleteIds", deleteIds);
       console.log("addIds", addIds);
 
+      axios
+        .delete(`/sections-service/v1/admin/schedules/novels/${deleteIds}`)
+        .then((res) => {
+          console.log(res);
+        });
+      axios
+        .put(`/sections-service/v1/admin/schedules/novels/${addIds}`)
+        .then((res) => {
+          console.log(res);
+        });
       // deleteIds?.map((id) => {
       //   axios
       //     .delete(`/sections-service/v1/admin/cards/novels/${id}`)
@@ -140,13 +150,22 @@ export default function CardModal(props: {
         <div style={{ display: "flex", margin: "20px 0px" }}>
           <div style={{ width: "80px" }}>스케줄</div>
           <Space wrap>
-            <Select
-              value={props.scheduleName}
-              style={{ width: "280px" }}
-              onChange={selectScheduleHandle}
-              options={scheduleOption}
-              disabled={props.id === 0 ? false : true}
-            />
+            {props.id === 0 ? (
+              <Select
+                style={{ width: "280px" }}
+                onChange={selectScheduleHandle}
+                options={scheduleOption}
+                disabled={props.id === 0 ? false : true}
+              />
+            ) : (
+              <Select
+                value={`${props.id}`}
+                style={{ width: "280px" }}
+                onChange={selectScheduleHandle}
+                options={scheduleOption}
+                disabled={props.id === 0 ? false : true}
+              />
+            )}
           </Space>
         </div>
         <div style={{ display: "flex" }}>

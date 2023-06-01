@@ -2,14 +2,42 @@ import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import style from "@/components/pages/admin/Login.module.css";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import axios from "axios";
+import Config from "@/configs/config.export";
+import { useCookies } from "react-cookie";
 
-export default function login() {
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+const Login = () => {
+  const router = useRouter();
+  const [cookies, setCookie] = useCookies(["adminAccessToken", "adminUuid"]);
+  const onFinish = async (values: any) => {
+    const adminId = values.userId;
+    const adminPassword = values.password;
+    try {
+      const res = await axios.post(`/users-service/v1/admin/login`, {
+        id: adminId,
+        password: adminPassword,
+      });
+      setCookie("adminAccessToken", res.headers.accesstoken, {
+        path: "/",
+      });
+      setCookie("adminUuid", res.headers.uuid, { path: "/" });
+      localStorage.setItem("adminName", res.data.data.name);
+      router.push("/admin/main");
+    } catch (err) {
+      console.log("Error >>", err);
+    }
   };
 
   return (
     <div className={style.container}>
+      <Image
+        src="/assets/images/logo.svg"
+        alt="logo"
+        width={180}
+        height={100}
+      />
       <Form
         name="normal_login"
         className={style.loginForm}
@@ -17,12 +45,12 @@ export default function login() {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
+          name="userId"
           rules={[{ required: true, message: "Please input your Username!" }]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
+            placeholder="UserId"
           />
         </Form.Item>
         <Form.Item
@@ -35,15 +63,6 @@ export default function login() {
             placeholder="Password"
           />
         </Form.Item>
-        {/* <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <a className={style.loginFormForgot} href="">
-            Forgot password
-          </a>
-        </Form.Item> */}
 
         <Form.Item>
           <Button
@@ -51,10 +70,12 @@ export default function login() {
             htmlType="submit"
             className={style.loginFormButton}
           >
-            Log in
+            Admin Log in
           </Button>
         </Form.Item>
       </Form>
     </div>
   );
-}
+};
+
+export default Login;
