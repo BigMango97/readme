@@ -1,48 +1,101 @@
-import React from "react";
+import React, { useState } from "react";
 import { episodeCardDataType } from "@/types/model/mainDataType";
 import EpisodeCard from "./EpisodeCard";
 import { useRouter } from "next/router";
 import style from "@/components/pages/noveldetail/EpisodeInfo.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { SortType } from "./NovelDetailMenu";
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import axios from "@/configs/axiosConfig";
+import { useCookies } from "react-cookie";
 export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
   sort: SortType;
   onSortChange: (newSort: SortType) => void;
 }) {
   const router = useRouter();
-  const directVeiwPage = (index: number) => {
-    router.push(`/viewer/${index}`);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [situation, setSituation] = useState<string>("");
+  const [color, setColor] = useState<string>("");
+  const [epiId, setEpiId] = useState<number>(0);
+  const [cookies] = useCookies(["uuid"]);
+
+  const directViewPage = async (id: number, free: boolean) => {
+    setEpiId(id);
+    //무료일때
+    if (free) {
+      router.push(`/viewer/${id}`);
+    }
+    //유료일때
+    else {
+      const res = await axios.post(`/payments-service/v1/payments/purchase`, {
+        uuid: cookies.uuid,
+        episodeId: id,
+      });
+      const data = JSON.parse(res.data.replace("data:", ""));
+
+      //포인트 부족
+      if (data.body.data.result === "fail") {
+        setColor("green");
+        setSituation("부족");
+        setIsModalOpen(!isModalOpen);
+      }
+      //결제 가능한 포인트 보유
+      else {
+        setColor("purple");
+        setSituation("차감");
+        setIsModalOpen(!isModalOpen);
+      }
+    }
   };
+
   return (
-    <div className={style.container}>
-      <div className={style.sortNovel}>
-        <LineSeparator colorline="greenline" />
-        <div
-          className={props.sort === "최신순" ? style.activeSort : style.hidden}
-          onClick={() => props.onSortChange("최신순")}
-        >
-          최신순
-        </div>
-        <div
-          className={props.sort === "1화부터" ? style.activeSort : style.hidden}
-          onClick={() => props.onSortChange("1화부터")}
-        >
-          1화부터
-        </div>
-      </div>
-      {props.episodes &&
-        props.episodes.map((item, index) => (
-          <div key={index} onClick={() => directVeiwPage(item.id)}>
-            <EpisodeCard
-              name={item.name}
-              free={item.free}
-              registrationDate={item.registrationDate}
-              starRating={item.starRating}
-              isNew={item.isNew}
-            />
+    <>
+      {isModalOpen ? (
+        <ConfirmModal
+          color={color}
+          epiId={epiId}
+          situation={situation}
+          setIsModalOpen={setIsModalOpen}
+        />
+      ) : (
+        <div className={style.container}>
+          <div className={style.sortNovel}>
+            <LineSeparator colorline="greenline" />
+            <div
+              className={
+                props.sort === "최신순" ? style.activeSort : style.hidden
+              }
+              onClick={() => props.onSortChange("최신순")}
+            >
+              최신순
+            </div>
+            <div
+              className={
+                props.sort === "1화부터" ? style.activeSort : style.hidden
+              }
+              onClick={() => props.onSortChange("1화부터")}
+            >
+              1화부터
+            </div>
           </div>
-        ))}
-    </div>
+          {props.episodes &&
+            props.episodes.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => directViewPage(item.id, item.free)}
+              >
+                <EpisodeCard
+                  name={item.name}
+                  free={item.free}
+                  registrationDate={item.registrationDate}
+                  starRating={item.starRating}
+                  isNew={item.isNew}
+                />
+              </div>
+            ))}
+        </div>
+      )}
+    </>
   );
 }
