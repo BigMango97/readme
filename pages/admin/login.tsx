@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie";
 
 const Login = () => {
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(["adminAccessToken", "adminUuid"]);
+  const [cookies, setCookie] = useCookies(["adminAccessToken"]);
   const onFinish = async (values: any) => {
     const adminId = values.userId;
     const adminPassword = values.password;
@@ -22,7 +22,7 @@ const Login = () => {
       setCookie("adminAccessToken", res.headers.accesstoken, {
         path: "/",
       });
-      setCookie("adminUuid", res.headers.uuid, { path: "/" });
+
       localStorage.setItem("adminName", res.data.data.name);
       router.push("/admin/main");
     } catch (err) {
