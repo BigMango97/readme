@@ -2,43 +2,32 @@ import React from "react";
 import Image from "next/image";
 import style from "@/components/ui/NovelListItem.module.css";
 import { useRouter } from "next/router";
-interface Props {
-  thumbnail: string;
-  serializationStatus: string;
-  title: string;
-  author: string;
-  starRating: number;
-  genre: string;
-  novelId?: number;
-  grade: number;
-  newChecking: boolean;
-  episodeCount:number
-}
-export default function NovelListItem({
-  thumbnail,
-  serializationStatus,
-  genre,
-  title,
-  author,
-  starRating,
-  novelId,
-  grade,
-  newChecking,
-  episodeCount
-}: Props) {
+import { allDetailDatatype } from "@/types/model/mainDataType";
+
+export default function NovelListItem(props: {
+  novelData: allDetailDatatype;
+  key: number;
+}) {
   const router = useRouter();
   const IS_READABLE_BY_All = 0;
   const IS_NINETEEN_PLUS = 19;
+  const movePage = () => {
+    if (props.novelData.episodeId === undefined) {
+      router.push(`/noveldetail/${props.novelData.novelId}`);
+    } else router.push(`/viewer/${props.novelData.episodeId}`);
+  };
   return (
-    <div
-      className={style.allNovelList}
-      onClick={() => router.push(`/noveldetail/${novelId}`)}
-    >
+    <div className={style.allNovelList} onClick={movePage}>
       <div className={style.allNovelImgContainer}>
         <div className={style.allListImg}>
-          <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
+          <Image
+            src={props.novelData.thumbnail}
+            alt={"이미지"}
+            width={500}
+            height={500}
+          />
         </div>
-        {newChecking && (
+        {props.novelData.newChecking && (
           <div className={style.listNewIcon}>
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
@@ -49,22 +38,24 @@ export default function NovelListItem({
           </div>
         )}
         <div className={style.ageCheck}>
-          {grade === IS_NINETEEN_PLUS ? (
-            <p className={style.nineteenCheck}>{grade}</p>
-          ) : grade === IS_READABLE_BY_All ? (
+          {props.novelData.grade === IS_NINETEEN_PLUS ? (
+            <p className={style.nineteenCheck}>{props.novelData.grade}</p>
+          ) : props.novelData.grade === IS_READABLE_BY_All ? (
             <p className={style.allCheck}>All</p>
           ) : (
-            <p className={style.basicCheck}>{grade}</p>
+            <p className={style.basicCheck}>{props.novelData.grade}</p>
           )}
         </div>
       </div>
       <div className={style.allNovelInfo}>
-        <div className={style.allNovelStatus}>{serializationStatus}</div>
+        <div className={style.allNovelStatus}>
+          {props.novelData.serializationStatus}
+        </div>
         <div className={style.allNovelTitle}>
-          <p>{title}</p>
+          <p>{props.novelData.title}</p>
         </div>
         <div className={style.allNovelAuthor}>
-          {author} | {genre}
+          {props.novelData.author} | {props.novelData.genre}
         </div>
         <div className={style.allNovelStarpoint}>
           <Image
@@ -73,14 +64,14 @@ export default function NovelListItem({
             width={15}
             height={15}
           />
-          <span>{starRating}</span>
+          <span>{props.novelData.starRating}</span>
           <Image
             src={"/assets/images/icons/list.svg"}
             alt={"이미지"}
             width={15}
             height={15}
           />
-          <span>{episodeCount}</span>
+          <span>{props.novelData.episodeCount}</span>
         </div>
       </div>
     </div>

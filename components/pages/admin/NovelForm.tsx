@@ -215,11 +215,11 @@ export default function NovelForm() {
           <div className={style.horizontal}>
             <Form.Item
               label="작품소개"
-              style={{ width: 640 }}
+              style={{ width: 700 }}
               rules={[{ required: true, message: "${another} is required" }]}
             >
               <NovelTextArea
-                rows={4}
+                rows={20}
                 inputData={inputData}
                 setInputData={setInputData}
               />

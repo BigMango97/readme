@@ -54,8 +54,10 @@ export default function OrderHistory() {
             height={80}
           />
           <div className={style.bill}>
-            <p>주문내역</p>
-            <span>{payData.purchaseDate}</span>
+            <div className={style.top}>
+              <p>주문내역</p>
+              <span>{payData.purchaseDate}</span>
+            </div>
             <div className={style.box}>
               <p>{payData.amount}</p>
               <span>카카오페이</span>
@@ -69,6 +71,9 @@ export default function OrderHistory() {
             <div className={style.textbox}>
               <p>보유 포인트</p>
               <span>P {payData.point.toLocaleString("en")}</span>
+            </div>
+            <div className={style.bottom} onClick={() => router.push("/")}>
+              <p>Go Back To Home</p>
             </div>
           </div>
         </div>
