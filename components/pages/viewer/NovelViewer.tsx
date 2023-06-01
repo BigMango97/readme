@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import style from "@/components/pages/viewer/NovelViewer.module.css";
 import EmojiPannel from "@/components/widget/EmojiPannel";
 import Config from "@/configs/config.export";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
 import { useCallback } from "react";
-
+import Swal from "sweetalert2";
 interface NovelViewerProps {
   id: number;
   content: string;
@@ -52,8 +52,19 @@ export default function NovelViewer(props: {
       }),
 
     {
-      onError: (error) => {
-        console.log("이모지 더하기 실패:", error);
+      onError: (error: any) => {
+        if (error.response && error.response.status === 401) {
+          Swal.fire({
+            toast: true,
+            position: "center",
+            icon: "info",
+            title: "로그인이 필요한 서비스입니다",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        } else {
+          console.log("이모지 더하기 실패:", error);
+        }
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries(["emojiData", episodeId]);
@@ -144,6 +155,7 @@ export default function NovelViewer(props: {
     }
   };
   // 이모지 추가 핸들러
+  // 이모지 추가 핸들러
   const handleAddEmoji = (emojiId: number) => {
     setTextData((prevTextData) => {
       return prevTextData.map((item) => {
@@ -175,11 +187,42 @@ export default function NovelViewer(props: {
       });
     });
 
-    mutation.mutate({
-      episodeId: episodeId,
-      emoji: emojiId,
-      episodeRow: targetId,
-    });
+    mutation.mutate(
+      {
+        episodeId: episodeId,
+        emoji: emojiId,
+        episodeRow: targetId,
+      },
+      {
+        onError: (error: any) => {
+          if (error.response && error.response.status === 401) {
+            setTextData((prevTextData) => {
+              return prevTextData.map((item) => {
+                if (item.id === targetId && item.emojiList) {
+                  const updatedEmojiList = item.emojiList.map((emoji) => {
+                    if (emoji.id === emojiId) {
+                      return {
+                        ...emoji,
+                        count: emoji.count - 1,
+                        checked: false,
+                      };
+                    } else {
+                      return emoji;
+                    }
+                  });
+                  return {
+                    ...item,
+                    emojiList: updatedEmojiList,
+                  };
+                } else {
+                  return item;
+                }
+              });
+            });
+          }
+        },
+      }
+    );
   };
   const handleLongPressStart = useCallback(
     (
