@@ -1,6 +1,6 @@
 .mainEvent {
   height: 12rem;
-  margin: 2rem 1.5rem;
+  margin: 3rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,10 +13,6 @@
   font-size: 1.2rem;
   color: var(--readme-secondary);
 }
-/* .cardContainer {
-  display: flex;
-  align-items: center;
-} */
 .cardContainerEventTitle {
   font-size: 1rem;
   margin-bottom: 2rem;
@@ -32,8 +28,8 @@
   font-size: 0.7em;
 }
 .cardContainerImgInfo {
-  width: 140px;
-  height: 170px;
+  width: 150px;
+  height: 190px;
   border-radius: 20px;
   position: relative;
   background-color: var(--readme-primary);
