@@ -8,15 +8,22 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   let menu: undefined | string = router.query.menu?.toString();
+  const [, , removeCookie] = useCookies(["adminAccessToken"]);
+
   if (menu === undefined) menu = "novel";
 
   const clickMenuHandler = (item: any) => {
-    router.push(`/admin/main?menu=${item.key}`);
+    if (item.key === "logout") {
+      localStorage.removeItem("adminName");
+      removeCookie("adminAccessToken", { path: "/" });
+      router.push("/admin/main");
+    } else router.push(`/admin/main?menu=${item.key}`);
   };
   const clickLogoHandler = () => {
     router.push(`/admin/main?menu=novel`);
@@ -39,7 +46,8 @@ export default function SideBar() {
   const items: MenuItem[] = [
     getItem("소설관리", "novel", <PieChartOutlined />),
     getItem("스케줄관리", "schedule", <DesktopOutlined />),
-    getItem("CARD관리", "card", <FileOutlined />),
+    getItem("카드관리", "card", <FileOutlined />),
+    getItem("로그아웃", "logout", <FileOutlined />),
   ];
 
   return (

@@ -20,17 +20,6 @@ const Library: NextPageWithLayout = () => {
 
   return (
     <>
-      {/* {loginCheck ? (
-        currentTap === "3" ? (
-          <LikeBooks />
-        ) : currentTap === "2" ? (
-          <LikeBooks />
-        ) : (
-          <LikeBooks />
-        )
-      ) : (
-        <Login />
-      )} */}
       {currentTap === "3" ? (
         <LikeBooks />
       ) : currentTap === "2" ? (
