@@ -20,18 +20,15 @@ export default function DetailFooter() {
   useEffect(() => {
     setLoginCheck(cookies.accessToken);
     axios
-      .get(`/utils-service/v1/pick`, {
+      .get(`/utils-service/v1/pick/${novelId}`, {
         headers: {
           uuid: `${cookies.uuid}`,
         },
       })
       .then((res) => {
-        // setUserLikeList({ likeList: res.data.data.contents });
-        // userLikeList.likeList.map((item) => {
-        //   if (item.novelsId === novelId) {
-        //     return setClickLike(true);
-        //   }
-        // });
+        if (res.data.data.checked === true) setClickLike(true);
+        else setClickLike(false);
+        console.log(res.data.data.checked);
       });
   }, []);
 
