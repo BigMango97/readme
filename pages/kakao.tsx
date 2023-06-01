@@ -25,7 +25,9 @@ export default function Kakao() {
   useEffect(() => {
     if (code !== undefined) {
       axios
-        .get(`https://api.readme.life/users-service/v1/user/login?code=${code}`)
+        .post(
+          `https://api.readme.life/users-service/v1/user/login?code=${code}`
+        )
         .then((res) => {
           localStorage.setItem("uuid", res.headers.uuid);
           localStorage.setItem("name", res.data.data.name);

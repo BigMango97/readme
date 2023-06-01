@@ -4,6 +4,7 @@ import style from "@/components/pages/viewer/ViewerTop.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 interface Props {
   title: string;
   novelsTitle: string;
@@ -11,7 +12,20 @@ interface Props {
 }
 export default function ViewerTop({ title, novelsTitle, registration }: Props) {
   const router = useRouter();
+  console.log("router = ", router);
+  const [cookies] = useCookies(["accessToken"]);
+  const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
+  useEffect(() => {
+    setLoginCheck(cookies.accessToken);
+  }, []);
+
+  const movePage = () => {
+    if (!loginCheck) {
+      localStorage.setItem("link", router.asPath);
+      router.push("/login");
+    }
+  };
   return (
     <div className={style.Container}>
       <div className={style.titleContainer}>
@@ -26,16 +40,28 @@ export default function ViewerTop({ title, novelsTitle, registration }: Props) {
           </div>
         </Link>
         <p>{novelsTitle}</p>
-        <Link href="/mypage">
+        {loginCheck ? (
+          <Link href="/mypage">
+            <div className={style.myImg}>
+              <Image
+                src={"/assets/images/icons/my.svg"}
+                alt={"이미지"}
+                width={30}
+                height={30}
+              />
+            </div>
+          </Link>
+        ) : (
           <div className={style.myImg}>
             <Image
-              src={"/assets/images/icons/my.svg"}
+              src={"/assets/images/icons/heart.svg"}
               alt={"이미지"}
               width={30}
               height={30}
+              onClick={movePage}
             />
           </div>
-        </Link>
+        )}
       </div>
       <LineSeparator colorline="grayline" />
       <div className={style.episodeContainer}>
