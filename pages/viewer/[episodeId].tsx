@@ -7,14 +7,14 @@ import { viewerData } from "@/types/model/mainDataType";
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
 import ViewerTop from "@/components/pages/viewer/ViewerTop";
 import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
-
+import { useCookies } from "react-cookie";
 interface ErrorType extends Error {
   message: string;
 }
 export default function ViewerPage() {
   const router = useRouter();
-  const episodeid = Number(router.asPath.split("/")[2]);
-
+  const episodeId = Number(router.asPath.split("/")[2]);
+  const [cookies] = useCookies(["uuid", "accessToken"]);
   const baseUrl = Config().baseUrl;
   const episodeDetailData = async (episodeid: number) => {
     const response = await axios.get(
@@ -24,8 +24,8 @@ export default function ViewerPage() {
   };
 
   const { isLoading, isError, data, error } = useQuery(
-    ["episodeid", episodeid],
-    () => episodeDetailData(episodeid),
+    ["episodeid", episodeId],
+    () => episodeDetailData(episodeId),
     {
       onSuccess: (data) => {
         console.log(data);
@@ -36,9 +36,31 @@ export default function ViewerPage() {
       select: (data) => {
         return data.data;
       },
-      enabled: !!episodeid,
+      enabled: !!episodeId,
       staleTime: 5 * 60 * 1000,
       cacheTime: 10 * 60 * 1000,
+    }
+  );
+
+  const emojiData = async (episodeId: number) => {
+    const response = await axios.get(
+      `${baseUrl}/utils-service/v1/emoji/${episodeId}`,
+      {
+        headers: {
+          uuid: cookies.uuid,
+          Authorization: `Bearer ${cookies.accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: emojiDataResult } = useQuery(
+    ["emojiData", episodeId],
+    () => emojiData(episodeId),
+    {
+      retry: 3,
+      enabled: !!episodeId,
     }
   );
   const episodeDetailDataResult: viewerData = data?.data;
@@ -51,7 +73,7 @@ export default function ViewerPage() {
             novelsTitle={episodeDetailDataResult.novelsTitle}
             registration={episodeDetailDataResult.registration}
           />
-          <NovelViewer viewerData={episodeDetailDataResult.content} />
+          <NovelViewer viewerData={episodeDetailDataResult.content} emojiData={emojiDataResult?.data}/>
           <ViewerBottom novelId={episodeDetailDataResult.novelId} />
         </>
       )}

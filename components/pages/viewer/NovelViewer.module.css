@@ -31,3 +31,13 @@
 .emoji {
   display: flex;
 }
+.emojiItem {
+  color:var(--readme-black);
+  padding: 1px;
+}
+/*이모지가 선택되었을때*/
+.emojiItemChecked {
+  font-weight: bolder;
+  padding: 1px;
+  color: var(--readme-primary);
+}
