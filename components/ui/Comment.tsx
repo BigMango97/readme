@@ -14,6 +14,7 @@ interface Props {
   recent: boolean;
   uuid: string;
   writer: string;
+  episodeTitle:string;
   onDelete: (id: number) => void; 
 }
 export default function Comment({
@@ -26,6 +27,7 @@ export default function Comment({
   recent,
   uuid,
   writer,
+  episodeTitle,
   onDelete
 }: Props) {
 
@@ -45,7 +47,7 @@ export default function Comment({
         </div>
         <div className={style.comment}>{content}</div>
         <div className={style.episodeIcons}>
-          <div className={style.episodeTitle} >신과함께 레벨업 080화</div>
+          <div className={style.episodeTitle} >{episodeTitle}</div>
           {myComment && (
             <div onClick={handleDelete}>
               <Image

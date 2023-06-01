@@ -8,7 +8,8 @@ type ActiveIconType = "menu" | "reviewRating" | "comment" | "beforenovel" | "nex
 interface SlideComponentProps {
   onClose: () => void;
   activeIcon?: ActiveIconType;
-  novelId:number
+  novelId:number;
+  title:string;
 }
 const ICON_TYPES = {
   MENU: "menu",
@@ -21,7 +22,8 @@ const ICON_TYPES = {
 export default function SlideComponent({
   onClose,
   activeIcon,
-  novelId
+  novelId,
+  title
 }: SlideComponentProps): JSX.Element {
   let content;
   switch (activeIcon) {
@@ -32,7 +34,7 @@ export default function SlideComponent({
       content = <ReviewContainer novelId={novelId} onClose={onClose}/>;
       break;
     case ICON_TYPES.COMMENT:
-      content = <CommentsContainer novelId={novelId}/>;
+      content = <CommentsContainer novelId={novelId} title={title}/>;
       break;
     case ICON_TYPES.BEFORENOVEL:
       content = <div>수정필요</div>;

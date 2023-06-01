@@ -11,8 +11,9 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 interface Props {
   novelId: number;
+  title:string
 }
-export default function CommentContainer({ novelId }: Props) {
+export default function CommentContainer({ novelId , title}: Props) {
   const router = useRouter();
   const episodeId = router.asPath.split("/")[2];
   const [cookies] = useCookies(["uuid"]);
@@ -32,7 +33,6 @@ export default function CommentContainer({ novelId }: Props) {
   );
 
   const COMMENTLENGTH = comments?.data.contents.length;
-
   const deleteCommentMutation = useMutation(
     (commentId: number) =>
       axios.delete(`${baseUrl}/utils-service/v1/comments/${commentId}`, {
@@ -109,7 +109,7 @@ export default function CommentContainer({ novelId }: Props) {
           </div>
         </div>
       )}
-      <WriteComment novelId={novelId} />
+      <WriteComment novelId={novelId} title={title}/>
     </>
   );
 }

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import style from "@/components/ui/WriteComment.module.css";
-import Config from "@/configs/config.export";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import axios from "@/configs/axiosConfig";
 interface Props {
   novelId: number;
+  title:string;
 }
 
-export default function WriteComment({ novelId }: Props) {
+export default function WriteComment({ novelId,title }: Props) {
   const router = useRouter();
   const episodesId = router.asPath.split("/")[2];
   const name = localStorage.getItem("name");
@@ -23,21 +23,13 @@ export default function WriteComment({ novelId }: Props) {
 
   const postComment = async () => {
     try {
-      const baseUrl = Config().baseUrl;
-      const response = await axios.post(
-        `${baseUrl}/utils-service/v1/comments`,
-        {
-          writer: name,
-          content: input,
-          episodesId: episodesId,
-          novelsId: novelId,
-        },
-        {
-          headers: {
-            uuid: cookies.uuid,
-          },
-        }
-      );
+      const response = await axios.post(`utils-service/v1/comments`, {
+        writer: name,
+        content: input,
+        episodesId: episodesId,
+        novelsId: novelId,
+        episodeTitle: title
+      });
       return response.data;
     } catch (err) {
       console.error(err);
@@ -91,13 +83,15 @@ export default function WriteComment({ novelId }: Props) {
         type="text"
         value={input}
         onChange={handleChange}
-        placeholder="댓글을 입력해주세요"
+        placeholder={cookies.uuid ? "댓글을 입력해주세요" : "로그인 해주세요"}
+        disabled={!cookies.uuid}
       />
       <div className={style.commentsBtnContainer}>
         <button
           type="button"
           className={style.commentsBtn}
           onClick={handleCommentSubmit}
+          disabled={!cookies.uuid}
         >
           등록
         </button>
