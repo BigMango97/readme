@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NovelList from "@/components/pages/admin/NovelList";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { NextPageWithLayout } from "../_app";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
 
 import ScheduleManage from "@/components/pages/admin/ScheduleManage";
+import { useCookies } from "react-cookie";
 
 const Main: NextPageWithLayout = () => {
   const router = useRouter();

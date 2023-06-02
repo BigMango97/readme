@@ -8,22 +8,31 @@ import axios from "axios";
 import Config from "@/configs/config.export";
 import { useCookies } from "react-cookie";
 
-const Login = () => {
+export default function Login() {
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(["adminAccessToken"]);
-  const onFinish = async (values: any) => {
+  const [cookies, setCookie] = useCookies(["accessToken"]);
+
+  const onFinish = (values: any) => {
     const adminId = values.userId;
     const adminPassword = values.password;
+    LoginHandle(adminId, adminPassword);
+  };
+
+  const LoginHandle = async (adminId: string, adminPassword: string) => {
     try {
       const res = await axios.post(`/users-service/v1/admin/login`, {
         id: adminId,
         password: adminPassword,
       });
-      setCookie("adminAccessToken", res.headers.accesstoken, {
+      setCookie("accessToken", res.headers.accesstoken, {
         path: "/",
       });
+      localStorage.setItem("name", res.data.data.name);
 
-      localStorage.setItem("adminName", res.data.data.name);
+      // axios.defaults.headers.common[
+      //   "Authorization"
+      // ] = `Bearer ${cookies.accessToken}`;
+
       router.push("/admin/main");
     } catch (err) {
       console.log("Error >>", err);
@@ -76,6 +85,4 @@ const Login = () => {
       </Form>
     </div>
   );
-};
-
-export default Login;
+}
