@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <Hydrate state={pageProps.dehydratedState}>
           <RecoilRoot>{getLayout(<Component {...pageProps} />)}</RecoilRoot>
         </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>
     </>
   );

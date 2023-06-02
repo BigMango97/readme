@@ -47,3 +47,7 @@ export interface novelTableType{
     genre: string;
     tags: string[];
 }
+
+export interface novelIdType{
+    novelId:number;
+}

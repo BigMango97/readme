@@ -35,7 +35,6 @@ export default function ScheduleTable() {
 
   const columns: ColumnsType<scheduleType> = [
     {
-      //key: "번호",
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
@@ -43,14 +42,12 @@ export default function ScheduleTable() {
       render: (_, { id }) => <>{id}</>,
     },
     {
-      //key: "스케줄명",
       dataIndex: "스케줄명",
       title: "스케줄명",
       width: "20%",
       render: (_, { name }) => <>{name}</>,
     },
     {
-      //key: "이벤트기간",
       dataIndex: "이벤트기간",
       title: "이벤트기간",
       filters: [

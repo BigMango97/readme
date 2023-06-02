@@ -11,10 +11,10 @@ import Link from "next/link";
 export default function AdminLayout(props: { children: React.ReactNode }) {
   const { Content } = Layout;
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
-  const [cookies] = useCookies(["adminAccessToken"]);
+  const [cookies] = useCookies(["accessToken"]);
   useEffect(() => {
-    setLoginCheck(cookies.adminAccessToken);
-  }, [cookies.adminAccessToken]);
+    setLoginCheck(cookies.accessToken);
+  }, [cookies.accessToken]);
 
   return (
     <>

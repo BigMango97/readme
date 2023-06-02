@@ -14,14 +14,14 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   let menu: undefined | string = router.query.menu?.toString();
-  const [, , removeCookie] = useCookies(["adminAccessToken"]);
+  const [, , removeCookie] = useCookies(["accessToken"]);
 
   if (menu === undefined) menu = "novel";
 
   const clickMenuHandler = (item: any) => {
     if (item.key === "logout") {
-      localStorage.removeItem("adminName");
-      removeCookie("adminAccessToken", { path: "/" });
+      localStorage.removeItem("name");
+      removeCookie("accessToken", { path: "/" });
       router.push("/admin/main");
     } else router.push(`/admin/main?menu=${item.key}`);
   };
