@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import style from "@/components/pages/viewer/ViewerTop.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
@@ -9,23 +9,32 @@ interface Props {
   title: string;
   novelsTitle: string;
   registration: string;
+  novelId: number;
 }
-export default function ViewerTop({ title, novelsTitle, registration }: Props) {
+export default function ViewerTop({
+  title,
+  novelsTitle,
+  registration,
+  novelId,
+}: Props) {
   const router = useRouter();
-  console.log("router = ", router);
   const [cookies] = useCookies(["accessToken"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
     setLoginCheck(cookies.accessToken);
-  }, []);
+  }, [cookies.accessToken]);
 
-  const movePage = () => {
+  const movePage = useCallback(() => {
     if (!loginCheck) {
       localStorage.setItem("link", router.asPath);
       router.push("/login");
     }
-  };
+  }, [loginCheck, router]);
+
+  const handleArrowClick = useCallback(() => {
+    router.push(`/noveldetail/${novelId}`);
+  }, [router, novelId]);
   return (
     <div className={style.Container}>
       <div className={style.titleContainer}>
@@ -33,7 +42,7 @@ export default function ViewerTop({ title, novelsTitle, registration }: Props) {
           <div className={style.homeImg}>
             <Image
               src={"/assets/images/icons/home_black.svg"}
-              alt={"이미지"}
+              alt={"homeicon"}
               width={25}
               height={25}
             />
@@ -45,19 +54,19 @@ export default function ViewerTop({ title, novelsTitle, registration }: Props) {
             <div className={style.myImg}>
               <Image
                 src={"/assets/images/icons/my.svg"}
-                alt={"이미지"}
+                alt={"myicon"}
                 width={30}
                 height={30}
               />
             </div>
           </Link>
         ) : (
-          <div className={style.myImg}>
+          <div className={style.loginImg}>
             <Image
-              src={"/assets/images/icons/heart.svg"}
-              alt={"이미지"}
-              width={30}
-              height={30}
+              src={"/assets/images/icons/login.svg"}
+              alt={"loginicon"}
+              width={50}
+              height={50}
               onClick={movePage}
             />
           </div>
@@ -65,10 +74,10 @@ export default function ViewerTop({ title, novelsTitle, registration }: Props) {
       </div>
       <LineSeparator colorline="grayline" />
       <div className={style.episodeContainer}>
-        <div className={style.leftArrowImg} onClick={() => router.back()}>
+        <div className={style.leftArrowImg} onClick={handleArrowClick}>
           <Image
             src={"/assets/images/icons/left-chevron.svg"}
-            alt={"이미지"}
+            alt={"leftarrowicon"}
             width={25}
             height={25}
           />
