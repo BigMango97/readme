@@ -9,29 +9,79 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* flex-direction: column; */
 }
 .billArea img{
     z-index: 1;
-    top: 7rem;
+    top: 110px;
     position: absolute;
 }
 .bill{
+    width: 18rem;
+    height: 34rem;
     z-index: 0;
     background-color: white;
     box-sizing: border-box;
-    width: 18rem;
-    height: 34rem;
     position: relative;
-    
-
+    padding: 4rem 2rem 2rem;
+}
+.content{
+   width: 100%;
+   height: 100%; 
+   text-align: center;   
 }
 .top{
-
+   display: flex;
+   justify-content: center;
+   text-align: center;
+   flex-direction: column;
+   margin-bottom: 1.5rem;
+}
+.top p{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.top span{
+   color: #808D9E;
+   font-size: 0.875rem;
 }
 .box{
-
+    box-sizing: border-box;
+    width: 100%;
+    height: 5rem;
+    background-color: #F6F7FA;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.box p{
+    color: #03C75A;
+    font-size: 2.25rem;
+}
+.box span{
+    color: #7A869A;
+    font-size: 0.75rem;
+}
+.textbox{
+    width: 100%;
+    height: 2.5rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.textbox p{
+    font-size: 0.75rem;
+}
+.textbox span{
+    font-size: 1.125rem;
+    font-weight: bold;
 }
 .bottom{
-
+    margin-top: 10rem;
 }
+.purple{
+    color: var(--readme-primary);
+  }
