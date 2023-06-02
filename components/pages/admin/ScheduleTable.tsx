@@ -30,7 +30,11 @@ export default function ScheduleTable() {
     setIsModalOpen(!isModalOpen);
   };
   const deleteHandle = (id: number) => {
-    axios.delete(`${baseUrl}/sections-service/v1/admin/schedules/${id}`);
+    axios
+      .delete(`${baseUrl}/sections-service/v1/admin/schedules/${id}`)
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   const columns: ColumnsType<scheduleType> = [

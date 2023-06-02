@@ -33,6 +33,7 @@ export default function CardTable() {
   };
   const deleteHandle = (id: number) => {
     axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
+      console.log(res);
       // setCardData({cardList: cardData?.cardList.map(item=>{
       //   item.
       // })})
