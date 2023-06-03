@@ -11,16 +11,23 @@ import { useCookies } from "react-cookie";
 export default function PointBottom() {
   const [cookies] = useCookies(["uuid"]);
   const clickMoney = () => {
-    axios
-      .post(`/payments-service/v1/payments/ready`, {
-        point: point,
-        uuid: cookies.uuid,
-      })
-      .then((res) => {
-        localStorage.setItem("tid", res.data.data.tid);
-        localStorage.setItem("partnerOrderId", res.data.data.partner_order_id);
-        window.open(res.data.data.next_redirect_pc_url);
-      });
+    if (cookies.uuid) {
+      axios
+        .post(`/payments-service/v1/payments/ready`, {
+          point: point,
+          uuid: cookies.uuid,
+        })
+        .then((res) => {
+          localStorage.setItem("tid", res.data.data.tid);
+          localStorage.setItem(
+            "partnerOrderId",
+            res.data.data.partner_order_id
+          );
+          window.open(res.data.data.next_redirect_pc_url);
+        });
+    } else {
+      //로그인이 필요한 서비스라고 알림
+    }
   };
 
   const [point, setPoint] = useRecoilState(payState);
