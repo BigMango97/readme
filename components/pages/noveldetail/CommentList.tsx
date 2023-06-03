@@ -1,10 +1,9 @@
 import React from "react";
-import axios from "axios";
 import style from "@/components/pages/noveldetail/CommentList.module.css";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
-import Config from "@/configs/config.export";
+import axios from "@/configs/axiosConfig";
 import Comment from "@/components/ui/Comment";
 import Swal from "sweetalert2";
 import CommentsCheck from "./CommentsCheck";
@@ -13,13 +12,12 @@ export default function CommentList() {
   const router = useRouter();
   const novelId = router.asPath.split("/")[2];
   const [cookies] = useCookies(["uuid"]);
-  const baseUrl = Config().baseUrl;
   const queryClient = useQueryClient();
   const { data } = useQuery(
     ["comments", novelId],
     () =>
       axios
-        .get(`${baseUrl}/utils-service/v1/comments/novels/${novelId}`, {
+        .get(`/utils-service/v1/comments/novels/${novelId}`, {
           headers: {
             uuid: cookies.uuid,
           },
@@ -32,7 +30,7 @@ export default function CommentList() {
 
   const deleteCommentMutation = useMutation(
     (commentId: number) =>
-      axios.delete(`${baseUrl}/utils-service/v1/comments/${commentId}`, {
+      axios.delete(`/utils-service/v1/comments/${commentId}`, {
         headers: {
           uuid: cookies.uuid,
         },

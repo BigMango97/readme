@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
@@ -7,15 +6,14 @@ import NovelDetailInfo from "@/components/pages/noveldetail/NovelDetailInfo";
 import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
-import Config from "@/configs/config.export";
+import axios from "@/configs/axiosConfig";
 
 export default function NovelDetail() {
   const router = useRouter();
   const novelId = Number(router.query.novelId);
   const novelbyIdData = async () => {
-    const baseUrl = Config().baseUrl;
     const response = await axios.get(
-      `${baseUrl}/sections-service/v1/cards/novels/${novelId}`
+      `/sections-service/v1/cards/novels/${novelId}`
     );
     return response.data;
   };

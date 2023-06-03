@@ -5,8 +5,7 @@ import CommentList from "./CommentList";
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
-import axios from "axios";
-import Config from "@/configs/config.export";
+import axios from "@/configs/axiosConfig";
 
 export const SORT_TYPES = {
   RECENT: "최신순",
@@ -26,7 +25,6 @@ export default function NovelDetailMenu(props: {
   description: string;
   authorComment: string;
 }) {
-  const baseUrl = Config().baseUrl;
   const [sort, setSort] = useState<SortType>(SORT_TYPES.RECENT);
   const [menuTitle, setMenuTitle] = useState<string>(MENULIST[0].menu);
   const handleSort = (newSort: SortType) => {
@@ -35,7 +33,7 @@ export default function NovelDetailMenu(props: {
 
   const fetchEpisodes = async ({ pageParam = 0 }) => {
     const response = await axios.get(
-      `${baseUrl}/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}&sort=${sort}`
+      `/sections-service/v1/cards/episodes/${props.novelId}?pagination=${pageParam}&sort=${sort}`
     );
     return response.data;
   };
@@ -55,6 +53,25 @@ export default function NovelDetailMenu(props: {
       },
     });
 
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+      const checkScrollTop = () => {
+        if (!isSticky && window.pageYOffset > 570){
+          setIsSticky(true)
+        } else if (isSticky && window.pageYOffset <= 570){
+          setIsSticky(false)
+        }
+      };
+      
+      window.addEventListener('scroll', checkScrollTop)
+      
+      return () => {
+        window.removeEventListener('scroll', checkScrollTop)
+      }
+    }, [isSticky]);
+
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -64,9 +81,10 @@ export default function NovelDetailMenu(props: {
   if (status === "loading") {
     return <div>Loading...</div>;
   }
+
   return (
     <>
-      <div className={style.menutitle}>
+       <div className={`${style.menutitle} ${isSticky ? style.sticky : ""}`}>
         {MENULIST.map((item) => (
           <p
             key={item.id}
@@ -79,39 +97,37 @@ export default function NovelDetailMenu(props: {
           </p>
         ))}
       </div>
-      {menuTitle === "작품소개" && (
-        <>
-          <div className={style.infoCentainer}>
-            <div className={style.detailTitle}>시놉시스</div>
-            <div className={style.authorinfo}>{props.description}</div>
-            <LineSeparator colorline="grayline" />
-            <div className={style.detailTitle}>작가의 한마디</div>
-            <div className={style.authorinfo}>{props.authorComment}</div>
-          </div>
-        </>
-      )}
-      {menuTitle === "에피소드" && props.novelId && data && (
-        <>
-          <EpisodeInfo
-            sort={sort}
-            onSortChange={handleSort}
-            episodes={data.pages.flatMap(
-              (page) =>
-                page.data.episodes?.filter(
-                  (episode: any) => episode !== undefined && episode !== null
-                ) || []
-            )}
-          />
-          <div className={style.refcheck} ref={ref}></div>
-        </>
-      )}
-      {menuTitle === "댓글" && (
-        <>
-          <div className={style.infoCentainer}>
-            <CommentList />
-          </div>
-        </>
-      )}
+      <div style={{ display: menuTitle === "작품소개" ? 'block' : 'none' }}>
+        <div className={style.infoCentainer}>
+          <div className={style.detailTitle}>시놉시스</div>
+          <div className={style.authorinfo}>{props.description}</div>
+          <LineSeparator colorline="grayline" />
+          <div className={style.detailTitle}>작가의 한마디</div>
+          <div className={style.authorinfo}>{props.authorComment}</div>
+        </div>
+      </div>
+      <div style={{ display: menuTitle === "에피소드" ? 'block' : 'none' }}>
+        {props.novelId && data && (
+          <>
+            <EpisodeInfo
+              sort={sort}
+              onSortChange={handleSort}
+              episodes={data.pages.flatMap(
+                (page) =>
+                  page.data.episodes?.filter(
+                    (episode: any) => episode !== undefined && episode !== null
+                  ) || []
+              )}
+            />
+            <div className={style.refcheck} ref={ref}></div>
+          </>
+        )}
+      </div>
+      <div style={{ display: menuTitle === "댓글" ? 'block' : 'none' }}>
+        <div className={style.infoCentainer}>
+          <CommentList />
+        </div>
+      </div>
     </>
   );
 }
