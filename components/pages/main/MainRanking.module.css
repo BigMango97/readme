@@ -1,0 +1,50 @@
+.mainRankingCard {
+  margin: 0.5rem 0;
+}
+.mainRankingContainer {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.mainRankingImg{
+  margin-right: 1rem;
+  width: 70px;
+  height: 70px;
+}
+.mainRankingNumber {
+  margin: 1rem  0.5rem;
+  background-color: var(--readme-primary);
+  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--readme-white);
+}
+.mainRankingInfo {
+  color: var(--readme-gray-purple);
+  display: flex;
+  flex-direction: column;
+  margin: 0.2rem;
+}
+.mainRankingTitle{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.mainRankingTitle span{
+  font-size: 0.5rem;
+}
+.mainRankingTitle p{
+  font-weight: 800;
+}
+.mainRankinSubInfo{
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+}
+.upImg,.downImg,.notchangeImg{
+  margin: 0 0.5rem;
+}
