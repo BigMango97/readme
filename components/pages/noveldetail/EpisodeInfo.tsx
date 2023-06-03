@@ -28,35 +28,46 @@ export default function EpisodeInfo(props: {
     }
     //유료일때
     else {
-      //구매한 소설인 지 확인
-      const response = await axios.get(
-        `/payments-service/v1/payments/checkPurchased?episodeId=${id}`
-      );
+      //로그인 여부 확인
+      if (cookies.uuid) {
+        //구매한 소설인 지 확인
+        const response = await axios.get(
+          `/payments-service/v1/payments/checkPurchased?episodeId=${id}`
+        );
 
-      //구매 x -> 에피소드구매
-      if (response.data.data.result === false) {
-        const res = await axios.post(`/payments-service/v1/payments/purchase`, {
-          uuid: cookies.uuid,
-          episodeId: id,
-        });
-        const data = JSON.parse(res.data.replace("data:", ""));
+        //구매 x -> 에피소드구매
+        if (response.data.data.result === false) {
+          const res = await axios.post(
+            `/payments-service/v1/payments/purchase`,
+            {
+              uuid: cookies.uuid,
+              episodeId: id,
+            }
+          );
+          const data = JSON.parse(res.data.replace("data:", ""));
 
-        //포인트 부족
-        if (data.body.data.result === "fail") {
-          setColor("green");
-          setSituation("부족");
-          setIsModalOpen(!isModalOpen);
+          //포인트 부족
+          if (data.body.data.result === "fail") {
+            setColor("green");
+            setSituation("부족");
+            setIsModalOpen(!isModalOpen);
+          }
+
+          //포인트 보유
+          else {
+            setColor("purple");
+            setSituation("차감");
+            setIsModalOpen(!isModalOpen);
+          }
         }
-        //포인트 보유
+        //구매한 소설
         else {
-          setColor("purple");
-          setSituation("차감");
-          setIsModalOpen(!isModalOpen);
+          router.push(`/viewer/${id}`);
         }
-      }
-      //구매한 소설
+      } //로그인 x
       else {
-        router.push(`/viewer/${id}`);
+        localStorage.setItem("link", router.asPath);
+        router.push("/login");
       }
     }
   };
