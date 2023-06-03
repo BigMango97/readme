@@ -17,14 +17,24 @@ export default function DetailFooter() {
   const novelId = router.query.novelId;
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
     const getLike = async () => {
       const res = await axios.get(`/utils-service/v1/pick/${novelId}`);
       if (res.data.data.checked === true) setClickLike(true);
       else setClickLike(false);
       console.log("res.data.data.checked", res.data.data.checked);
     };
-    getLike();
+
+    if (localStorage.getItem("name") === "관리자") {
+      setLoginCheck(false);
+    } else {
+      //관리자x
+      if (cookies.accessToken) {
+        setLoginCheck(true);
+        getLike();
+      } else {
+        setLoginCheck(false);
+      }
+    }
   }, []);
 
   const likeBtnHandle = async () => {

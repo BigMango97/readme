@@ -22,7 +22,11 @@ export default function ViewerTop({
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
+    if (localStorage.getItem("name") === "관리자") {
+      setLoginCheck(false);
+    } else {
+      setLoginCheck(cookies.accessToken);
+    }
   }, [cookies.accessToken]);
 
   const movePage = useCallback(() => {

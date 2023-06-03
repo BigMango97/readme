@@ -9,7 +9,11 @@ export default function LibraryLayout(props: { children: ReactNode }) {
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
+    if (localStorage.getItem("name") === "관리자") {
+      setLoginCheck(false);
+    } else {
+      setLoginCheck(cookies.accessToken);
+    }
   }, []);
   return (
     <>
