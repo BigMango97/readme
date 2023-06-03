@@ -7,8 +7,8 @@ import MainBestItem from "@/components/pages/main/MainBestItem";
 import MainEvent from "@/components/pages/main/MainEvent";
 import Layout from "@/components/layouts/layout";
 import MainScheduleContainer from "@/components/pages/main/MainScheduleContainer";
-import MainLanking from "@/components/pages/main/MainLanking";
 import axios from "@/configs/axiosConfig";
+import RankingContainer from "@/components/pages/main/RankingContainer";
 
 const scheduleTitleData = async () => {
   const response = await axios.get(`/sections-service/v1/schedules`);
@@ -84,13 +84,15 @@ const Home: NextPageWithLayout = () => {
       {bestNovelDataResult && (
         <MainBestItem data={bestNovelDataResult} bestImage={bestImage} />
       )}
+
+      <RankingContainer />
+
       {eventNovelDataResult && (
         <MainEvent data={eventNovelDataResult} eventImage={eventImage} />
       )}
       {scheduleTitleResult && (
         <MainScheduleContainer data={scheduleTitleResult} />
       )}
-      {/* <MainLanking /> */}
     </>
   );
 };
