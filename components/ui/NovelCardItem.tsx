@@ -43,11 +43,19 @@ export default function NovelCardItem({
   episodeCount,
 }: Props) {
   const router = useRouter();
+
+  const handleNovelDetailClick = () => {
+    localStorage.setItem("scrollPosition", window.pageYOffset.toString());
+    localStorage.setItem("previousUrl", router.asPath);
+    router.push(`/noveldetail/${novelId}`, undefined, { scroll: false });
+  };
+
+
   return (
     <div
       className={style.allNovelCard}
       style={{ width: imgSize }}
-      onClick={() => router.push(`/noveldetail/${novelId}`)}
+      onClick={handleNovelDetailClick}
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allCardImg}>

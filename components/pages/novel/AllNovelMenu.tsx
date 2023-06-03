@@ -15,13 +15,13 @@ export default function AllNovelMenu(props: { data: novelMenuType[] }) {
   const selectmenuHandler = (index: string) => {
     {
       index == "요일"
-        ? router.push(`/novel?category=${index}&subCategory=${"월"}`,undefined, { shallow: true })
-        : router.push(`/novel?category=${index}&subCategory=${"신작"}`,undefined, { shallow: true });
+        ? router.push(`/novel?category=${index}&subCategory=${"월"}&type=card`,undefined, { shallow: true })
+        : router.push(`/novel?category=${index}&subCategory=${"신작"}&type=card`,undefined, { shallow: true });
     }
   };
 
   const selectsubHandler = (index: string, subindex: string) => {
-    router.push(`/novel?category=${index}&subCategory=${subindex}`,undefined, { shallow: true });
+    router.push(`/novel?category=${index}&subCategory=${subindex}&type=card`,undefined, { shallow: true });
   };
 
   return (

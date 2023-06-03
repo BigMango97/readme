@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import style from "@/components/ui/NovelListItem.module.css";
 import { useRouter } from "next/router";
+import style from "@/components/ui/NovelListItem.module.css";
 import { allDetailDatatype } from "@/types/model/mainDataType";
 
 const IS_READABLE_BY_All = 0;
@@ -17,68 +17,90 @@ function getGradeText(grade: number) {
   return <p className={style.basicCheck}>{grade}</p>;
 }
 
-export default function NovelListItem(props: {
+export default function NovelListItem({
+  novelData,
+}: {
   novelData: allDetailDatatype;
-  key: number;
 }) {
   const router = useRouter();
   const movePage = () => {
-    if (props.novelData.episodeId === undefined) {
-      router.push(`/noveldetail/${props.novelData.novelId}`);
-    } else router.push(`/viewer/${props.novelData.episodeId}`);
+    router.push(`/viewer/${novelData.episodeId}`).then(() => {
+      window.scrollTo(0, 0);
+    });
   };
+  const handleNovelDetailClick = () => {
+    localStorage.setItem("scrollPosition", window.pageYOffset.toString());
+    localStorage.setItem("previousUrl", router.asPath);
+    router.push(`/noveldetail/${novelData.novelId}`, undefined, {
+      scroll: false,
+    });
+  };
+
   return (
-    <div className={style.allNovelList} onClick={movePage}>
-      <div className={style.allNovelImgContainer}>
-        <div className={style.allListImg}>
-          <Image
-            src={props.novelData.thumbnail}
-            alt={"이미지"}
-            width={500}
-            height={500}
-          />
-        </div>
-        {props.novelData.newChecking && (
-          <div className={style.listNewIcon}>
+    <div className={style.allNovelList}>
+      <div className={style.allNovelContainer} onClick={handleNovelDetailClick}>
+        <div className={style.allNovelImgContainer}>
+          <div className={style.allListImg}>
             <Image
-              src={"/assets/images/icons/NewIcon.svg"}
-              alt={"이미지"}
-              width={30}
-              height={30}
+              src={novelData.thumbnail}
+              alt="Novel Image"
+              width={500}
+              height={500}
             />
           </div>
-        )}
-        <div className={style.ageCheck}>
-          {getGradeText(props.novelData.grade)}
+          {novelData.newChecking && (
+            <div className={style.listNewIcon}>
+              <Image
+                src={"/assets/images/icons/NewIcon.svg"}
+                alt="New Icon"
+                width={30}
+                height={30}
+              />
+            </div>
+          )}
+          <div className={style.ageCheck}>{getGradeText(novelData.grade)}</div>
+        </div>
+        <div className={style.allNovelInfo}>
+          <div className={style.allNovelsubInfo}>
+            <div className={style.allNovelStatus}>
+              {novelData.serializationStatus}
+            </div>
+            <div className={style.allNovelTitle}>
+              <p>{novelData.title}</p>
+            </div>
+            <div className={style.allNovelAuthor}>
+              {novelData.author} | {novelData.genre}
+            </div>
+            <div className={style.allNovelStarpoint}>
+              <Image
+                src={"/assets/images/icons/star.svg"}
+                alt="Star Icon"
+                width={15}
+                height={15}
+              />
+              <span>{novelData.starRating}</span>
+              <Image
+                src={"/assets/images/icons/list.svg"}
+                alt={"List Icon"}
+                width={15}
+                height={15}
+              />
+              <span>{novelData.episodeCount}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className={style.allNovelInfo}>
-        <div className={style.allNovelStatus}>
-          {props.novelData.serializationStatus}
-        </div>
-        <div className={style.allNovelTitle}>
-          <p>{props.novelData.title}</p>
-        </div>
-        <div className={style.allNovelAuthor}>
-          {props.novelData.author} | {props.novelData.genre}
-        </div>
-        <div className={style.allNovelStarpoint}>
+      {router.asPath === "/library?id=1" && (
+        <div className={style.allNovelContinue} onClick={movePage}>
+          <span>이어보기</span>
           <Image
-            src={"/assets/images/icons/star.svg"}
-            alt={"이미지"}
+            src={"/assets/images/icons/chevron-right.svg"}
+            alt="Chevron-right Icon"
             width={15}
             height={15}
           />
-          <span>{props.novelData.starRating}</span>
-          <Image
-            src={"/assets/images/icons/list.svg"}
-            alt={"이미지"}
-            width={15}
-            height={15}
-          />
-          <span>{props.novelData.episodeCount}</span>
         </div>
-      </div>
+      )}
     </div>
   );
 }
