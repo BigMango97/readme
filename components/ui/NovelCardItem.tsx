@@ -15,6 +15,20 @@ interface Props {
   imgSize: string;
   episodeCount: number;
 }
+
+const IS_READABLE_BY_All = 0; //전체
+const IS_NINETEEN_PLUS = 19; //19
+
+function getGradeText(grade: number) {
+  if (grade === IS_NINETEEN_PLUS) {
+    return <p className={style.nineteenCheck}>{grade}</p>;
+  }
+  if (grade === IS_READABLE_BY_All) {
+    return <p className={style.allCheck}>All</p>;
+  }
+  return <p className={style.basicCheck}>{grade}</p>;
+}
+
 export default function NovelCardItem({
   thumbnail,
   serializationStatus,
@@ -29,8 +43,6 @@ export default function NovelCardItem({
   episodeCount,
 }: Props) {
   const router = useRouter();
-  const IS_READABLE_BY_All = 0;
-  const IS_NINETEEN_PLUS = 19;
   return (
     <div
       className={style.allNovelCard}
@@ -39,27 +51,24 @@ export default function NovelCardItem({
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allCardImg}>
-          <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
+          <Image
+            src={thumbnail}
+            alt={"thumbnailImg"}
+            width={500}
+            height={500}
+          />
         </div>
         {newChecking && (
           <div className={style.cardNewIcon}>
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
-              alt={"이미지"}
+              alt={"newIcon"}
               width={30}
               height={30}
             />
           </div>
         )}
-        <div className={style.ageCheck}>
-          {grade === IS_NINETEEN_PLUS ? (
-            <p className={style.nineteenCheck}>{grade}</p>
-          ) : grade === IS_READABLE_BY_All ? (
-            <p className={style.allCheck}>All</p>
-          ) : (
-            <p className={style.basicCheck}>{grade}</p>
-          )}
-        </div>
+        <div className={style.ageCheck}>{getGradeText(grade)}</div>
       </div>
       <div>
         <div className={style.allNovelStatus}>{serializationStatus}</div>
@@ -72,14 +81,14 @@ export default function NovelCardItem({
         <div className={style.allNovelStarpoint}>
           <Image
             src={"/assets/images/icons/star.svg"}
-            alt={"이미지"}
+            alt={"starPointIcon"}
             width={15}
             height={15}
           />
           <span>{starRating}</span>
           <Image
             src={"/assets/images/icons/list.svg"}
-            alt={"이미지"}
+            alt={"listIcon"}
             width={15}
             height={15}
           />

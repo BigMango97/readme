@@ -20,22 +20,12 @@ const Library: NextPageWithLayout = () => {
 
   return (
     <>
-      {/* {loginCheck ? (
-        currentTap === "3" ? (
-          <LikeBooks />
-        ) : currentTap === "2" ? (
-          <LikeBooks />
-        ) : (
-          <LikeBooks />
-        )
-      ) : (
-        <Login />
-      )} */}
-      {currentTap === "3" ? (
+      {currentTap === "3" ? ( //구매한 소설
         <LikeBooks />
-      ) : currentTap === "2" ? (
+      ) : currentTap === "2" ? ( //좋아요한 소설
         <LikeBooks />
       ) : (
+        //최근 본 소설
         <RecentBooks />
       )}
     </>

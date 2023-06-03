@@ -15,33 +15,32 @@ export default function OrderHistory() {
   const [payData, setPayData] = useState<pointPayType>({
     amount: 0,
     point: 0,
-    purchaseDate: new Date().toISOString(),
+    purchaseDate: new Date().toISOString().substring(0, 10),
   });
 
-  //console.log("pg_token1", pg_token);
-  useEffect(() => {
-    const tid = localStorage.getItem("tid");
-    const uuid = localStorage.getItem("uuid");
-    const partnerOrderId = localStorage.getItem("partnerOrderId");
-    if (pg_token !== undefined) {
-      axios
-        .post(`/payments-service/v1/payments/approve`, {
-          tid: tid,
-          partnerOrderId: partnerOrderId,
-          uuid: cookies.uuid,
-          pgToken: pg_token,
-        })
-        .then((res) => {
-          localStorage.removeItem("tid");
-          localStorage.removeItem("partnerOrderId");
-          setPayData({
-            amount: res.data.data.amount,
-            point: res.data.data.point,
-            purchaseDate: res.data.data.purchaseDate,
-          });
-        });
-    }
-  }, [pg_token]);
+  // useEffect(() => {
+  //   const tid = localStorage.getItem("tid");
+  //   const uuid = localStorage.getItem("uuid");
+  //   const partnerOrderId = localStorage.getItem("partnerOrderId");
+  //   if (pg_token !== undefined) {
+  //     axios
+  //       .post(`/payments-service/v1/payments/approve`, {
+  //         tid: tid,
+  //         partnerOrderId: partnerOrderId,
+  //         uuid: cookies.uuid,
+  //         pgToken: pg_token,
+  //       })
+  //       .then((res) => {
+  //         localStorage.removeItem("tid");
+  //         localStorage.removeItem("partnerOrderId");
+  //         setPayData({
+  //           amount: res.data.data.amount,
+  //           point: res.data.data.point,
+  //           purchaseDate: res.data.data.purchaseDate,
+  //         });
+  //       });
+  //   }
+  // }, [pg_token]);
 
   return (
     <>
@@ -54,26 +53,32 @@ export default function OrderHistory() {
             height={80}
           />
           <div className={style.bill}>
-            <div className={style.top}>
-              <p>주문내역</p>
-              <span>{payData.purchaseDate}</span>
-            </div>
-            <div className={style.box}>
-              <p>{payData.amount}</p>
-              <span>카카오페이</span>
-            </div>
+            <div className={style.content}>
+              <div className={style.top}>
+                <p>주문내역</p>
+                <span>{payData.purchaseDate}</span>
+              </div>
 
-            <div className={style.textbox}>
-              <p>충전한 포인트</p>
-              <span>P {payData.point.toLocaleString("en")}</span>
-            </div>
-            <LineSeparator colorline="grayline" />
-            <div className={style.textbox}>
-              <p>보유 포인트</p>
-              <span>P {payData.point.toLocaleString("en")}</span>
-            </div>
-            <div className={style.bottom} onClick={() => router.push("/")}>
-              <p>Go Back To Home</p>
+              <div className={style.box}>
+                <p>{payData.amount}</p>
+                <span>카카오페이</span>
+              </div>
+
+              <div className={style.textbox}>
+                <p>충전한 포인트</p>
+                <span>P {payData.amount.toLocaleString("en")}</span>
+              </div>
+
+              <LineSeparator colorline="grayline" />
+              <div className={style.textbox}>
+                <p>보유 포인트</p>
+                <span className={`${style["purple"]}`}>
+                  P {payData.point.toLocaleString("en")}
+                </span>
+              </div>
+              <div className={style.bottom} onClick={() => router.push("/")}>
+                <p>Go Back To Home</p>
+              </div>
             </div>
           </div>
         </div>

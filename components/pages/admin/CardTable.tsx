@@ -3,6 +3,7 @@ import type { ColumnsType, TableProps } from "antd/es/table";
 import { Space, Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "@/configs/axiosConfig";
+//import axios from "axios";
 import {
   cardColumnsType,
   cardListType,
@@ -10,6 +11,8 @@ import {
   cardType,
 } from "@/types/admin/cardType";
 import CardModal from "@/components/ui/admin/CardModal";
+import Config from "@/configs/config.export";
+import { useCookies } from "react-cookie";
 
 export default function CardTable() {
   const [editId, setEditId] = useState<number>(0);
@@ -30,6 +33,7 @@ export default function CardTable() {
   };
   const deleteHandle = (id: number) => {
     axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
+      console.log(res);
       // setCardData({cardList: cardData?.cardList.map(item=>{
       //   item.
       // })})
@@ -37,17 +41,19 @@ export default function CardTable() {
   };
 
   const dataSource: cardTableType[] = [];
-  let novelNames = "",
-    novelIds = "";
-  console.log(cardData);
+
+  //console.log("cardData", cardData);
   cardData?.cardList.map((item) => {
-    item.novelCardsList.map((item) => {
-      novelIds = item.novelId + "/" + novelIds;
+    let novelNames = "",
+      novelIds = "";
+    item.novelCardsList.map((item2) => {
+      novelIds = item2.novelId + "/" + novelIds;
+      novelNames = item2.novelTitle + "/" + novelNames;
     });
 
-    item.novelCardsList.map((item) => {
-      novelNames = item.novelTitle + "/" + novelNames;
-    });
+    // item.novelCardsList.map((item2) => {
+    //   novelNames = item2.novelTitle + "/" + novelNames;
+    // });
     dataSource.push({
       key: item.scheduleId,
       scheduleId: item.scheduleId,

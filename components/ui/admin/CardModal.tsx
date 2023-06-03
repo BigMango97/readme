@@ -3,7 +3,7 @@ import axios from "@/configs/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { scheduleListType } from "@/types/admin/scheduleType";
 import dayjs from "dayjs";
-import { novelListType } from "@/types/admin/novelType";
+import { novelIdType, novelListType } from "@/types/admin/novelType";
 import { novelOptionType, novelType } from "@/types/admin/cardType";
 import { useRouter } from "next/router";
 
@@ -17,94 +17,60 @@ export default function CardModal(props: {
   const [scheduleList, setScheduleList] = useState<scheduleListType>();
   const [novelList, setNovelList] = useState<novelListType>();
 
-  const [scheduleId, setScheduleId] = useState<number>();
-  const [novelIds, setNovelIds] = useState<string[]>([]);
+  const [scheduleId, setScheduleId] = useState<number>(props.id);
+  //const [novelIds, setNovelIds] = useState<number[]>([]);novelIdType
+  const [novelIds, setNovelIds] = useState<novelIdType[]>([]);
+  const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
   const [cardEditData, setCardEditData] = useState<novelType[]>([]);
+  //버튼 눌렀을 때
   const handleOk = () => {
-    //카드 등록
-    if (props.id === 0) {
-      novelIds?.map((novelId) => {
-        axios
-          .patch(`/sections-service/v1/admin/cards/novels/${novelId}`, {
-            scheduleId: scheduleId,
-          })
-          .then((res) => {
-            console.log(res);
-          });
+    console.log("novelIds", novelIds);
+    axios
+      .put(`/sections-service/v1/admin/schedules/novels/${scheduleId}`, {
+        requestNovelIdList: novelIds,
+      })
+      .then((res) => {
+        console.log(res);
       });
-    }
-    //카드 수정
-    else {
-      //edit에는 있는데 ids에는 없으면 삭제 ids에는 있는데 edit에 없으면 추가
-      const cardIds = cardEditData.map((item) => item.novelId.toString());
-      const deleteIds = novelIds.filter((item) => !cardIds.includes(item));
-      const addIds = cardIds.filter((item) => !novelIds.includes(item));
-      console.log("deleteIds", deleteIds);
-      console.log("addIds", addIds);
 
-      axios
-        .delete(`/sections-service/v1/admin/schedules/novels/${deleteIds}`)
-        .then((res) => {
-          console.log(res);
-        });
-      axios
-        .put(`/sections-service/v1/admin/schedules/novels/${addIds}`)
-        .then((res) => {
-          console.log(res);
-        });
-      // deleteIds?.map((id) => {
-      //   axios
-      //     .delete(`/sections-service/v1/admin/cards/novels/${id}`)
-      //     .then((res) => {
-      //       console.log(res);
-      //     });
-      // });
-      // const addIds = cardEditData.map((item) => {
-      //   return novelIds?.filter((ids) => {
-      //     ids !== item.novelId.toString();
-      //   });
-      // });
-      // console.log("addIds", addIds);
-      // addIds?.map((novelId) => {
-      //   axios
-      //     .patch(`/sections-service/v1/admin/cards/novels/${novelId}`, {
-      //       scheduleId: scheduleId,
-      //     })
-      //     .then((res) => {
-      //       console.log(res);
-      //     });
-      // });
-    }
-
-    props.setIsModalOpen(false);
+    setNovelIds([]);
+    // props.setIsModalOpen(false); 살리기
   };
 
+  //취소 버튼
   const handleCancel = () => {
     props.setIsModalOpen(false);
     setNovelIds([]);
+    setNovelIdArray([]);
   };
 
   //스케줄 선택
   const selectScheduleHandle = (selectValue: string) => {
     setScheduleId(Number(selectValue));
   };
-  //소설 선택
 
+  //소설 선택
   const selectNovelHandle = (selectValues: string[]) => {
-    const values = selectValues.map((item) => {
-      return item;
+    console.log("selectValues", selectValues);
+    //setNovelIds([]);
+    // novelIds.map((item) => {
+    //   if (selectValues.includes(item.novelId.toString())) {
+    //     setNovelIds([...novelIds, { novelId: Number(item) }]);
+    //   }
+    // });
+    selectValues.map((item) => {
+      setNovelIds([...novelIds, { novelId: Number(item) }]);
     });
 
-    //const deleteIds = novelIds.filter((item) => !values.includes(item));
-    //console.log("deleteIds", deleteIds);
-    //const addIds = values.filter((item) => !novelIds.includes(item));
-    //console.log("addIds", addIds);
-    setNovelIds(values);
+    // const values = selectValues.map((item) => {
+    //   return item;
+    // });
+
+    setNovelIdArray(selectValues);
   };
 
   const novelOption: optionType[] = [];
   const scheduleOption: optionType[] = [];
-  const router = useRouter();
   useEffect(() => {
     axios.get(`/novels-service/v1/admin/novels`).then((res) => {
       setNovelList({ novelList: res.data.data.contents });
@@ -120,12 +86,21 @@ export default function CardModal(props: {
           setCardEditData(res.data.data.novelCardsBySchedules);
         });
     }
+    setScheduleId(props.id);
   }, [props.isModalOpen, props.id]);
 
   useEffect(() => {
+    cardEditData.map((item) => {
+      setNovelIds([...novelIds, { novelId: Number(item.novelId) }]);
+    });
     const novelEditIds = cardEditData.map((item) => item.novelId.toString());
-    setNovelIds(novelEditIds);
+    setNovelIdArray(novelEditIds);
   }, [cardEditData]);
+
+  // useEffect(() => {
+  //   const strIds = novelIds.map((item) => item.novelId.toString());
+  //   setNovelIdArray(strIds);
+  // }, [novelIds]);
 
   interface optionType {
     value: string;
@@ -175,7 +150,7 @@ export default function CardModal(props: {
             onChange={selectNovelHandle}
             style={{ width: "100%" }}
             options={novelOption}
-            value={novelIds}
+            value={novelIdArray}
           />
         </div>
       </div>

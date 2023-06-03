@@ -4,13 +4,24 @@ import style from "@/components/ui/NovelListItem.module.css";
 import { useRouter } from "next/router";
 import { allDetailDatatype } from "@/types/model/mainDataType";
 
+const IS_READABLE_BY_All = 0;
+const IS_NINETEEN_PLUS = 19;
+
+function getGradeText(grade: number) {
+  if (grade === IS_NINETEEN_PLUS) {
+    return <p className={style.nineteenCheck}>{grade}</p>;
+  }
+  if (grade === IS_READABLE_BY_All) {
+    return <p className={style.allCheck}>All</p>;
+  }
+  return <p className={style.basicCheck}>{grade}</p>;
+}
+
 export default function NovelListItem(props: {
   novelData: allDetailDatatype;
   key: number;
 }) {
   const router = useRouter();
-  const IS_READABLE_BY_All = 0;
-  const IS_NINETEEN_PLUS = 19;
   const movePage = () => {
     if (props.novelData.episodeId === undefined) {
       router.push(`/noveldetail/${props.novelData.novelId}`);
@@ -38,13 +49,7 @@ export default function NovelListItem(props: {
           </div>
         )}
         <div className={style.ageCheck}>
-          {props.novelData.grade === IS_NINETEEN_PLUS ? (
-            <p className={style.nineteenCheck}>{props.novelData.grade}</p>
-          ) : props.novelData.grade === IS_READABLE_BY_All ? (
-            <p className={style.allCheck}>All</p>
-          ) : (
-            <p className={style.basicCheck}>{props.novelData.grade}</p>
-          )}
+          {getGradeText(props.novelData.grade)}
         </div>
       </div>
       <div className={style.allNovelInfo}>
