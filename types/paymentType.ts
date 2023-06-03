@@ -1,11 +1,9 @@
-import { Dayjs } from "dayjs";
-
 export interface paymentType {
-    tid:string, 
-    partnerOrderId:string
-  }
+  tid:string, 
+  partnerOrderId:string
+}
 export interface pointPayType {
-  amount: number;
+  total: number;
   point: number;
-  purchaseDate: string;
+  chargeDate: string;
 }
