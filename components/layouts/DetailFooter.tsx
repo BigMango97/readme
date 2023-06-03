@@ -12,64 +12,49 @@ export default function DetailFooter() {
   const [cookies] = useCookies(["accessToken", "uuid"]);
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const novelId = router.query.novelId;
-  // useEffect(() => {
-  //   setLoginCheck(cookies.accessToken);
-  // }, []);
+
   useEffect(() => {
     setLoginCheck(cookies.accessToken);
-    axios
-      .get(`/utils-service/v1/pick/${novelId}`, {
-        headers: {
-          uuid: `${cookies.uuid}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.data.checked === true) setClickLike(true);
-        else setClickLike(false);
-        console.log(res.data.data.checked);
-      });
+    const getLike = async () => {
+      const res = await axios.get(`/utils-service/v1/pick/${novelId}`);
+      if (res.data.data.checked === true) setClickLike(true);
+      else setClickLike(false);
+      console.log("res.data.data.checked", res.data.data.checked);
+    };
+    getLike();
   }, []);
 
-  const likeBtnHandle = () => {
-    setClickLike(!clickLike);
-    axios
-      .post(
-        `/utils-service/v1/pick`,
-        {
-          novelsId: `${novelId}`,
-        },
-        {
-          headers: {
-            uuid: `${cookies.uuid}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
+  const likeBtnHandle = async () => {
+    //login 돼있을 때
+    if (loginCheck) {
+      setClickLike(!clickLike);
+      const res = axios.post(`/utils-service/v1/pick`, {
+        novelsId: `${novelId}`,
       });
+      console.log(res);
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
     <div className={style.detailFooter}>
       <div className={style.novelBuyBtn}>
-        {loginCheck ? (
-          <Image
-            src={
-              clickLike
-                ? "/assets/images/icons/fillHeartBtn.svg"
-                : "/assets/images/icons/blankHeartBtn.svg"
-            }
-            alt="logo"
-            width={30}
-            height={30}
-            priority
-            onClick={likeBtnHandle}
-          />
-        ) : (
-          <Login />
-        )}
+        <Image
+          src={
+            clickLike
+              ? "/assets/images/icons/fillHeartBtn.svg"
+              : "/assets/images/icons/blankHeartBtn.svg"
+          }
+          alt="logo"
+          width={30}
+          height={30}
+          priority
+          onClick={likeBtnHandle}
+        />
       </div>
       <div className={style.novelReadBtn}>
         <Image
