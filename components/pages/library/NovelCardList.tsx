@@ -31,7 +31,9 @@ export default function NovelCardList({ data, totalElements }: Props) {
             <NovelListItem key={index} novelData={item} />
           ))
         ) : (
-          <p>{info}</p>
+          <div className={style.empty}>
+            <p>{info}</p>
+          </div>
         )}
       </div>
     </>
