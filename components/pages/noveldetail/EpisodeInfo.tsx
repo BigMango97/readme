@@ -28,23 +28,29 @@ export default function EpisodeInfo(props: {
     }
     //유료일때
     else {
-      const res = await axios.post(`/payments-service/v1/payments/purchase`, {
-        uuid: cookies.uuid,
-        episodeId: id,
-      });
-      const data = JSON.parse(res.data.replace("data:", ""));
+      //로그인 여부 확인
+      if (cookies.uuid) {
+        const res = await axios.post(`/payments-service/v1/payments/purchase`, {
+          uuid: cookies.uuid,
+          episodeId: id,
+        });
+        const data = JSON.parse(res.data.replace("data:", ""));
 
-      //포인트 부족
-      if (data.body.data.result === "fail") {
-        setColor("green");
-        setSituation("부족");
-        setIsModalOpen(!isModalOpen);
-      }
-      //결제 가능한 포인트 보유
-      else {
-        setColor("purple");
-        setSituation("차감");
-        setIsModalOpen(!isModalOpen);
+        //포인트 부족
+        if (data.body.data.result === "fail") {
+          setColor("green");
+          setSituation("부족");
+          setIsModalOpen(!isModalOpen);
+        }
+        //결제 가능한 포인트 보유
+        else {
+          setColor("purple");
+          setSituation("차감");
+          setIsModalOpen(!isModalOpen);
+        }
+      } else {
+        localStorage.setItem("link", router.asPath);
+        router.push("/login");
       }
     }
   };

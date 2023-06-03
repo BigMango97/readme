@@ -16,12 +16,6 @@ export default function Kakao() {
 
   const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
 
-  const [loginCheck, setLoginCheck] = useRecoilState(loginCheckState);
-  //const [userData, setUserData] = useRecoilState(userDataState);
-
-  // const code =
-  //   "EqQphy6bHvQPes2YYcUzLcLpwPRNk1xb3I6lCw-MtZX_GTX8qR5R5BggV-r3a8pvAWOJ1wo9dRkAAAGIZUcVcw";
-
   useEffect(() => {
     if (code !== undefined) {
       axios

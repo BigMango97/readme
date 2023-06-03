@@ -9,7 +9,7 @@ import axios from "@/configs/axiosConfig";
 import { likeType } from "@/types/user/libraryType";
 export default function DetailFooter() {
   const [clickLike, setClickLike] = useState<boolean>(false);
-  const [cookies] = useCookies(["accessToken", "uuid"]);
+  const [cookies] = useCookies(["uuid"]);
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,14 +17,19 @@ export default function DetailFooter() {
   const novelId = router.query.novelId;
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
     const getLike = async () => {
       const res = await axios.get(`/utils-service/v1/pick/${novelId}`);
       if (res.data.data.checked === true) setClickLike(true);
       else setClickLike(false);
       console.log("res.data.data.checked", res.data.data.checked);
     };
-    getLike();
+
+    if (cookies.uuid) {
+      setLoginCheck(true);
+      getLike();
+    } else {
+      setLoginCheck(false);
+    }
   }, []);
 
   const likeBtnHandle = async () => {

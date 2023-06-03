@@ -8,11 +8,11 @@ import Login from "./login";
 import { useCookies } from "react-cookie";
 
 export default function Mypage() {
-  const [cookies] = useCookies(["accessToken"]);
+  const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
+    setLoginCheck(cookies.uuid);
   }, []);
   return (
     <>

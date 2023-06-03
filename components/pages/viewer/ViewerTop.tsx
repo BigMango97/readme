@@ -18,12 +18,12 @@ export default function ViewerTop({
   novelId,
 }: Props) {
   const router = useRouter();
-  const [cookies] = useCookies(["accessToken"]);
+  const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoginCheck(cookies.accessToken);
-  }, [cookies.accessToken]);
+    setLoginCheck(cookies.uuid);
+  }, [cookies.uuid]);
 
   const movePage = useCallback(() => {
     if (!loginCheck) {
