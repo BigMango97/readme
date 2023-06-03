@@ -5,15 +5,11 @@ import { useCookies } from "react-cookie";
 import Login from "@/pages/login";
 
 export default function LibraryLayout(props: { children: ReactNode }) {
-  const [cookies] = useCookies(["accessToken"]);
+  const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   useEffect(() => {
-    if (localStorage.getItem("name") === "관리자") {
-      setLoginCheck(false);
-    } else {
-      setLoginCheck(cookies.accessToken);
-    }
+    setLoginCheck(cookies.uuid);
   }, []);
   return (
     <>

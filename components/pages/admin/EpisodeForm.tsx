@@ -24,7 +24,6 @@ export default function EpisodeForm() {
   const router = useRouter();
   const novelId = router.query.novel;
   const epiId = router.query.episode;
-  const [cookies] = useCookies(["accessToken"]);
 
   const baseUrl = Config().baseUrl;
   const [inputData, setInputData] = useState<episodeInputType>({
@@ -60,24 +59,16 @@ export default function EpisodeForm() {
     //console.log("content = ", inputData.content);
     //console.log("novelId = ", novelId);
     axios
-      .post(
-        `${baseUrl}/novels-service/v1/admin/episodes`,
-        {
-          title: inputData.title,
-          novelsId: novelId,
-          content: inputData.content,
-          registration: inputData.registration,
-          createDate: inputData.createDate,
-          updateDate: inputData.updateDate,
-          free: inputData.free,
-          status: inputData.status,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.accessToken}`,
-          },
-        }
-      )
+      .post(`${baseUrl}/novels-service/v1/admin/episodes`, {
+        title: inputData.title,
+        novelsId: novelId,
+        content: inputData.content,
+        registration: inputData.registration,
+        createDate: inputData.createDate,
+        updateDate: inputData.updateDate,
+        free: inputData.free,
+        status: inputData.status,
+      })
       .then((res) => {
         router.push(`/admin/novels/${novelId}`);
       });

@@ -9,7 +9,7 @@ import axios from "@/configs/axiosConfig";
 import { likeType } from "@/types/user/libraryType";
 export default function DetailFooter() {
   const [clickLike, setClickLike] = useState<boolean>(false);
-  const [cookies] = useCookies(["accessToken", "uuid"]);
+  const [cookies] = useCookies(["uuid"]);
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,16 +24,11 @@ export default function DetailFooter() {
       console.log("res.data.data.checked", res.data.data.checked);
     };
 
-    if (localStorage.getItem("name") === "관리자") {
-      setLoginCheck(false);
+    if (cookies.uuid) {
+      setLoginCheck(true);
+      getLike();
     } else {
-      //관리자x
-      if (cookies.accessToken) {
-        setLoginCheck(true);
-        getLike();
-      } else {
-        setLoginCheck(false);
-      }
+      setLoginCheck(false);
     }
   }, []);
 

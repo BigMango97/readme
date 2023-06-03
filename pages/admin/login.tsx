@@ -10,7 +10,10 @@ import { useCookies } from "react-cookie";
 
 export default function Login() {
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(["accessToken"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "uuid",
+  ]);
 
   const onFinish = (values: any) => {
     const adminId = values.userId;
@@ -24,14 +27,11 @@ export default function Login() {
         id: adminId,
         password: adminPassword,
       });
+      removeCookie("uuid", { path: "/" });
       setCookie("accessToken", res.headers.accesstoken, {
         path: "/",
       });
       localStorage.setItem("name", res.data.data.name);
-
-      // axios.defaults.headers.common[
-      //   "Authorization"
-      // ] = `Bearer ${cookies.accessToken}`;
 
       router.push("/admin/main");
     } catch (err) {
