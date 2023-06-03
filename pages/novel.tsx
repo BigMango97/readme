@@ -18,7 +18,7 @@ const novelMenus = async () => {
   const response = await axios.get(
     `${baseUrl}/novels-service/v1/main-category`
   );
-  return response.data;
+  return response.data || null;
 };
 
 const fetchnovelDatas = async (
@@ -29,7 +29,7 @@ const fetchnovelDatas = async (
   const response = await axios.get(
     `${baseUrl}/sections-service/v1/cards/novels?pagination=${pageParam}&category=${category}&subCategory=${subCategory}`
   );
-  return response.data;
+  return response.data || {};
 };
 interface Props {
   dehydratedState: unknown;
@@ -105,7 +105,7 @@ export default function Novel({ dehydratedState }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { category, subCategory } = context.query;
+  const { category = "", subCategory = "" } = context.query;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["novelMenus"], novelMenus);
   await queryClient.prefetchQuery(

@@ -8,7 +8,7 @@ export const footerMenu = [
   {
     id: 2,
     title: "novels",
-    link: "/novel?category=%EC%9A%94%EC%9D%BC&subCategory=%EC%9B%94",
+    link: "/novel?category=%EC%9A%94%EC%9D%BC&subCategory=%EC%9B%94&type=card",
     iconUrl: "/assets/images/icons/book.svg",
   },
   {
