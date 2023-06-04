@@ -1,17 +1,16 @@
 import React from "react";
 import { useQuery } from "react-query";
 import MainRanking from "./MainRanking";
-import axios from "@/configs/axiosConfig";
 import style from "@/components/pages/main/RankingContainer.module.css";
-
-const novelRankingData = async () => {
-  const response = await axios.get(`/batch-service/v1/rankings`);
-  return response.data;
-};
+import { novelRankingFetch } from "@/pages/api/batch-service";
+import { novelRankingResultType } from "@/types/service/batch-service";
 
 export default function RankingContainer() {
-  const rankingQuery = useQuery(["ranking"], novelRankingData);
-  const novelRankingResult = rankingQuery?.data?.data;
+  const rankingQuery = useQuery<novelRankingResultType>(
+    ["ranking"],
+    novelRankingFetch
+  );
+  const novelRankingResult = rankingQuery?.data;
   const rankingData = novelRankingResult?.novelRankingData;
   return (
     <section className={style.novelRankingContainer}>
