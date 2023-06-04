@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import style from "@/components/pages/mypage/MypageInfo.module.css";
 import Image from "next/image";
 export default function MypageInfo() {
-  const [userName, setUserName] = useState<string>("");
+  const [userNickname, setUserNickName] = useState<string>("");
   const [userPoint, setUserPoint] = useState<number>(0);
   const [userProfileImg, setUserProfileImg] = useState<string>("");
   useEffect(() => {
-    const name = localStorage.getItem("nickname") || "";
-    setUserName(name);
+    const nickname = localStorage.getItem("nickname") || "";
+    setUserNickName(nickname);
     const point = localStorage.getItem("point");
     setUserPoint(Number(point));
 
@@ -27,7 +27,7 @@ export default function MypageInfo() {
               priority
             />
             <p>
-              {userName}님 <br /> 오늘도 응원해요!
+              {userNickname}님 <br /> 오늘도 응원해요!
             </p>
           </div>
           <div className={style.mypageContainerPointInfo}>
