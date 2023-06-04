@@ -23,11 +23,15 @@ export default function Kakao() {
           `https://api.readme.life/users-service/v1/user/login?code=${code}`
         )
         .then((res) => {
-          localStorage.setItem("uuid", res.headers.uuid);
-          localStorage.setItem("name", res.data.data.name);
+          //localStorage.setItem("uuid", res.headers.uuid);
+          localStorage.setItem("nickname", res.data.data.nickname);
+          localStorage.setItem("point", res.data.data.point);
+          localStorage.setItem("profileImg", res.data.data.profileImg);
           localStorage.setItem("age", res.data.data.age);
 
           console.log("headers = ", res.headers);
+          console.log("res = ", res);
+          console.log("res.data = ", res.data);
           console.log("accesssToken = ", res.headers.accesstoken);
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
@@ -39,13 +43,6 @@ export default function Kakao() {
           if (link !== null) {
             router.push(link);
           }
-
-          // if (link === "/mypage") {
-          //   router.push(link);
-          // }
-          // if (link === "/library") {
-          //   router.push("/library");
-          // }
 
           // customAxios.defaults.headers.common[
           //   "Authorization"

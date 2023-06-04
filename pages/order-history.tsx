@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import style from "@/components/pages/point/Approval.module.css";
 import Image from "next/image";
 import LineSeparator from "@/components/ui/LineSeparator";
-import { pointPayType } from "@/types/paymentType";
+import { pointPayType } from "@/types/user/paymentType";
 import dayjs from "dayjs";
 
 export default function OrderHistory() {

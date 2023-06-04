@@ -13,6 +13,7 @@ import isLogin from "@/configs/isLogin";
 import { NextPageWithLayout } from "./_app";
 import LibraryLayout from "@/components/layouts/LibraryLayout";
 import RecentBooks from "@/components/pages/library/RecentBooks";
+import PurchasedBooks from "@/components/pages/library/PurchasedBooks";
 
 const Library: NextPageWithLayout = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const Library: NextPageWithLayout = () => {
   return (
     <>
       {currentTap === "3" ? ( //구매한 소설
-        <LikeBooks />
+        <PurchasedBooks />
       ) : currentTap === "2" ? ( //좋아요한 소설
         <LikeBooks />
       ) : (

@@ -1,4 +1,4 @@
-import { paymentType } from "@/types/paymentType";
+import { paymentType } from "@/types/user/paymentType";
 import { atom } from "recoil";
 
 export const payState = atom<number>({

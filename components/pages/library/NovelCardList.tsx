@@ -9,8 +9,10 @@ import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
 
 import { useRouter } from "next/router";
+import { purchasedNovelType } from "@/types/user/libraryType";
+import PurchasedListItem from "./PurchasedListItem";
 interface Props {
-  data: allDetailDatatype[];
+  data: allDetailDatatype[] | purchasedNovelType[];
   totalElements: number;
 }
 export default function NovelCardList({ data, totalElements }: Props) {
@@ -26,7 +28,7 @@ export default function NovelCardList({ data, totalElements }: Props) {
         <span>소설 {totalElements}건</span>
       </div>
       <div className={style.novelContainer}>
-        {data ? (
+        {/* {data ? currentTap==="3" ? :(
           data.map((item, index) => (
             <NovelListItem key={index} novelData={item} />
           ))
@@ -34,7 +36,7 @@ export default function NovelCardList({ data, totalElements }: Props) {
           <div className={style.empty}>
             <p>{info}</p>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

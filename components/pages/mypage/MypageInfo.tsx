@@ -4,10 +4,10 @@ export default function MypageInfo() {
   const [userName, setUserName] = useState<string>();
   const [userPoint, setUserPoint] = useState<number>();
   useEffect(() => {
-    const name = localStorage.getItem("name") || undefined;
+    const name = localStorage.getItem("nickname") || undefined;
     setUserName(name);
-    //user의 보유 포인트를 받는 api 추가하기
-    //setUserPoint
+    const point = localStorage.getItem("point") || undefined;
+    setUserPoint(Number(point));
   }, []);
   return (
     <>
@@ -17,7 +17,9 @@ export default function MypageInfo() {
             {userName}님 <br /> 오늘도 응원해요!
           </p>
           <div className={style.mypageContainerPointInfo}>
-            <div className={style.mypageContainerPoint}>포인트 : 1000P</div>
+            <div className={style.mypageContainerPoint}>
+              포인트 : {userPoint?.toLocaleString("en")}P
+            </div>
             <button className={style.mypageContainerPointBtn}>충전</button>
           </div>
         </div>
