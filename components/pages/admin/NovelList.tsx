@@ -4,6 +4,7 @@ import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
+import { Image } from "antd";
 import {
   novelListType,
   novelTableType,
@@ -78,7 +79,7 @@ export default function NovelList() {
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
-      width: "6%",
+      width: "5%",
       render: (_, { id }) => <>{id}</>,
     },
     {
@@ -86,26 +87,13 @@ export default function NovelList() {
       dataIndex: "이미지",
       title: "이미지",
       width: "7%",
-      render: (_, { thumbnail }) => <>{thumbnail}</>,
+      render: (_, { thumbnail }) => <Image width={80} src={thumbnail} />,
     },
     {
       //key: "제목",
       dataIndex: "작품명",
       title: "작품명",
-      // filters: [
-      //   {
-      //     text: "Category 1",
-      //     value: "Category 1",
-      //   },
-      //   {
-      //     text: "Category 2",
-      //     value: "Category 2",
-      //   },
-      // ],
-      // filterMode: "tree",
-      // filterSearch: true,
-      // onFilter: (value: string | number | boolean, record) =>
-      //   record.title.startsWith(value.toLocaleString()),
+
       width: "13%",
       render: (_, { id, title }) => (
         <div onClick={() => moveNovelDetail(id)}>{title}</div>
@@ -115,24 +103,6 @@ export default function NovelList() {
       // key: "작가",
       dataIndex: "작가",
       title: "작가",
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string | number | boolean, record) =>
-        record.author.startsWith(value.toLocaleString()),
       width: "8%",
       render: (_, { author }) => <>{author}</>,
     },
@@ -142,48 +112,28 @@ export default function NovelList() {
       title: "연재시작일",
       sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
       width: "12%",
-      render: (_, { startDate }) => <>{startDate}</>,
+      render: (_, { startDate }) => (
+        <>{startDate.toString().substring(0, 10)}</>
+      ),
     },
 
     {
       //key: "연재요일",
       dataIndex: "연재요일",
       title: "연재요일",
-      filters: [
-        {
-          text: "월",
-          value: "월",
-        },
-        {
-          text: "화",
-          value: "화",
-        },
-        {
-          text: "수",
-          value: "수",
-        },
-        {
-          text: "목",
-          value: "목",
-        },
-        {
-          text: "금",
-          value: "금",
-        },
-        {
-          text: "토",
-          value: "토",
-        },
-        {
-          text: "일",
-          value: "일",
-        },
-      ],
-      //onFilter: (value: string | number | boolean, record) =>
-      //record.serializationDay.startsWith(value.toLocaleString()),
-      //filterSearch: true,
-      width: "8%",
-      render: (_, { serializationDay }) => <>{serializationDay}</>,
+      width: "10%",
+      render: (_, { serializationDay }) => (
+        <>
+          {serializationDay.map((tag, idx) => {
+            let color = "cyan";
+            return (
+              <div key={idx}>
+                <Tag color={color}>{tag.toUpperCase()}</Tag>
+              </div>
+            );
+          })}
+        </>
+      ),
     },
 
     {
@@ -230,26 +180,36 @@ export default function NovelList() {
       filters: [
         {
           text: "전체",
-          value: "전체",
+          value: "0",
         },
         {
           text: "19",
           value: "19",
         },
         {
-          text: "17",
-          value: "17",
+          text: "12",
+          value: "12",
         },
         {
           text: "15",
           value: "15",
         },
       ],
-      //onFilter: (value: string | number | boolean, record) =>
-      //record.grade.startsWith(value.toLocaleString()),
+      onFilter: (value: string | number | boolean, record) =>
+        record.grade.toString().startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
-      render: (_, { grade }) => <>{grade}</>,
+      render: (_, { grade }) => (
+        <>
+          {grade === 0
+            ? "전체"
+            : grade === 19
+            ? "19"
+            : grade === 12
+            ? "12"
+            : "15"}
+        </>
+      ),
     },
     {
       //key: "태그",
@@ -260,9 +220,6 @@ export default function NovelList() {
         <>
           {tags.map((tag, idx) => {
             let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
             return (
               <div key={idx}>
                 <Tag color={color}>{tag.toUpperCase()}</Tag>
@@ -284,6 +241,10 @@ export default function NovelList() {
         {
           text: "완결",
           value: "완결",
+        },
+        {
+          text: "휴재",
+          value: "휴재",
         },
       ],
       onFilter: (value: string | number | boolean, record) =>
