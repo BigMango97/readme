@@ -13,10 +13,9 @@ import { useCookies } from "react-cookie";
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-  let menu: undefined | string = router.query.menu?.toString();
-  const [, , removeCookie] = useCookies(["accessToken"]);
 
-  if (menu === undefined) menu = "novel";
+  let menu: undefined | string = "novel" || router.query.menu?.toString();
+  const [, , removeCookie] = useCookies(["accessToken"]);
 
   const clickMenuHandler = (item: any) => {
     if (item.key === "logout") {
