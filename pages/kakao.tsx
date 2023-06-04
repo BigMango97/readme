@@ -24,6 +24,7 @@ export default function Kakao() {
         )
         .then((res) => {
           //localStorage.setItem("uuid", res.headers.uuid);
+          localStorage.setItem("name", res.data.data.name);
           localStorage.setItem("nickname", res.data.data.nickname);
           localStorage.setItem("point", res.data.data.point);
           localStorage.setItem("profileImg", res.data.data.profileImg);
