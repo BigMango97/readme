@@ -32,7 +32,7 @@ export default function MainRanking({ data }: Props) {
   }
 
   const IS_READABLE_BY_All = 0;
-const IS_NINETEEN_PLUS = 19;
+  const IS_NINETEEN_PLUS = 19;
 
 function getGradeText(grade: number) {
   if (grade === IS_NINETEEN_PLUS) {
