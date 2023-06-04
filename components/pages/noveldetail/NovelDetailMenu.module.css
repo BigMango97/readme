@@ -1,7 +1,9 @@
 .menutitle {
-  margin: 1rem 2rem;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
+  transition: all 0.5s;
+  background-color: white;
 }
 .menutitle p {
   font-size: 0.875rem;
@@ -29,4 +31,10 @@
 }
 .refcheck{
   margin-bottom: 7rem;
+}
+.sticky {
+  position: fixed;
+  top: 8.7rem;
+  width: 100%;
+  z-index: 100;
 }

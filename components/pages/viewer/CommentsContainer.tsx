@@ -1,41 +1,61 @@
-import React from "react";
-import { useQuery, useQueryClient, useMutation } from "react-query";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { useInfiniteQuery, useQueryClient, useMutation } from "react-query";
+import { useInView } from "react-intersection-observer";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
-import Config from "@/configs/config.export";
 import style from "@/components/pages/viewer/CommentsContainer.module.css";
 import WriteComment from "@/components/ui/WriteComment";
 import Comment from "@/components/ui/Comment";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import axios from "@/configs/axiosConfig";
+import LineSeparator from "@/components/ui/LineSeparator";
+
 interface Props {
   novelId: number;
-  title:string
+  title: string;
 }
-export default function CommentContainer({ novelId , title}: Props) {
+export default function CommentContainer({ novelId, title }: Props) {
   const router = useRouter();
   const episodeId = router.asPath.split("/")[2];
   const [cookies] = useCookies(["uuid"]);
-  const baseUrl = Config().baseUrl;
   const queryClient = useQueryClient();
-  const { data: comments } = useQuery(
-    ["comments", episodeId],
-    () =>
-      axios
-        .get(`${baseUrl}/utils-service/v1/comments/episodes/${episodeId}`, {
-          headers: {
-            uuid: cookies.uuid,
-          },
-        })
-        .then((res) => res.data),
-    { enabled: !!episodeId }
-  );
 
-  const COMMENTLENGTH = comments?.data.contents.length;
+  const fetchepisodecooment = async ({ pageParam = 0 }) => {
+    const response = await axios.get(
+      `/utils-service/v1/comments/episodes/${episodeId}?page=${pageParam}`
+    );
+    return response.data;
+  };
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery(["comments", episodeId], fetchepisodecooment, {
+      getNextPageParam: (lastPage) => {
+        const currentPage = lastPage?.data?.pagination?.page ?? 0;
+        const totalPages = lastPage?.data?.pagination?.totalPage ?? 0;
+        if (currentPage < totalPages - 1) {
+          return currentPage + 1;
+        }
+        return null;
+      },
+    });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
+
+  const episodecommentData = data?.pages.flatMap((page) => page.data.contents);
+  const episodeCommentLength = data?.pages[0]?.data?.pagination?.totalElements;
+
   const deleteCommentMutation = useMutation(
     (commentId: number) =>
-      axios.delete(`${baseUrl}/utils-service/v1/comments/${commentId}`, {
+      axios.delete(`/utils-service/v1/comments/${commentId}`, {
         headers: {
           uuid: cookies.uuid,
         },
@@ -80,16 +100,18 @@ export default function CommentContainer({ novelId , title}: Props) {
   };
   return (
     <>
-      <div className={style.commentsTitle}>댓글 ({COMMENTLENGTH})</div>
-      {comments?.data?.contents.length !== 0 ? (
+      <div className={style.commentsTitle}>댓글 ({episodeCommentLength})</div>
+      <LineSeparator colorline={"grayline"} />
+      {episodeCommentLength !== 0 ? (
         <div className={style.commentsList}>
-          {comments?.data.contents.map((comment: any) => (
+          {episodecommentData?.map((comment: any) => (
             <Comment
               key={comment.id}
               {...comment}
               onDelete={handleDeleteComment}
             />
           ))}
+          <div className={style.refcheck} ref={ref}></div>
         </div>
       ) : (
         <div className={style.noComment}>
@@ -109,7 +131,7 @@ export default function CommentContainer({ novelId , title}: Props) {
           </div>
         </div>
       )}
-      <WriteComment novelId={novelId} title={title}/>
+      <WriteComment novelId={novelId} title={title} />
     </>
   );
 }
