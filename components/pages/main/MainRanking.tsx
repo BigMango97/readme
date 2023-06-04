@@ -24,20 +24,56 @@ export default function MainRanking({ data }: Props) {
     serializationStatus,
     thumbnail,
     title,
+    grade
   } = data;
+
+  if (!data) {
+    return null;
+  }
+
+  const IS_READABLE_BY_All = 0;
+  const IS_NINETEEN_PLUS = 19;
+
+function getGradeText(grade: number) {
+  if (grade === IS_NINETEEN_PLUS) {
+    return <p className={style.nineteenCheck}>{grade}</p>;
+  }
+  if (grade === IS_READABLE_BY_All) {
+    return <p className={style.allCheck}>All</p>;
+  }
+  return <p className={style.basicCheck}>{grade}</p>;
+}
+
+
+
   return (
     <>
-      {data && (
+  
         <div className={style.mainRankingCard}>
           <div className={style.mainRankingContainer}>
-            <div className={style.mainRankingImg}>
-              <Image
-                src={thumbnail}
-                alt={"Thumbnail Image"}
-                width={70}
-                height={70}
-              />
-            </div>
+          <div className={style.allNovelImgContainer}>
+        <div className={style.allListImg}>
+          <Image
+            src={thumbnail}
+            alt={"이미지"}
+            width={100}
+            height={100}
+          />
+        </div>
+        
+          <div className={style.listNewIcon}>
+            <Image
+              src={"/assets/images/icons/NewIcon.svg"}
+              alt={"이미지"}
+              width={30}
+              height={30}
+            />
+          </div>
+        
+        <div className={style.ageCheck}>
+          {getGradeText(grade)}
+        </div>
+      </div>
             <div className={style.mainRankingNumber}>
               <p>{ranking}</p>
             </div>
@@ -76,6 +112,9 @@ export default function MainRanking({ data }: Props) {
                     />
                   </div>
                 )}
+                {data.changeRanking === null && (
+                  <div className={style.newImg}>NEW</div>
+                )}
               </div>
               <div className={style.mainRankinSubInfo}>
                 {author} | {serializationStatus} | {genre}
@@ -83,7 +122,6 @@ export default function MainRanking({ data }: Props) {
             </div>
           </div>
         </div>
-      )}
     </>
   );
 }

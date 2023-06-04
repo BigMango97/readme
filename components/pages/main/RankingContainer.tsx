@@ -13,7 +13,6 @@ export default function RankingContainer() {
   const rankingQuery = useQuery(["ranking"], novelRankingData);
   const novelRankingResult = rankingQuery?.data?.data;
   const rankingData = novelRankingResult?.novelRankingData;
-
   return (
     <section className={style.novelRankingContainer}>
       <div className={style.rankingInfo}>
