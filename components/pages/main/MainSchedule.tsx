@@ -1,41 +1,30 @@
 import React from "react";
 import style from "@/components/pages/main/MainSchedule.module.css";
 import NovelCardItem from "@/components/ui/NovelCardItem";
-import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Config from "@/configs/config.export";
 import { useQuery } from "react-query";
+import { mainScheduleFetch } from "@/pages/api/sections-service";
 
 export default function MainSchedule(props: { id: number; name: string }) {
-  const baseUrl = Config().baseUrl;
-  const scheduleData = async () => {
-    const response = await axios.get(
-      `${baseUrl}/sections-service/v1/cards/novels/schedules?scheduleId=${props.id}`
-    );
-    return response.data.data;
-  };
-
-  const scheduleResultQuery = useQuery(
-    ["scheduleData", scheduleData,"props.id",props.id],
-    scheduleData,
-    {
-      staleTime: 3 * 60 * 1000,
-      cacheTime: 5 * 60 * 1000, // 5분 (밀리초 단위)
-    }
+  const mainScheduleQuery = useQuery(
+    ["mainScheduleData", { id: props.id, name: props.name }],
+    () =>
+      mainScheduleFetch({
+        queryKey: ["mainScheduleData", { id: props.id, name: props.name }],
+      })
   );
-  const scheduleResultData = scheduleResultQuery.data;
+  const scheduleResultData = mainScheduleQuery.data;
 
   const settings = {
-    infinite: true, //무한 반복 옵션
-    autoplay: true, //자동플레이
-    slidesToShow: 2, // 한 화면에 보여질 컨텐츠 개수
-    slidesToScroll: 2, //스크롤 한번에 움직일 컨텐츠 개수
-    speed: 1500, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-    arrows: true, // 옆으로 이동하는 화살표 표시 여부
+    infinite: true,
+    autoplay: true,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    speed: 1500,
+    arrows: true,
   };
-
 
   return (
     <div className={style.mainScheduleContainer}>
