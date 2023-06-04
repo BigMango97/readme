@@ -54,36 +54,16 @@ export default function ScheduleTable() {
     {
       dataIndex: "이벤트기간",
       title: "이벤트기간",
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      // onFilter: (value: string | number | boolean, record) =>
-      //   record.startDate.date,
       width: "20%",
       render: (_, { startDate, endDate }) => <>{`${startDate} ~ ${endDate}`}</>,
     },
     {
-      //key: "수정",
       dataIndex: "수정",
       title: "수정",
       width: "5%",
       render: (_, { id }) => <EditOutlined onClick={() => showEditModal(id)} />,
     },
     {
-      //key: "삭제",
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",

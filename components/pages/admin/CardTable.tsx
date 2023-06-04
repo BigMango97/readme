@@ -71,7 +71,7 @@ export default function CardTable() {
       dataIndex: "스케줄번호",
       title: "스케줄번호",
       sorter: (a, b) => a.scheduleId - b.scheduleId,
-      width: "7%",
+      width: "5%",
       render: (_, { scheduleId }) => <>{scheduleId}</>,
     },
     {
