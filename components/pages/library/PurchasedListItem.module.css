@@ -1,0 +1,48 @@
+.allNovelList {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    /* border-radius: 5px; */
+    /* padding: 0.5rem; */
+    width: 100%;
+    height: 100px;
+    flex-direction: row;
+    /* justify-content: space-between; */
+  }
+.allNovelContainer{
+    display: flex;
+}
+  
+.allNovelInfo{
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+.allNovelSubInfo{
+  width: 100%;
+  
+}
+  
+.allNovelTitle {
+    font-size: 0.8rem;
+    color: var(--readme-primary);
+    font-weight: 800;
+    margin: 0.4rem 0rem;
+}
+.allEpisodeTitle {
+    font-size: 1rem;
+    font-weight: 800;
+}
+.allNovelBottom {
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    display:flex;
+    flex-direction: column;
+    /* width: 100%; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+  }
+  .allNovelBottom span{
+    margin-bottom: 0.1rem;
+  }
+  

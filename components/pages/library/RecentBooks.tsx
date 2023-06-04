@@ -49,7 +49,8 @@ export default function RecentBooks() {
   return (
     <>
       <NovelCardList
-        data={novelData}
+        novelData={novelData}
+        purchasedData={[]}
         totalElements={novelData ? novelData.length : 0}
       />
     </>
