@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const runtimeCaching = require("next-pwa/cache")
+const runtimeCaching = require("next-pwa/cache");
 
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -7,15 +7,19 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   runtimeCaching,
   buildExcludes: [/middleware-manifest.json$/],
-  mode: 'production', 
+  mode: "production",
   disableDevLogs: true, //log닫기
 });
 
 const nextConfig = withPWA({
   reactStrictMode: true,
   images: {
-    domains: ["btsimagebucket.s3.ap-northeast-2.amazonaws.com","dn-img-page.kakao.com"],
+    domains: [
+      "btsimagebucket.s3.ap-northeast-2.amazonaws.com",
+      "dn-img-page.kakao.com",
+      "k.kakaocdn.net",
+    ],
   },
-})
+});
 
-module.exports = nextConfig
+module.exports = nextConfig;
