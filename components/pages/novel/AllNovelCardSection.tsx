@@ -1,32 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import style from "@/components/pages/novel/AllNovelCardSection.module.css";
 import NovelCardItem from "@/components/ui/NovelCardItem";
 import NovelListItem from "@/components/ui/NovelListItem";
 import { allDetailDatatype } from "@/types/model/mainDataType";
-import { useRouter } from "next/router";
-
 interface Props {
   data: allDetailDatatype[];
   totalElements: number;
+  viewerType: "card" | "list";
+  setViewerType:Function
 }
-export default function AllNovelCardSection({ data, totalElements }: Props) {
-  const router = useRouter();
-  const [viewerType, setViewerType] = useState<"card" | "list">("card");
-
-  useEffect(() => {
-    const initialViewerType = router.query.type === "list" ? "list" : "card";
-    setViewerType(initialViewerType);
-  }, []);
-
+export default function AllNovelCardSection({ data, totalElements,viewerType, setViewerType }: Props) {
   const handleViewerType = (type: "card" | "list") => {
     setViewerType(type);
-
-    const currentQuery = { ...router.query, type };
-    router.push({
-      pathname: router.pathname,
-      query: currentQuery,
-    });
   };
   return (
     <>
