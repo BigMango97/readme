@@ -9,16 +9,16 @@ export default function LibraryTop() {
     router.push(`/library?id=${index}`);
   };
 
-  const [userName, setUserName] = useState<string>();
+  const [userNickname, setUserNickname] = useState<string>();
   useEffect(() => {
-    const name = localStorage.getItem("name") || undefined;
-    setUserName(name);
+    const nickname = localStorage.getItem("nickname") || undefined;
+    setUserNickname(nickname);
   }, []);
 
   return (
     <div className={style.libraryTopWrap}>
       <h1>
-        <span className={style.userName}>{userName}의 서재</span>
+        <span className={style.userName}>{userNickname}의 서재</span>
       </h1>
       <ul className={style.menu}>
         {mybookMenu.map((item) => (
