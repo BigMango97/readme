@@ -111,6 +111,7 @@ export default function NovelViewer(props: {
       },
     }
   );
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const emojiDataObj = useMemo(() => {
     return (
@@ -198,8 +199,8 @@ export default function NovelViewer(props: {
         setPage((prevPage) => Math.max(prevPage - 1, 1));
       }
     }
-
     setLastScrollTop(currentScrollTop); // 마지막 스크롤 위치를 갱신
+    setScrollPosition(currentScrollTop); // 스크롤 위치를 업데이트
   }, [lastScrollTop, scrollDirection]);
 
   useEffect(() => {
@@ -241,7 +242,6 @@ export default function NovelViewer(props: {
   }, []);
 
   useEffect(() => {
-    // Calculate total pages
     const calculatedTotalPages = Math.ceil(textData.length / itemsPerPage);
     setTotalPages(calculatedTotalPages);
   }, [textData, itemsPerPage, setTotalPages]);
@@ -375,6 +375,19 @@ export default function NovelViewer(props: {
       return res;
     });
   }, [props.viewerData, emojiDataObj]);
+
+  useEffect(() => {
+    // 이전에 저장된 스크롤 위치를 복원
+    const savedScrollPosition = Number(localStorage.getItem("viewerPosition"));
+    if (savedScrollPosition) {
+      window.scrollTo(0, savedScrollPosition);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 컴포넌트가 언마운트되기 전에 스크롤 위치를 저장
+    localStorage.setItem("viewerPosition", String(scrollPosition));
+  }, [scrollPosition]);
 
   return (
     <>

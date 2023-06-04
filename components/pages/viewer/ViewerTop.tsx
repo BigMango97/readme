@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import style from "@/components/pages/viewer/ViewerTop.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useCookies } from "react-cookie";
+import { useSendViewerPositionMutation } from "@/pages/api/novel-service";
+
 interface Props {
   title: string;
   novelsTitle: string;
   registration: string;
   novelId: number;
 }
+
 export default function ViewerTop({
   title,
   novelsTitle,
@@ -20,11 +23,8 @@ export default function ViewerTop({
   const router = useRouter();
   const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoginCheck(cookies.uuid);
-  }, [cookies.uuid]);
-
+  const episodeId = Number(router.query.episodeId);
+  const sendViewerPosition = useSendViewerPositionMutation();
   const movePage = useCallback(() => {
     if (!loginCheck) {
       localStorage.setItem("link", router.asPath);
@@ -33,13 +33,52 @@ export default function ViewerTop({
   }, [loginCheck, router]);
 
   const handleArrowClick = useCallback(() => {
-    router.push(`/noveldetail/${novelId}`);
-  }, [router, novelId]);
+    sendViewerPosition.mutate(
+      {
+        readAt: readAt,
+        episodeId: episodeId,
+      },
+      {
+        onSuccess: (data: any) => {
+          console.log("데이터 보내기성공!", data);
+          router.push(`/noveldetail/${novelId}`);
+        },
+      }
+    );
+  }, [router, novelId, episodeId, sendViewerPosition]);
+
+  const readAt = Number(localStorage.getItem("viewerPosition"));
+
+  const handleButtonClick = useCallback(() => {
+    if (!loginCheck) {
+      return;
+    }
+    sendViewerPosition.mutate(
+      {
+        readAt: readAt,
+        episodeId: episodeId,
+      },
+      {
+        onSuccess: (data: any) => {
+          console.log("데이터 보내기성공!", data);
+        },
+      }
+    );
+  }, [loginCheck, readAt, episodeId, sendViewerPosition]);
+
+  // 마이페이지,홈,뒤로가기
+  const handleMypageClick = handleButtonClick;
+  const handleHomeClick = handleButtonClick;
+
+  useEffect(() => {
+    setLoginCheck(cookies.uuid);
+  }, [cookies.uuid]);
+
   return (
     <div className={style.Container}>
       <div className={style.titleContainer}>
         <Link href="/">
-          <div className={style.homeImg}>
+          <div className={style.homeImg} onClick={handleHomeClick}>
             <Image
               src={"/assets/images/icons/home_black.svg"}
               alt={"homeicon"}
@@ -51,7 +90,7 @@ export default function ViewerTop({
         <p>{novelsTitle}</p>
         {loginCheck ? (
           <Link href="/mypage">
-            <div className={style.myImg}>
+            <div className={style.myImg} onClick={handleMypageClick}>
               <Image
                 src={"/assets/images/icons/my.svg"}
                 alt={"myicon"}
