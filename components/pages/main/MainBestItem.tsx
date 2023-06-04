@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { MainBestData } from "@/datas/dummy/mainBestItemData";
-import { mainBestItemsType } from "@/types/model/mainDataType";
+import React from "react";
 import style from "@/components/pages/main/MainBestItem.module.css";
 import CountViewUi from "@/components/ui/CountViewUi";
 import Image from "next/image";
-import { bestNovelQueryType } from "@/types/service/section-service";
+import { besteventNovelQueryType } from "@/types/service/section-service";
 
 interface Props {
-  data: bestNovelQueryType;
+  data: besteventNovelQueryType;
   bestImage: string;
 }
 export default function MainBestItem({ data, bestImage }: Props) {
