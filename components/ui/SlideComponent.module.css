@@ -9,11 +9,13 @@
   height: fit-content;
   max-height: 900px;
   min-height: 200px;
-  background-color: white;
   color: black;
   transition: transform 0.5s ease-out;
   padding: 2rem 1rem 1rem 1rem;
-  background: linear-gradient(180deg, white 0%, rgb(243, 242, 242) 10%);
+  background-color:  rgb(243, 242, 242);
+  border-top: 0.5px solid var(--readme-darkgray);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;  
 }
 .closeBtn {
   width: 3rem;

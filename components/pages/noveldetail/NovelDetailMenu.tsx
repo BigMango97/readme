@@ -51,26 +51,26 @@ export default function NovelDetailMenu(props: {
         }
         return null;
       },
+      keepPreviousData: true,
     });
 
-    const [isSticky, setIsSticky] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
 
-    useEffect(() => {
-      const checkScrollTop = () => {
-        if (!isSticky && window.pageYOffset > 570){
-          setIsSticky(true)
-        } else if (isSticky && window.pageYOffset <= 570){
-          setIsSticky(false)
-        }
-      };
-      
-      window.addEventListener('scroll', checkScrollTop)
-      
-      return () => {
-        window.removeEventListener('scroll', checkScrollTop)
+  useEffect(() => {
+    const checkScrollTop = () => {
+      if (!isSticky && window.pageYOffset > 570) {
+        setIsSticky(true);
+      } else if (isSticky && window.pageYOffset <= 570) {
+        setIsSticky(false);
       }
-    }, [isSticky]);
+    };
 
+    window.addEventListener("scroll", checkScrollTop);
+
+    return () => {
+      window.removeEventListener("scroll", checkScrollTop);
+    };
+  }, [isSticky]);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -84,7 +84,7 @@ export default function NovelDetailMenu(props: {
 
   return (
     <>
-       <div className={`${style.menutitle} ${isSticky ? style.sticky : ""}`}>
+      <div className={`${style.menutitle} ${isSticky ? style.sticky : ""}`}>
         {MENULIST.map((item) => (
           <p
             key={item.id}
@@ -97,7 +97,7 @@ export default function NovelDetailMenu(props: {
           </p>
         ))}
       </div>
-      <div style={{ display: menuTitle === "작품소개" ? 'block' : 'none' }}>
+      <div style={{ display: menuTitle === "작품소개" ? "block" : "none" }}>
         <div className={style.infoCentainer}>
           <div className={style.detailTitle}>시놉시스</div>
           <div className={style.authorinfo}>{props.description}</div>
@@ -106,7 +106,7 @@ export default function NovelDetailMenu(props: {
           <div className={style.authorinfo}>{props.authorComment}</div>
         </div>
       </div>
-      <div style={{ display: menuTitle === "에피소드" ? 'block' : 'none' }}>
+      <div style={{ display: menuTitle === "에피소드" ? "block" : "none" }}>
         {props.novelId && data && (
           <>
             <EpisodeInfo
@@ -123,7 +123,7 @@ export default function NovelDetailMenu(props: {
           </>
         )}
       </div>
-      <div style={{ display: menuTitle === "댓글" ? 'block' : 'none' }}>
+      <div style={{ display: menuTitle === "댓글" ? "block" : "none" }}>
         <div className={style.infoCentainer}>
           <CommentList />
         </div>
