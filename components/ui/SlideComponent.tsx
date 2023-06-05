@@ -1,5 +1,5 @@
 import React from "react";
-import ReviewContainer from "../pages/viewer/ReviewContainer";
+import ReviewContainer from "../pages/viewer/StarRatingContainer";
 import CommentsContainer from "../pages/viewer/CommentsContainer";
 import style from "@/components/ui/SlideComponent.module.css";
 
