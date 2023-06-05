@@ -42,6 +42,7 @@ export default function OrderHistory() {
             point: data.body.data.point,
             chargeDate: data.body.data.chargeDate,
           });
+          localStorage.setItem("point", data.body.data.total);
         });
     }
   }, [pg_token]);
