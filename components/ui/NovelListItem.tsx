@@ -36,13 +36,7 @@ export default function NovelListItem({
     return recentReadData.readAt;
   };
   const movePage = () => {
-    const readY = readAtData();
-    console.log("readY ", readY);
-    router.push(`/viewer/${novelData.episodeId}`).then(async () => {
-      //window.scrollTo(0, await readY);
-      console.log("readY1111111111111111 ", readY);
-      window.scrollTo(0, 1000);
-    });
+    router.push(`/viewer/${novelData.episodeId}`);
   };
   const handleNovelDetailClick = () => {
     localStorage.setItem("scrollPosition", window.pageYOffset.toString());
