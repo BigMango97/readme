@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import ReviewRating from "@/components/ui/ReviewRating";
-import style from "@/components/pages/viewer/ReviewContainer.module.css";
-import axios from "axios";
-import { useMutation, useQuery } from "react-query";
-import Config from "@/configs/config.export";
+import React, { useState, useEffect } from "react";
+import StarRating from "@/components/ui/StarRating";
+import style from "@/components/pages/viewer/StarRatingContainer.module.css";
+import axios from "@/configs/axiosConfig";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
-import { useQueryClient } from "react-query";
-import { useEffect } from "react";
 import Swal from "sweetalert2";
+import { useSetRecoilState } from "recoil";
+import { shouldRefetchTotalRatingState } from "@/state/rating";
 interface Props {
   novelId: number;
   onClose: () => void;
@@ -19,10 +18,12 @@ type MutationParams = {
   novelId: number;
 };
 
-export default function ReviewContainer({ novelId, onClose }: Props) {
-  const queryClient = useQueryClient();
+export default function StarRatingContainer({ novelId, onClose }: Props) {
+  const setShouldRefetchTotalRating = useSetRecoilState(
+    shouldRefetchTotalRatingState
+  );
   const router = useRouter();
-  const episodeId = Number(router.asPath.split("/")[2]);
+  const episodeId = Number(router.query.episodeId);
   const [cookies] = useCookies(["uuid", "access_token"]);
   const [clicked, setClicked] = useState<boolean[]>([
     false,
@@ -39,12 +40,11 @@ export default function ReviewContainer({ novelId, onClose }: Props) {
     setClicked(clickStates);
   };
 
-  const baseUrl = Config().baseUrl;
   const { data: rating, isError } = useQuery(
     ["starRating", episodeId],
     () =>
       axios
-        .get(`${baseUrl}/utils-service/v1/starRating/episode/${episodeId}`, {
+        .get(`/utils-service/v1/starRating/episode/${episodeId}`, {
           headers: {
             uuid: cookies.uuid,
           },
@@ -52,24 +52,18 @@ export default function ReviewContainer({ novelId, onClose }: Props) {
         .then((res) => res.data),
     { enabled: !!episodeId }
   );
-
   useEffect(() => {
-    if (rating && rating.data.starRating !== undefined) {
-      handleStarClick(rating.data.starRating - 1);
+    if (rating && rating.data.myRating !== undefined) {
+      handleStarClick(rating.data.myRating - 1);
     }
-  }, [rating, rating?.data?.starRating]);
+  }, [rating]);
 
   const mutation = useMutation(
     (params: MutationParams) =>
-      axios.post(`${baseUrl}/utils-service/v1/starRating`, params, {
-        headers: {
-          uuid: cookies.uuid,
-          // 'Authorization': `Bearer ${cookies.access_token}`
-        },
-      }),
+      axios.post(`/utils-service/v1/starRating`, params, {}),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["starRating", episodeId]);
+      onSuccess: (data) => {
+        setShouldRefetchTotalRating(true);
         onClose();
       },
       onError: () => {
@@ -82,33 +76,21 @@ export default function ReviewContainer({ novelId, onClose }: Props) {
     const starRating = clicked.filter(Boolean).length;
     const rated = rating.data.rated;
     const mutationParams = { starRating, episodeId, novelId };
-    if (rated) {
-      mutation.mutate(mutationParams);
-      Swal.fire({
-        toast: true,
-        position: "bottom",
-        icon: "success",
-        title: "별점이 수정되었습니다",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    } else {
-      mutation.mutate(mutationParams);
-      Swal.fire({
-        toast: true,
-        position: "bottom",
-        icon: "success",
-        title: "별점이 등록되었습니다",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    }
+    mutation.mutate(mutationParams);
+    Swal.fire({
+      toast: true,
+      position: "bottom",
+      icon: "success",
+      title: rated ? "별점이 수정되었습니다" : "별점이 등록되었습니다",
+      showConfirmButton: false,
+      timer: 1000,
+    });
   };
 
   return (
     <div className={style.reviewCotainer}>
       <div className={style.reviewTitle}>회차 별점 남기기</div>
-      <ReviewRating clicked={clicked} onStarClick={handleStarClick} />
+      <StarRating clicked={clicked} onStarClick={handleStarClick} />
       <div className={style.checkBtn}>
         <button type="button" onClick={onClose}>
           취소
