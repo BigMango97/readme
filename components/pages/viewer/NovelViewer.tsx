@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { pageState, totalPagesState } from "@/state/Page";
 import Config from "@/configs/config.export";
+import { recentReadType } from "@/types/user/libraryType";
 
 interface NovelViewerProps {
   id: number;
@@ -388,6 +389,19 @@ export default function NovelViewer(props: {
     // 컴포넌트가 언마운트되기 전에 스크롤 위치를 저장
     localStorage.setItem("viewerPosition", String(scrollPosition));
   }, [scrollPosition]);
+
+  useEffect(() => {
+    const readAtData = async () => {
+      const res = await axios.get(`/novels-service/v1/history`);
+      const recentReadData = res.data.data.contents.find(
+        (item: recentReadType) => item.episodeId === episodeId
+      );
+      const positionY = recentReadData.readAt;
+      console.log(positionY);
+      window.scrollTo(0, positionY);
+    };
+    readAtData();
+  }, []);
 
   return (
     <>

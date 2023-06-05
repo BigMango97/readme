@@ -35,6 +35,7 @@ export default function RecentBooks() {
               episodeCount: res3.data.data.episodeCount,
               authorComment: res3.data.data.authorComment,
               episodeId: item.episodeId,
+              recentId: item.id,
             };
           })
         );
@@ -49,7 +50,8 @@ export default function RecentBooks() {
   return (
     <>
       <NovelCardList
-        data={novelData}
+        novelData={novelData}
+        purchasedData={[]}
         totalElements={novelData ? novelData.length : 0}
       />
     </>

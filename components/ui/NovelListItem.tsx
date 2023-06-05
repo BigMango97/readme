@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import style from "@/components/ui/NovelListItem.module.css";
 import { allDetailDatatype } from "@/types/model/mainDataType";
+import axios from "@/configs/axiosConfig";
+import { recentReadType } from "@/types/user/libraryType";
 
 const IS_READABLE_BY_All = 0;
 const IS_NINETEEN_PLUS = 19;
@@ -23,10 +25,18 @@ export default function NovelListItem({
   novelData: allDetailDatatype;
 }) {
   const router = useRouter();
+  //const [recentReadData, SetRecentReadData] = useState<recentReadType>();
+  const readAtData = async () => {
+    const res = await axios.get(`/novels-service/v1/history`);
+    const recentReadData = res.data.data.contents.find(
+      (item: recentReadType) => item.episodeId === novelData.episodeId
+    );
+    console.log("recentReadData ", recentReadData);
+    console.log("recentReadData.readAt ", recentReadData.readAt);
+    return recentReadData.readAt;
+  };
   const movePage = () => {
-    router.push(`/viewer/${novelData.episodeId}`).then(() => {
-      window.scrollTo(0, 0);
-    });
+    router.push(`/viewer/${novelData.episodeId}`);
   };
   const handleNovelDetailClick = () => {
     localStorage.setItem("scrollPosition", window.pageYOffset.toString());
@@ -34,6 +44,18 @@ export default function NovelListItem({
     router.push(`/noveldetail/${novelData.novelId}`, undefined, {
       scroll: false,
     });
+  };
+
+  const deleteRecentHandle = async (recentId: number) => {
+    const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
+    console.log(res.data);
+  };
+
+  const deleteLikeHandle = async (novelId: number) => {
+    const res = await axios.post(`/utils-service/v1/pick`, {
+      novelsId: `${novelId}`,
+    });
+    console.log(res.data);
   };
 
   return (
@@ -90,17 +112,30 @@ export default function NovelListItem({
           </div>
         </div>
       </div>
-      {router.asPath === "/library?id=1" && (
-        <div className={style.allNovelContinue} onClick={movePage}>
-          <span>이어보기</span>
-          <Image
-            src={"/assets/images/icons/chevron-right.svg"}
-            alt="Chevron-right Icon"
-            width={15}
-            height={15}
-          />
-        </div>
-      )}
+      <div className={style.right}>
+        <Image
+          src={"/assets/images/icons/close.svg"}
+          alt="close Icon"
+          width={20}
+          height={20}
+          onClick={() =>
+            novelData.recentId
+              ? deleteRecentHandle(novelData.recentId)
+              : deleteLikeHandle(novelData.novelId)
+          }
+        />
+        {router.asPath === "/library?id=1" && (
+          <div className={style.allNovelContinue} onClick={movePage}>
+            <span>이어보기</span>
+            <Image
+              src={"/assets/images/icons/chevron-right.svg"}
+              alt="Chevron-right Icon"
+              width={15}
+              height={15}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
