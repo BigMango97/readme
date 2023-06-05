@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import style from "@/components/ui/NovelListItem.module.css";
 import { allDetailDatatype } from "@/types/model/mainDataType";
+import axios from "@/configs/axiosConfig";
+import { recentReadType } from "@/types/user/libraryType";
 
 const IS_READABLE_BY_All = 0;
 const IS_NINETEEN_PLUS = 19;
@@ -23,9 +25,23 @@ export default function NovelListItem({
   novelData: allDetailDatatype;
 }) {
   const router = useRouter();
+  //const [recentReadData, SetRecentReadData] = useState<recentReadType>();
+  const readAtData = async () => {
+    const res = await axios.get(`/novels-service/v1/history`);
+    const recentReadData = res.data.data.contents.find(
+      (item: recentReadType) => item.episodeId === novelData.episodeId
+    );
+    console.log("recentReadData ", recentReadData);
+    console.log("recentReadData.readAt ", recentReadData.readAt);
+    return recentReadData.readAt;
+  };
   const movePage = () => {
-    router.push(`/viewer/${novelData.episodeId}`).then(() => {
-      window.scrollTo(0, 0);
+    const readY = readAtData();
+    console.log("readY ", readY);
+    router.push(`/viewer/${novelData.episodeId}`).then(async () => {
+      //window.scrollTo(0, await readY);
+      console.log("readY1111111111111111 ", readY);
+      window.scrollTo(0, 1000);
     });
   };
   const handleNovelDetailClick = () => {
@@ -90,17 +106,25 @@ export default function NovelListItem({
           </div>
         </div>
       </div>
-      {router.asPath === "/library?id=1" && (
-        <div className={style.allNovelContinue} onClick={movePage}>
-          <span>이어보기</span>
-          <Image
-            src={"/assets/images/icons/chevron-right.svg"}
-            alt="Chevron-right Icon"
-            width={15}
-            height={15}
-          />
-        </div>
-      )}
+      <div className={style.right}>
+        <Image
+          src={"/assets/images/icons/close.svg"}
+          alt="close Icon"
+          width={20}
+          height={20}
+        />
+        {router.asPath === "/library?id=1" && (
+          <div className={style.allNovelContinue} onClick={movePage}>
+            <span>이어보기</span>
+            <Image
+              src={"/assets/images/icons/chevron-right.svg"}
+              alt="Chevron-right Icon"
+              width={15}
+              height={15}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

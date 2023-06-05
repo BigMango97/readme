@@ -1,26 +1,26 @@
 .allNovelList {
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
     box-sizing: border-box;
     /* border-radius: 5px; */
-    /* padding: 0.5rem; */
+    padding: 0.5rem;
     width: 100%;
     height: 100px;
-    flex-direction: row;
+    /* flex-direction: row; */
     /* justify-content: space-between; */
   }
 .allNovelContainer{
     display: flex;
+    justify-content: space-between;
 }
   
 .allNovelInfo{
     display: flex;
     align-items: center;
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
 }
 .allNovelSubInfo{
   width: 100%;
-  
 }
   
 .allNovelTitle {
@@ -45,4 +45,14 @@
   .allNovelBottom span{
     margin-bottom: 0.1rem;
   }
-  
+  .right{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items:start;
+    /* margin-top: 0.4rem; */
+  }
+  .itemRow{
+    display: flex;
+    justify-content: space-between;
+  }

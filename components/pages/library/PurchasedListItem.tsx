@@ -38,16 +38,26 @@ export default function PurchasedListItem({
 
   return (
     <div className={style.allNovelList}>
-      <div className={style.allNovelContainer}>
-        <div className={style.allNovelInfo}>
-          <div className={style.allNovelSubInfo}>
-            <div className={style.allNovelTitle}>{"소설제목"}</div>
-            <div className={style.allEpisodeTitle}>{"에피제목"}</div>
-            <div className={style.allNovelBottom}>
-              <span>100P</span>
-              <span>구매날짜 | {"2023-06-05"}</span>
+      <div className={style.itemRow}>
+        <div className={style.allNovelContainer}>
+          <div className={style.allNovelInfo}>
+            <div className={style.allNovelSubInfo}>
+              <div className={style.allNovelTitle}>{"소설제목"}</div>
+              <div className={style.allEpisodeTitle}>{"에피제목"}</div>
+              <div className={style.allNovelBottom}>
+                <span>100P</span>
+                <span>구매날짜 | {"2023-06-05"}</span>
+              </div>
             </div>
           </div>
+        </div>
+        <div className={style.right}>
+          <Image
+            src={"/assets/images/icons/close.svg"}
+            alt="close Icon"
+            width={20}
+            height={20}
+          />
         </div>
       </div>
     </div>
