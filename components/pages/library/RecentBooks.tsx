@@ -35,6 +35,7 @@ export default function RecentBooks() {
               episodeCount: res3.data.data.episodeCount,
               authorComment: res3.data.data.authorComment,
               episodeId: item.episodeId,
+              recentId: item.id,
             };
           })
         );

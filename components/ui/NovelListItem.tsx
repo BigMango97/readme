@@ -52,6 +52,18 @@ export default function NovelListItem({
     });
   };
 
+  const deleteRecentHandle = async (recentId: number) => {
+    const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
+    console.log(res.data);
+  };
+
+  const deleteLikeHandle = async (novelId: number) => {
+    const res = await axios.post(`/utils-service/v1/pick`, {
+      novelsId: `${novelId}`,
+    });
+    console.log(res.data);
+  };
+
   return (
     <div className={style.allNovelList}>
       <div className={style.allNovelContainer} onClick={handleNovelDetailClick}>
@@ -112,6 +124,11 @@ export default function NovelListItem({
           alt="close Icon"
           width={20}
           height={20}
+          onClick={() =>
+            novelData.recentId
+              ? deleteRecentHandle(novelData.recentId)
+              : deleteLikeHandle(novelData.novelId)
+          }
         />
         {router.asPath === "/library?id=1" && (
           <div className={style.allNovelContinue} onClick={movePage}>
