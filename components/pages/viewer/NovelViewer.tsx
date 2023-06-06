@@ -5,18 +5,15 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import axios from "axios";
+import axios from "@/configs/axiosConfig";
 import style from "@/components/pages/viewer/NovelViewer.module.css";
 import EmojiPannel from "@/components/widget/EmojiPannel";
 import { useCookies } from "react-cookie";
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
-import { useInView } from "react-intersection-observer";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
-import { pageState, totalPagesState } from "@/state/Page";
-import Config from "@/configs/config.export";
-
+import { scrollPercentState } from "@/state/scrollPercentState";
 interface NovelViewerProps {
   id: number;
   content: string;
@@ -50,28 +47,8 @@ export default function NovelViewer(props: {
   const queryClient = useQueryClient();
   const [isEmojiPanelVisible, setIsEmojiPanelVisible] = useState(false); // 이모티콘 패널 보이기 여부
   const longPressTimerRef = useRef<number | null>(null); // 롱 프레스 타이머 참조
-  const baseUrl = Config().baseUrl;
-  const [pageRefs, setPageRefs] = useState<React.RefObject<HTMLDivElement>[]>(
-    []
-  );
-  const [blockRefs, setBlockRefs] = useState<
-    React.MutableRefObject<HTMLDivElement>[]
-  >([]);
+  const [scrollPercent, setScrollPercent] = useRecoilState(scrollPercentState);
 
-  const [page, setPage] = useState(1);
-
-  const [ref, inView, entry] = useInView({
-    threshold: 0,
-  });
-
-  const [lastScrollTop, setLastScrollTop] = useState(0); // 마지막 스크롤 위치를 저장
-  const [scrollDirection, setScrollDirection] = useState<
-    "up" | "down" | "undefined"
-  >("undefined");
-  const itemsPerPage = 20;
-  const currentItems = textData.slice(0, itemsPerPage * page);
-  const [currentPage, setCurrentPage] = useRecoilState(pageState);
-  const [totalPages, setTotalPages] = useRecoilState(totalPagesState);
   const handleLongPressEnd = useCallback(() => {
     if (longPressTimerRef.current) {
       clearTimeout(longPressTimerRef.current);
@@ -81,9 +58,10 @@ export default function NovelViewer(props: {
   const onHidePanel = () => {
     setIsEmojiPanelVisible(false);
   };
+
   const mutation = useMutation(
     (params: MutationParams) =>
-      axios.post(`${baseUrl}/utils-service/v1/emoji`, params, {
+      axios.post(`/utils-service/v1/emoji`, params, {
         headers: {
           uuid: cookies.uuid,
           Authorization: `Bearer ${cookies.accessToken}`,
@@ -162,46 +140,19 @@ export default function NovelViewer(props: {
     setTextData(res);
   }, [props.viewerData, emojiDataObj]);
 
-  useEffect(() => {
-    setPageRefs((refs) =>
-      Array(textData.length)
-        .fill(0)
-        .map((_, i) => refs[i] || React.createRef())
-    );
-  }, [textData]);
-
-  useEffect(() => {
-    // textData가 갱신되었을 때 각각의 텍스트 블록들에 대한 ref를 생성
-    setBlockRefs((blockRefs) =>
-      Array(textData.length)
-        .fill(0)
-        .map((_, i) => blockRefs[i] || React.createRef())
-    );
-  }, [textData]);
-
   const handleScroll = useCallback(() => {
     const currentScrollTop =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
+      window.pageYOffset || document.documentElement.scrollTop;
 
-    if (currentScrollTop > lastScrollTop) {
-      // 아래로 스크롤
-      if (scrollDirection !== "down") {
-        setScrollDirection("down");
-        setPage((prevPage) => prevPage + 1);
-      }
-    } else if (currentScrollTop < lastScrollTop) {
-      // 위로 스크롤
-      if (scrollDirection !== "up") {
-        setScrollDirection("up");
-        setPage((prevPage) => Math.max(prevPage - 1, 1));
-      }
-    }
-    setLastScrollTop(currentScrollTop); // 마지막 스크롤 위치를 갱신
+    const totalHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+
+    const scrollPercent = (currentScrollTop / totalHeight) * 100;
+
+    setScrollPercent(scrollPercent);
     setScrollPosition(currentScrollTop); // 스크롤 위치를 업데이트
-  }, [lastScrollTop, scrollDirection]);
+  }, [setScrollPercent]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -209,26 +160,6 @@ export default function NovelViewer(props: {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
-
-  useEffect(() => {
-    if (inView && scrollDirection === "down") {
-      setPage((prevPage) => {
-        if (prevPage < totalPages) {
-          return prevPage + 1;
-        } else {
-          return prevPage;
-        }
-      });
-    } else if (!inView && scrollDirection === "up") {
-      setPage((prevPage) => {
-        if (prevPage > 1) {
-          return prevPage - 1;
-        } else {
-          return prevPage;
-        }
-      });
-    }
-  }, [inView, scrollDirection, totalPages]);
 
   useEffect(() => {
     if (targetRef.current) {
@@ -240,16 +171,6 @@ export default function NovelViewer(props: {
       }
     };
   }, []);
-
-  useEffect(() => {
-    const calculatedTotalPages = Math.ceil(textData.length / itemsPerPage);
-    setTotalPages(calculatedTotalPages);
-  }, [textData, itemsPerPage, setTotalPages]);
-
-  useEffect(() => {
-    const calculatedPage = Math.ceil(currentItems.length / itemsPerPage);
-    setCurrentPage(calculatedPage);
-  }, [currentItems, setCurrentPage]);
 
   // 터치 이동 핸들러
   const touchMoveHandler = (e: TouchEvent | MouseEvent) => {
@@ -377,7 +298,6 @@ export default function NovelViewer(props: {
   }, [props.viewerData, emojiDataObj]);
 
   useEffect(() => {
-    // 이전에 저장된 스크롤 위치를 복원
     const savedScrollPosition = Number(localStorage.getItem("viewerPosition"));
     if (savedScrollPosition) {
       window.scrollTo(0, savedScrollPosition);
@@ -385,51 +305,33 @@ export default function NovelViewer(props: {
   }, []);
 
   useEffect(() => {
-    // 컴포넌트가 언마운트되기 전에 스크롤 위치를 저장
     localStorage.setItem("viewerPosition", String(scrollPosition));
   }, [scrollPosition]);
 
   return (
     <>
-      <div ref={targetRef}>
-        {isEmojiPanelVisible && (
-          <EmojiPannel
-            xNumber={xNumber}
-            yNumber={yNumber}
-            emojiHandler={emojiHandler}
-            isEmojiPanelVisible={isEmojiPanelVisible}
-            onHidePanel={onHidePanel}
-          />
-        )}
-        <ul className={style.novelViewWrap}>
-          {currentItems.length > 0 &&
-            currentItems.map((item: NovelViewerProps, index: number) => {
-              if (currentItems.length === index + 1) {
-                return (
-                  <div ref={ref} key={item.id}>
-                    <ListView
-                      key={item.id}
-                      data={item}
-                      targetHandler={targetHandler}
-                      handleLongPressStart={handleLongPressStart}
-                      handleLongPressEnd={handleLongPressEnd}
-                    />
-                  </div>
-                );
-              } else {
-                return (
-                  <ListView
-                    key={item.id}
-                    data={item}
-                    targetHandler={targetHandler}
-                    handleLongPressStart={handleLongPressStart}
-                    handleLongPressEnd={handleLongPressEnd}
-                  />
-                );
-              }
-            })}
-        </ul>
-      </div>
+      {isEmojiPanelVisible && (
+        <EmojiPannel
+          xNumber={xNumber}
+          yNumber={yNumber}
+          emojiHandler={emojiHandler}
+          isEmojiPanelVisible={isEmojiPanelVisible}
+          onHidePanel={onHidePanel}
+        />
+      )}
+      <ul className={style.novelViewWrap}>
+        {textData.map((item: NovelViewerProps, index: number) => {
+          return (
+            <ListView
+              key={item.id}
+              data={item}
+              targetHandler={targetHandler}
+              handleLongPressStart={handleLongPressStart}
+              handleLongPressEnd={handleLongPressEnd}
+            />
+          );
+        })}
+      </ul>
     </>
   );
 }
