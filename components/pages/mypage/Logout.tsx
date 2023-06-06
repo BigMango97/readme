@@ -7,11 +7,7 @@ export default function Logout() {
   const router = useRouter();
   const logoutHandle = () => {
     //localStorage.removeItem("uuid");
-    localStorage.removeItem("name");
-    localStorage.removeItem("nickname");
-    localStorage.removeItem("point");
-    localStorage.removeItem("profileImg");
-    localStorage.removeItem("age");
+    localStorage.clear();
 
     removeCookie("accessToken", { path: "/" });
     removeCookie("uuid", { path: "/" });
