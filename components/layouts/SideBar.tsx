@@ -14,7 +14,13 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
-  let menu: undefined | string = "novel" || router.query.menu?.toString();
+  const [menu, setMenu] = useState<string>("novel");
+
+  useEffect(() => {
+    if (router.query.menu) {
+      setMenu(router.query.menu.toString());
+    }
+  }, [router.query.menu]);
 
   const [, , removeCookie] = useCookies(["accessToken"]);
 
@@ -25,6 +31,7 @@ export default function SideBar() {
       router.push("/admin/main");
     } else router.push(`/admin/main?menu=${item.key}`);
   };
+
   const clickLogoHandler = () => {
     router.push(`/admin/main?menu=novel`);
   };
@@ -72,7 +79,7 @@ export default function SideBar() {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[menu]}
+          selectedKeys={[menu]}
           mode="inline"
           items={items}
           onClick={clickMenuHandler}
