@@ -20,7 +20,7 @@ export default function SideBar() {
 
   const clickMenuHandler = (item: any) => {
     if (item.key === "logout") {
-      localStorage.removeItem("name");
+      localStorage.removeItem("nickname");
       removeCookie("accessToken", { path: "/" });
       router.push("/admin/main");
     } else router.push(`/admin/main?menu=${item.key}`);

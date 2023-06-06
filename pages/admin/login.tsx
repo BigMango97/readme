@@ -32,7 +32,7 @@ export default function Login() {
       setCookie("accessToken", res.headers.accesstoken, {
         path: "/",
       });
-      localStorage.setItem("name", res.data.data.name);
+      localStorage.setItem("nickname", res.data.data.nickname);
 
       axios.defaults.headers.common[
         "Authorization"

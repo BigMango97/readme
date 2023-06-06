@@ -23,7 +23,7 @@ export default function Kakao() {
           `https://api.readme.life/users-service/v1/user/login?code=${code}`
         )
         .then((res) => {
-          localStorage.setItem("name", res.data.data.name);
+          //localStorage.setItem("name", res.data.data.name);
           localStorage.setItem("nickname", res.data.data.nickname);
           localStorage.setItem("point", res.data.data.point);
           localStorage.setItem("profileImg", res.data.data.profileImg);
