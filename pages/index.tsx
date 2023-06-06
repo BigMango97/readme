@@ -1,6 +1,4 @@
 import React from "react";
-import { useQuery } from "react-query";
-
 import { NextPageWithLayout } from "./_app";
 import Layout from "@/components/layouts/layout";
 import MainBestItem from "@/components/pages/main/MainBestItem";
@@ -17,72 +15,63 @@ import {
   eventNovelItemFetch,
 } from "./api/sections-service";
 import { bestNovelIdFetch, eventNovelFetch } from "./api/novel-service";
-import { besteventIdDataType } from "@/types/service/novel-service";
+import { GetServerSideProps } from "next";
 
-const queryOptions = {
-  staleTime: 5 * 60 * 1000,
-  cacheTime: 10 * 60 * 1000,
+interface ServerSideProps {
+  scheduleTitleData: scheduleQueryType[];
+  bestNovelData: besteventNovelQueryType;
+  eventNovelData: besteventNovelQueryType;
+  bestImage: string;
+  eventImage: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const scheduleTitleData = await scheduleTitleFetch();
+  const bestIdData = await bestNovelIdFetch();
+  const eventIdData = await eventNovelFetch();
+
+  const bestId = bestIdData?.data?.id;
+  const eventId = eventIdData?.data?.id;
+
+  let bestNovelData;
+  let eventNovelData;
+
+  if (bestId) {
+    bestNovelData = await BestNovelItemFetch(bestId);
+  }
+
+  if (eventId) {
+    eventNovelData = await eventNovelItemFetch(eventId);
+  }
+
+  return {
+    props: {
+      scheduleTitleData,
+      bestNovelData,
+      eventNovelData,
+      bestImage: bestIdData?.data?.mainImage || "",
+      eventImage: eventIdData?.data?.mainImage || "",
+    },
+  };
 };
 
-const Home: NextPageWithLayout = () => {
-  //scheduleData
-  const scheduleQuery = useQuery<scheduleQueryType[]>(
-    ["scheduleTitleData"],
-    scheduleTitleFetch,
-    queryOptions
-  );
-  const scheduleTitleResult = scheduleQuery?.data;
-
-  //bestItemData
-  const bestDataQuery = useQuery<besteventIdDataType>(
-    ["bestIdData"],
-    bestNovelIdFetch,
-    queryOptions
-  );
-
-  const bestId = bestDataQuery?.data?.data?.id;
-  const bestImage = bestDataQuery?.data?.data?.mainImage || "";
-
-  const bestNovelQuery = useQuery<besteventNovelQueryType>(
-    ["bestNovelData", bestId],
-    () => (bestId ? BestNovelItemFetch(bestId) : Promise.resolve(undefined)),
-    {
-      ...queryOptions,
-      enabled: !!bestId,
-    }
-  );
-  const bestNovelDataResult = bestNovelQuery.data;
-
-  //eventItemData
-  const eventDataQuery = useQuery<besteventIdDataType>(
-    ["eventIdData"],
-    eventNovelFetch,
-    queryOptions
-  );
-  const eventId = eventDataQuery?.data?.data?.id;
-  const eventImage = eventDataQuery?.data?.data?.mainImage || "";
-  const eventNovelQuery = useQuery<besteventNovelQueryType>(
-    ["eventNovelData", eventId],
-    () => (eventId ? eventNovelItemFetch(eventId) : Promise.resolve(undefined)),
-    {
-      ...queryOptions,
-      enabled: !!eventId,
-    }
-  );
-  const eventNovelDataResult = eventNovelQuery?.data;
-
+const Home: NextPageWithLayout<ServerSideProps> = ({
+  scheduleTitleData,
+  bestNovelData,
+  eventNovelData,
+  bestImage,
+  eventImage,
+}) => {
   return (
     <>
-      {bestNovelDataResult && (
-        <MainBestItem data={bestNovelDataResult} bestImage={bestImage} />
+      {bestNovelData && (
+        <MainBestItem data={bestNovelData} bestImage={bestImage} />
+      )}
+      {eventNovelData && (
+        <MainEvent data={eventNovelData} eventImage={eventImage} />
       )}
       <RankingContainer />
-      {eventNovelDataResult && (
-        <MainEvent data={eventNovelDataResult} eventImage={eventImage} />
-      )}
-      {scheduleTitleResult && (
-        <MainScheduleContainer data={scheduleTitleResult} />
-      )}
+      {scheduleTitleData && <MainScheduleContainer data={scheduleTitleData} />}
     </>
   );
 };
