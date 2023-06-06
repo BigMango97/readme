@@ -2,29 +2,42 @@ import React from "react";
 import style from "@/components/ui/ConfirmModal.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import axios from "@/configs/axiosConfig";
+import { useCookies } from "react-cookie";
 export default function ConfirmModal(props: {
   color: string;
-  situation: string;
+  situation: "부족" | "결제";
   epiId: number;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const router = useRouter();
+  const [cookies] = useCookies(["uuid"]);
   let textInfo = "";
   let confirmInfoTitle = "";
   let imageSrc = "";
-  if (props.situation === "차감") {
-    textInfo = "100P 차감됐습니다.";
+  if (props.situation === "결제") {
+    textInfo = "100P를 사용하시겠습니까?";
     confirmInfoTitle = "읽기";
     imageSrc = "/assets/images/icons/bookwhite.svg";
   }
   if (props.situation === "부족") {
-    textInfo = "포인트가 부족합니다~";
+    textInfo = "포인트가 부족합니다.";
     confirmInfoTitle = "충전하기";
     imageSrc = "/assets/images/icons/plus.svg";
   }
-
+  const paymentHandle = async () => {
+    const res = await axios.post(`/payments-service/v1/payments/purchase`, {
+      uuid: cookies.uuid,
+      episodeId: props.epiId,
+    });
+    const data = JSON.parse(res.data.replace("data:", ""));
+    const userPoint = Number(localStorage.getItem("point"));
+    const afterPoint = userPoint - 100;
+    localStorage.setItem("point", afterPoint.toString());
+  };
   const movePage = () => {
-    if (props.situation === "차감") {
+    if (props.situation === "결제") {
+      paymentHandle();
       router.push(`/viewer/${props.epiId}`);
     }
     //부족

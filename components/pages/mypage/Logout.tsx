@@ -6,9 +6,8 @@ export default function Logout() {
   const [, , removeCookie] = useCookies(["accessToken", "uuid"]);
   const router = useRouter();
   const logoutHandle = () => {
-    localStorage.removeItem("uuid");
-    localStorage.removeItem("name");
-    localStorage.removeItem("age");
+    //localStorage.removeItem("uuid");
+    localStorage.clear();
 
     removeCookie("accessToken", { path: "/" });
     removeCookie("uuid", { path: "/" });

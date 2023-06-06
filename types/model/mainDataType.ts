@@ -61,7 +61,8 @@ export interface allDetailDatatype {
   newChecking: boolean;
   episodeCount: number;
   authorComment: string;
-  episodeId: number;
+  episodeId:number;
+  recentId:number;
 }
 
 export interface allDetailTag {

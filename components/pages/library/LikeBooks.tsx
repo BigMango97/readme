@@ -34,7 +34,8 @@ export default function LikeBooks() {
   return (
     <>
       <NovelCardList
-        data={likeNovelData}
+        novelData={likeNovelData}
+        purchasedData={[]}
         totalElements={likeNovelData ? likeNovelData.length : 0}
       />
     </>

@@ -1,42 +1,56 @@
-import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
-import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
-import Footer from "@/components/layouts/Footer";
 import { useRouter } from "next/router";
-import axios, { AxiosResponse } from "axios";
+import axios from "@/configs/axiosConfig";
 import { GetServerSideProps } from "next";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useRecoilState } from "recoil";
+import { viewerTypeState } from "@/state/viewerType";
 import {
   useQuery,
   QueryClient,
   dehydrate,
   useInfiniteQuery,
 } from "react-query";
-import Config from "@/configs/config.export";
-const baseUrl = Config().baseUrl;
+
+import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
+import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
+import Footer from "@/components/layouts/Footer";
+
+type ViewerType = "card" | "list";
 const novelMenus = async () => {
-  const response = await axios.get(
-    `${baseUrl}/novels-service/v1/main-category`
-  );
-  return response.data || null;
+  const response = await axios.get(`/novels-service/v1/main-category`);
+  return response.data;
 };
 
 const fetchnovelDatas = async (
   category: string,
   subCategory: string,
   pageParam = 0
-): Promise<AxiosResponse> => {
+) => {
   const response = await axios.get(
-    `${baseUrl}/sections-service/v1/cards/novels?pagination=${pageParam}&category=${category}&subCategory=${subCategory}`
+    `/sections-service/v1/cards/novels?pagination=${pageParam}&category=${category}&subCategory=${subCategory}`
   );
-  return response.data || {};
+  return response.data;
 };
-interface Props {
-  dehydratedState: unknown;
-}
 
-export default function Novel({ dehydratedState }: Props) {
+export default function Novel() {
   const router = useRouter();
+  const [viewerType, setViewerType] =
+    useRecoilState<ViewerType>(viewerTypeState);
+
+  useEffect(() => {
+    setViewerType((router.query.viewerType as ViewerType) || "card");
+  }, [router.query.viewerType]);
+
+  const updateViewerType = (type: ViewerType) => {
+    setViewerType(type);
+    const { category, subCategory } = router.query;
+    router.push({
+      pathname: router.pathname,
+      query: { category, subCategory, viewerType: type },
+    });
+  };
+
   const { category, subCategory }: any = router.query;
 
   const queryClientRef = React.useRef<QueryClient>();
@@ -49,6 +63,7 @@ export default function Novel({ dehydratedState }: Props) {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+
   const { ref, inView } = useInView({
     threshold: 0,
   });
@@ -70,7 +85,7 @@ export default function Novel({ dehydratedState }: Props) {
         cacheTime: 10 * 1000 * 60,
       }
     );
-    
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       console.log("fetching next page...");
@@ -89,6 +104,7 @@ export default function Novel({ dehydratedState }: Props) {
   const totalElementsResult = data?.pages.flatMap(
     (page) => page.data.totalElements
   );
+
   return (
     <>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
@@ -96,6 +112,8 @@ export default function Novel({ dehydratedState }: Props) {
         <AllNovelCardSection
           data={novelDatasResult}
           totalElements={totalElementsResult[0]}
+          viewerType={viewerType}
+          setViewerType={updateViewerType}
         />
       )}
       <div ref={ref}></div>
@@ -105,7 +123,7 @@ export default function Novel({ dehydratedState }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { category = "", subCategory = "" } = context.query;
+  const { category, subCategory } = context.query;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["novelMenus"], novelMenus);
   await queryClient.prefetchQuery(

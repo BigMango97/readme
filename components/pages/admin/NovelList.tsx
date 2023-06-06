@@ -4,6 +4,7 @@ import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
+import { Image } from "antd";
 import {
   novelListType,
   novelTableType,
@@ -24,170 +25,106 @@ export default function NovelList() {
   const moveNovelForm = () => {
     router.push("/admin/novelForm");
   };
-  const baseUrl = Config().baseUrl;
+
   const deleteHandle = (id: number) => {
-    axios
-      .delete(`${baseUrl}/novels-service/v1/admin/novels/${id}`)
-      .then((res) => {
-        if (novelData !== undefined) {
-          const newData = novelData.novelList.map((item: novelType) => {
-            if (item.id === id) {
-              return {
-                ...item,
-                serializationStatus: "삭제",
-              };
-            }
-            return item;
-          });
-          setNovelData({ novelList: newData });
-        }
-      });
+    axios.delete(`/novels-service/v1/admin/novels/${id}`).then((res) => {
+      // if (novelData !== undefined) {
+      //   const newData = novelData.novelList.map((item: novelType) => {
+      //     if (item.id === id) {
+      //       return {
+      //         ...item,
+      //         serializationStatus: "삭제",
+      //       };
+      //     }
+      //     return item;
+      //   });
+      //   setNovelData({ novelList: newData });
+      // }
+      getData();
+    });
   };
   const moveNovelDetail = (id: number) => {
     router.push(`/admin/novels/${id}`);
   };
 
-  // useEffect(() => {
-  //   console.log(data);
-  //   setNovelData({
-  //     novelList: data.data.contents,
-  //   });
-  // }, []);
-
   useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
     let url = "";
     if (select === "title") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?title=${search}`;
+      url = `/novels-service/v1/admin/novels?title=${search}`;
     } else if (select === "author") {
-      url = `${baseUrl}/novels-service/v1/admin/novels?author=${search}`;
+      url = `/novels-service/v1/admin/novels?author=${search}`;
     } else {
-      url = `${baseUrl}/novels-service/v1/admin/novels`;
+      url = `/novels-service/v1/admin/novels`;
     }
 
-    axios.get(url).then((res) => {
-      console.log(res.data.data.contents);
-      setNovelData({
-        novelList: res.data.data.contents,
-      });
+    const res = await axios.get(url);
+    console.log(res.data.data.contents);
+    setNovelData({
+      novelList: res.data.data.contents,
     });
-  }, []);
+  };
 
   const columns: ColumnsType<novelType> = [
     {
-      //key: data1?.novelList.map(item=>item.id),
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
-      width: "6%",
+      width: "5%",
       render: (_, { id }) => <>{id}</>,
     },
     {
-      //key: "이미지",
       dataIndex: "이미지",
       title: "이미지",
       width: "7%",
-      render: (_, { thumbnail }) => <>{thumbnail}</>,
+      render: (_, { thumbnail }) => <Image width={80} src={thumbnail} />,
     },
     {
-      //key: "제목",
       dataIndex: "작품명",
       title: "작품명",
-      // filters: [
-      //   {
-      //     text: "Category 1",
-      //     value: "Category 1",
-      //   },
-      //   {
-      //     text: "Category 2",
-      //     value: "Category 2",
-      //   },
-      // ],
-      // filterMode: "tree",
-      // filterSearch: true,
-      // onFilter: (value: string | number | boolean, record) =>
-      //   record.title.startsWith(value.toLocaleString()),
+
       width: "13%",
       render: (_, { id, title }) => (
         <div onClick={() => moveNovelDetail(id)}>{title}</div>
       ),
     },
     {
-      // key: "작가",
       dataIndex: "작가",
       title: "작가",
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string | number | boolean, record) =>
-        record.author.startsWith(value.toLocaleString()),
       width: "8%",
       render: (_, { author }) => <>{author}</>,
     },
     {
-      //key: "연재시작일",
       dataIndex: "연재시작일",
       title: "연재시작일",
       sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
       width: "12%",
-      render: (_, { startDate }) => <>{startDate}</>,
+      render: (_, { startDate }) => (
+        <>{startDate.toString().substring(0, 10)}</>
+      ),
     },
-
     {
-      //key: "연재요일",
       dataIndex: "연재요일",
       title: "연재요일",
-      filters: [
-        {
-          text: "월",
-          value: "월",
-        },
-        {
-          text: "화",
-          value: "화",
-        },
-        {
-          text: "수",
-          value: "수",
-        },
-        {
-          text: "목",
-          value: "목",
-        },
-        {
-          text: "금",
-          value: "금",
-        },
-        {
-          text: "토",
-          value: "토",
-        },
-        {
-          text: "일",
-          value: "일",
-        },
-      ],
-      //onFilter: (value: string | number | boolean, record) =>
-      //record.serializationDay.startsWith(value.toLocaleString()),
-      //filterSearch: true,
-      width: "8%",
-      render: (_, { serializationDay }) => <>{serializationDay}</>,
+      width: "10%",
+      render: (_, { serializationDay }) => (
+        <>
+          {serializationDay.map((tag, idx) => {
+            let color = "cyan";
+            return (
+              <div key={idx}>
+                <Tag color={color}>{tag.toUpperCase()}</Tag>
+              </div>
+            );
+          })}
+        </>
+      ),
     },
 
     {
-      //key: "장르",
       dataIndex: "장르",
       title: "장르",
       filters: [
@@ -224,35 +161,43 @@ export default function NovelList() {
     },
 
     {
-      //key: "관람등급",
       dataIndex: "관람등급",
       title: "관람등급",
       filters: [
         {
           text: "전체",
-          value: "전체",
+          value: "0",
         },
         {
           text: "19",
           value: "19",
         },
         {
-          text: "17",
-          value: "17",
+          text: "12",
+          value: "12",
         },
         {
           text: "15",
           value: "15",
         },
       ],
-      //onFilter: (value: string | number | boolean, record) =>
-      //record.grade.startsWith(value.toLocaleString()),
+      onFilter: (value: string | number | boolean, record) =>
+        record.grade.toString().startsWith(value.toLocaleString()),
       filterSearch: true,
       width: "8%",
-      render: (_, { grade }) => <>{grade}</>,
+      render: (_, { grade }) => (
+        <>
+          {grade === 0
+            ? "전체"
+            : grade === 19
+            ? "19"
+            : grade === 12
+            ? "12"
+            : "15"}
+        </>
+      ),
     },
     {
-      //key: "태그",
       dataIndex: "태그",
       title: "태그",
       width: "13%",
@@ -260,9 +205,6 @@ export default function NovelList() {
         <>
           {tags.map((tag, idx) => {
             let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
             return (
               <div key={idx}>
                 <Tag color={color}>{tag.toUpperCase()}</Tag>
@@ -284,6 +226,10 @@ export default function NovelList() {
         {
           text: "완결",
           value: "완결",
+        },
+        {
+          text: "휴재",
+          value: "휴재",
         },
       ],
       onFilter: (value: string | number | boolean, record) =>

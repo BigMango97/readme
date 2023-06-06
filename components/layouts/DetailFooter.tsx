@@ -41,6 +41,7 @@ export default function DetailFooter() {
       });
       console.log(res);
     } else {
+      localStorage.setItem("/link", router.asPath);
       router.push("/login");
     }
   };

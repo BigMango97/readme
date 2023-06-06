@@ -1,96 +1,88 @@
-import { NextPageWithLayout } from "./_app";
-
-import { useQuery } from "react-query";
 import React from "react";
+import { useQuery } from "react-query";
 
+import { NextPageWithLayout } from "./_app";
+import Layout from "@/components/layouts/layout";
 import MainBestItem from "@/components/pages/main/MainBestItem";
 import MainEvent from "@/components/pages/main/MainEvent";
-import Layout from "@/components/layouts/layout";
 import MainScheduleContainer from "@/components/pages/main/MainScheduleContainer";
-import MainLanking from "@/components/pages/main/MainLanking";
-import axios from "@/configs/axiosConfig";
+import RankingContainer from "@/components/pages/main/RankingContainer";
+import {
+  scheduleQueryType,
+  besteventNovelQueryType,
+} from "@/types/service/section-service";
+import {
+  scheduleTitleFetch,
+  BestNovelItemFetch,
+  eventNovelItemFetch,
+} from "./api/sections-service";
+import { bestNovelIdFetch, eventNovelFetch } from "./api/novel-service";
+import { besteventIdDataType } from "@/types/service/novel-service";
 
-const scheduleTitleData = async () => {
-  const response = await axios.get(`/sections-service/v1/schedules`);
-  return response.data;
-};
-const BestNovelData = async (bestId: number) => {
-  const response = await axios.get(
-    `/sections-service/v1/cards/novels/${bestId}`
-  );
-  return response.data;
-};
-
-const eventNovelData = async (eventId: number) => {
-  const response = await axios.get(
-    `/sections-service/v1/cards/novels/${eventId}`
-  );
-  return response.data;
+const queryOptions = {
+  staleTime: 5 * 60 * 1000,
+  cacheTime: 10 * 60 * 1000,
 };
 
-const fetchBestNovelId = async () => {
-  const response = await axios.get(`/novels-service/v1/main`);
-  return response.data;
-};
-
-const fetchEventNovelId = async () => {
-  const response = await axios.get(`/novels-service/v1/main/event`);
-  return response.data;
-};
 const Home: NextPageWithLayout = () => {
-  const scheduleQuery = useQuery(["scheduleTitleData"], scheduleTitleData, {
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000,
-  });
-  const scheduleTitleResult = scheduleQuery?.data?.data;
+  //scheduleData
+  const scheduleQuery = useQuery<scheduleQueryType[]>(
+    ["scheduleTitleData"],
+    scheduleTitleFetch,
+    queryOptions
+  );
+  const scheduleTitleResult = scheduleQuery?.data;
 
-  const bestDataQuery = useQuery(["bestIdData"], fetchBestNovelId, {
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000,
-  });
+  //bestItemData
+  const bestDataQuery = useQuery<besteventIdDataType>(
+    ["bestIdData"],
+    bestNovelIdFetch,
+    queryOptions
+  );
+
   const bestId = bestDataQuery?.data?.data?.id;
-  const bestImage = bestDataQuery?.data?.data?.mainImage;
-  const bestNovelQuery = useQuery(
+  const bestImage = bestDataQuery?.data?.data?.mainImage || "";
+
+  const bestNovelQuery = useQuery<besteventNovelQueryType>(
     ["bestNovelData", bestId],
-    () => BestNovelData(bestId),
+    () => (bestId ? BestNovelItemFetch(bestId) : Promise.resolve(undefined)),
     {
+      ...queryOptions,
       enabled: !!bestId,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000,
     }
   );
-  const bestNovelDataResult = bestNovelQuery?.data?.data;
+  const bestNovelDataResult = bestNovelQuery.data;
 
-  const eventDataQuery = useQuery(["eventIdData"], fetchEventNovelId, {
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000,
-  });
+  //eventItemData
+  const eventDataQuery = useQuery<besteventIdDataType>(
+    ["eventIdData"],
+    eventNovelFetch,
+    queryOptions
+  );
   const eventId = eventDataQuery?.data?.data?.id;
-  const eventImage = eventDataQuery?.data?.data?.mainImage;
-
-  const eventNovelQuery = useQuery(
+  const eventImage = eventDataQuery?.data?.data?.mainImage || "";
+  const eventNovelQuery = useQuery<besteventNovelQueryType>(
     ["eventNovelData", eventId],
-    () => eventNovelData(eventId),
+    () => (eventId ? eventNovelItemFetch(eventId) : Promise.resolve(undefined)),
     {
+      ...queryOptions,
       enabled: !!eventId,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000,
     }
   );
-  const eventNovelDataResult = eventNovelQuery?.data?.data;
+  const eventNovelDataResult = eventNovelQuery?.data;
 
   return (
     <>
       {bestNovelDataResult && (
         <MainBestItem data={bestNovelDataResult} bestImage={bestImage} />
       )}
+      <RankingContainer />
       {eventNovelDataResult && (
         <MainEvent data={eventNovelDataResult} eventImage={eventImage} />
       )}
       {scheduleTitleResult && (
         <MainScheduleContainer data={scheduleTitleResult} />
       )}
-      {/* <MainLanking /> */}
     </>
   );
 };

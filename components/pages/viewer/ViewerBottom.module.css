@@ -3,24 +3,27 @@
   z-index: 100;
   position: fixed;
   bottom: 0;
-  background-color: var(--readme-white);
 }
-.pageNumberContainer{
-  color:var(--readme-title-gray)
+.pageNumberContainer {
+  color: var(--readme-title-gray);
 }
-.pageNumberContainer{
+.pageNumberContainer {
   text-align: right;
   margin: 0.2rem 1rem;
 }
-.menuCategory{
+.menuCategory {
   display: flex;
   justify-content: space-between;
   justify-items: center;
   padding: 1rem;
+   background-color: var(--readme-white);
 }
 
 .viewerBottomIcon {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.starRatingNumber {
+  margin-left: 10px;
 }

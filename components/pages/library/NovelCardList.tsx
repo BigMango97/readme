@@ -9,11 +9,18 @@ import style from "@/components/pages/library/NovelCardList.module.css";
 import NovelListItem from "@/components/ui/NovelListItem";
 
 import { useRouter } from "next/router";
+import { purchasedNovelType } from "@/types/user/libraryType";
+import PurchasedListItem from "./PurchasedListItem";
 interface Props {
-  data: allDetailDatatype[];
+  novelData: allDetailDatatype[];
+  purchasedData: purchasedNovelType[];
   totalElements: number;
 }
-export default function NovelCardList({ data, totalElements }: Props) {
+export default function NovelCardList({
+  novelData,
+  purchasedData,
+  totalElements,
+}: Props) {
   const router = useRouter();
   const currentTap = router.query.id;
   let info = "최근 본 소설이 없습니다";
@@ -26,12 +33,20 @@ export default function NovelCardList({ data, totalElements }: Props) {
         <span>소설 {totalElements}건</span>
       </div>
       <div className={style.novelContainer}>
-        {data ? (
-          data.map((item, index) => (
-            <NovelListItem key={index} novelData={item} />
-          ))
+        {novelData || purchasedData ? (
+          currentTap === "3" ? (
+            purchasedData.map((item, index) => (
+              <PurchasedListItem key={index} purchasedData={item} />
+            ))
+          ) : (
+            novelData.map((item, index) => (
+              <NovelListItem key={index} novelData={item} />
+            ))
+          )
         ) : (
-          <p>{info}</p>
+          <div className={style.empty}>
+            <p>{info}</p>
+          </div>
         )}
       </div>
     </>

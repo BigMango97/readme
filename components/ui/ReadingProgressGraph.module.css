@@ -1,0 +1,4 @@
+.container {
+  height: 3px;
+  background-color: var(--readme-purple-gray);
+}

@@ -13,18 +13,25 @@ import { useCookies } from "react-cookie";
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-  let menu: undefined | string = router.query.menu?.toString();
-  const [, , removeCookie] = useCookies(["accessToken"]);
 
-  if (menu === undefined) menu = "novel";
+  const [menu, setMenu] = useState<string>("novel");
+
+  useEffect(() => {
+    if (router.query.menu) {
+      setMenu(router.query.menu.toString());
+    }
+  }, [router.query.menu]);
+
+  const [, , removeCookie] = useCookies(["accessToken"]);
 
   const clickMenuHandler = (item: any) => {
     if (item.key === "logout") {
-      localStorage.removeItem("name");
+      localStorage.removeItem("nickname");
       removeCookie("accessToken", { path: "/" });
       router.push("/admin/main");
     } else router.push(`/admin/main?menu=${item.key}`);
   };
+
   const clickLogoHandler = () => {
     router.push(`/admin/main?menu=novel`);
   };
@@ -72,7 +79,7 @@ export default function SideBar() {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[menu]}
+          selectedKeys={[menu]}
           mode="inline"
           items={items}
           onClick={clickMenuHandler}

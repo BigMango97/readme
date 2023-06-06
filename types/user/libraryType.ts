@@ -21,31 +21,21 @@ export interface likeNovelType{
     tags: string[];
 }
 
-export interface recentReadType{
-    id: number,
-    uuid: string,
-    novelId: number,
-    episodeId: number,
-    createDate: Dayjs
+export interface recentReadType {
+    id: number;
+    uuid: string;
+    novelId: number;
+    episodeId: number;
+    createDate: Dayjs;
+    readAt: number;
 }
 
-// export interface libraryDataType {
-//     novelId: number,
-//     title: string,
-//     description: string,
-//     author: string,
-//     genre: string,
-//     grade: number,
-//     thumbnail: string,
-//     startDate: string,
-//     views: number,
-//     serializationStatus: string,
-//     tags: [allDetailTag],
-//     scheduleId: number,
-//     starRating: number,
-//     serializationDays: string,
-//     newChecking: boolean,
-//     episodeCount: number,
-//     authorComment: string,
-//     episodeId:number,
-//   }
+export interface purchasedNovelType {
+    novelId: number,
+    novelTitle: string,
+    epiTitle : string,
+    buyDate: Dayjs,
+  }
+
+
+  

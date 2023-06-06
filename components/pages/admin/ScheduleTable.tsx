@@ -7,34 +7,32 @@ import {
   scheduleTableType,
   scheduleType,
 } from "@/types/admin/scheduleType";
-import axios from "axios";
-import Config from "@/configs/config.export";
-import ScheduleModal from "@/components/ui/admin/ScheduleModal";
 
-export default function ScheduleTable() {
-  const baseUrl = Config().baseUrl;
-  const [scheduleData, setScheduleData] = useState<scheduleListType>();
-  const [editId, setEditId] = useState(0);
-  useEffect(() => {
-    axios.get(`${baseUrl}/sections-service/v1/admin/schedules`).then((res) => {
+import ScheduleModal from "@/components/ui/admin/ScheduleModal";
+import dayjs from "dayjs";
+import axios from "@/configs/axiosConfig";
+
+export default function ScheduleTable(props: {
+  scheduleData: scheduleListType;
+  setScheduleData: React.Dispatch<React.SetStateAction<scheduleListType>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalId: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const showEditModal = (id: number) => {
+    props.setModalId(id);
+    props.setIsModalOpen(true);
+  };
+  //스케줄 삭제
+  const deleteHandle = async (id: number) => {
+    const res = await axios.delete(
+      `/sections-service/v1/admin/schedules/${id}`
+    );
+    axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
       console.log(res.data.data);
-      setScheduleData({
+      props.setScheduleData({
         scheduleList: res.data.data,
       });
     });
-  }, []);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showEditModal = (id: number) => {
-    setEditId(id);
-    setIsModalOpen(!isModalOpen);
-  };
-  const deleteHandle = (id: number) => {
-    axios
-      .delete(`${baseUrl}/sections-service/v1/admin/schedules/${id}`)
-      .then((res) => {
-        console.log(res);
-      });
   };
 
   const columns: ColumnsType<scheduleType> = [
@@ -54,36 +52,16 @@ export default function ScheduleTable() {
     {
       dataIndex: "이벤트기간",
       title: "이벤트기간",
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      // onFilter: (value: string | number | boolean, record) =>
-      //   record.startDate.date,
       width: "20%",
       render: (_, { startDate, endDate }) => <>{`${startDate} ~ ${endDate}`}</>,
     },
     {
-      //key: "수정",
       dataIndex: "수정",
       title: "수정",
       width: "5%",
       render: (_, { id }) => <EditOutlined onClick={() => showEditModal(id)} />,
     },
     {
-      //key: "삭제",
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",
@@ -103,7 +81,7 @@ export default function ScheduleTable() {
   };
 
   const dataSource: scheduleTableType[] = [];
-  scheduleData?.scheduleList.map((item) => {
+  props.scheduleData.scheduleList.map((item) => {
     dataSource.push({
       key: item.id,
       id: item.id,
@@ -114,11 +92,6 @@ export default function ScheduleTable() {
   });
   return (
     <>
-      <ScheduleModal
-        id={editId}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
       <Table
         columns={columns}
         dataSource={dataSource}

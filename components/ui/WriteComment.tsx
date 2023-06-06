@@ -7,13 +7,13 @@ import Swal from "sweetalert2";
 import axios from "@/configs/axiosConfig";
 interface Props {
   novelId: number;
-  title:string;
+  title: string;
 }
 
-export default function WriteComment({ novelId,title }: Props) {
+export default function WriteComment({ novelId, title }: Props) {
   const router = useRouter();
   const episodesId = router.asPath.split("/")[2];
-  const name = localStorage.getItem("name");
+  const name = localStorage.getItem("nickname");
   const [cookies] = useCookies(["uuid"]);
   const [input, setInput] = useState("");
   const queryClient = useQueryClient();
@@ -28,7 +28,7 @@ export default function WriteComment({ novelId,title }: Props) {
         content: input,
         episodesId: episodesId,
         novelsId: novelId,
-        episodeTitle: title
+        episodeTitle: title,
       });
       return response.data;
     } catch (err) {

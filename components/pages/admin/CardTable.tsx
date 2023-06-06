@@ -11,39 +11,32 @@ import {
   cardType,
 } from "@/types/admin/cardType";
 import CardModal from "@/components/ui/admin/CardModal";
-import Config from "@/configs/config.export";
-import { useCookies } from "react-cookie";
 
-export default function CardTable() {
-  const [editId, setEditId] = useState<number>(0);
-  const [editScheduleName, setEditScheduleName] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cardData, setCardData] = useState<cardListType>();
-
-  useEffect(() => {
-    axios.get(`/sections-service/v1/admin/schedules/novels`).then((res) => {
-      setCardData({ cardList: res.data.data });
-    });
-  }, []);
+export default function CardTable(props: {
+  cardData: cardListType;
+  setCardData: React.Dispatch<React.SetStateAction<cardListType>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalId: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  //const [editScheduleName, setEditScheduleName] = useState<string>("");
 
   const showEditModal = (id: number, name: string) => {
-    setEditId(id);
-    setEditScheduleName(name);
-    setIsModalOpen(!isModalOpen);
+    props.setModalId(id);
+    //setEditScheduleName(name);
+    props.setIsModalOpen(true);
   };
   const deleteHandle = (id: number) => {
     axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
       console.log(res);
-      // setCardData({cardList: cardData?.cardList.map(item=>{
-      //   item.
-      // })})
+      axios.get(`/sections-service/v1/admin/schedules/novels`).then((res) => {
+        props.setCardData({ cardList: res.data.data });
+      });
     });
   };
 
   const dataSource: cardTableType[] = [];
 
-  //console.log("cardData", cardData);
-  cardData?.cardList.map((item) => {
+  props.cardData.cardList.map((item) => {
     let novelNames = "",
       novelIds = "";
     item.novelCardsList.map((item2) => {
@@ -51,9 +44,6 @@ export default function CardTable() {
       novelNames = item2.novelTitle + "/" + novelNames;
     });
 
-    // item.novelCardsList.map((item2) => {
-    //   novelNames = item2.novelTitle + "/" + novelNames;
-    // });
     dataSource.push({
       key: item.scheduleId,
       scheduleId: item.scheduleId,
@@ -67,11 +57,10 @@ export default function CardTable() {
 
   const columns: ColumnsType<cardColumnsType> = [
     {
-      //key: "번호",
       dataIndex: "스케줄번호",
       title: "스케줄번호",
       sorter: (a, b) => a.scheduleId - b.scheduleId,
-      width: "7%",
+      width: "5%",
       render: (_, { scheduleId }) => <>{scheduleId}</>,
     },
     {
@@ -122,27 +111,20 @@ export default function CardTable() {
     },
   ];
 
-  // const onChange: TableProps<cardTableType>["onChange"] = (
-  //   pagination,
-  //   filters,
-  //   sorter,
-  //   extra
-  // ) => {
-  //   console.log("params", pagination, filters, sorter, extra);
-  // };
+  const onChange: TableProps<cardTableType>["onChange"] = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
 
   return (
     <>
-      <CardModal
-        id={editId}
-        //scheduleName={editScheduleName}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
       <Table
         columns={columns}
         dataSource={dataSource}
-        //onChange={onChange}
         style={{ fontSize: "1rem" }}
       />
     </>

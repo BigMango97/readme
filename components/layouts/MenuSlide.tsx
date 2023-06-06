@@ -17,12 +17,13 @@ export default function MenuSlide(props: Props) {
   //const [welcomeText, setWelcomeText] = useState<string>("");
   const [cookies] = useCookies(["uuid"]);
 
-  const [userPoint, setUserPoint] = useState<number>();
+  const [userPoint, setUserPoint] = useState<number>(0);
   useEffect(() => {
-    if (cookies.uuid) setLoginCheck(true);
-
-    //user의 보유 포인트를 받는 api 추가하기
-    //setUserPoint
+    if (cookies.uuid) {
+      setLoginCheck(true);
+      const point = localStorage.getItem("point") || undefined;
+      setUserPoint(Number(point));
+    }
   }, [cookies.uuid]);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function MenuSlide(props: Props) {
                     환영합니다!
                   </p>
                   <div className={style.pointContainer}>
-                    <p>잔여 포인트 : 10,000p</p>
+                    <p>잔여 포인트 : P{userPoint?.toLocaleString("en")}</p>
                     <div className={style.pointBtn}>+충전</div>
                   </div>
                 </div>
