@@ -1,18 +1,16 @@
 import axios from "@/configs/axiosConfig";
-import { scheduleListType, scheduleType } from "@/types/admin/scheduleType";
+import { scheduleType } from "@/types/admin/scheduleType";
 import { DatePicker, Input, Modal, Space } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 
 import dayjs, { Dayjs } from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 export default function ScheduleModal(props: {
   id: number;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  scheduleAddData: scheduleType;
-  setScheduleAddData: React.Dispatch<React.SetStateAction<scheduleType>>;
 }) {
   const { RangePicker } = DatePicker;
 
@@ -32,12 +30,9 @@ export default function ScheduleModal(props: {
         startDate: scheduleData.startDate,
         endDate: scheduleData.endDate,
       });
-      //props.setScheduleAddData(scheduleData);
     }
     //수정
     else {
-      console.log("id = ", props.id);
-      console.log("scheduleData = ", scheduleData);
       const start = dayjs(scheduleData.startDate);
       const end = dayjs(scheduleData.endDate);
 
@@ -46,9 +41,7 @@ export default function ScheduleModal(props: {
         startDate: start,
         endDate: end,
       });
-      //props.setScheduleAddData(scheduleData);
     }
-
     props.setIsModalOpen(false);
   };
   //취소버튼

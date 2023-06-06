@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 
 export default function CardModal(props: {
   id: number;
-  //scheduleName: number;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -18,10 +17,10 @@ export default function CardModal(props: {
   const [novelList, setNovelList] = useState<novelListType>();
 
   const [scheduleId, setScheduleId] = useState<number>(props.id);
-  //const [novelIds, setNovelIds] = useState<number[]>([]);novelIdType
   const [novelIds, setNovelIds] = useState<novelIdType[]>([]);
   const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
   const [cardEditData, setCardEditData] = useState<novelType[]>([]);
+
   //버튼 눌렀을 때
   const handleOk = () => {
     console.log("novelIds", novelIds);
@@ -52,25 +51,16 @@ export default function CardModal(props: {
   //소설 선택
   const selectNovelHandle = (selectValues: string[]) => {
     console.log("selectValues", selectValues);
-    //setNovelIds([]);
-    // novelIds.map((item) => {
-    //   if (selectValues.includes(item.novelId.toString())) {
-    //     setNovelIds([...novelIds, { novelId: Number(item) }]);
-    //   }
-    // });
     selectValues.map((item) => {
       setNovelIds([...novelIds, { novelId: Number(item) }]);
     });
-
-    // const values = selectValues.map((item) => {
-    //   return item;
-    // });
 
     setNovelIdArray(selectValues);
   };
 
   const novelOption: optionType[] = [];
   const scheduleOption: optionType[] = [];
+
   useEffect(() => {
     axios.get(`/novels-service/v1/admin/novels`).then((res) => {
       setNovelList({ novelList: res.data.data.contents });
