@@ -85,15 +85,14 @@ export interface episodeCardDataType {
   free: boolean;
   registrationDate: string;
   starRating: number;
-  isNew: boolean;
+  new: boolean;
 }
 
 export interface viewerData {
-  id:number;
-  novelId:number;
-  novelsTitle:string;
-  title:string;
-  content:string;
-  registration:string;
+  id: number;
+  novelId: number;
+  novelsTitle: string;
+  title: string;
+  content: string;
+  registration: string;
 }
-

@@ -1,13 +1,12 @@
-.NewContainer{
-    width: 2.6rem;
-    height: 1rem;
-    border-radius: 10px;
-    border:2px solid var(--readme-primary);
-    display: flex;
-    justify-content: center;
-    font-size: 0.625rem;
-    font-weight: 800;
-    color:var(--readme-primary);
-
-
+.NewContainer {
+  width: 2.6rem;
+  height: 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--readme-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.625rem;
+  font-weight: 800;
+  color: var(--readme-primary);
 }
