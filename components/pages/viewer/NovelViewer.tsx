@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { scrollPercentState } from "@/state/scrollPercentState";
+import { recentReadType } from "@/types/user/libraryType";
 
 interface NovelViewerProps {
   id: number;

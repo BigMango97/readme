@@ -5,11 +5,14 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 
 export default function PointTop() {
-  //useEffect(() => {});
   const router = useRouter();
   const closeHandle = () => {
     router.back();
   };
+  let point = 0;
+  if (localStorage.getItem("point")) {
+    let point = localStorage.getItem("point");
+  }
 
   const notServiceHandle = () => {
     Swal.fire("지원하지 않는 서비스 입니다.");
@@ -31,7 +34,7 @@ export default function PointTop() {
         </div>
         <div className={style.middle}>
           <p>보유포인트</p>
-          <span>P 895,000</span>
+          <span>P {point.toLocaleString("en")}</span>
         </div>
         <div className={style.bottom}>
           <Image
