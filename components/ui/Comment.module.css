@@ -24,15 +24,16 @@
 .commentDay {
   font-size: 0.625rem;
 }
-.comment{
+.comment {
   font-size: 0.75rem;
   margin: 1rem 0rem;
   width: 100%;
   word-break: break-word;
 }
 .episodeTitle {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   margin: 0.5rem 0rem;
+  color: var(--readme-title-gray);
 }
 .episodeIcons {
   display: flex;
