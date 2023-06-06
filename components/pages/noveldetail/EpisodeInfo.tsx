@@ -96,7 +96,7 @@ export default function EpisodeInfo(props: {
                   free={item.free}
                   registrationDate={item.registrationDate}
                   starRating={item.starRating}
-                  isNew={item.isNew}
+                  new={item.new}
                 />
               </div>
             ))}
