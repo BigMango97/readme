@@ -3,7 +3,6 @@
   z-index: 100;
   position: fixed;
   bottom: 0;
-  background-color: var(--readme-white);
 }
 .pageNumberContainer {
   color: var(--readme-title-gray);
@@ -17,6 +16,7 @@
   justify-content: space-between;
   justify-items: center;
   padding: 1rem;
+   background-color: var(--readme-white);
 }
 
 .viewerBottomIcon {
