@@ -113,17 +113,20 @@ export default function NovelListItem({
         </div>
       </div>
       <div className={style.right}>
-        <Image
-          src={"/assets/images/icons/close.svg"}
-          alt="close Icon"
-          width={20}
-          height={20}
-          onClick={() =>
-            novelData.recentId
-              ? deleteRecentHandle(novelData.recentId)
-              : deleteLikeHandle(novelData.novelId)
-          }
-        />
+        {router.pathname === "/library" && (
+          <Image
+            src={"/assets/images/icons/close.svg"}
+            alt="close Icon"
+            width={20}
+            height={20}
+            onClick={() =>
+              novelData.recentId
+                ? deleteRecentHandle(novelData.recentId)
+                : deleteLikeHandle(novelData.novelId)
+            }
+          />
+        )}
+
         {router.asPath === "/library?id=1" && (
           <div className={style.allNovelContinue} onClick={movePage}>
             <span>이어보기</span>
