@@ -1,11 +1,8 @@
 .countWrap {
-  width: 3.2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  marin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
-
 
 .countWarp .icon {
   width: 1rem;
@@ -21,10 +18,13 @@
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--readme-white);
-} 
+}
 
 .white {
   color: var(--readme-white);
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 .black {
   color: var(--readme-black);

@@ -2,7 +2,7 @@ import React from "react";
 import style from "@/components/pages/main/MainRanking.module.css";
 import Image from "next/image";
 import { novelRankingDataType } from "@/types/service/batch-service";
-
+import Link from "next/link";
 function MainRankingTitle({
   title,
   changeRanking,
@@ -18,6 +18,8 @@ function MainRankingTitle({
           alt={"Up"}
           width={10}
           height={10}
+          loading="lazy"
+          placeholder="empty"
         />
         <span>{changeRanking}</span>
       </div>
@@ -30,6 +32,8 @@ function MainRankingTitle({
           alt={"Down"}
           width={10}
           height={10}
+          loading="lazy"
+          placeholder="empty"
         />
         <span>{Math.abs(changeRanking)}</span>
       </div>
@@ -42,6 +46,8 @@ function MainRankingTitle({
           alt={"No change"}
           width={10}
           height={10}
+          loading="lazy"
+          placeholder="empty"
         />
       </div>
     );
@@ -64,6 +70,7 @@ export default function MainRanking({ data }: novelRankingDataType) {
     thumbnail,
     title,
     grade,
+    novelId,
   } = data;
 
   const IS_READABLE_BY_All = 0;
@@ -80,38 +87,44 @@ export default function MainRanking({ data }: novelRankingDataType) {
   }
 
   return (
-    <div className={style.mainRankingCard}>
-      <div className={style.mainRankingContainer}>
-        <div className={style.allNovelImgContainer}>
-          <div className={style.allListImg}>
-            <Image src={thumbnail} alt={"이미지"} width={100} height={100} />
-          </div>
+    <Link href={`/noveldetail/${novelId}`}>
+      <div className={style.mainRankingCard}>
+        <div className={style.mainRankingContainer}>
+          <div className={style.allNovelImgContainer}>
+            <div className={style.allListImg}>
+              <Image src={thumbnail} alt={"이미지"} width={100} height={100} loading="lazy"/>
+            </div>
 
-          <div className={style.listNewIcon}>
-            <Image
-              src={"/assets/images/icons/NewIcon.svg"}
-              alt={"이미지"}
-              width={30}
-              height={30}
-            />
-          </div>
+            <div className={style.listNewIcon}>
+              <Image
+                src={"/assets/images/icons/NewIcon.svg"}
+                alt={"이미지"}
+                width={30}
+                height={30}
+                loading="lazy"
+                placeholder="empty"
+              />
+            </div>
 
-          <div className={style.ageCheck}>{getGradeText(grade)}</div>
-        </div>
-        <div className={style.mainRankingNumber}>
-          <p>{ranking}</p>
-        </div>
-        <div className={style.mainRankingInfo}>
-          <div className={style.mainRankingTitle}>
-            <p>{title}</p>
-            <MainRankingTitle title={title} changeRanking={changeRanking} />
-            {changeRanking === null && <div className={style.newImg}>NEW</div>}
+            <div className={style.ageCheck}>{getGradeText(grade)}</div>
           </div>
-          <div className={style.mainRankinSubInfo}>
-            {author} | {serializationStatus} | {genre}
+          <div className={style.mainRankingNumber}>
+            <p>{ranking}</p>
+          </div>
+          <div className={style.mainRankingInfo}>
+            <div className={style.mainRankingTitle}>
+              <p>{title}</p>
+              <MainRankingTitle title={title} changeRanking={changeRanking} />
+              {changeRanking === null && (
+                <div className={style.newImg}>NEW</div>
+              )}
+            </div>
+            <div className={style.mainRankinSubInfo}>
+              {author} | {serializationStatus} | {genre}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

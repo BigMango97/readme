@@ -28,7 +28,7 @@ export default function Header() {
       </div>
       <div className={style.mobileMenu}>
         <Image
-          src="/assets/images/icons/menu.svg"
+          src="/assets/images/icons/menu-white.svg"
           alt="menuIcon"
           width={72}
           height={72}
