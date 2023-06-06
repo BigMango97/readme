@@ -15,11 +15,12 @@ export default function SideBar() {
   const router = useRouter();
 
   let menu: undefined | string = "novel" || router.query.menu?.toString();
+
   const [, , removeCookie] = useCookies(["accessToken"]);
 
   const clickMenuHandler = (item: any) => {
     if (item.key === "logout") {
-      localStorage.removeItem("name");
+      localStorage.removeItem("nickname");
       removeCookie("accessToken", { path: "/" });
       router.push("/admin/main");
     } else router.push(`/admin/main?menu=${item.key}`);

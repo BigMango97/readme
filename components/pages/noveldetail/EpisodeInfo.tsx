@@ -15,7 +15,7 @@ export default function EpisodeInfo(props: {
 }) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [situation, setSituation] = useState<string>("");
+  const [situation, setSituation] = useState<"결제" | "부족">("부족");
   const [color, setColor] = useState<string>("");
   const [epiId, setEpiId] = useState<number>(0);
   const [cookies] = useCookies(["uuid"]);
@@ -34,29 +34,20 @@ export default function EpisodeInfo(props: {
         const response = await axios.get(
           `/payments-service/v1/payments/checkPurchased?episodeId=${id}`
         );
-
         //구매 x -> 에피소드구매
         if (response.data.data.result === false) {
-          const res = await axios.post(
-            `/payments-service/v1/payments/purchase`,
-            {
-              uuid: cookies.uuid,
-              episodeId: id,
-            }
-          );
-          const data = JSON.parse(res.data.replace("data:", ""));
+          const userPoint = Number(localStorage.getItem("point"));
 
           //포인트 부족
-          if (data.body.data.result === "fail") {
+          if (userPoint < 100) {
             setColor("green");
             setSituation("부족");
             setIsModalOpen(!isModalOpen);
           }
-
           //포인트 보유
           else {
             setColor("purple");
-            setSituation("차감");
+            setSituation("결제");
             setIsModalOpen(!isModalOpen);
           }
         }

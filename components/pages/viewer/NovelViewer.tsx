@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { scrollPercentState } from "@/state/scrollPercentState";
+
 interface NovelViewerProps {
   id: number;
   content: string;
@@ -307,6 +308,19 @@ export default function NovelViewer(props: {
   useEffect(() => {
     localStorage.setItem("viewerPosition", String(scrollPosition));
   }, [scrollPosition]);
+
+  useEffect(() => {
+    const readAtData = async () => {
+      const res = await axios.get(`/novels-service/v1/history`);
+      const recentReadData = res.data.data.contents.find(
+        (item: recentReadType) => item.episodeId === episodeId
+      );
+      const positionY = recentReadData.readAt;
+      console.log(positionY);
+      window.scrollTo(0, positionY);
+    };
+    readAtData();
+  }, []);
 
   return (
     <>

@@ -28,10 +28,15 @@ export default function Login() {
         password: adminPassword,
       });
       removeCookie("uuid", { path: "/" });
+      localStorage.clear();
       setCookie("accessToken", res.headers.accesstoken, {
         path: "/",
       });
-      localStorage.setItem("name", res.data.data.name);
+      localStorage.setItem("nickname", res.data.data.nickname);
+
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.headers.accesstoken}`;
 
       router.push("/admin/main");
     } catch (err) {

@@ -1,18 +1,21 @@
-import Config from "@/configs/config.export";
+import axios from "@/configs/axiosConfig";
 import { scheduleListType, scheduleType } from "@/types/admin/scheduleType";
 import { DatePicker, Input, Modal, Space } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import axios from "axios";
+
 import dayjs, { Dayjs } from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 export default function ScheduleModal(props: {
   id: number;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  scheduleAddData: scheduleType;
+  setScheduleAddData: React.Dispatch<React.SetStateAction<scheduleType>>;
 }) {
   const { RangePicker } = DatePicker;
-  const baseUrl = Config().baseUrl;
+
   const [scheduleData, setScheduleData] = useState<scheduleType>({
     id: 0,
     name: "",
@@ -24,24 +27,26 @@ export default function ScheduleModal(props: {
   const handleOk = () => {
     //등록
     if (props.id === 0) {
-      axios.post(`${baseUrl}/sections-service/v1/admin/schedules`, {
+      axios.post(`/sections-service/v1/admin/schedules`, {
         name: scheduleData.name,
         startDate: scheduleData.startDate,
         endDate: scheduleData.endDate,
       });
+      //props.setScheduleAddData(scheduleData);
     }
     //수정
     else {
       console.log("id = ", props.id);
       console.log("scheduleData = ", scheduleData);
-      axios.patch(
-        `${baseUrl}/sections-service/v1/admin/schedules/${props.id}`,
-        {
-          name: scheduleData.name,
-          startDate: scheduleData.startDate,
-          endDate: scheduleData.endDate,
-        }
-      );
+      const start = dayjs(scheduleData.startDate);
+      const end = dayjs(scheduleData.endDate);
+
+      axios.patch(`/sections-service/v1/admin/schedules/${props.id}`, {
+        name: scheduleData.name,
+        startDate: start,
+        endDate: end,
+      });
+      //props.setScheduleAddData(scheduleData);
     }
 
     props.setIsModalOpen(false);
@@ -62,7 +67,7 @@ export default function ScheduleModal(props: {
     if (value !== undefined && value !== null) {
       const start = dayjs(value[0]);
       const end = dayjs(value[1]);
-      console.log("start = ", start);
+      //console.log("start = ", start);
       setScheduleData({
         ...scheduleData,
         startDate: start,
@@ -74,7 +79,7 @@ export default function ScheduleModal(props: {
   useEffect(() => {
     if (props.id !== 0) {
       axios
-        .get(`${baseUrl}/sections-service/v1/admin/schedules/${props.id}`)
+        .get(`/sections-service/v1/admin/schedules/${props.id}`)
         .then((res) => {
           setScheduleData({
             id: res.data.data.id,
@@ -108,9 +113,9 @@ export default function ScheduleModal(props: {
             <Space direction="vertical" size={12}>
               <RangePicker
                 onChange={changeDateHandle}
-                placeholder={[
-                  scheduleData.startDate.toString(),
-                  scheduleData.endDate.toString(),
+                value={[
+                  dayjs(scheduleData.startDate),
+                  dayjs(scheduleData.endDate),
                 ]}
               />
             </Space>

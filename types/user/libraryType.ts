@@ -21,12 +21,13 @@ export interface likeNovelType{
     tags: string[];
 }
 
-export interface recentReadType{
-    id: number,
-    uuid: string,
-    novelId: number,
-    episodeId: number,
-    createDate: Dayjs
+export interface recentReadType {
+    id: number;
+    uuid: string;
+    novelId: number;
+    episodeId: number;
+    createDate: Dayjs;
+    readAt: number;
 }
 
 export interface purchasedNovelType {
@@ -34,5 +35,7 @@ export interface purchasedNovelType {
     novelTitle: string,
     epiTitle : string,
     buyDate: Dayjs,
-
   }
+
+
+  

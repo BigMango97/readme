@@ -7,34 +7,45 @@ import {
   scheduleTableType,
   scheduleType,
 } from "@/types/admin/scheduleType";
-import axios from "axios";
+
 import Config from "@/configs/config.export";
 import ScheduleModal from "@/components/ui/admin/ScheduleModal";
+import dayjs from "dayjs";
+import axios from "@/configs/axiosConfig";
 
 export default function ScheduleTable() {
   const baseUrl = Config().baseUrl;
-  const [scheduleData, setScheduleData] = useState<scheduleListType>();
+  const [scheduleData, setScheduleData] = useState<scheduleListType>({
+    scheduleList: [],
+  });
   const [editId, setEditId] = useState(0);
+  const [scheduleAddData, setScheduleAddData] = useState<scheduleType>({
+    id: 0,
+    name: "",
+    startDate: dayjs(),
+    endDate: dayjs(),
+  });
   useEffect(() => {
-    axios.get(`${baseUrl}/sections-service/v1/admin/schedules`).then((res) => {
+    //스케줄 목록
+    axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
       console.log(res.data.data);
       setScheduleData({
         scheduleList: res.data.data,
       });
     });
-  }, []);
+  }, [scheduleAddData]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showEditModal = (id: number) => {
     setEditId(id);
     setIsModalOpen(!isModalOpen);
   };
+  //스케줄 삭제
   const deleteHandle = (id: number) => {
-    axios
-      .delete(`${baseUrl}/sections-service/v1/admin/schedules/${id}`)
-      .then((res) => {
-        console.log(res);
-      });
+    axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
+      console.log(res);
+    });
   };
 
   const columns: ColumnsType<scheduleType> = [
@@ -96,6 +107,8 @@ export default function ScheduleTable() {
     <>
       <ScheduleModal
         id={editId}
+        scheduleAddData={scheduleAddData}
+        setScheduleAddData={setScheduleAddData}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />

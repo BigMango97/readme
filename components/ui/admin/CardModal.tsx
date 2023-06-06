@@ -34,7 +34,7 @@ export default function CardModal(props: {
       });
 
     setNovelIds([]);
-    // props.setIsModalOpen(false); 살리기
+    props.setIsModalOpen(false);
   };
 
   //취소 버튼
