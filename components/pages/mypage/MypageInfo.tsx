@@ -6,12 +6,12 @@ export default function MypageInfo() {
   const [userPoint, setUserPoint] = useState<number>(0);
   const [userProfileImg, setUserProfileImg] = useState<string>("");
   useEffect(() => {
-    const nickname = localStorage.getItem("nickname") || "";
+    const nickname = sessionStorage.getItem("nickname") || "";
     setUserNickName(nickname);
-    const point = localStorage.getItem("point");
+    const point = sessionStorage.getItem("point");
     setUserPoint(Number(point));
 
-    const profileImg = localStorage.getItem("profileImg") || "";
+    const profileImg = sessionStorage.getItem("profileImg") || "";
     setUserProfileImg(profileImg);
   }, []);
   return (

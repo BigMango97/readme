@@ -25,7 +25,7 @@ const FooterMenuItem = (props: { item: footerMenuType }) => {
 
   const linkHandler = (link: string) => {
     router.push(link);
-    localStorage.setItem("link", link);
+    sessionStorage.setItem("link", link);
   };
 
   return (

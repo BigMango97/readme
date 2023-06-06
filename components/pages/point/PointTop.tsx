@@ -10,8 +10,8 @@ export default function PointTop() {
     router.back();
   };
   let point = 0;
-  if (localStorage.getItem("point")) {
-    let point = localStorage.getItem("point");
+  if (sessionStorage.getItem("point")) {
+    let point = sessionStorage.getItem("point");
   }
 
   const notServiceHandle = () => {

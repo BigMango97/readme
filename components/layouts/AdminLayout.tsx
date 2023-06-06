@@ -13,10 +13,13 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   const [cookies] = useCookies(["accessToken"]);
   useEffect(() => {
-    if (localStorage.getItem("nickname") !== "관리자") {
+    if (sessionStorage.getItem("nickname") !== "관리자") {
       setLoginCheck(false);
     }
-    if (localStorage.getItem("nickname") === "관리자" && cookies.accessToken) {
+    if (
+      sessionStorage.getItem("nickname") === "관리자" &&
+      cookies.accessToken
+    ) {
       setLoginCheck(true);
     }
   }, [cookies.accessToken]);

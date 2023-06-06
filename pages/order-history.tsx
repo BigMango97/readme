@@ -19,9 +19,9 @@ export default function OrderHistory() {
   });
 
   useEffect(() => {
-    const tid = localStorage.getItem("tid");
-    const uuid = localStorage.getItem("uuid");
-    const partnerOrderId = localStorage.getItem("partnerOrderId");
+    const tid = sessionStorage.getItem("tid");
+    const uuid = sessionStorage.getItem("uuid");
+    const partnerOrderId = sessionStorage.getItem("partnerOrderId");
     if (pg_token !== undefined) {
       axios
         .post(`/payments-service/v1/payments/approve`, {
@@ -32,8 +32,8 @@ export default function OrderHistory() {
         })
         .then((res) => {
           console.log(res.data);
-          localStorage.removeItem("tid");
-          localStorage.removeItem("partnerOrderId");
+          sessionStorage.removeItem("tid");
+          sessionStorage.removeItem("partnerOrderId");
 
           const data = JSON.parse(res.data.replace("data:", ""));
           console.log(data.body.data);
@@ -42,7 +42,7 @@ export default function OrderHistory() {
             point: data.body.data.point,
             chargeDate: data.body.data.chargeDate,
           });
-          localStorage.setItem("point", data.body.data.total);
+          sessionStorage.setItem("point", data.body.data.total);
         });
     }
   }, [pg_token]);

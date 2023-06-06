@@ -11,7 +11,7 @@ export default function LibraryTop() {
 
   const [userNickname, setUserNickname] = useState<string>();
   useEffect(() => {
-    const nickname = localStorage.getItem("nickname") || undefined;
+    const nickname = sessionStorage.getItem("nickname") || undefined;
     setUserNickname(nickname);
   }, []);
 
