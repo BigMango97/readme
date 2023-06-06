@@ -15,6 +15,7 @@ export default function SideBar() {
   const router = useRouter();
 
   let menu: undefined | string = "novel" || router.query.menu?.toString();
+
   const [, , removeCookie] = useCookies(["accessToken"]);
 
   const clickMenuHandler = (item: any) => {

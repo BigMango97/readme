@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 export default function Login() {
   const router = useRouter();
   useEffect(() => {
-    const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
+    const jsKey = "0348a267c9ce5b29131c78ad1384a83e";
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(jsKey);
       console.log(window.Kakao.isInitialized());
