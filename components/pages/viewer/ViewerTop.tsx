@@ -31,7 +31,9 @@ export default function ViewerTop({
       router.push("/login");
     }
   }, [loginCheck, router]);
+  const readAt = Number(localStorage.getItem("viewerPosition"));
 
+  
   const handleArrowClick = useCallback(() => {
     sendViewerPosition.mutate(
       {
@@ -45,9 +47,8 @@ export default function ViewerTop({
         },
       }
     );
-  }, [router, novelId, episodeId, sendViewerPosition]);
+  }, [router, novelId, episodeId, sendViewerPosition,readAt]);
 
-  const readAt = Number(localStorage.getItem("viewerPosition"));
 
   const handleButtonClick = useCallback(() => {
     if (!loginCheck) {
