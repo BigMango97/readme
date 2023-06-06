@@ -8,43 +8,30 @@ import {
   scheduleType,
 } from "@/types/admin/scheduleType";
 
-import Config from "@/configs/config.export";
 import ScheduleModal from "@/components/ui/admin/ScheduleModal";
 import dayjs from "dayjs";
 import axios from "@/configs/axiosConfig";
 
-export default function ScheduleTable() {
-  const baseUrl = Config().baseUrl;
-  const [scheduleData, setScheduleData] = useState<scheduleListType>({
-    scheduleList: [],
-  });
-  const [editId, setEditId] = useState(0);
-  const [scheduleAddData, setScheduleAddData] = useState<scheduleType>({
-    id: 0,
-    name: "",
-    startDate: dayjs(),
-    endDate: dayjs(),
-  });
-  useEffect(() => {
-    //스케줄 목록
-    axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
-      console.log(res.data.data);
-      setScheduleData({
-        scheduleList: res.data.data,
-      });
-    });
-  }, [scheduleAddData]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+export default function ScheduleTable(props: {
+  scheduleData: scheduleListType;
+  setScheduleData: React.Dispatch<React.SetStateAction<scheduleListType>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalId: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const showEditModal = (id: number) => {
-    setEditId(id);
-    setIsModalOpen(!isModalOpen);
+    props.setModalId(id);
+    props.setIsModalOpen(true);
   };
   //스케줄 삭제
-  const deleteHandle = (id: number) => {
-    axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
-      console.log(res);
+  const deleteHandle = async (id: number) => {
+    const res = await axios.delete(
+      `/sections-service/v1/admin/schedules/${id}`
+    );
+    axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
+      console.log(res.data.data);
+      props.setScheduleData({
+        scheduleList: res.data.data,
+      });
     });
   };
 
@@ -94,7 +81,7 @@ export default function ScheduleTable() {
   };
 
   const dataSource: scheduleTableType[] = [];
-  scheduleData?.scheduleList.map((item) => {
+  props.scheduleData.scheduleList.map((item) => {
     dataSource.push({
       key: item.id,
       id: item.id,
@@ -105,13 +92,6 @@ export default function ScheduleTable() {
   });
   return (
     <>
-      <ScheduleModal
-        id={editId}
-        scheduleAddData={scheduleAddData}
-        setScheduleAddData={setScheduleAddData}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
       <Table
         columns={columns}
         dataSource={dataSource}
