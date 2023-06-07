@@ -8,9 +8,9 @@ export default function NovelSearch() {
   const [select, setSelect] = useState<string>("title");
   const onSearch = (value: string) => {
     const menu = router.query.menu;
-    //소설검색 수정하기
+
     if (menu === "novel" || menu === undefined) {
-      router.push(`/admin/main?menu=1&search=${value}&select=${select}`);
+      router.push(`/admin/main?menu=novel&search=${value}&select=${select}`);
     }
   };
 

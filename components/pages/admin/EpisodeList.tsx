@@ -55,8 +55,6 @@ export default function EpisodeList() {
       res.data.data.contents.map((item: episodeType) => {
         newData.push(item);
       });
-
-      console.log("newData ", newData);
     }
 
     setEpiData({ episodeList: newData });

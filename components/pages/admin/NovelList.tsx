@@ -36,7 +36,7 @@ export default function NovelList() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [search, select]);
 
   const getData = async () => {
     let url = "";
