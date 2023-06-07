@@ -27,22 +27,23 @@ export default function NovelCardList({
   if (currentTap === "2") info = "좋아요 한 소설이 없습니다";
   if (currentTap === "3") info = "구매한 소설이 없습니다";
 
+  console.log("novelData ", novelData);
+  console.log("purchasedData ", purchasedData);
+  console.log("info ", info);
   return (
     <>
       <div className={style.container}>
         <span>소설 {totalElements}건</span>
       </div>
       <div className={style.novelContainer}>
-        {novelData || purchasedData ? (
-          currentTap === "3" ? (
-            purchasedData.map((item, index) => (
-              <PurchasedListItem key={index} purchasedData={item} />
-            ))
-          ) : (
-            novelData.map((item, index) => (
-              <NovelListItem key={index} novelData={item} />
-            ))
-          )
+        {currentTap === "3" && purchasedData.length !== 0 ? (
+          purchasedData.map((item, index) => (
+            <PurchasedListItem key={index} purchasedData={item} />
+          ))
+        ) : novelData.length !== 0 ? (
+          novelData.map((item, index) => (
+            <NovelListItem key={index} novelData={item} />
+          ))
         ) : (
           <div className={style.empty}>
             <p>{info}</p>

@@ -30,7 +30,7 @@ export default function ConfirmModal(props: {
       uuid: cookies.uuid,
       episodeId: props.epiId,
     });
-    const data = JSON.parse(res.data.replace("data:", ""));
+
     const userPoint = Number(sessionStorage.getItem("point"));
     const afterPoint = userPoint - 100;
     sessionStorage.setItem("point", afterPoint.toString());

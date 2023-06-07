@@ -25,17 +25,9 @@ export default function NovelListItem({
   novelData: allDetailDatatype;
 }) {
   const router = useRouter();
-  //const [recentReadData, SetRecentReadData] = useState<recentReadType>();
-  const readAtData = async () => {
-    const res = await axios.get(`/novels-service/v1/history`);
-    const recentReadData = res.data.data.contents.find(
-      (item: recentReadType) => item.episodeId === novelData.episodeId
-    );
-    console.log("recentReadData ", recentReadData);
-    console.log("recentReadData.readAt ", recentReadData.readAt);
-    return recentReadData.readAt;
-  };
+
   const movePage = () => {
+    sessionStorage.setItem("link", router.asPath);
     router.push(`/viewer/${novelData.episodeId}`);
   };
   const handleNovelDetailClick = () => {
