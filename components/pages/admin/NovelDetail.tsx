@@ -3,22 +3,14 @@ import React, { useEffect, useState } from "react";
 import style from "@/components/pages/admin/NovelDetail.module.css";
 import dayjs from "dayjs";
 import { Image } from "antd";
-import axios from "axios";
-import Config from "@/configs/config.export";
 import { novelType } from "@/types/admin/novelType";
 import { useRouter } from "next/router";
-
-const normFile = (e: any) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
+import axios from "@/configs/axiosConfig";
 
 export default function NovelDetail() {
   const router = useRouter();
   const novelId = router.query.novelId;
-  const baseUrl = Config().baseUrl;
+
   const [novelData, setNovelData] = useState<novelType>({
     id: 0,
     title: "",
@@ -34,46 +26,26 @@ export default function NovelDetail() {
     tags: [],
   });
 
-  // console.log(data.data);
-  // useEffect(() => {
-  //   setNovelData({
-  //     id: data.data.id,
-  //     title: data.data.title,
-  //     author: data.data.author,
-  //     grade: data.data.grade,
-  //     genre: data.data.genre,
-  //     serializationStatus: data.data.serializationStatus,
-  //     authorComment: data.data.authorComment,
-  //     serializationDay: data.data.serializationDay,
-  //     startDate: data.data.startDate,
-  //     description: data.data.description,
-  //     thumbnail: data.data.thumbnail,
-  //     tags: data.data.tags,
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (!router.isReady) return;
     else {
-      axios
-        .get(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`)
-        .then((res) => {
-          console.log("res.data = ", res.data);
-          setNovelData({
-            id: res.data.data.id,
-            title: res.data.data.title,
-            author: res.data.data.author,
-            grade: res.data.data.grade,
-            genre: res.data.data.genre,
-            serializationStatus: res.data.data.serializationStatus,
-            authorComment: res.data.data.authorComment,
-            serializationDay: res.data.data.serializationDay,
-            startDate: res.data.data.startDate,
-            description: res.data.data.description,
-            thumbnail: res.data.data.thumbnail,
-            tags: res.data.data.tags,
-          });
+      axios.get(`/novels-service/v1/admin/novels/${novelId}`).then((res) => {
+        console.log("res.data = ", res.data);
+        setNovelData({
+          id: res.data.data.id,
+          title: res.data.data.title,
+          author: res.data.data.author,
+          grade: res.data.data.grade,
+          genre: res.data.data.genre,
+          serializationStatus: res.data.data.serializationStatus,
+          authorComment: res.data.data.authorComment,
+          serializationDay: res.data.data.serializationDay,
+          startDate: res.data.data.startDate,
+          description: res.data.data.description,
+          thumbnail: res.data.data.thumbnail,
+          tags: res.data.data.tags,
         });
+      });
     }
   }, [router.isReady]);
   const moveBack = () => {
@@ -100,7 +72,13 @@ export default function NovelDetail() {
             {novelData.author}
           </Descriptions.Item>
           <Descriptions.Item label="연령" span={1}>
-            {novelData.grade}
+            {novelData.grade === 0
+              ? "전체연령가"
+              : novelData.grade === 12
+              ? "12세"
+              : novelData.grade === 15
+              ? "15세"
+              : "19세"}
           </Descriptions.Item>
           <Descriptions.Item label="연재요일" span={2}>
             {novelData.serializationDay}

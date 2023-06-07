@@ -87,11 +87,6 @@ export default function CardModal(props: {
     setNovelIdArray(novelEditIds);
   }, [cardEditData]);
 
-  // useEffect(() => {
-  //   const strIds = novelIds.map((item) => item.novelId.toString());
-  //   setNovelIdArray(strIds);
-  // }, [novelIds]);
-
   interface optionType {
     value: string;
     label: string;
