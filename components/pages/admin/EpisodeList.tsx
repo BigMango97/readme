@@ -86,14 +86,18 @@ export default function EpisodeList() {
       dataIndex: "등록일",
       title: "등록일",
       width: "12%",
-      render: (_, { createDate }) => <>{createDate}</>,
+      render: (_, { createDate }) => (
+        <>{createDate.toString().substring(0, 10)}</>
+      ),
     },
     {
       dataIndex: "수정일",
       title: "수정일",
 
       width: "12%",
-      render: (_, { updateDate }) => <>{updateDate}</>,
+      render: (_, { updateDate }) => (
+        <>{updateDate.toString().substring(0, 10)}</>
+      ),
     },
     {
       dataIndex: "무료/유료",
@@ -153,7 +157,7 @@ export default function EpisodeList() {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    //console.log("params", pagination, filters, sorter, extra);
   };
 
   const dataSource: episodeTableType[] = [];
