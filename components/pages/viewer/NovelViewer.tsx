@@ -136,6 +136,7 @@ export default function NovelViewer(props: {
     ) {
       setScrollPercent(newScrollPercent);
       setScrollPosition(currentScrollTop);
+      onHidePanel()
     }
   }
 
