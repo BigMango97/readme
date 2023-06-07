@@ -34,12 +34,12 @@ export default function Kakao() {
           });
           setCookie("uuid", res.headers.uuid, { path: "/" });
 
-          const link = sessionStorage.getItem("link");
-          if (link === null) {
-            router.push("/");
-          } else {
-            router.push(link);
-          }
+          // const link = sessionStorage.getItem("link");
+          // if (link === null) {
+          //   router.push("/");
+          // } else {
+          //   router.push(link);
+          // }
         });
     }
   }, [code]);
