@@ -23,11 +23,10 @@ export default function Kakao() {
           `https://api.readme.life/users-service/v1/user/login?code=${code}`
         )
         .then((res) => {
-          //localStorage.setItem("name", res.data.data.name);
-          localStorage.setItem("nickname", res.data.data.nickname);
-          localStorage.setItem("point", res.data.data.point);
-          localStorage.setItem("profileImg", res.data.data.profileImg);
-          localStorage.setItem("age", res.data.data.age_range);
+          sessionStorage.setItem("nickname", res.data.data.nickname);
+          sessionStorage.setItem("point", res.data.data.point);
+          sessionStorage.setItem("profileImg", res.data.data.profileImg);
+          sessionStorage.setItem("age", res.data.data.age_range);
 
           console.log("headers = ", res.headers);
           // console.log("res = ", res);
@@ -39,7 +38,7 @@ export default function Kakao() {
           });
           setCookie("uuid", res.headers.uuid, { path: "/" });
 
-          const link = localStorage.getItem("link");
+          const link = sessionStorage.getItem("link");
           if (link === null) {
             router.push("/");
           } else {

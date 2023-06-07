@@ -13,7 +13,7 @@ interface Props {
 export default function WriteComment({ novelId, title }: Props) {
   const router = useRouter();
   const episodesId = router.asPath.split("/")[2];
-  const name = localStorage.getItem("nickname");
+  const name = sessionStorage.getItem("nickname");
   const [cookies] = useCookies(["uuid"]);
   const [input, setInput] = useState("");
   const queryClient = useQueryClient();

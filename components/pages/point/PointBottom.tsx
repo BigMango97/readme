@@ -17,8 +17,11 @@ export default function PointBottom() {
         uuid: cookies.uuid,
       })
       .then((res) => {
-        localStorage.setItem("tid", res.data.data.tid);
-        localStorage.setItem("partnerOrderId", res.data.data.partner_order_id);
+        sessionStorage.setItem("tid", res.data.data.tid);
+        sessionStorage.setItem(
+          "partnerOrderId",
+          res.data.data.partner_order_id
+        );
         window.open(res.data.data.next_redirect_pc_url);
       });
   };

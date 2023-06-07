@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "@/components/layouts/DetailFooter.module.css";
 import Image from "next/image";
-import isLogin from "@/configs/isLogin";
 import { useRouter } from "next/router";
 import Login from "@/pages/login";
 import { useCookies } from "react-cookie";
@@ -41,7 +40,7 @@ export default function DetailFooter() {
       });
       console.log(res);
     } else {
-      localStorage.setItem("/link", router.asPath);
+      sessionStorage.setItem("/link", router.asPath);
       router.push("/login");
     }
   };
