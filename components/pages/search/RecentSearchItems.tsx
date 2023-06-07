@@ -1,5 +1,5 @@
 import React from "react";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import style from "@/components/pages/search/RecentSearchItems.module.css";
 import Image from "next/image";
 import { recentSearchWord } from "@/state/recentSearchWord";
@@ -7,14 +7,16 @@ import { useRecoilState } from "recoil";
 export default function RecentSearchItems() {
   const [searchValue, setSearchValue] = useRecoilState(recentSearchWord);
   const handleRemoveKeyword = (text: string) => {
-    setSearchValue((prev) => prev.filter((item) => item !== text));
+    setSearchValue((prev) => {
+      const newList = prev.filter((item) => item !== text);
+      localStorage.setItem("keywordList", JSON.stringify(newList)); // 로컬 스토리지 업데이트
+      return newList;
+    });
   };
-
   const directKeywordPage = (index: string) => {
     const handleDirectKeywordPage = () => {
       Router.push(`/search?keyword=${index}`);
     };
-
     return handleDirectKeywordPage;
   };
   return (

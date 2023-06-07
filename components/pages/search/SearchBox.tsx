@@ -23,18 +23,28 @@ export default function SearchBox(props: { data: searchDataType[] }) {
   };
 
   const handleSearchKeyword = () => {
-    if (!searchValue.includes(inputData) && inputData.length > 0) {
+    if (inputData.length > 0) {
       Router.push(`/search?keyword=${inputData}`);
-      setSearchValue((prev) => [inputData, ...prev.slice(0, 9)]);
-      setInputData("");
-      setShouldFocus(true);
-    } else if (searchValue.includes(inputData) && inputData.length > 0) {
-      Router.push(`/search?keyword=${inputData}`);
-      const newList = [
-        inputData,
-        ...searchValue.filter((item) => item !== inputData),
-      ];
-      setSearchValue(newList.slice(0, 10));
+
+      if (searchValue.includes(inputData)) {
+        const newList = [
+          inputData,
+          ...searchValue.filter((item) => item !== inputData),
+        ];
+
+        setSearchValue(newList.slice(0, 10));
+        localStorage.setItem(
+          "keywordList",
+          JSON.stringify(newList.slice(0, 10))
+        );
+      } else {
+        const newList = [inputData, ...searchValue];
+        setSearchValue(newList.slice(0, 10));
+        localStorage.setItem(
+          "keywordList",
+          JSON.stringify(newList.slice(0, 10))
+        );
+      }
       setInputData("");
       setShouldFocus(true);
     }
