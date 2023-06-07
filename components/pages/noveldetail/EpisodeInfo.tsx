@@ -100,6 +100,7 @@ export default function EpisodeInfo(props: {
                 onClick={() => directViewPage(item.id, item.free)}
               >
                 <EpisodeCard
+                  id={item.id}
                   name={item.name}
                   free={item.free}
                   registrationDate={item.registrationDate}

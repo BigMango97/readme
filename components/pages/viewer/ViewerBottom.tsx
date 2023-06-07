@@ -15,7 +15,6 @@ interface Props {
   title: string;
 }
 
-
 export default function ViewerBottom({ novelId, title }: Props) {
   const [shouldRefetchTotalRating, setShouldRefetchTotalRating] =
     useRecoilState(shouldRefetchTotalRatingState);
@@ -29,6 +28,7 @@ export default function ViewerBottom({ novelId, title }: Props) {
 
   const handleIconClick = (title: any) => {
     if (title === "reviewRating" && !isLoggedIn) {
+      sessionStorage.setItem("link", router.asPath);
       router.push("/login");
     } else {
       setActiveIcon(title);
@@ -62,12 +62,12 @@ export default function ViewerBottom({ novelId, title }: Props) {
       refetch();
       setShouldRefetchTotalRating(false);
     }
-  }, [setShouldRefetchTotalRating,refetch,shouldRefetchTotalRating]);
+  }, [setShouldRefetchTotalRating, refetch, shouldRefetchTotalRating]);
 
   return (
     <>
       <div className={style.container}>
-        <ReadingProgressGraph/>
+        <ReadingProgressGraph />
         <div className={style.menuCategory}>
           {viewerBottomMenu.map((item) => (
             <div
