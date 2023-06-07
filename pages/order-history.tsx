@@ -6,7 +6,6 @@ import style from "@/components/pages/point/Approval.module.css";
 import Image from "next/image";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { pointPayType } from "@/types/user/paymentType";
-import dayjs from "dayjs";
 
 export default function OrderHistory() {
   const router = useRouter();
@@ -20,7 +19,6 @@ export default function OrderHistory() {
 
   useEffect(() => {
     const tid = sessionStorage.getItem("tid");
-    const uuid = sessionStorage.getItem("uuid");
     const partnerOrderId = sessionStorage.getItem("partnerOrderId");
     if (pg_token !== undefined) {
       axios
@@ -31,18 +29,24 @@ export default function OrderHistory() {
           pgToken: pg_token,
         })
         .then((res) => {
+          console.log(res);
           console.log(res.data);
+
           sessionStorage.removeItem("tid");
           sessionStorage.removeItem("partnerOrderId");
 
-          const data = JSON.parse(res.data.replace("data:", ""));
-          console.log(data.body.data);
+          const replaceStr = res.data.replace("data:", "");
+
+          const data = JSON.parse(
+            replaceStr.replace("event:chargePointResult", "")
+          );
+
           setPayData({
-            total: data.body.data.total,
-            point: data.body.data.point,
-            chargeDate: data.body.data.chargeDate,
+            total: data.total,
+            point: data.point,
+            chargeDate: data.chargeDate,
           });
-          sessionStorage.setItem("point", data.body.data.total);
+          sessionStorage.setItem("point", data.total);
         });
     }
   }, [pg_token]);
