@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { scrollPercentState } from "@/state/scrollPercentState";
 import { recentReadType } from "@/types/user/libraryType";
-
 interface NovelViewerProps {
   id: number;
   content: string;
@@ -50,7 +49,7 @@ export default function NovelViewer(props: {
   const [isEmojiPanelVisible, setIsEmojiPanelVisible] = useState(false); // 이모티콘 패널 보이기 여부
   const longPressTimerRef = useRef<number | null>(null); // 롱 프레스 타이머 참조
   const [scrollPercent, setScrollPercent] = useRecoilState(scrollPercentState);
-
+  const SCROLL_PERCENT_CHANGE_THRESHOLD = 1;
   const handleLongPressEnd = useCallback(() => {
     if (longPressTimerRef.current) {
       clearTimeout(longPressTimerRef.current);
@@ -124,44 +123,28 @@ export default function NovelViewer(props: {
     closeEmojiPanel();
   };
 
-  useEffect(() => {
-    const res: NovelViewerProps[] = [];
-    props.viewerData?.split("</p>").map((item, index) => {
-      const text = item.replace("<p>", "");
-
-      const emojiList =
-        emojiDataObj[index]?.map((emojiItem: any) => ({
-          id: emojiItem.id,
-          emoji: emojiItem.emoji,
-          checked: emojiItem.checked,
-          count: emojiItem.count,
-        })) || [];
-
-      res.push({ id: index, content: text, emojiList: emojiList });
-    });
-    setTextData(res);
-  }, [props.viewerData, emojiDataObj]);
-
-  const handleScroll = useCallback(() => {
+  function handleScroll() {
     const currentScrollTop =
       window.pageYOffset || document.documentElement.scrollTop;
-
     const totalHeight =
       document.documentElement.scrollHeight -
       document.documentElement.clientHeight;
-
-    const scrollPercent = (currentScrollTop / totalHeight) * 100;
-
-    setScrollPercent(scrollPercent);
-    setScrollPosition(currentScrollTop); // 스크롤 위치를 업데이트
-  }, [setScrollPercent]);
+    const newScrollPercent = (currentScrollTop / totalHeight) * 100;
+    if (
+      Math.abs(newScrollPercent - scrollPercent) >=
+      SCROLL_PERCENT_CHANGE_THRESHOLD
+    ) {
+      setScrollPercent(newScrollPercent);
+      setScrollPosition(currentScrollTop);
+    }
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleScroll]);
+  }, [scrollPercent]);
 
   useEffect(() => {
     if (targetRef.current) {
@@ -172,7 +155,7 @@ export default function NovelViewer(props: {
         targetRef.current.removeEventListener("touchmove", touchMoveHandler);
       }
     };
-  }, []);
+  }, [targetRef]);
 
   // 터치 이동 핸들러
   const touchMoveHandler = (e: TouchEvent | MouseEvent) => {
@@ -280,23 +263,21 @@ export default function NovelViewer(props: {
   );
 
   useEffect(() => {
-    setTextData((prevTextData) => {
-      const res: NovelViewerProps[] = [];
-      props.viewerData?.split("</p>").map((item, index) => {
-        const text = item.replace("<p>", "");
+    const res: NovelViewerProps[] = [];
+    props.viewerData?.split("</p>").map((item, index) => {
+      const text = item.replace("<p>", "");
 
-        const emojiList =
-          emojiDataObj[index]?.map((emojiItem: any) => ({
-            id: emojiItem.id,
-            emoji: emojiItem.emoji,
-            checked: emojiItem.checked,
-            count: emojiItem.count,
-          })) || [];
+      const emojiList =
+        emojiDataObj[index]?.map((emojiItem: any) => ({
+          id: emojiItem.id,
+          emoji: emojiItem.emoji,
+          checked: emojiItem.checked,
+          count: emojiItem.count,
+        })) || [];
 
-        res.push({ id: index, content: text, emojiList: emojiList });
-      });
-      return res;
+      res.push({ id: index, content: text, emojiList: emojiList });
     });
+    setTextData(res);
   }, [props.viewerData, emojiDataObj]);
 
   useEffect(() => {
@@ -316,8 +297,7 @@ export default function NovelViewer(props: {
       const recentReadData = res.data.data.contents.find(
         (item: recentReadType) => item.episodeId === episodeId
       );
-      const positionY = recentReadData.readAt;
-      console.log(positionY);
+      const positionY = recentReadData?.readAt;
       window.scrollTo(0, positionY);
     };
     readAtData();

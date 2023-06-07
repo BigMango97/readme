@@ -26,9 +26,9 @@ declare global {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense:true
-    }
-  }
+      suspense: true,
+    },
+  },
 });
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
