@@ -9,7 +9,6 @@ import LikeBooks from "@/components/pages/library/LikeBooks";
 import { loginCheckState } from "@/state/loginState";
 import { useRecoilState } from "recoil";
 import { useCookies } from "react-cookie";
-import isLogin from "@/configs/isLogin";
 import { NextPageWithLayout } from "./_app";
 import LibraryLayout from "@/components/layouts/LibraryLayout";
 import RecentBooks from "@/components/pages/library/RecentBooks";

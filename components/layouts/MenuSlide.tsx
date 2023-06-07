@@ -21,7 +21,7 @@ export default function MenuSlide(props: Props) {
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
-      const point = localStorage.getItem("point") || undefined;
+      const point = sessionStorage.getItem("point") || undefined;
       setUserPoint(Number(point));
     }
   }, [cookies.uuid]);
@@ -35,7 +35,7 @@ export default function MenuSlide(props: Props) {
   }, []);
 
   const kakaoLogin = () => {
-    localStorage.setItem("link", "/");
+    sessionStorage.setItem("link", "/");
     if (!window.Kakao.isInitialized()) return;
     //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({

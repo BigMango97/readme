@@ -27,7 +27,7 @@ export default function ViewerTop({
   const sendViewerPosition = useSendViewerPositionMutation();
   const movePage = useCallback(() => {
     if (!loginCheck) {
-      localStorage.setItem("link", router.asPath);
+      sessionStorage.setItem("link", router.asPath);
       router.push("/login");
     }
   }, [loginCheck, router]);
@@ -50,7 +50,9 @@ export default function ViewerTop({
         },
       }
     );
+
   }, [router, novelId, episodeId, sendViewerPosition, readAt, loginCheck]);
+
 
   const handleButtonClick = useCallback(() => {
     if (!loginCheck) {

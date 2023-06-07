@@ -36,7 +36,7 @@ export default function EpisodeInfo(props: {
         );
         //구매 x -> 에피소드구매
         if (response.data.data.result === false) {
-          const userPoint = Number(localStorage.getItem("point"));
+          const userPoint = Number(sessionStorage.getItem("point"));
 
           //포인트 부족
           if (userPoint < 100) {
@@ -57,7 +57,7 @@ export default function EpisodeInfo(props: {
         }
       } //로그인 x
       else {
-        localStorage.setItem("link", router.asPath);
+        sessionStorage.setItem("link", router.asPath);
         router.push("/login");
       }
     }
