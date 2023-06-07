@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
-import { Space, Input, Tag, Tooltip, theme, Form } from "antd";
+import { Space, Input, Tag, Tooltip, theme } from "antd";
 import { novelInputType } from "@/types/admin/novelType";
 
 export default function AdminTag(props: {
-  //tags: tagType[];
   inputData: novelInputType;
   setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const { token } = theme.useToken();
-  //const [tags, setTags] = useState([""]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -49,17 +47,11 @@ export default function AdminTag(props: {
   };
 
   const handleInputConfirm = () => {
-    //const tagNames = props.inputData.tag.map((item) => item.name);
-
     if (
       inputValue &&
       props.inputData.tags.indexOf(inputValue) === -1 &&
       props.inputData.tags.length <= 2
     ) {
-      // const newItem: tagType = {
-      //   id: props.inputData.tag.length,
-      //   name: inputValue,
-      // };
       props.setInputData({
         ...props.inputData,
         tags: [...props.inputData.tags, inputValue],

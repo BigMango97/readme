@@ -3,9 +3,8 @@ import { scheduleType } from "@/types/admin/scheduleType";
 import { DatePicker, Input, Modal, Space } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 
-import dayjs, { Dayjs } from "dayjs";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
 
 export default function ScheduleModal(props: {
   id: number;
@@ -60,7 +59,6 @@ export default function ScheduleModal(props: {
     if (value !== undefined && value !== null) {
       const start = dayjs(value[0]);
       const end = dayjs(value[1]);
-      //console.log("start = ", start);
       setScheduleData({
         ...scheduleData,
         startDate: start,
