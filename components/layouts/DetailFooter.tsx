@@ -1,30 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
 import style from "@/components/layouts/DetailFooter.module.css";
 import Image from "next/image";
-
 import { useRouter } from "next/router";
-
-import Login from "@/pages/login";
 import { useCookies } from "react-cookie";
 import axios from "@/configs/axiosConfig";
-import { useRouter } from "next/router";
 export default function DetailFooter() {
   const [clickLike, setClickLike] = useState<boolean>(false);
   const [cookies] = useCookies(["uuid"]);
-
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
-  //const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const { novelId } = router.query;
-
   const getLike = useCallback(async () => {
     if (novelId) {
       const res = await axios.get(`/utils-service/v1/pick/${novelId}`);
       if (res.data.data.checked === true) setClickLike(true);
       else setClickLike(false);
     }
-
-    //console.log("res.data.data.checked", res.data.data.checked);
   }, [novelId]);
 
   useEffect(() => {
