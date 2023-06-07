@@ -8,14 +8,7 @@
 .allNovelTotalIcon img {
   margin-left: 0.5rem;
 }
-/* .novelContainer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0.5rem;
-} */
+
 .novelContainer {
   display: flex;
   justify-content: space-between;
@@ -26,12 +19,19 @@
   padding: 0.5rem;
   margin-bottom: 7rem;
 }
-
-.empty p{
+.empty {
   width: 100%;
   height: 20rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
+}
+.empty p{
+  /* width: 100%;
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem; */
 }
