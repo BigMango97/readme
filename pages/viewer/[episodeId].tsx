@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery,UseQueryResult } from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 import { useRouter } from "next/router";
 
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
@@ -15,7 +15,7 @@ interface ErrorType extends Error {
 export default function ViewerPage() {
   const router = useRouter();
   const episodeId = Number(router.asPath.split("/")[2]);
- 
+
   const {
     isLoading,
     isError,
@@ -34,16 +34,12 @@ export default function ViewerPage() {
       enabled: !!episodeId,
     }
   );
-  const episodeDetailDataResult =data?.data;
-
+  const episodeDetailDataResult = data?.data;
 
   const { data: emojiDataResult } = useQuery(
     ["emojiData", episodeId],
     () => emojiFetch(episodeId),
-    {
-      retry: 3,
-      enabled: !!episodeId,
-    }
+    { enabled: !!episodeId }
   );
   return (
     <>
