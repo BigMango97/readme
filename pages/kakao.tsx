@@ -1,14 +1,10 @@
-import Config from "@/configs/config.export";
-import { loginCheckState, userDataState } from "@/state/loginState";
 import axios from "axios";
 import { default as customAxios } from "@/configs/axiosConfig";
-//import { userLoginState } from "@/state/atom/userLoginState";
-
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
 import { useCookies } from "react-cookie";
-import { useRecoilState } from "recoil";
+import style from "@/components/ui/Kakao.module.css";
+import { SyncLoader } from "react-spinners";
 
 export default function Kakao() {
   const router = useRouter();
@@ -47,4 +43,10 @@ export default function Kakao() {
         });
     }
   }, [code]);
+
+  return (
+    <div className={style.container}>
+      <SyncLoader color="#6E48EB" />
+    </div>
+  );
 }
