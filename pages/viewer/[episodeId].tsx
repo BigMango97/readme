@@ -58,6 +58,13 @@ export default function ViewerPage() {
           <ViewerBottom
             novelId={episodeDetailDataResult.novelId}
             title={episodeDetailDataResult.title}
+            prevId={episodeDetailDataResult.prevId}
+            prevFree={episodeDetailDataResult.prevFree}
+            prevRead={episodeDetailDataResult.prevRead}
+            nextId={episodeDetailDataResult.nextId}
+            nextFree={episodeDetailDataResult.nextFree}
+            nextRead={episodeDetailDataResult.nextRead}
+
           />
         </>
       )}
