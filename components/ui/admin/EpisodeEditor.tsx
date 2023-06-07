@@ -44,14 +44,6 @@ const EpisodeEditor = ({ inputData, setInputData }: QuillEditorProps) => {
     []
   );
 
-  // const changeContentHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   e.preventDefault();
-  //   setInputData({
-  //     ...inputData,
-  //     content: e.target.value,
-  //   });
-  // };
-
   return (
     <>
       <ReactQuill

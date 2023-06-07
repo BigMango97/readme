@@ -14,6 +14,12 @@ export interface episodeDetailFetchType {
     novelsTitle: string;
     registration: string;
     title: string;
+    prevId: number;
+    prevFree: boolean;
+    prevRead: boolean;
+    nextId: number;
+    nextFree: boolean;
+    nextRead: boolean;
   };
 }
 export interface ViewerPositionData {

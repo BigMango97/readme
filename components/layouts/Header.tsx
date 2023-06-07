@@ -5,7 +5,6 @@ import MenuSlide from "@/components/layouts/MenuSlide";
 import { useState } from "react";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  console.log("isOpen", isOpen);
 
   const toggleMenu = (event: any) => {
     event.stopPropagation();
