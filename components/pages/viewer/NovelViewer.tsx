@@ -136,7 +136,7 @@ export default function NovelViewer(props: {
     ) {
       setScrollPercent(newScrollPercent);
       setScrollPosition(currentScrollTop);
-      onHidePanel()
+      onHidePanel();
     }
   }
 
@@ -301,7 +301,10 @@ export default function NovelViewer(props: {
       const positionY = recentReadData?.readAt;
       window.scrollTo(0, positionY);
     };
-    readAtData();
+    const link = sessionStorage.getItem("link");
+    if (link === "/library?id=1") {
+      readAtData();
+    }
   }, []);
 
   return (
