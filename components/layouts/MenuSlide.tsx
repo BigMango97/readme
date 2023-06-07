@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import SlideWebViewList from "../ui/SlideWebViewList";
 import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
 type Props = {
   onClose: () => void;
 };
@@ -16,12 +17,13 @@ export default function MenuSlide(props: Props) {
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
   const [cookies] = useCookies(["uuid"]);
+  const router = useRouter();
 
   const [userPoint, setUserPoint] = useState<number>(0);
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
-      const point = sessionStorage.getItem("point") || undefined;
+      const point = sessionStorage.getItem("point") || 0;
       setUserPoint(Number(point));
     }
   }, [cookies.uuid]);
@@ -37,7 +39,6 @@ export default function MenuSlide(props: Props) {
   const kakaoLogin = () => {
     sessionStorage.setItem("link", "/");
     if (!window.Kakao.isInitialized()) return;
-    //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
       //redirectUri: `https://readme.life/kakao`,
       redirectUri: `http://localhost:3000/kakao`,
@@ -68,8 +69,13 @@ export default function MenuSlide(props: Props) {
                     환영합니다!
                   </p>
                   <div className={style.pointContainer}>
-                    <p>잔여 포인트 : P{userPoint?.toLocaleString("en")}</p>
-                    <div className={style.pointBtn}>+충전</div>
+                    <p>잔여 포인트 : {userPoint.toLocaleString("en")}P</p>
+                    <div
+                      className={style.pointBtn}
+                      onClick={() => router.push("/pointCharge")}
+                    >
+                      +충전
+                    </div>
                   </div>
                 </div>
                 <SlideWebViewList />

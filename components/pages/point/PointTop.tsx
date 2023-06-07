@@ -10,9 +10,9 @@ export default function PointTop() {
     router.back();
   };
   let point = 0;
-  if (sessionStorage.getItem("point")) {
-    let point = sessionStorage.getItem("point");
-  }
+  sessionStorage.getItem("point")
+    ? (point = Number(sessionStorage.getItem("point")))
+    : (point = 0);
 
   const notServiceHandle = () => {
     Swal.fire("지원하지 않는 서비스 입니다.");
