@@ -27,7 +27,6 @@ export default function EpisodeForm() {
     status: "",
   });
   useEffect(() => {
-    //if (epiId !== undefined) {
     if (!router.isReady) return;
     const getEpisodeData = async () => {
       const res = await axios.get(`/novels-service/v1/admin/episodes/${epiId}`);
@@ -41,9 +40,9 @@ export default function EpisodeForm() {
         status: res.data.data.status,
       });
     };
-    getEpisodeData();
-
-    //}
+    if (epiId !== undefined) {
+      getEpisodeData();
+    }
   }, [router.isReady]);
   const cancelHandle = () => {
     router.push(`/admin/novels/${novelId}`);

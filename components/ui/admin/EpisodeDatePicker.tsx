@@ -12,7 +12,7 @@ export default function EpisodeDatePicker(props: {
     if (date !== null) {
       props.setInputData({
         ...props.inputData,
-        createDate: date,
+        registration: date,
       });
     }
   };

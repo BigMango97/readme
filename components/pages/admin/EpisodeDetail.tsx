@@ -48,6 +48,7 @@ export default function EpisodeDetail() {
 
   const createDate = epiData.createDate.toString().replace("T", " ");
   const updateDate = epiData.updateDate.toString().replace("T", " ");
+  const registration = epiData.registration.toString().substring(0, 10);
 
   return (
     <>
@@ -64,6 +65,9 @@ export default function EpisodeDetail() {
           <Descriptions>
             <Descriptions.Item label="등록일">{createDate}</Descriptions.Item>
             <Descriptions.Item label="수정일">{updateDate}</Descriptions.Item>
+            <Descriptions.Item label="연재시작일">
+              {registration}
+            </Descriptions.Item>
           </Descriptions>
           <Descriptions>
             <Descriptions.Item label="회차상태">
