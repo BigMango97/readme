@@ -87,7 +87,7 @@ export default function EpisodeList() {
       title: "등록일",
       width: "12%",
       render: (_, { createDate }) => (
-        <>{createDate.toString().substring(0, 10)}</>
+        <>{createDate.toString().replace("T", " ")}</>
       ),
     },
     {
@@ -96,7 +96,7 @@ export default function EpisodeList() {
 
       width: "12%",
       render: (_, { updateDate }) => (
-        <>{updateDate.toString().substring(0, 10)}</>
+        <>{updateDate.toString().replace("T", " ")}</>
       ),
     },
     {

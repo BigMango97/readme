@@ -27,20 +27,24 @@ export default function EpisodeForm() {
     status: "",
   });
   useEffect(() => {
-    if (epiId !== undefined) {
-      axios.get(`/novels-service/v1/admin/episodes/${epiId}`).then((res) => {
-        setInputData({
-          title: res.data.data.title,
-          content: res.data.data.content,
-          registration: res.data.data.registration,
-          createDate: res.data.data.createDate,
-          updateDate: res.data.data.updateDate,
-          free: res.data.data.free,
-          status: res.data.data.status,
-        });
+    //if (epiId !== undefined) {
+    if (!router.isReady) return;
+    const getEpisodeData = async () => {
+      const res = await axios.get(`/novels-service/v1/admin/episodes/${epiId}`);
+      setInputData({
+        title: res.data.data.title,
+        content: res.data.data.content,
+        registration: res.data.data.registration,
+        createDate: res.data.data.createDate,
+        updateDate: res.data.data.updateDate,
+        free: res.data.data.free,
+        status: res.data.data.status,
       });
-    }
-  }, []);
+    };
+    getEpisodeData();
+
+    //}
+  }, [router.isReady]);
   const cancelHandle = () => {
     router.push(`/admin/novels/${novelId}`);
   };
