@@ -12,8 +12,6 @@ export default function EpisodeInfo(props: {
   episodes: episodeCardDataType[];
   sort: SortType;
   onSortChange: (newSort: SortType) => void;
-  onClickEpisode?: () => void;
-  onClose: () => void;
 }) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,10 +24,7 @@ export default function EpisodeInfo(props: {
     setEpiId(id);
     //무료일때
     if (free) {
-      router.push(`/viewer/${id}`);
-      if (viewerPage === "viewer") {
-        props.onClose();
-      }
+      router.push(`/viewer/${id}`)
     }
     //유료일때
     else {
@@ -45,18 +40,13 @@ export default function EpisodeInfo(props: {
 
           //포인트 부족
           if (userPoint < 100) {
-            if (viewerPage === "viewer") {
-              props.onClose();
-            }
             setColor("green");
             setSituation("부족");
             setIsModalOpen(!isModalOpen);
           }
           //포인트 보유
           else {
-            if (viewerPage === "viewer") {
-              props.onClose();
-            }
+
             setColor("purple");
             setSituation("결제");
             setIsModalOpen(!isModalOpen);
@@ -64,16 +54,10 @@ export default function EpisodeInfo(props: {
         }
         //구매한 소설
         else {
-          if (viewerPage === "viewer") {
-            props.onClose();
-          }
           router.push(`/viewer/${id}`);
         }
       } //로그인 x
       else {
-        if (viewerPage === "viewer") {
-          props.onClose();
-        }
         sessionStorage.setItem("link", router.asPath);
         router.push("/login");
       }
