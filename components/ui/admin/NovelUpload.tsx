@@ -4,7 +4,8 @@ import { message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { novelInputType } from "@/types/admin/novelType";
-import axios from "@/configs/axiosConfig";
+import axios from "axios";
+
 export default function NovelUpload(props: {
   inputData: novelInputType;
   setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
@@ -18,9 +19,13 @@ export default function NovelUpload(props: {
     formData.append("multipartFile", img);
     try {
       //
-      const imageRes = await axios.post(`/novels-service/s3/file`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const imageRes = await axios.post(
+        `https://api.readme.life/novels-service/s3/file`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       const image_URL = imageRes.data;
 
       props.setInputData({

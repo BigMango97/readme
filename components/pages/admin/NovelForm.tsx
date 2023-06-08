@@ -57,7 +57,9 @@ export default function NovelForm() {
         tags: res.data.data.tags,
       });
     };
-    getNovelData();
+    if (novelId !== undefined) {
+      getNovelData();
+    }
   }, [router.isReady]);
 
   const postHandle = () => {

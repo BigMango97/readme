@@ -100,6 +100,15 @@ export default function EpisodeList() {
       ),
     },
     {
+      dataIndex: "연재시작일",
+      title: "연재시작일",
+
+      width: "12%",
+      render: (_, { registration }) => (
+        <>{registration.toString().substring(0, 10)}</>
+      ),
+    },
+    {
       dataIndex: "무료/유료",
       title: "무료/유료",
       filters: [
