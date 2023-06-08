@@ -21,7 +21,6 @@ interface Props {
   nextId: number;
   nextFree: boolean;
   nextRead: boolean;
-  onClickEpisode: () => void;
 }
 
 export default function ViewerBottom({
@@ -33,14 +32,12 @@ export default function ViewerBottom({
   nextId,
   nextFree,
   nextRead,
-  onClickEpisode
 }: Props) {
-
   const [shouldRefetchTotalRating, setShouldRefetchTotalRating] =
     useRecoilState(shouldRefetchTotalRatingState);
   const router = useRouter();
   const [activeIcon, setActiveIcon] = useState<
-    "menu" | "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null
+    "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null
   >(null);
   const [cookies] = useCookies(["uuid"]);
   const episodeId = router.query.episodeId;
@@ -50,87 +47,72 @@ export default function ViewerBottom({
   const [color, setColor] = useState<string>("");
   const [epiId, setEpiId] = useState<number>(0);
   const handleIconClick = (title: any) => {
-    //평점 아이콘 클릭 시 로그인 페이지로 이동
     if (title === "reviewRating" && !isLoggedIn) {
       sessionStorage.setItem("link", router.asPath);
       router.push("/login");
-    }
-    // 전 에피소드가 무료이면
-    if (title === "beforenovel" && prevFree && prevId !== 0) {
-      setActiveIcon(null);
-      router.push(`/viewer/${prevId}`);
-    }
-    // 다음 에피소드가 무료이면
-    if (title === "nextnovel" && nextFree && nextId !== 0) {
-      router.push(`/viewer/${nextId}`);
-    }
-    if (title === "beforenovel" && prevId === 0) {
-      Swal.fire({
-        toast: true,
-        position: "bottom",
-        icon: "success",
-        title: "첫화입니다!",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    }
-    if (title === "nextnovel" && nextId === 0) {
-      Swal.fire({
-        toast: true,
-        position: "bottom",
-        icon: "success",
-        title: "마지막 화 입니다!",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    } else if (prevId !== 0 && nextId !== 0) {
-      // 전 , 후 에피소드를 눌렸을때 로그인이 안되어있고 유료면 로그인 시키기 // 다시와서 유저가 구매하기
-      if (
-        (title === "beforenovel" && !isLoggedIn && !prevFree) ||
-        (title === "nextnovel" && !isLoggedIn && !nextFree)
-      ) {
-        router.push("/login");
-      }
-      //로그인 되어있고 구매했으면 읽기(전 에피소드)
-      if (title === "beforenovel" && isLoggedIn && prevRead) {
+    } else if (title === "beforenovel") {
+      if (prevId === 0) {
+        Swal.fire({
+          toast: true,
+          position: "bottom",
+          icon: "success",
+          title: "첫화입니다!",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      } else if (prevFree) {
+        setActiveIcon(null);
         router.push(`/viewer/${prevId}`);
-      }
-      //로그인 되어있고 구매했으면 읽기(다음 화 에피소드)
-      if (title === "nextnovel" && isLoggedIn && nextRead) {
-        router.push(`/viewer/${nextId}`);
-      }
-      // 로그인 되어있고 구매안했는데 유료일때 구매하기로 가기(전 에피소드)
-      if (title === "beforenovel" && isLoggedIn && !prevFree) {
+      } else if (isLoggedIn && prevRead) {
+        router.push(`/viewer/${prevId}`);
+      } else if (isLoggedIn && !prevFree) {
         const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
-          setIsModalOpen(!isModalOpen);
-        }
-        //포인트 보유
-        else {
+          setIsModalOpen(true);
+          setEpiId(prevId);
+        } else {
           setColor("purple");
           setSituation("결제");
-          setIsModalOpen(!isModalOpen);
-        }
-      }
-      // 로그인 되어있고 구매안했는데 유료일때 구매하기로 가기(다음화 에피소드)
-      if (title === "nextnovel" && isLoggedIn && !nextFree) {
-        const userPoint = Number(sessionStorage.getItem("point"));
-        if (userPoint < 100) {
-          setColor("green");
-          setSituation("부족");
-          setIsModalOpen(!isModalOpen);
-        }
-        //포인트 보유
-        else {
-          setColor("purple");
-          setSituation("결제");
-          setIsModalOpen(!isModalOpen);
+          setIsModalOpen(true);
+          setEpiId(prevId);
         }
       } else {
-        setActiveIcon(title);
+        router.push("/login");
       }
+    } else if (title === "nextnovel") {
+      if (nextId === 0) {
+        Swal.fire({
+          toast: true,
+          position: "bottom",
+          icon: "success",
+          title: "마지막 화입니다!",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      } else if (nextFree) {
+        router.push(`/viewer/${nextId}`);
+      } else if (isLoggedIn && nextRead) {
+        router.push(`/viewer/${nextId}`);
+      } else if (isLoggedIn && !nextFree) {
+        const userPoint = Number(sessionStorage.getItem("point"));
+        if (userPoint < 100) {
+          setColor("green");
+          setSituation("부족");
+          setIsModalOpen(true);
+          setEpiId(nextId);
+        } else {
+          setColor("purple");
+          setSituation("결제");
+          setIsModalOpen(true);
+          setEpiId(nextId);
+        }
+      } else {
+        router.push("/login");
+      }
+    } else {
+      setActiveIcon(title);
     }
   };
   const closeSlide = () => {
@@ -164,7 +146,6 @@ export default function ViewerBottom({
 
   return (
     <>
-
       {isModalOpen ? (
         <ConfirmModal
           color={color}
@@ -196,15 +177,12 @@ export default function ViewerBottom({
               </div>
             ))}
           </div>
-          {(activeIcon === "menu" ||
-            activeIcon === "reviewRating" ||
-            activeIcon === "comment") && (
+          {(activeIcon === "reviewRating" || activeIcon === "comment") && (
             <SlideComponent
-              activeIcon={activeIcon}
               onClose={closeSlide}
+              activeIcon={activeIcon}
               novelId={novelId}
               title={title}
-              onClickEpisode={onClickEpisode}
             />
           )}
         </div>

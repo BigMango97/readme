@@ -25,7 +25,6 @@ export default function NovelDetail() {
     }
   );
   const novelbyIdDataResult = data?.data;
-
   return (
     <>
       {novelbyIdDataResult && (
