@@ -41,7 +41,10 @@ export default function ConfirmModal(props: {
       router.push(`/viewer/${props.epiId}`);
     }
     //부족
-    else router.push(`/pointCharge`);
+    else {
+      sessionStorage.setItem("/link", router.asPath);
+      router.push(`/pointCharge`);
+    }
   };
   return (
     <div className={style.container}>
