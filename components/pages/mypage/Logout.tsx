@@ -11,8 +11,8 @@ export default function Logout() {
 
     removeCookie("accessToken", { path: "/" });
     removeCookie("uuid", { path: "/" });
-    axios.defaults.headers.common["Authorization"] = `Bearer `;
-    axios.defaults.headers.common["uuid"] = ``;
+    // axios.defaults.headers.common["Authorization"] = `Bearer `;
+    // axios.defaults.headers.common["uuid"] = ``;
 
     router.push("/");
   };

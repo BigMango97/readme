@@ -10,26 +10,29 @@ import NovelCardList from "./NovelCardList";
 import dayjs from "dayjs";
 
 export default function PurchasedBooks() {
-  const [purchasedData, setPurchasedData] = useState<purchasedNovelType[]>([
-    { novelId: 0, novelTitle: "string", epiTitle: "string", buyDate: dayjs() }, //todo :지우기
-  ]);
+  const [purchasedData, setPurchasedData] = useState<purchasedNovelType[]>([]);
 
   useEffect(() => {
     const getData = async () => {
-      // try {
-      //   const res = await axios.get(`/novels-service/v1/getPurchased`);
-      //   const res2 = await Promise.all(
-      //     res.data.data.contents.map(async (item: purchasedNovelType) => {
-      //       const res3 = await axios.get(
-      //         `/sections-service/v1/cards/novels/${item.novelId}`
-      //       );
-      //       return res3.data.data;
-      //     })
-      //   );
-      //   setPurchasedData(res2);
-      // } catch (err) {
-      //   console.log("Error >>", err);
-      // }
+      try {
+        const res = await axios.get(
+          `/payments-service/v1/payments/getAllPurchased`
+        );
+        const replaceStr = res.data.replace("event:PurchasedInfoResult", "");
+        const data = JSON.parse(replaceStr.replace("data:", ""));
+        console.log(data);
+        // const res2 = await Promise.all(
+        //   data.map(async (item: purchasedNovelType) => {
+        //     const res3 = await axios.get(
+        //       `/sections-service/v1/cards/novels/${item.novelId}`
+        //     );
+        //     return res3.data.data;
+        //   })
+        // );
+        setPurchasedData(data);
+      } catch (err) {
+        console.log("Error >>", err);
+      }
     };
     getData();
   }, []);
