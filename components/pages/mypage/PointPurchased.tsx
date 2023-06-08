@@ -46,10 +46,6 @@ export default function PointPurchased(props: {
         {historyData?.map((item, idx) => (
           <div className={style.chargeInfo} key={idx}>
             <div className={style.textBox}>
-              <p>구매 번호 </p>
-              <p className={style.boldText}>{item.date.replace("T", " ")}</p>
-            </div>
-            <div className={style.textBox}>
               <p>충전 일자 </p>
               <p className={style.boldText}>{item.date.replace("T", " ")}</p>
             </div>
