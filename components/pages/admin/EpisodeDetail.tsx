@@ -46,8 +46,8 @@ export default function EpisodeDetail() {
     router.push(`/admin/novels/${novelId}`);
   };
 
-  const createDate = epiData.createDate.toString().substring(0, 10);
-  const updateDate = epiData.updateDate.toString().substring(0, 10);
+  const createDate = epiData.createDate.toString().replace("T", " ");
+  const updateDate = epiData.updateDate.toString().replace("T", " ");
 
   return (
     <>

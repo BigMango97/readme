@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Noveltag from "@/components/ui/admin/NovelTag";
 import style from "@/components/pages/admin/NovelForm.module.css";
 import dayjs, { Dayjs } from "dayjs";
-import axios from "axios";
 
 import NovelInput from "@/components/ui/admin/NovelInput";
 import NovelSelect from "@/components/ui/admin/NovelSelect";
@@ -13,7 +12,8 @@ import NovelTextArea from "@/components/ui/admin/NovelTextArea";
 import NovelUpload from "@/components/ui/admin/NovelUpload";
 import { novelInputType } from "@/types/admin/novelType";
 import { useRouter } from "next/router";
-import Config from "@/configs/config.export";
+import axios from "@/configs/axiosConfig";
+
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -23,7 +23,6 @@ const normFile = (e: any) => {
 export default function NovelForm() {
   const router = useRouter();
   const novelId = router.query.id;
-  const baseUrl = Config().baseUrl;
 
   const [inputData, setInputData] = useState<novelInputType>({
     title: "",
@@ -40,30 +39,30 @@ export default function NovelForm() {
   });
 
   useEffect(() => {
-    if (novelId !== undefined) {
-      axios
-        .get(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`)
-        .then((res) => {
-          setInputData({
-            title: res.data.data.title,
-            author: res.data.data.author,
-            grade: res.data.data.grade,
-            genre: res.data.data.genre,
-            serializationStatus: res.data.data.serializationStatus,
-            authorComment: res.data.data.authorComment,
-            serializationDay: res.data.data.serializationDay,
-            startDate: res.data.data.startDate,
-            description: res.data.data.description,
-            thumbnail: res.data.data.thumbnail,
-            tags: res.data.data.tags,
-          });
-        });
-    }
-  }, []);
+    if (!router.isReady) return;
+
+    const getNovelData = async () => {
+      const res = await axios.get(`/novels-service/v1/admin/novels/${novelId}`);
+      setInputData({
+        title: res.data.data.title,
+        author: res.data.data.author,
+        grade: res.data.data.grade,
+        genre: res.data.data.genre,
+        serializationStatus: res.data.data.serializationStatus,
+        authorComment: res.data.data.authorComment,
+        serializationDay: res.data.data.serializationDay,
+        startDate: res.data.data.startDate,
+        description: res.data.data.description,
+        thumbnail: res.data.data.thumbnail,
+        tags: res.data.data.tags,
+      });
+    };
+    getNovelData();
+  }, [router.isReady]);
 
   const postHandle = () => {
     axios
-      .post(`${baseUrl}/novels-service/v1/admin/novels`, {
+      .post(`/novels-service/v1/admin/novels`, {
         title: inputData.title,
         author: inputData.author,
         grade: inputData.grade,
@@ -87,7 +86,7 @@ export default function NovelForm() {
 
   const putHandle = () => {
     axios
-      .put(`${baseUrl}/novels-service/v1/admin/novels/${novelId}`, {
+      .put(`/novels-service/v1/admin/novels/${novelId}`, {
         title: inputData.title,
         author: inputData.author,
         grade: inputData.grade,

@@ -101,7 +101,7 @@ export default function NovelList() {
       sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
       width: "12%",
       render: (_, { startDate }) => (
-        <>{startDate.toString().substring(0, 10)}</>
+        <>{startDate.toString().replace("T", " ").replace(".000+00:00", "")}</>
       ),
     },
     {
