@@ -34,14 +34,6 @@ export const footerMenu = [
 export const viewerBottomMenu = [
   {
     id: 1,
-    title: "menu",
-    iconUrl: "/assets/images/icons/menu.svg",
-    width:15,
-    height:15,
-    alt:"menuIcon"
-  },
-  {
-    id: 2,
     title: "reviewRating",
     iconUrl: "/assets/images/icons/star.svg",
     width:20,
@@ -49,7 +41,7 @@ export const viewerBottomMenu = [
     alt:"starIcon"
   },
   {
-    id: 3,
+    id: 2,
     title: "comment",
     iconUrl: "/assets/images/icons/comment.svg",
     width:25,
@@ -57,7 +49,7 @@ export const viewerBottomMenu = [
     alt:"commentIcon"
   },
   {
-    id: 4,
+    id: 3,
     title: "beforenovel",
     iconUrl: "/assets/images/icons/chevron-left.svg",
     width:25,
@@ -65,7 +57,7 @@ export const viewerBottomMenu = [
     alt:"leftIcon"
   },
   {
-    id: 5,
+    id: 4,
     title: "nextnovel",
     iconUrl: "/assets/images/icons/chevron-right.svg",
     width:25,
