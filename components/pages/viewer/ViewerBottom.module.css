@@ -16,7 +16,7 @@
   justify-content: space-between;
   justify-items: center;
   padding: 1rem;
-   background-color: var(--readme-white);
+  background-color: var(--readme-white);
 }
 
 .viewerBottomIcon {

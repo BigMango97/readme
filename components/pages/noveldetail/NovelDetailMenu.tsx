@@ -24,6 +24,8 @@ export default function NovelDetailMenu(props: {
   novelId: number;
   description: string;
   authorComment: string;
+  onClickEpisode?: () => void;
+  onClose: () => void;
 }) {
   const [sort, setSort] = useState<SortType>(SORT_TYPES.RECENT);
   const [menuTitle, setMenuTitle] = useState<string>(MENULIST[0].menu);
@@ -110,7 +112,9 @@ export default function NovelDetailMenu(props: {
         {props.novelId && data && (
           <>
             <EpisodeInfo
+            onClickEpisode={props.onClickEpisode} 
               sort={sort}
+              onClose={props.onClose} 
               onSortChange={handleSort}
               episodes={data.pages.flatMap(
                 (page) =>
