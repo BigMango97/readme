@@ -24,7 +24,7 @@ export default function EpisodeInfo(props: {
     setEpiId(id);
     //무료일때
     if (free) {
-      router.push(`/viewer/${id}`)
+      router.push(`/viewer/${id}`);
     }
     //유료일때
     else {
@@ -46,7 +46,6 @@ export default function EpisodeInfo(props: {
           }
           //포인트 보유
           else {
-
             setColor("purple");
             setSituation("결제");
             setIsModalOpen(!isModalOpen);
