@@ -119,6 +119,7 @@ export default function EpisodeInfo(props: {
                 }}
               >
                 <EpisodeCard
+                  id={item.id}
                   name={item.name}
                   free={item.free}
                   registrationDate={item.registrationDate}

@@ -33,8 +33,8 @@ export interface recentReadType {
 export interface purchasedNovelType {
     novelId: number,
     novelTitle: string,
-    epiTitle : string,
-    buyDate: Dayjs,
+    episodeTitle : string,
+    purchasedDate: number[],
   }
 
 

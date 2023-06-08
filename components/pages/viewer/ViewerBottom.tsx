@@ -35,6 +35,7 @@ export default function ViewerBottom({
   nextRead,
   onClickEpisode
 }: Props) {
+
   const [shouldRefetchTotalRating, setShouldRefetchTotalRating] =
     useRecoilState(shouldRefetchTotalRatingState);
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function ViewerBottom({
   const handleIconClick = (title: any) => {
     //평점 아이콘 클릭 시 로그인 페이지로 이동
     if (title === "reviewRating" && !isLoggedIn) {
+      sessionStorage.setItem("link", router.asPath);
       router.push("/login");
     }
     // 전 에피소드가 무료이면
@@ -162,6 +164,7 @@ export default function ViewerBottom({
 
   return (
     <>
+
       {isModalOpen ? (
         <ConfirmModal
           color={color}

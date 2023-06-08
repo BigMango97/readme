@@ -11,7 +11,6 @@ import {
   novelType,
 } from "@/types/admin/novelType";
 import AdminButton from "./AdminButton";
-import Config from "@/configs/config.export";
 
 export default function NovelList() {
   const router = useRouter();
@@ -28,18 +27,6 @@ export default function NovelList() {
 
   const deleteHandle = (id: number) => {
     axios.delete(`/novels-service/v1/admin/novels/${id}`).then((res) => {
-      // if (novelData !== undefined) {
-      //   const newData = novelData.novelList.map((item: novelType) => {
-      //     if (item.id === id) {
-      //       return {
-      //         ...item,
-      //         serializationStatus: "삭제",
-      //       };
-      //     }
-      //     return item;
-      //   });
-      //   setNovelData({ novelList: newData });
-      // }
       getData();
     });
   };
@@ -49,7 +36,7 @@ export default function NovelList() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [search, select]);
 
   const getData = async () => {
     let url = "";
@@ -58,13 +45,24 @@ export default function NovelList() {
     } else if (select === "author") {
       url = `/novels-service/v1/admin/novels?author=${search}`;
     } else {
-      url = `/novels-service/v1/admin/novels`;
+      url = `/novels-service/v1/admin/novels?`;
     }
 
-    const res = await axios.get(url);
-    console.log(res.data.data.contents);
+    const pageRes = await axios.get(url);
+
+    const totalPage = pageRes.data.data.pagination.totalPage;
+    console.log(pageRes.data.data);
+    let newData: novelType[] = [];
+
+    for (let page = 0; page < totalPage; page++) {
+      const res = await axios.get(url + `&page=${page}`);
+      res.data.data.contents.map((item: novelType) => {
+        newData.push(item);
+      });
+    }
+
     setNovelData({
-      novelList: res.data.data.contents,
+      novelList: newData,
     });
   };
 
@@ -103,7 +101,7 @@ export default function NovelList() {
       sorter: (a, b) => Number(a.startDate) - Number(b.startDate),
       width: "12%",
       render: (_, { startDate }) => (
-        <>{startDate.toString().substring(0, 10)}</>
+        <>{startDate.toString().replace("T", " ").replace(".000+00:00", "")}</>
       ),
     },
     {
@@ -262,7 +260,7 @@ export default function NovelList() {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    ///console.log("params", pagination, filters, sorter, extra);
   };
 
   const dataSource: novelTableType[] = [];
