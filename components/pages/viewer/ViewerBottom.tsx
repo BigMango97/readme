@@ -21,6 +21,7 @@ interface Props {
   nextId: number;
   nextFree: boolean;
   nextRead: boolean;
+  onClickEpisode: () => void;
 }
 
 export default function ViewerBottom({
@@ -32,6 +33,7 @@ export default function ViewerBottom({
   nextId,
   nextFree,
   nextRead,
+  onClickEpisode
 }: Props) {
   const [shouldRefetchTotalRating, setShouldRefetchTotalRating] =
     useRecoilState(shouldRefetchTotalRatingState);

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useInView } from "react-intersection-observer";
 import ReviewContainer from "../pages/viewer/StarRatingContainer";
 import CommentsContainer from "../pages/viewer/CommentsContainer";
 import style from "@/components/ui/SlideComponent.module.css";
+import EpisodeInfo from "../pages/noveldetail/EpisodeInfo";
+import { SortType } from "../pages/noveldetail/NovelDetailMenu";
+import { useInfiniteQuery } from "react-query";
+import axios from "@/configs/axiosConfig";
+import { useEffect } from "react";
 
 type ActiveIconType =
   | "reviewRating"
@@ -27,8 +33,34 @@ export default function SlideComponent({
   novelId,
   title,
 }: SlideComponentProps): JSX.Element {
+  const fetchEpisodes = async ({ pageParam = 0 }) => {
+    const response = await axios.get(
+      `/sections-service/v1/cards/episodes/${novelId}?pagination=${pageParam}&sort=${sort}`
+    );
+    return response.data;
+  };
+  const [sort, setSort] = useState<SortType>(SORT_TYPES.RECENT);
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+  const handleSort = (newSort: SortType) => {
+    setSort(newSort);
+  };
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery(["episodes", novelId, sort], fetchEpisodes, {
+      getNextPageParam: (lastPage) => {
+        const currentPage = lastPage?.data?.page ?? 0;
+        const totalPages = lastPage?.data?.totalPages ?? 0;
+        if (currentPage < totalPages) {
+          return currentPage + 1;
+        }
+        return null;
+      },
+      keepPreviousData: true,
+    });
+
   let content;
-    switch (activeIcon) {
+
       case ICON_TYPES.REVIEW_RATING:
         content = <ReviewContainer novelId={novelId} onClose={onClose} />;
         break;
@@ -36,8 +68,6 @@ export default function SlideComponent({
         content = <CommentsContainer novelId={novelId} title={title} />;
         break;
     }
-  
-
   return (
     <div
       className={`${style.container} ${
