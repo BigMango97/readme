@@ -25,7 +25,7 @@ export default function MenuSlide(props: Props) {
     if (cookies.uuid) {
       setLoginCheck(true);
       const getPoint = async () => {
-        const pointRes = await axios.get(`/payments-service/v1/user/getPoint`);
+        const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
         setUserPoint(Number(pointRes.data.data.point));
       };
       getPoint();

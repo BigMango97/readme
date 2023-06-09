@@ -36,9 +36,7 @@ export default function EpisodeInfo(props: {
         );
         //구매 x -> 에피소드구매
         if (response.data.data.result === false) {
-          const pointRes = await axios.get(
-            `/payments-service/v1/user/getPoint`
-          );
+          const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
 
           //포인트 부족
           if (pointRes.data.data.point < 100) {
