@@ -16,8 +16,8 @@ export default function Login() {
   const kakaoLogin = () => {
     if (!window.Kakao.isInitialized()) return;
     window.Kakao.Auth.authorize({
-      redirectUri: `https://readme.life/kakao`,
-      //redirectUri: `http://localhost:3000/kakao`,
+      //redirectUri: `https://readme.life/kakao`,
+      redirectUri: `http://localhost:3000/kakao`,
     });
   };
   return (
