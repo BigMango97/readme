@@ -15,6 +15,7 @@ export default function NovelUpload(props: {
 //     const reader = new FileReader();
 //     reader.addEventListener("load", () => callback(reader.result as string));
 //     reader.readAsDataURL(img);
+    
 
     const formData = new FormData();
     formData.append("multipartFile", img);
