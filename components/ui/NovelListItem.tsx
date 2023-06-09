@@ -105,7 +105,7 @@ export default function NovelListItem({
         </div>
       </div>
       <div className={style.right}>
-        {router.pathname === "/library" && (
+        {/* {router.pathname === "/library" && (
           <Image
             src={"/assets/images/icons/close.svg"}
             alt="close Icon"
@@ -117,7 +117,7 @@ export default function NovelListItem({
                 : deleteLikeHandle(novelData.novelId)
             }
           />
-        )}
+        )} */}
 
         {router.asPath === "/library?id=1" && (
           <div className={style.allNovelContinue} onClick={movePage}>
