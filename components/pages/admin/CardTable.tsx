@@ -10,7 +10,7 @@ import {
   cardTableType,
   cardType,
 } from "@/types/admin/cardType";
-import CardModal from "@/components/ui/admin/CardModal";
+
 
 export default function CardTable(props: {
   cardData: cardListType;
