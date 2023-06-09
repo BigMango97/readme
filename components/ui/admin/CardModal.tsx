@@ -23,7 +23,6 @@ export default function CardModal(props: {
 
   //버튼 눌렀을 때
   const handleOk = () => {
-    console.log("novelIds", novelIds);
     axios
       .put(`/sections-service/v1/admin/schedules/novels/${scheduleId}`, {
         requestNovelIdList: novelIds,
@@ -33,14 +32,21 @@ export default function CardModal(props: {
       });
 
     setNovelIds([]);
+    setNovelIdArray([]);
+    setCardEditData([]);
+    setScheduleList({ scheduleList: [] });
+    setNovelList({ novelList: [] });
     props.setIsModalOpen(false);
   };
 
   //취소 버튼
   const handleCancel = () => {
-    props.setIsModalOpen(false);
     setNovelIds([]);
     setNovelIdArray([]);
+    setCardEditData([]);
+    setScheduleList({ scheduleList: [] });
+    setNovelList({ novelList: [] });
+    props.setIsModalOpen(false);
   };
 
   //스케줄 선택

@@ -41,10 +41,12 @@ export default function ScheduleModal(props: {
         endDate: end,
       });
     }
+    setScheduleData({ id: 0, name: "", startDate: dayjs(), endDate: dayjs() });
     props.setIsModalOpen(false);
   };
   //취소버튼
   const handleCancel = () => {
+    setScheduleData({ id: 0, name: "", startDate: dayjs(), endDate: dayjs() });
     props.setIsModalOpen(false);
   };
 
