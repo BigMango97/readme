@@ -16,3 +16,17 @@ export interface novelRankingDataType {
     changeRanking: number;
   };
 }
+
+export interface keywordRankingResultType{
+  searchDate: string, 
+  searchRankingData: keywordRankingDataType[]
+}
+
+
+export interface  keywordRankingDataType {
+  data: {
+    keyword: string,
+    ranking: number,
+    changeRanking: number
+  };
+}
