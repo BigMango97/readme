@@ -12,10 +12,9 @@ export default function NovelUpload(props: {
   setInputData: React.Dispatch<React.SetStateAction<novelInputType>>;
 }) {
   const getBase64 = async (img: RcFile, callback: (url: string) => void) => {
-//     const reader = new FileReader();
-//     reader.addEventListener("load", () => callback(reader.result as string));
-//     reader.readAsDataURL(img);
-    
+    const reader = new FileReader();
+    reader.addEventListener("load", () => callback(reader.result as string));
+    reader.readAsDataURL(img);
 
     const formData = new FormData();
     formData.append("multipartFile", img);
