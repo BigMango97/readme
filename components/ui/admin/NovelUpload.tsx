@@ -5,6 +5,7 @@ import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { novelInputType } from "@/types/admin/novelType";
 import axios from "axios";
+import Config from "@/configs/config.export";
 
 export default function NovelUpload(props: {
   inputData: novelInputType;
@@ -17,10 +18,11 @@ export default function NovelUpload(props: {
 
     const formData = new FormData();
     formData.append("multipartFile", img);
+    const baseUrl = Config().baseUrl;
     try {
       //
       const imageRes = await axios.post(
-        `http://43.200.189.164:8000/novels-service/s3/file`,
+        `${baseUrl}/novels-service/s3/file`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
