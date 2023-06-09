@@ -21,8 +21,8 @@ export default function NovelUpload(props: {
     const baseUrl = Config().baseUrl;
     try {
       //
-      const imageRes = await axios.post(
-        `${baseUrl}/novels-service/s3/file`,
+      const imageRes = await axios.put(
+        `https://api.readme.life/novels-service/s3/file`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
