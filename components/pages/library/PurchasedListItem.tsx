@@ -51,7 +51,7 @@ export default function PurchasedListItem({
             </div>
           </div>
         </div>
-        <div className={style.right}>
+        {/* <div className={style.right}>
           <Image
             src={"/assets/images/icons/close.svg"}
             alt="close Icon"
@@ -59,7 +59,7 @@ export default function PurchasedListItem({
             height={20}
             onClick={() => deletePurchasedHandle(purchasedData.novelId)}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

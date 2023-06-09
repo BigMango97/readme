@@ -5,6 +5,7 @@ import { useState } from "react";
 import SlideWebViewList from "../ui/SlideWebViewList";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import axios from "@/configs/axiosConfig";
 type Props = {
   onClose: () => void;
 };
@@ -23,8 +24,11 @@ export default function MenuSlide(props: Props) {
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
-      const point = sessionStorage.getItem("point") || 0;
-      setUserPoint(Number(point));
+      const getPoint = async () => {
+        const pointRes = await axios.get(`/payments-service/v1/user/getPoint`);
+        setUserPoint(Number(pointRes.data.data.point));
+      };
+      getPoint();
     }
   }, [cookies.uuid]);
 

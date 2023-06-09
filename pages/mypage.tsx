@@ -21,7 +21,7 @@ export default function Mypage() {
   return (
     <>
       {loginCheck ? (
-        menuId === 3 ? (
+        menuId === 1 ? (
           <PointPurchased setMenuId={setMenuId} />
         ) : (
           <>

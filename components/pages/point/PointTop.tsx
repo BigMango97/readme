@@ -3,6 +3,7 @@ import style from "@/components/pages/point/PointTop.module.css";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function PointTop() {
   const router = useRouter();
@@ -10,9 +11,11 @@ export default function PointTop() {
     router.back();
   };
   let point = 0;
-  sessionStorage.getItem("point")
-    ? (point = Number(sessionStorage.getItem("point")))
-    : (point = 0);
+  const getPoint = async () => {
+    const pointRes = await axios.get(`/payments-service/v1/user/getPoint`);
+    point = Number(pointRes.data.data.point);
+  };
+  getPoint();
 
   const notServiceHandle = () => {
     Swal.fire("지원하지 않는 서비스 입니다.");

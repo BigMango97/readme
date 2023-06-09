@@ -46,6 +46,11 @@ export default function ViewerBottom({
   const [situation, setSituation] = useState<"결제" | "부족">("부족");
   const [color, setColor] = useState<string>("");
   const [epiId, setEpiId] = useState<number>(0);
+  const getPoint = async () => {
+    const pointRes = await axios.get(`/payments-service/v1/user/getPoint`);
+    //setUserPoint(Number(pointRes.data.data.point));
+  };
+  getPoint();
   const handleIconClick = (title: any) => {
     if (title === "reviewRating" && !isLoggedIn) {
       sessionStorage.setItem("link", router.asPath);
