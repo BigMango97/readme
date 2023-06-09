@@ -18,10 +18,10 @@ export default function NovelUpload(props: {
 
     const formData = new FormData();
     formData.append("multipartFile", img);
-    const baseUrl = Config().baseUrl;
+    //const baseUrl = Config().baseUrl;
     try {
       //
-      const imageRes = await axios.get(
+      const imageRes = await axios.put(
         `https://api.readme.life/novels-service/s3/file`,
         formData,
         {
