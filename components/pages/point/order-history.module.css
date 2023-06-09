@@ -85,3 +85,11 @@
 .purple{
     color: var(--readme-primary);
   }
+.loader{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import axios from "@/configs/axiosConfig";
 import { useRouter } from "next/router";
 import { recentReadType } from "@/types/user/libraryType";
+import dayjs from "dayjs";
 
 export default function EpisodeCard(props: {
   id: number;
@@ -17,14 +18,11 @@ export default function EpisodeCard(props: {
 }) {
   const router = useRouter();
   const { novelId } = router.query;
-  const [readCheck, setReadCheck] = useState<recentReadType>();
+  const [readData, setReadData] = useState<recentReadType[]>();
   const getData = async () => {
     const res = await axios.get(`/novels-service/v1/history/novel/${novelId}`);
-    const check = res.data.data.find(
-      (item: recentReadType) => item.episodeId === props.id
-    );
-    console.log(res);
-    setReadCheck(check);
+
+    setReadData(res.data.data);
   };
   useEffect(() => {
     getData();
@@ -38,7 +36,9 @@ export default function EpisodeCard(props: {
             <div className={style.episodeCardTitleNew}>
               <div
                 className={
-                  readCheck ? style.episodeTitle : style.episodeTitleActive
+                  readData?.find((item) => item.episodeId === props.id)
+                    ? style.episodeTitleRead
+                    : style.episodeTitleNotRead
                 }
               >
                 {props.name}

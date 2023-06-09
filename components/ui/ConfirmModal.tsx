@@ -38,10 +38,14 @@ export default function ConfirmModal(props: {
   const movePage = () => {
     if (props.situation === "결제") {
       paymentHandle();
+      props.setIsModalOpen(false);
       router.push(`/viewer/${props.epiId}`);
     }
     //부족
-    else router.push(`/pointCharge`);
+    else {
+      sessionStorage.setItem("/link", router.asPath);
+      router.push(`/pointCharge`);
+    }
   };
   return (
     <div className={style.container}>

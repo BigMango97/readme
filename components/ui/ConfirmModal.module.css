@@ -13,8 +13,8 @@
   transform: translate(-50%, -50%);
 }
 .confirmTotalContainer {
-  width: 80%;
-  height: 20%;
+  width: 312px;
+  height: 170px;
   background-color: var(--readme-white);
   border-radius: 10px;
 }
