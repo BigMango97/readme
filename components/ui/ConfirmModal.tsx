@@ -43,7 +43,7 @@ export default function ConfirmModal(props: {
     }
     //부족
     else {
-      sessionStorage.setItem("/link", router.asPath);
+      sessionStorage.setItem("link", router.asPath);
       router.push(`/pointCharge`);
     }
   };
