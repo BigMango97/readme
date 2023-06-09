@@ -64,6 +64,7 @@ export default function NovelCardItem({
             alt={"thumbnailImg"}
             width={500}
             height={500}
+            priority
           />
         </div>
         {newChecking && (

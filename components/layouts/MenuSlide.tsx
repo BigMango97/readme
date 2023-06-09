@@ -1,19 +1,14 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import style from "@/components/layouts/MenuSlide.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import SlideWebViewList from "../ui/SlideWebViewList";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
-type Props = {
-  onClose: () => void;
-};
-export default function MenuSlide(props: Props) {
-  const [isOpen, setIsOpen] = useState(true);
-  const handleClose = () => {
-    setIsOpen(false);
-    props.onClose();
-  };
+
+export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>}) {
+  const { isOpen, setIsOpen } = props;
+  
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
   const [cookies] = useCookies(["uuid"]);
@@ -47,63 +42,61 @@ export default function MenuSlide(props: Props) {
 
   return (
     <>
-      {isOpen && (
-        <div className={style.container}>
-          <div className={style.blackContainer} onClick={handleClose}></div>
-          <div className={style.menuList}>
-            <div className={style.menuListHeader} onClick={handleClose}>
-              <Image
-                src="/assets/images/icons/close.svg"
-                alt="logo"
-                width={50}
-                height={50}
-                priority
-              />
-            </div>
-            {loginCheck ? (
-              <div className={style.menuListInfo}>
-                <div className={style.mainInfoTitle}>
-                  <p className={style.mainWelcomeTitle}>Welcome !</p>
-                  <p className={style.subInfoTitle}>
-                    ReadMe에 오신것을 <br />
-                    환영합니다!
-                  </p>
-                  <div className={style.pointContainer}>
-                    <p>잔여 포인트 : {userPoint.toLocaleString("en")}P</p>
-                    <div
-                      className={style.pointBtn}
-                      onClick={() => router.push("/pointCharge")}
-                    >
-                      +충전
-                    </div>
-                  </div>
-                </div>
-                <SlideWebViewList />
-              </div>
-            ) : (
-              <div className={style.menuListInfo}>
-                <div className={style.mainTitle}>
-                  <p>
-                    다양한 서비스를
-                    <br /> 이용하고 싶으시다면
-                    <br /> 로그인을 해주세요
-                  </p>
-                  <div className={style.kakaoLoginBtn}>
-                    <Image
-                      src="/assets/images/kakaoLogin.png"
-                      alt="kakaologin"
-                      width={250}
-                      height={50}
-                      onClick={kakaoLogin}
-                    />
-                  </div>
-                </div>
-                <SlideWebViewList />
-              </div>
-            )}
+      <div className={isOpen ? style.blackContainer : `${style.blackContainer} ${style.blackContainerClose}`} ></div>
+      <div className={isOpen ? style.container : `${style.container} ${style.containerClose}`}>
+        <div className={style.menuList}>
+          <div className={style.menuListHeader} onClick={()=>setIsOpen(false)}>
+            <Image
+              src="/assets/images/icons/close.svg"
+              alt="logo"
+              width={50}
+              height={50}
+              priority
+            />
           </div>
+          {loginCheck ? (
+            <div className={style.menuListInfo}>
+              <div className={style.mainInfoTitle}>
+                <p className={style.mainWelcomeTitle}>Welcome !</p>
+                <p className={style.subInfoTitle}>
+                  ReadMe에 오신것을 <br />
+                  환영합니다!
+                </p>
+                <div className={style.pointContainer}>
+                  <p>잔여 포인트 : {userPoint.toLocaleString("en")}P</p>
+                  <div
+                    className={style.pointBtn}
+                    onClick={() => router.push("/pointCharge")}
+                  >
+                    +충전
+                  </div>
+                </div>
+              </div>
+              <SlideWebViewList />
+            </div>
+          ) : (
+            <div className={style.menuListInfo}>
+              <div className={style.mainTitle}>
+                <p>
+                  다양한 서비스를
+                  <br /> 이용하고 싶으시다면
+                  <br /> 로그인을 해주세요
+                </p>
+                <div className={style.kakaoLoginBtn}>
+                  <Image
+                    src="/assets/images/kakao_login_large_wide.png"
+                    alt="kakaologin"
+                    width={400}
+                    height={80}
+                    onClick={kakaoLogin}
+                  />
+                </div>
+              </div>
+              <SlideWebViewList />
+            </div>
+          )}
         </div>
-      )}
+      </div> 
     </>
   );
 }

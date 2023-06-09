@@ -4,15 +4,8 @@ import style from "@/components/layouts/Header.module.css";
 import MenuSlide from "@/components/layouts/MenuSlide";
 import { useState } from "react";
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = (event: any) => {
-    event.stopPropagation();
-    setIsOpen(!isOpen);
-  };
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  
   return (
     <header className={style.mainHeader}>
       <div className={style.logo}>
@@ -25,17 +18,16 @@ export default function Header() {
           priority
         />
       </div>
-      <div className={style.mobileMenu}>
+      <div className={style.mobileMenu} onClick={()=>setIsOpen(true)}>
         <Image
           src="/assets/images/icons/menu-white.svg"
           alt="menuIcon"
           width={72}
           height={72}
           priority
-          onClick={toggleMenu}
         />
       </div>
-      {isOpen && <MenuSlide onClose={handleClose} />}
+      <MenuSlide isOpen={isOpen} setIsOpen={setIsOpen} />
     </header>
   );
 }
