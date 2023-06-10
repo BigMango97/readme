@@ -24,9 +24,7 @@ export interface keywordRankingResultType{
 
 
 export interface  keywordRankingDataType {
-  data: {
     keyword: string,
     ranking: number,
     changeRanking: number
-  };
 }
