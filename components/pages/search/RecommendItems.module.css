@@ -25,6 +25,14 @@
   font-size: 0.875rem;
   margin: 0.5rem 0rem;
 }
+.recommendItem{
+  width: 50%;
+}
+.recommendList{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
 .recommendKeywordRanking{
   font-size: 1.1rem;
   font-weight: 700;
@@ -36,4 +44,11 @@
 .recommendKeywordTitle{
   margin-left: 0.5rem;
   font-size: 0.9rem;
+  color:var(--readme-black)
+}
+.recommendNew{
+    color: var(--readme-secondary);
+    font-size: 0.4rem;
+    font-style: italic;
+    margin-left: 0.5rem;
 }

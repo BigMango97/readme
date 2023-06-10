@@ -1,7 +1,6 @@
 .continer {
-  margin: 1rem;
+  margin: 0 1rem;
   white-space: nowrap; 
-  overflow-x: scroll; 
 }
 .recentSearchNotKeyword {
   display: flex;
@@ -42,4 +41,10 @@
   white-space: nowrap;
   overflow: hidden;
   width: fit-content;
+}
+.closebtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
 }
