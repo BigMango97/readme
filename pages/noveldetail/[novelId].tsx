@@ -25,6 +25,7 @@ export default function NovelDetail() {
     }
   );
   const novelbyIdDataResult = data?.data;
+
   return (
     <>
       {novelbyIdDataResult && (
@@ -48,9 +49,14 @@ export default function NovelDetail() {
             description={novelbyIdDataResult.description}
             authorComment={novelbyIdDataResult.authorComment}
           />
+          <DetailFooter
+            title={novelbyIdDataResult.title}
+            description={novelbyIdDataResult.description}
+            thumbnail={novelbyIdDataResult.thumbnail}
+          />
+
         </>
       )}
-      <DetailFooter />
     </>
   );
 }
