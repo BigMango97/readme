@@ -57,6 +57,8 @@ export default function NovelDatailHeader(props: {
             {props.serializationDays}
           </p>
         </div>
+        <div className={style.leftmenu}>
+        </div>
       </div>
     </header>
   );

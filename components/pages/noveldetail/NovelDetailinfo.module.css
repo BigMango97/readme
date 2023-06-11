@@ -4,12 +4,22 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 5rem;
+  margin-top: 1rem;
   position: relative;
+  animation: slide-big 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes slide-big {
+  0% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 .novelMainImageInfo {
   margin-top: 30px;
-  border-radius: 10px;
+  border-radius: 0 0 1rem 1rem;
   width: 100%;
   height: 560px;
 }
