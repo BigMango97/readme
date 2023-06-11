@@ -13,7 +13,6 @@ export default function PurchasedListItem({
   const router = useRouter();
   const dateArray = purchasedData.purchasedDate.slice(0, 3);
   const dateString = dateArray.toString().replaceAll(",", "-");
-  console.log(dateString);
 
   const deletePurchasedHandle = async (recentId: number) => {
     // const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
