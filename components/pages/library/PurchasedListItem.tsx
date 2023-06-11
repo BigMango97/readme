@@ -17,7 +17,6 @@ export default function PurchasedListItem({
 
   const deletePurchasedHandle = async (recentId: number) => {
     // const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
-    // console.log(res.data);
   };
 
   return (

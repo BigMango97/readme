@@ -30,7 +30,6 @@ export default function NovelDetail() {
     if (!router.isReady) return;
     else {
       axios.get(`/novels-service/v1/admin/novels/${novelId}`).then((res) => {
-        console.log("res.data = ", res.data);
         setNovelData({
           id: res.data.data.id,
           title: res.data.data.title,

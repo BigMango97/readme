@@ -24,10 +24,8 @@ export default function Kakao() {
           sessionStorage.setItem("profileImg", res.data.data.profileImg);
           sessionStorage.setItem("age", res.data.data.age_range);
 
-          console.log("headers = ", res.headers);
-          // console.log("res = ", res);
-          // console.log("res.data = ", res.data);
-          // console.log("accesssToken = ", res.headers.accesstoken);
+          //console.log("headers = ", res.headers);
+
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
             // expires: res.headers.expires,

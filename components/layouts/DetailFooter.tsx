@@ -34,7 +34,6 @@ export default function DetailFooter() {
       const res = axios.post(`/utils-service/v1/pick`, {
         novelsId: `${novelId}`,
       });
-      console.log(res);
     } else {
       sessionStorage.setItem("link", router.asPath);
       router.push("/login");

@@ -20,15 +20,7 @@ export default function PurchasedBooks() {
         );
         const replaceStr = res.data.replace("event:PurchasedInfoResult", "");
         const data = JSON.parse(replaceStr.replace("data:", ""));
-        console.log(data);
-        // const res2 = await Promise.all(
-        //   data.map(async (item: purchasedNovelType) => {
-        //     const res3 = await axios.get(
-        //       `/sections-service/v1/cards/novels/${item.novelId}`
-        //     );
-        //     return res3.data.data;
-        //   })
-        // );
+
         setPurchasedData(data);
       } catch (err) {
         console.log("Error >>", err);
@@ -36,7 +28,7 @@ export default function PurchasedBooks() {
     };
     getData();
   }, []);
-  console.log(purchasedData);
+
   return (
     <>
       <NovelCardList

@@ -27,9 +27,6 @@ export default function NovelCardList({
   if (currentTap === "2") info = "좋아요 한 소설이 없습니다";
   if (currentTap === "3") info = "구매한 소설이 없습니다";
 
-  console.log("novelData ", novelData);
-  console.log("purchasedData ", purchasedData);
-  console.log("info ", info);
   return (
     <>
       <div className={style.container}>

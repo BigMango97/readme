@@ -40,14 +40,12 @@ export default function NovelListItem({
 
   const deleteRecentHandle = async (recentId: number) => {
     const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
-    console.log(res.data);
   };
 
   const deleteLikeHandle = async (novelId: number) => {
     const res = await axios.post(`/utils-service/v1/pick`, {
       novelsId: `${novelId}`,
     });
-    console.log(res.data);
   };
 
   return (
