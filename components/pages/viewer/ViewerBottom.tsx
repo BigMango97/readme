@@ -39,6 +39,7 @@ export default function ViewerBottom({
   const [activeIcon, setActiveIcon] = useState<
     "reviewRating" | "comment" | "beforenovel" | "nextnovel" | null
   >(null);
+  const [slideOpen, setSlideOpen] = useState<boolean>(false);
   const [cookies] = useCookies(["uuid"]);
   const episodeId = router.query.episodeId;
   const isLoggedIn = !!cookies.uuid;
@@ -56,6 +57,7 @@ export default function ViewerBottom({
   }, [epiId]);
 
   const handleIconClick = (title: any) => {
+    setSlideOpen(true);
     if (title === "reviewRating" && !isLoggedIn) {
       sessionStorage.setItem("link", router.asPath);
       router.push("/login");
@@ -125,6 +127,7 @@ export default function ViewerBottom({
     }
   };
   const closeSlide = () => {
+    setSlideOpen(false);
     setActiveIcon(null);
   };
 
@@ -155,14 +158,14 @@ export default function ViewerBottom({
 
   return (
     <>
-      {isModalOpen ? (
+      {isModalOpen && 
         <ConfirmModal
           color={color}
           epiId={epiId}
           situation={situation}
           setIsModalOpen={setIsModalOpen}
         />
-      ) : (
+        }
         <div className={style.container}>
           <ReadingProgressGraph />
           <div className={style.menuCategory}>
@@ -186,16 +189,16 @@ export default function ViewerBottom({
               </div>
             ))}
           </div>
-          {(activeIcon === "reviewRating" || activeIcon === "comment") && (
+          
             <SlideComponent
               onClose={closeSlide}
+              slideOpen={slideOpen}
+              setSlideOpen={setSlideOpen}
               activeIcon={activeIcon}
               novelId={novelId}
               title={title}
             />
-          )}
         </div>
-      )}
-    </>
+        </>
   );
 }
