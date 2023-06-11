@@ -2,16 +2,12 @@ import { useRouter } from "next/router";
 import style from "@/components/ui/Login.module.css";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import useKakaoInit from "@/hooks/useKakaoInit";
 
 export default function Login() {
   const router = useRouter();
-  useEffect(() => {
-    const key = "0348a267c9ce5b29131c78ad1384a83e";
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(key);
-      console.log(window.Kakao.isInitialized());
-    }
-  }, []);
+
+  useKakaoInit();
 
   const kakaoLogin = () => {
     if (!window.Kakao.isInitialized()) return;

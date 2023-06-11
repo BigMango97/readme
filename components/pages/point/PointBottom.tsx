@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/components/pages/point/PointBottom.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { listAmountData } from "@/data/amountData";
@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 
 export default function PointBottom() {
   const [cookies] = useCookies(["uuid"]);
+  const [point, setPoint] = useRecoilState(payState);
   const clickMoney = () => {
     axios
       .post(`/payments-service/v1/payments/ready`, {
@@ -22,11 +23,25 @@ export default function PointBottom() {
           "partnerOrderId",
           res.data.data.partner_order_id
         );
-        window.open(res.data.data.next_redirect_pc_url);
+        //console.log(res.data);
+        const mobileCheck = isMobile();
+        //console.log(mobileCheck);
+        if (mobileCheck) {
+          window.open(res.data.data.next_redirect_mobile_url);
+        } else window.open(res.data.data.next_redirect_pc_url);
       });
   };
 
-  const [point, setPoint] = useRecoilState(payState);
+  const isMobile = () => {
+    const user = navigator.userAgent;
+    let isCheck = false;
+
+    if (user.indexOf("iPhone") > -1 || user.indexOf("Android") > -1) {
+      isCheck = true;
+    }
+
+    return isCheck;
+  };
 
   return (
     <>
