@@ -10,7 +10,6 @@ export default function Document() {
           crossOrigin="anonymous"
           async
         />
-         <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
