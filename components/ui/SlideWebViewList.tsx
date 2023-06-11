@@ -10,7 +10,7 @@ export default function SlideWebViewList() {
         <Link href={"/novel?category=판타지&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_hj.jpg"
               alt="kakaologin"
               width={75}
               height={75}
@@ -23,7 +23,7 @@ export default function SlideWebViewList() {
         <Link href={"novel?category=현판&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_jy.jpg"
               alt="kakaologin"
               width={75}
               height={75}
@@ -36,7 +36,7 @@ export default function SlideWebViewList() {
         <Link href={"/novel?category=로맨스&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_mk.jpg"
               alt="kakaologin"
               width={75}
               height={75}
@@ -51,7 +51,7 @@ export default function SlideWebViewList() {
         <Link href={"/novel?category=로판&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_sh.jpg"
               alt="kakaologin"
               width={75}
               height={75}
@@ -64,7 +64,7 @@ export default function SlideWebViewList() {
         <Link href={"novel?category=무협&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_ym.jpg"
               alt="kakaologin"
               width={75}
               height={75}
@@ -77,7 +77,7 @@ export default function SlideWebViewList() {
         <Link href={"/novel?category=드라마&subCategory=신작&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
-              src="/assets/images/dummy/mybooks01.jpg"
+              src="/assets/images/novelImg_ym2.jpg"
               alt="kakaologin"
               width={75}
               height={75}

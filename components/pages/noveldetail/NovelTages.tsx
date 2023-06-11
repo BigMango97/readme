@@ -5,8 +5,8 @@ import { allDetailTag } from "@/types/model/mainDataType";
 export default function NovelTages(props: { tags: allDetailTag[] }) {
   return (
     <div className={style.novelTagContainer}>
-      {props.tags.map((tag) => (
-        <div key={tag.id}>
+      {props.tags.map((tag, index) => (
+        <div key={index}>
           <TagUi title={tag.name} />
         </div>
       ))}

@@ -26,15 +26,15 @@ export default function StarRating({ clicked, onStarClick }: RatingProps) {
       </div>
       <div className={style.ratingText}>
         {rating === 5
-          ? "5"
+          ? "5.0"
           : rating === 4
-          ? "4"
+          ? "4.0"
           : rating === 3
-          ? "3"
+          ? "3.0"
           : rating === 2
-          ? "2"
+          ? "2.0"
           : rating === 1
-          ? "1"
+          ? "1.0"
           : "0"}
       </div>
     </div>

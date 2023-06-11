@@ -27,11 +27,10 @@ export default function MainEvent({ data, eventImage }: MainBestItemProps) {
           <div className={style.cardContainerInfo}>
             <h2>Event</h2>
             <div className={style.cardContainerEventTitle}>
-              가슴이 웅장해지는
-              <br /> <strong>따끈따끈한</strong> 무료 소설
+              <strong>따끈따끈한</strong> 무료 소설
             </div>
             <p>
-              {data?.author} | {data?.serializationStatus}| {data?.genre}
+              {data?.author} | {data?.serializationStatus} | {data?.genre}
             </p>
             <div className={style.cardContainerTitle}>{data?.title}</div>
           </div>
