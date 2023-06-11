@@ -3,20 +3,19 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  bottom: 0;
   left: 0;
-  right: 0;
   height: fit-content;
   max-height: 700px;
   min-height: 200px;
   color: black;
-  transition: transform 0.5s ease-out;
   padding: 2rem 1rem 1rem 1rem;
   background-color:  rgb(243, 242, 242);
   border-top: 0.5px solid var(--readme-darkgray);
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;  
   width: 100%;
+  z-index: 100;
+
 }
 .closeBtn {
   width: 3rem;
@@ -24,11 +23,13 @@
   border-radius: 1rem;
   background-color: var(--readme-modal-color);
 }
-.container.shown {
-  transform: translateY(0);
+.shown {
+  transition: all 0.5s ease-in;
+  bottom: 0;
 }
-.container.hidden {
-  transform: translateY(100%);
+.hidden {
+  transition: all 0.5s ease-out;
+  bottom: -100%;
 }
 .content{
   height: fit-content;
@@ -36,4 +37,13 @@
   overflow-y: auto;
   width: 100%;
   margin-top: 1.5rem;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

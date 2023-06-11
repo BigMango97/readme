@@ -7,7 +7,7 @@
     bottom:0;
     background-color: var(--readme-white);
 }
-.novelBuyBtn{
+.novelBuyBtn,.novelShareBtn{
     width: 3.5rem;
     height: 3.5rem;
     border: 3px solid var(--readme-gray-dark);
@@ -27,7 +27,7 @@
     margin-right: 1rem;
 }
 .novelReadBtn{
-    width: 70%;
+    width: 60%;
     height: 3.5rem;
     display: flex;
     background-color: var(--readme-primary);

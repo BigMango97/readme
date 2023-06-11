@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import ReviewContainer from "../pages/viewer/StarRatingContainer";
 import CommentsContainer from "../pages/viewer/CommentsContainer";
 import style from "@/components/ui/SlideComponent.module.css";
@@ -15,6 +15,8 @@ interface SlideComponentProps {
   activeIcon?: ActiveIconType;
   novelId: number;
   title: string;
+  slideOpen: boolean;
+  setSlideOpen: Dispatch<SetStateAction<boolean>>;
 }
 const ICON_TYPES = {
   REVIEW_RATING: "reviewRating",
@@ -27,6 +29,8 @@ export default function SlideComponent({
   activeIcon,
   novelId,
   title,
+  slideOpen,
+  setSlideOpen
 }: SlideComponentProps): JSX.Element {
   let content;
   switch (activeIcon) {
@@ -39,11 +43,9 @@ export default function SlideComponent({
     }
   return (
     <div
-      className={`${style.container} ${
-        activeIcon !== null ? style.shown : style.hidden
-      }`}
+      className={ slideOpen ? `${style.container} ${style.shown}` : `${style.container} ${style.hidden}`}
     >
-      <div className={style.closeBtn} onClick={onClose} />
+      <div className={style.closeBtn} onClick={()=>setSlideOpen(false)} />
       <div className={style.content}>{content}</div>
     </div>
   );

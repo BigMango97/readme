@@ -4,7 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import axios from "@/configs/axiosConfig";
-export default function DetailFooter() {
+
+interface Props{
+  title:string,
+  description:string,
+  thumbnail:string,
+}
+export default function DetailFooter({title,description,thumbnail}:Props) {
   const [clickLike, setClickLike] = useState<boolean>(false);
   const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
@@ -40,6 +46,26 @@ export default function DetailFooter() {
     }
   };
 
+  useEffect(() => {
+    // Kakao SDK 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    }
+}, []);
+const shareToKakao = () => {
+  window.Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+          title: title,
+          description: description,
+          imageUrl: thumbnail,
+          link: {
+              mobileWebUrl: `https://readme.life/noveldetail/${novelId}`,
+              webUrl: `https://readme.life/noveldetail/${novelId}`
+          }
+      }
+  });
+};
   return (
     <div className={style.detailFooter}>
       <div className={style.novelBuyBtn}>
@@ -56,6 +82,14 @@ export default function DetailFooter() {
           onClick={likeBtnHandle}
         />
       </div>
+      <div className={style.novelShareBtn} onClick={shareToKakao}>
+            <Image
+                alt="share btn"
+                width={20}
+                height={20}
+                src="/assets/images/icons/share.svg"
+            />
+        </div>
       <div className={style.novelReadBtn}>
         <Image
           src="/assets/images/icons/bookwhite.svg"
