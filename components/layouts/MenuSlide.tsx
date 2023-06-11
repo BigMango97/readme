@@ -7,6 +7,8 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
 
+import useKakaoInit from "@/hooks/useKakaoInit";
+
 
 export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>}) {
   const { isOpen, setIsOpen } = props;
@@ -22,6 +24,7 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
   //   setIsOpen(false);
   //   props.onClose();
   // };
+
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
@@ -40,13 +43,7 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
     }
   }, [cookies.uuid]);
 
-  useEffect(() => {
-    const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(jsKey);
-      console.log(window.Kakao.isInitialized());
-    }
-  }, []);
+  useKakaoInit();
 
   const kakaoLogin = () => {
     sessionStorage.setItem("link", "/");
