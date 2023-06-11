@@ -6,6 +6,7 @@ import SlideWebViewList from "../ui/SlideWebViewList";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
+import useKakaoInit from "@/hooks/useKakaoInit";
 type Props = {
   onClose: () => void;
 };
@@ -32,13 +33,7 @@ export default function MenuSlide(props: Props) {
     }
   }, [cookies.uuid]);
 
-  useEffect(() => {
-    const jsKey = "cd2447cf90f5929ed98bc599d51f323d";
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(jsKey);
-      console.log(window.Kakao.isInitialized());
-    }
-  }, []);
+  useKakaoInit();
 
   const kakaoLogin = () => {
     sessionStorage.setItem("link", "/");
