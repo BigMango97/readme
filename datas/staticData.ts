@@ -84,7 +84,7 @@ export const subStatusMenu = [
 
 export const mypageMenu = [
   { id: 1, title: "포인트 충전 목록" },
-  { id: 2, title: "환경설정" }
+  { id: 2, title: "이용약관" }
 ]
 
 export const mybookMenu = [

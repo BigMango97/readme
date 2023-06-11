@@ -47,17 +47,15 @@ export default function PointPurchased(props: {
           <div className={style.chargeInfo} key={idx}>
             <div className={style.textBox}>
               <p>충전 일자 </p>
-              <p className={style.boldText}>{item.date.replace("T", " ")}</p>
+              <p>{item.date.replace("T", " ")}</p>
             </div>
             <div className={style.textBox}>
               <p>충전 금액</p>
-              <p className={style.boldText}>
-                {item.price.toLocaleString("en")}
-              </p>
+              <p>{item.price.toLocaleString("en")}</p>
             </div>
             <div className={style.textBox}>
               <p>충전 포인트</p>
-              <p className={`${style.boldText} ${style.greenText}`}>
+              <p className={style.greenText}>
                 P{item.price.toLocaleString("en")}
               </p>
             </div>
