@@ -17,52 +17,64 @@ export default function CardModal(props: {
   const [novelList, setNovelList] = useState<novelListType>();
 
   const [scheduleId, setScheduleId] = useState<number>(props.id);
-  const [novelIds, setNovelIds] = useState<novelIdType[]>([]);
-  const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
+  const [selectIds, setSelectIds] = useState<number[]>([]);
+
   const [cardEditData, setCardEditData] = useState<novelType[]>([]);
-  //const [deleteIds, setDeleteIds] = useState<novelIdType[]>([]);
-  const [originIds, setOriginIds] = useState<novelIdType[]>([]);
+  //원래의 아이디 값들
+  const [originIds, setOriginIds] = useState<number[]>([]);
+  //select 에 띄우기 위한 용
+  const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
 
   //버튼 눌렀을 때
   const handleOk = async () => {
     const putHandle = async () => {
-      console.log("novelIds", novelIds);
+      const idList: novelIdType[] = [];
+      selectIds.map((item) => {
+        idList.push({ novelId: Number(item) });
+      });
+      //console.log("novelIds", selectIds);
       const res = await axios.put(
         `/sections-service/v1/admin/schedules/novels/${scheduleId}`,
         {
-          requestNovelIdList: novelIds,
+          requestNovelIdList: idList,
         }
       );
 
-      console.log(res);
+      //console.log(res);
     };
 
     const deleteHandle = async () => {
       console.log("originIds", originIds);
-      console.log("novelIds", novelIds);
-      const deleteValues = originIds.filter((item) => !novelIds.includes(item));
+      console.log("novelIds", selectIds);
+      const deleteValues = originIds.filter(
+        (item) => !selectIds.includes(item)
+      );
       console.log("deleteValues", deleteValues);
+      const idList: novelIdType[] = [];
+      deleteValues.map((item) => {
+        idList.push({ novelId: Number(item) });
+      });
 
       const res = await axios.delete(
         `/sections-service/v1/admin/schedules/novels`,
         {
-          data: { requestNovelIdList: deleteValues },
+          data: { requestNovelIdList: idList },
         }
       );
-      console.log(res);
+      //console.log(res);
     };
 
     deleteHandle();
     putHandle();
 
-    setNovelIds([]);
+    setSelectIds([]);
 
     props.setIsModalOpen(false);
   };
 
   //취소 버튼
   const handleCancel = () => {
-    setNovelIds([]);
+    setSelectIds([]);
     props.setIsModalOpen(false);
   };
 
@@ -75,18 +87,9 @@ export default function CardModal(props: {
   //소설 선택
   const selectNovelHandle = (selectValues: string[]) => {
     console.log("selectValues", selectValues);
-    // const selectNumbers = selectValues.map((item) => Number(item));
-    // setSelectList(selectNumbers);
+    const selectNumbers = selectValues.map((item) => Number(item));
 
-    // selectValues.map((item) => {
-    //   console.log("item", item);
-    //   setNovelIds([{ novelId: Number(item) }]);
-    // });
-    const dataList: novelIdType[] = [];
-    selectValues.map((item) => {
-      dataList.push({ novelId: Number(item) });
-    });
-    setNovelIds(dataList);
+    setSelectIds(selectNumbers);
 
     setNovelIdArray(selectValues);
   };
@@ -117,15 +120,13 @@ export default function CardModal(props: {
 
   useEffect(() => {
     //수정 시의 아이디들을 담음
-    const dataList: novelIdType[] = [];
-    cardEditData.map((item) => {
-      dataList.push({ novelId: item.novelId });
-    });
 
-    setNovelIds(dataList);
-    setOriginIds(dataList);
+    const novelEditIds = cardEditData.map((item) => item.novelId);
 
-    // setNovelIds([{ novelId: Number(item.novelId) }]);
+    setSelectIds(novelEditIds);
+
+    setOriginIds(novelEditIds);
+
     const novelEditIdsString = cardEditData.map((item) =>
       item.novelId.toString()
     );
