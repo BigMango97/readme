@@ -27,7 +27,7 @@ export default function NovelListItem({
   const router = useRouter();
 
   const movePage = () => {
-    sessionStorage.setItem("link", router.asPath);
+    localStorage.setItem("link", router.asPath);
     router.push(`/viewer/${novelData.episodeId}`);
   };
   const handleNovelDetailClick = () => {

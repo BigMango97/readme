@@ -15,8 +15,8 @@ export default function OrderHistory() {
   const [payData, setPayData] = useState<pointPayType>();
 
   useEffect(() => {
-    const tid = sessionStorage.getItem("tid");
-    const partnerOrderId = sessionStorage.getItem("partnerOrderId");
+    const tid = localStorage.getItem("tid");
+    const partnerOrderId = localStorage.getItem("partnerOrderId");
     if (pg_token !== undefined) {
       const getOrderHistory = async () => {
         const res = await axios.post(`/payments-service/v1/payments/approve`, {
@@ -25,8 +25,8 @@ export default function OrderHistory() {
           uuid: cookies.uuid,
           pgToken: pg_token,
         });
-        sessionStorage.removeItem("tid");
-        sessionStorage.removeItem("partnerOrderId");
+        localStorage.removeItem("tid");
+        localStorage.removeItem("partnerOrderId");
 
         const replaceStr = res.data.replace("data:", "");
 
@@ -39,14 +39,14 @@ export default function OrderHistory() {
           point: data.point,
           chargeDate: data.chargeDate,
         });
-        sessionStorage.setItem("point", data.total);
+        localStorage.setItem("point", data.total);
       };
       getOrderHistory();
     }
   }, [pg_token]);
 
   const goBack = () => {
-    const link = sessionStorage.getItem("link") || "/";
+    const link = localStorage.getItem("link") || "/";
     router.push(link);
   };
 

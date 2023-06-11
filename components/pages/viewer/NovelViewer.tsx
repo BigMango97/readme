@@ -301,7 +301,7 @@ export default function NovelViewer(props: {
       const positionY = recentReadData?.readAt;
       window.scrollTo(0, positionY);
     };
-    const link = sessionStorage.getItem("link");
+    const link = localStorage.getItem("link");
     if (link === "/library?id=1") {
       readAtData();
     }

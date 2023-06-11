@@ -42,7 +42,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
         novelsId: `${novelId}`,
       });
     } else {
-      sessionStorage.setItem("link", router.asPath);
+      localStorage.setItem("link", router.asPath);
       router.push("/login");
     }
   };

@@ -59,7 +59,7 @@ export default function ViewerBottom({
   const handleIconClick = (title: any) => {
     setSlideOpen(true);
     if (title === "reviewRating" && !isLoggedIn) {
-      sessionStorage.setItem("link", router.asPath);
+      localStorage.setItem("link", router.asPath);
       router.push("/login");
     } else if (title === "beforenovel") {
       if (prevId === 0) {
@@ -158,47 +158,45 @@ export default function ViewerBottom({
 
   return (
     <>
-      {isModalOpen && 
+      {isModalOpen && (
         <ConfirmModal
           color={color}
           epiId={epiId}
           situation={situation}
           setIsModalOpen={setIsModalOpen}
         />
-        }
-        <div className={style.container}>
-          <ReadingProgressGraph />
-          <div className={style.menuCategory}>
-            {viewerBottomMenu.map((item) => (
-              <div
-                className={style.viewerBottomIcon}
-                key={item.id}
-                onClick={() => handleIconClick(item.title)}
-              >
-                <Image
-                  src={item.iconUrl}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                />{" "}
-                {item.title === "reviewRating" && (
-                  <div className={style.starRatingNumber}>
-                    {totalStarRating}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-            <SlideComponent
-              onClose={closeSlide}
-              slideOpen={slideOpen}
-              setSlideOpen={setSlideOpen}
-              activeIcon={activeIcon}
-              novelId={novelId}
-              title={title}
-            />
+      )}
+      <div className={style.container}>
+        <ReadingProgressGraph />
+        <div className={style.menuCategory}>
+          {viewerBottomMenu.map((item) => (
+            <div
+              className={style.viewerBottomIcon}
+              key={item.id}
+              onClick={() => handleIconClick(item.title)}
+            >
+              <Image
+                src={item.iconUrl}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+              />{" "}
+              {item.title === "reviewRating" && (
+                <div className={style.starRatingNumber}>{totalStarRating}</div>
+              )}
+            </div>
+          ))}
         </div>
-        </>
+
+        <SlideComponent
+          onClose={closeSlide}
+          slideOpen={slideOpen}
+          setSlideOpen={setSlideOpen}
+          activeIcon={activeIcon}
+          novelId={novelId}
+          title={title}
+        />
+      </div>
+    </>
   );
 }
