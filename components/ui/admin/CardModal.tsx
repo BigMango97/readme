@@ -17,55 +17,89 @@ export default function CardModal(props: {
   const [novelList, setNovelList] = useState<novelListType>();
 
   const [scheduleId, setScheduleId] = useState<number>(props.id);
-  const [novelIds, setNovelIds] = useState<novelIdType[]>([]);
-  const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
+  const [selectIds, setSelectIds] = useState<number[]>([]);
+
   const [cardEditData, setCardEditData] = useState<novelType[]>([]);
+  //원래의 아이디 값들
+  const [originIds, setOriginIds] = useState<number[]>([]);
+  //select 에 띄우기 위한 용
+  const [novelIdArray, setNovelIdArray] = useState<string[]>([]);
 
   //버튼 눌렀을 때
-  const handleOk = () => {
-    axios
-      .put(`/sections-service/v1/admin/schedules/novels/${scheduleId}`, {
-        requestNovelIdList: novelIds,
-      })
-      .then((res) => {
-        console.log(res);
+  const handleOk = async () => {
+    const putHandle = async () => {
+      const idList: novelIdType[] = [];
+      selectIds.map((item) => {
+        idList.push({ novelId: Number(item) });
+      });
+      //console.log("novelIds", selectIds);
+      const res = await axios.put(
+        `/sections-service/v1/admin/schedules/novels/${scheduleId}`,
+        {
+          requestNovelIdList: idList,
+        }
+      );
+
+      //console.log(res);
+    };
+
+    const deleteHandle = async () => {
+      console.log("originIds", originIds);
+      console.log("novelIds", selectIds);
+      const deleteValues = originIds.filter(
+        (item) => !selectIds.includes(item)
+      );
+      console.log("deleteValues", deleteValues);
+      const idList: novelIdType[] = [];
+      deleteValues.map((item) => {
+        idList.push({ novelId: Number(item) });
       });
 
-    setNovelIds([]);
-    setNovelIdArray([]);
-    setCardEditData([]);
-    setScheduleList({ scheduleList: [] });
-    setNovelList({ novelList: [] });
+      const res = await axios.delete(
+        `/sections-service/v1/admin/schedules/novels`,
+        {
+          data: { requestNovelIdList: idList },
+        }
+      );
+      //console.log(res);
+    };
+
+    deleteHandle();
+    putHandle();
+
+    setSelectIds([]);
+
     props.setIsModalOpen(false);
   };
 
   //취소 버튼
   const handleCancel = () => {
-    setNovelIds([]);
-    setNovelIdArray([]);
-    setCardEditData([]);
-    setScheduleList({ scheduleList: [] });
-    setNovelList({ novelList: [] });
+    setSelectIds([]);
     props.setIsModalOpen(false);
   };
 
   //스케줄 선택
   const selectScheduleHandle = (selectValue: string) => {
     setScheduleId(Number(selectValue));
+    getNovelData(Number(selectValue));
   };
 
   //소설 선택
   const selectNovelHandle = (selectValues: string[]) => {
     console.log("selectValues", selectValues);
-    selectValues.map((item) => {
-      setNovelIds([...novelIds, { novelId: Number(item) }]);
-    });
+    const selectNumbers = selectValues.map((item) => Number(item));
+
+    setSelectIds(selectNumbers);
 
     setNovelIdArray(selectValues);
   };
 
-  const novelOption: optionType[] = [];
-  const scheduleOption: optionType[] = [];
+  const getNovelData = async (novelId: number) => {
+    const res = await axios.get(
+      `/sections-service/v1/admin/schedules/novels/${novelId}`
+    );
+    setCardEditData(res.data.data.novelCardsBySchedules);
+  };
 
   useEffect(() => {
     axios.get(`/novels-service/v1/admin/novels`).then((res) => {
@@ -74,29 +108,39 @@ export default function CardModal(props: {
     axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
       setScheduleList({ scheduleList: res.data.data });
     });
-    //수정 시
-    if (props.id !== 0) {
-      axios
-        .get(`/sections-service/v1/admin/schedules/novels/${props.id}`)
-        .then((res) => {
-          setCardEditData(res.data.data.novelCardsBySchedules);
-        });
+    //등록 시
+    if (props.id === 0) {
+      setCardEditData([]);
+    } //수정 시
+    else {
+      getNovelData(props.id);
     }
     setScheduleId(props.id);
   }, [props.isModalOpen, props.id]);
 
   useEffect(() => {
-    cardEditData.map((item) => {
-      setNovelIds([...novelIds, { novelId: Number(item.novelId) }]);
-    });
-    const novelEditIds = cardEditData.map((item) => item.novelId.toString());
-    setNovelIdArray(novelEditIds);
+    //수정 시의 아이디들을 담음
+
+    const novelEditIds = cardEditData.map((item) => item.novelId);
+
+    setSelectIds(novelEditIds);
+
+    setOriginIds(novelEditIds);
+
+    const novelEditIdsString = cardEditData.map((item) =>
+      item.novelId.toString()
+    );
+
+    setNovelIdArray(novelEditIdsString);
   }, [cardEditData]);
 
   interface optionType {
     value: string;
     label: string;
   }
+  const novelOption: optionType[] = [];
+  const scheduleOption: optionType[] = [];
+
   novelList?.novelList.map((item) => {
     novelOption.push({ value: item.id.toString(), label: item.title });
   });
