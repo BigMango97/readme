@@ -19,7 +19,7 @@ export default function ViewerTop({
   novelsTitle,
   registration,
   novelId,
-}: Props) {
+}: Props) { 
   const router = useRouter();
   const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
@@ -45,7 +45,7 @@ export default function ViewerTop({
       },
       {
         onSuccess: (data: any) => {
-          console.log("데이터 보내기성공!", data);
+          console.log("data",data)
           router.push(`/noveldetail/${novelId}`);
         },
       }
