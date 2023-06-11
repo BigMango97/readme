@@ -9,14 +9,14 @@ export interface cardType{
     scheduleName : string;
     startDate : Dayjs;
     endDate: Dayjs;
-    novelCardsList: novelType[];
+    novelCardsList: cardNovelType[];
 }
 
 // export interface novelListType{
 //     novelList : novelType[];
 // }
 
-export interface novelType{
+export interface cardNovelType{
     novelId: number;
     novelTitle: string;
 }

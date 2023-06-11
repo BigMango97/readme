@@ -3,8 +3,8 @@ import axios from "@/configs/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { scheduleListType } from "@/types/admin/scheduleType";
 import dayjs from "dayjs";
-import { novelIdType, novelListType } from "@/types/admin/novelType";
-import { novelOptionType, novelType } from "@/types/admin/cardType";
+import { novelIdType, novelListType, novelType } from "@/types/admin/novelType";
+import { cardNovelType } from "@/types/admin/cardType";
 import { useRouter } from "next/router";
 
 export default function CardModal(props: {
@@ -19,7 +19,7 @@ export default function CardModal(props: {
   const [scheduleId, setScheduleId] = useState<number>(props.id);
   const [selectIds, setSelectIds] = useState<number[]>([]);
 
-  const [cardEditData, setCardEditData] = useState<novelType[]>([]);
+  const [cardEditData, setCardEditData] = useState<cardNovelType[]>([]);
   //원래의 아이디 값들
   const [originIds, setOriginIds] = useState<number[]>([]);
   //select 에 띄우기 위한 용
@@ -101,13 +101,29 @@ export default function CardModal(props: {
     setCardEditData(res.data.data.novelCardsBySchedules);
   };
 
+  const getNovelsAndSchedules = async () => {
+    const pageRes = await axios.get(`/novels-service/v1/admin/novels`);
+    const totalPage = pageRes.data.data.pagination.totalPage;
+    let newData: novelType[] = [];
+
+    for (let page = 0; page < totalPage; page++) {
+      const res = await axios.get(
+        `/novels-service/v1/admin/novels?&page=${page}`
+      );
+      console.log(res.data.data.contents);
+      res.data.data.contents.map((item: novelType) => {
+        newData.push(item);
+      });
+    }
+    setNovelList({ novelList: newData });
+
+    const scheduleRes = await axios.get(`/sections-service/v1/admin/schedules`);
+    setScheduleList({ scheduleList: scheduleRes.data.data });
+  };
+
   useEffect(() => {
-    axios.get(`/novels-service/v1/admin/novels`).then((res) => {
-      setNovelList({ novelList: res.data.data.contents });
-    });
-    axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
-      setScheduleList({ scheduleList: res.data.data });
-    });
+    getNovelsAndSchedules();
+
     //등록 시
     if (props.id === 0) {
       setCardEditData([]);
