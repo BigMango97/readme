@@ -5,8 +5,6 @@
   left: 0;
   position: fixed;
   z-index: 999;
-  display: flex;
-  justify-content: right;
   overflow-y: hidden !important;
 }
 

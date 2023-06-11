@@ -107,7 +107,6 @@ export default function ViewerBottom({
       } else if (isLoggedIn && nextRead) {
         router.push(`/viewer/${nextId}`);
       } else if (isLoggedIn && !nextFree) {
-        //const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
@@ -148,7 +147,7 @@ export default function ViewerBottom({
     { enabled: !!episodeId }
   );
   const totalStarRating = rating?.data?.starRating;
-
+  const starRatingCheck = rating?.data?.rated;
   useEffect(() => {
     if (shouldRefetchTotalRating) {
       refetch();
@@ -158,47 +157,49 @@ export default function ViewerBottom({
 
   return (
     <>
-      {isModalOpen && 
+      {isModalOpen && (
         <ConfirmModal
           color={color}
           epiId={epiId}
           situation={situation}
           setIsModalOpen={setIsModalOpen}
         />
-        }
-        <div className={style.container}>
-          <ReadingProgressGraph />
-          <div className={style.menuCategory}>
-            {viewerBottomMenu.map((item) => (
-              <div
-                className={style.viewerBottomIcon}
-                key={item.id}
-                onClick={() => handleIconClick(item.title)}
-              >
-                <Image
-                  src={item.iconUrl}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                />{" "}
-                {item.title === "reviewRating" && (
-                  <div className={style.starRatingNumber}>
-                    {totalStarRating}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-            <SlideComponent
-              onClose={closeSlide}
-              slideOpen={slideOpen}
-              setSlideOpen={setSlideOpen}
-              activeIcon={activeIcon}
-              novelId={novelId}
-              title={title}
-            />
+      )}
+      <div className={style.container}>
+        <ReadingProgressGraph />
+        <div className={style.menuCategory}>
+          {viewerBottomMenu.map((item) => (
+            <div
+              className={style.viewerBottomIcon}
+              key={item.id}
+              onClick={() => handleIconClick(item.title)}
+            >
+              <Image
+                src={
+                  item.title === "reviewRating" && starRatingCheck===true
+                    ? "/assets/images/icons/yellow-star.svg"
+                    : item.iconUrl
+                }
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+              />{" "}
+              {item.title === "reviewRating" && (
+                <div className={style.starRatingNumber}>{totalStarRating}</div>
+              )}
+            </div>
+          ))}
         </div>
-        </>
+
+        <SlideComponent
+          onClose={closeSlide}
+          slideOpen={slideOpen}
+          setSlideOpen={setSlideOpen}
+          activeIcon={activeIcon}
+          novelId={novelId}
+          title={title}
+        />
+      </div>
+    </>
   );
 }

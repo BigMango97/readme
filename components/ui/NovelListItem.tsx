@@ -56,8 +56,8 @@ export default function NovelListItem({
             <Image
               src={novelData.thumbnail}
               alt="Novel Image"
-              width={500}
-              height={500}
+              width={100}
+              height={100}
             />
           </div>
           {novelData.newChecking && (
