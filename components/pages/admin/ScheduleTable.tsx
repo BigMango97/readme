@@ -28,7 +28,6 @@ export default function ScheduleTable(props: {
       `/sections-service/v1/admin/schedules/${id}`
     );
     axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
-      console.log(res.data.data);
       props.setScheduleData({
         scheduleList: res.data.data,
       });
@@ -77,7 +76,7 @@ export default function ScheduleTable(props: {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    //console.log("params", pagination, filters, sorter, extra);
   };
 
   const dataSource: scheduleTableType[] = [];

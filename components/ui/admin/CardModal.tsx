@@ -32,24 +32,20 @@ export default function CardModal(props: {
       selectIds.map((item) => {
         idList.push({ novelId: Number(item) });
       });
-      //console.log("novelIds", selectIds);
+
       const res = await axios.put(
         `/sections-service/v1/admin/schedules/novels/${scheduleId}`,
         {
           requestNovelIdList: idList,
         }
       );
-
-      //console.log(res);
     };
 
     const deleteHandle = async () => {
-      console.log("originIds", originIds);
-      console.log("novelIds", selectIds);
       const deleteValues = originIds.filter(
         (item) => !selectIds.includes(item)
       );
-      console.log("deleteValues", deleteValues);
+
       const idList: novelIdType[] = [];
       deleteValues.map((item) => {
         idList.push({ novelId: Number(item) });
@@ -61,7 +57,6 @@ export default function CardModal(props: {
           data: { requestNovelIdList: idList },
         }
       );
-      //console.log(res);
     };
 
     deleteHandle();
@@ -86,7 +81,6 @@ export default function CardModal(props: {
 
   //소설 선택
   const selectNovelHandle = (selectValues: string[]) => {
-    console.log("selectValues", selectValues);
     const selectNumbers = selectValues.map((item) => Number(item));
 
     setSelectIds(selectNumbers);
@@ -110,7 +104,7 @@ export default function CardModal(props: {
       const res = await axios.get(
         `/novels-service/v1/admin/novels?&page=${page}`
       );
-      console.log(res.data.data.contents);
+
       res.data.data.contents.map((item: novelType) => {
         newData.push(item);
       });

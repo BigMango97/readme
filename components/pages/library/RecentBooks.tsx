@@ -46,7 +46,7 @@ export default function RecentBooks() {
     };
     getData();
   }, []);
-  console.log("novelData", novelData);
+
   return (
     <>
       <NovelCardList

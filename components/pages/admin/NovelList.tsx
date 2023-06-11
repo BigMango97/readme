@@ -51,7 +51,7 @@ export default function NovelList() {
     const pageRes = await axios.get(url);
 
     const totalPage = pageRes.data.data.pagination.totalPage;
-    console.log(pageRes.data.data);
+
     let newData: novelType[] = [];
 
     for (let page = 0; page < totalPage; page++) {

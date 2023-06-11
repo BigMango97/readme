@@ -27,7 +27,6 @@ export default function EpisodeDetail() {
   useEffect(() => {
     if (!router.isReady) return;
     axios.get(`/novels-service/v1/admin/episodes/${epiId}`).then((res) => {
-      console.log(res.data);
       setEpiData({
         id: res.data.data.id,
         novelId: res.data.data.novelId,

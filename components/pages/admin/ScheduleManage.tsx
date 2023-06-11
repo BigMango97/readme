@@ -17,7 +17,6 @@ export default function ScheduleManage() {
   useEffect(() => {
     //스케줄 목록
     axios.get(`/sections-service/v1/admin/schedules`).then((res) => {
-      console.log(res.data.data);
       setScheduleData({
         scheduleList: res.data.data,
       });

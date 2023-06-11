@@ -26,7 +26,6 @@ export default function CardTable(props: {
   };
   const deleteHandle = (id: number) => {
     axios.delete(`/sections-service/v1/admin/schedules/${id}`).then((res) => {
-      console.log(res);
       axios.get(`/sections-service/v1/admin/schedules/novels`).then((res) => {
         props.setCardData({ cardList: res.data.data });
       });
@@ -116,7 +115,7 @@ export default function CardTable(props: {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    //console.log("params", pagination, filters, sorter, extra);
   };
 
   return (
