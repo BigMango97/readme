@@ -15,18 +15,6 @@ export default function PurchasedListItem({
   const dateString = dateArray.toString().replaceAll(",", "-");
   console.log(dateString);
 
-  // const movePage = () => {
-  //   router.push(`/viewer/${novelData.episodeId}`).then(() => {
-  //     window.scrollTo(0, 0);
-  //   });
-  // };
-  // const handleNovelDetailClick = () => {
-  //   localStorage.setItem("scrollPosition", window.pageYOffset.toString());
-  //   localStorage.setItem("previousUrl", router.asPath);
-  //   router.push(`/noveldetail/${novelData.novelId}`, undefined, {
-  //     scroll: false,
-  //   });
-  // };
   const deletePurchasedHandle = async (recentId: number) => {
     // const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
     // console.log(res.data);
@@ -50,15 +38,6 @@ export default function PurchasedListItem({
               </div>
             </div>
           </div>
-        </div>
-        <div className={style.right}>
-          <Image
-            src={"/assets/images/icons/close.svg"}
-            alt="close Icon"
-            width={20}
-            height={20}
-            onClick={() => deletePurchasedHandle(purchasedData.novelId)}
-          />
         </div>
       </div>
     </div>

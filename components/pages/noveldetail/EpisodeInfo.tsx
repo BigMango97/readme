@@ -36,10 +36,10 @@ export default function EpisodeInfo(props: {
         );
         //구매 x -> 에피소드구매
         if (response.data.data.result === false) {
-          const userPoint = Number(sessionStorage.getItem("point"));
+          const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
 
           //포인트 부족
-          if (userPoint < 100) {
+          if (pointRes.data.data.point < 100) {
             setColor("green");
             setSituation("부족");
             setIsModalOpen(!isModalOpen);

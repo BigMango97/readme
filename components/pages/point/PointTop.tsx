@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/components/pages/point/PointTop.module.css";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function PointTop() {
   const router = useRouter();
   const closeHandle = () => {
     router.back();
   };
-  let point = 0;
-  sessionStorage.getItem("point")
-    ? (point = Number(sessionStorage.getItem("point")))
-    : (point = 0);
+  const [point, setPoint] = useState<number>(0);
+  const getPoint = async () => {
+    const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
+    setPoint(Number(pointRes.data.data.point));
+  };
+  useEffect(() => {
+    getPoint();
+  }, []);
 
   const notServiceHandle = () => {
     Swal.fire("지원하지 않는 서비스 입니다.");
