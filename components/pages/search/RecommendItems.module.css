@@ -1,11 +1,54 @@
 .recommendItemsContainer {
   width: 100%;
-  height: 30%;
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem;
 }
-.recommendItem p {
+
+.recommendTopWrap {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+.recommendTopTitle {
+  font-weight: bold;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+.recommendsStatusTime{
+ font-size: 0.75rem;
+ color: var(--readme-title-gray);
+}
+.recommendItem{
+  display: flex;
+  align-items: center;
   font-size: 0.875rem;
   margin: 0.5rem 0rem;
+}
+.recommendItem{
+  width: 50%;
+}
+.recommendList{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.recommendKeywordRanking{
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.recommendKeywordStatusImage{
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
+}
+.recommendKeywordTitle{
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color:var(--readme-black)
+}
+.recommendNew{
+    color: var(--readme-secondary);
+    font-size: 0.4rem;
+    font-style: italic;
+    margin-left: 0.5rem;
 }

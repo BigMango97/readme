@@ -6,9 +6,7 @@ import CardList from "@/components/pages/admin/CardList";
 
 import { useRouter } from "next/router";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
-
 import ScheduleManage from "@/components/pages/admin/ScheduleManage";
-import { useCookies } from "react-cookie";
 
 const Main: NextPageWithLayout = () => {
   const router = useRouter();
@@ -16,13 +14,15 @@ const Main: NextPageWithLayout = () => {
 
   return (
     <>
-      <NovelSearch />
       {currentTap === "card" ? (
         <CardList />
       ) : currentTap === "schedule" ? (
         <ScheduleManage />
       ) : (
-        <NovelList />
+        <>
+          <NovelSearch />
+          <NovelList />
+        </>
       )}
     </>
   );

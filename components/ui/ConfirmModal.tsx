@@ -31,9 +31,9 @@ export default function ConfirmModal(props: {
       episodeId: props.epiId,
     });
 
-    const userPoint = Number(sessionStorage.getItem("point"));
-    const afterPoint = userPoint - 100;
-    sessionStorage.setItem("point", afterPoint.toString());
+    // const userPoint = Number(sessionStorage.getItem("point"));
+    // const afterPoint = userPoint - 100;
+    // sessionStorage.setItem("point", afterPoint.toString());
   };
   const movePage = () => {
     if (props.situation === "결제") {

@@ -8,7 +8,7 @@ import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
 import { episodeDetailFetch } from "../api/novel-service";
 import { episodeDetailFetchType } from "@/types/service/novel-service";
 import { emojiFetch } from "../api/batch-service";
-
+import { useEffect, useState } from "react";
 interface ErrorType extends Error {
   message: string;
 }
@@ -35,6 +35,20 @@ export default function ViewerPage() {
     }
   );
   const episodeDetailDataResult = data?.data;
+  const [emojiData, setEmojiData] = useState([]);
+
+  useEffect(() => {
+    const eventSource = new EventSource(
+      `/novels-service/v1/episodes/getEmitter/${episodeId}`
+    );
+    eventSource.onmessage = (event) => {
+      const newEmojiData = JSON.parse(event.data);
+      setEmojiData(newEmojiData);
+    };
+    return () => {
+      eventSource.close();
+    };
+  }, [episodeId]);
 
   const { data: emojiDataResult } = useQuery(
     ["emojiData", episodeId],
@@ -64,7 +78,6 @@ export default function ViewerPage() {
             nextId={episodeDetailDataResult.nextId}
             nextFree={episodeDetailDataResult.nextFree}
             nextRead={episodeDetailDataResult.nextRead}
-
           />
         </>
       )}

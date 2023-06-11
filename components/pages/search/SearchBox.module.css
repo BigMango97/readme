@@ -64,6 +64,8 @@
 }
 .novelContainerTitle {
   padding: 0rem 1rem;
+  white-space: normal;
+  word-wrap: break-word;
 }
 .novelContainerTitle p:first-child {
   margin-bottom: 1rem;

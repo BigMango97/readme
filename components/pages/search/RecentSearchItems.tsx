@@ -4,14 +4,22 @@ import style from "@/components/pages/search/RecentSearchItems.module.css";
 import Image from "next/image";
 import { recentSearchWord } from "@/state/recentSearchWord";
 import { useRecoilState } from "recoil";
+
 export default function RecentSearchItems() {
   const [searchValue, setSearchValue] = useRecoilState(recentSearchWord);
   const handleRemoveKeyword = (text: string) => {
     setSearchValue((prev) => {
       const newList = prev.filter((item) => item !== text);
-      localStorage.setItem("keywordList", JSON.stringify(newList)); // 로컬 스토리지 업데이트
+      localStorage.setItem("keywordList", JSON.stringify(newList));
       return newList;
     });
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
   };
   const directKeywordPage = (index: string) => {
     const handleDirectKeywordPage = () => {
@@ -35,15 +43,19 @@ export default function RecentSearchItems() {
                     className={style.recentSearchTitle}
                     onClick={directKeywordPage(index)}
                   >
-                    {index}
+                    <div className={style.keywordtitle}>
+                      {truncateText(index, 10)}
+                    </div>
                   </div>
-                  <Image
-                    src="/assets/images/icons/close.svg"
-                    alt="searchIcon"
-                    width={22}
-                    height={22}
-                    onClick={() => handleRemoveKeyword(index)}
-                  />
+                  <div className={style.closebtn}>
+                    <Image
+                      src="/assets/images/icons/close.svg"
+                      alt="searchIcon"
+                      width={20}
+                      height={20}
+                      onClick={() => handleRemoveKeyword(index)}
+                    />
+                  </div>
                 </div>
               </div>
             ))}

@@ -10,7 +10,6 @@ import {
   cardTableType,
   cardType,
 } from "@/types/admin/cardType";
-import CardModal from "@/components/ui/admin/CardModal";
 
 export default function CardTable(props: {
   cardData: cardListType;
@@ -40,8 +39,8 @@ export default function CardTable(props: {
     let novelNames = "",
       novelIds = "";
     item.novelCardsList.map((item2) => {
-      novelIds = item2.novelId + "/" + novelIds;
-      novelNames = item2.novelTitle + "/" + novelNames;
+      novelIds = item2.novelId + " | " + novelIds;
+      novelNames = item2.novelTitle + " | " + novelNames;
     });
 
     dataSource.push({

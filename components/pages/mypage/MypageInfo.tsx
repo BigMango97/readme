@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "@/components/pages/mypage/MypageInfo.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import axios from "@/configs/axiosConfig";
 export default function MypageInfo() {
   const [userNickname, setUserNickName] = useState<string>("");
   const [userPoint, setUserPoint] = useState<number>(0);
@@ -10,9 +11,13 @@ export default function MypageInfo() {
   useEffect(() => {
     const nickname = sessionStorage.getItem("nickname") || "";
     setUserNickName(nickname);
-    const point = sessionStorage.getItem("point") || 0;
-    setUserPoint(Number(point));
-
+    // const point = sessionStorage.getItem("point") || 0;
+    const getPoint = async () => {
+      const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
+      setUserPoint(Number(pointRes.data.data.point));
+    };
+    //setUserPoint(Number(point));
+    getPoint();
     const profileImg = sessionStorage.getItem("profileImg") || "";
     setUserProfileImg(profileImg);
   }, []);

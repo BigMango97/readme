@@ -5,10 +5,24 @@ import { useState } from "react";
 import SlideWebViewList from "../ui/SlideWebViewList";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import axios from "@/configs/axiosConfig";
+
 
 export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>}) {
   const { isOpen, setIsOpen } = props;
   
+
+
+// type Props = {
+//   onClose: () => void;
+// };
+
+
+  // const handleClose = () => {
+  //   setIsOpen(false);
+  //   props.onClose();
+  // };
+
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
   const [cookies] = useCookies(["uuid"]);
@@ -18,8 +32,11 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
-      const point = sessionStorage.getItem("point") || 0;
-      setUserPoint(Number(point));
+      const getPoint = async () => {
+        const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
+        setUserPoint(Number(pointRes.data.data.point));
+      };
+      getPoint();
     }
   }, [cookies.uuid]);
 

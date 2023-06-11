@@ -46,6 +46,15 @@ export default function ViewerBottom({
   const [situation, setSituation] = useState<"결제" | "부족">("부족");
   const [color, setColor] = useState<string>("");
   const [epiId, setEpiId] = useState<number>(0);
+  const [userPoint, setUserPoint] = useState<number>(0);
+  const getPoint = async () => {
+    const pointRes = await axios.get(`/users-service/v1/user/getPoint`);
+    setUserPoint(Number(pointRes.data.data.point));
+  };
+  useEffect(() => {
+    getPoint();
+  }, [epiId]);
+
   const handleIconClick = (title: any) => {
     if (title === "reviewRating" && !isLoggedIn) {
       sessionStorage.setItem("link", router.asPath);
@@ -66,7 +75,7 @@ export default function ViewerBottom({
       } else if (isLoggedIn && prevRead) {
         router.push(`/viewer/${prevId}`);
       } else if (isLoggedIn && !prevFree) {
-        const userPoint = Number(sessionStorage.getItem("point"));
+        //const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
@@ -96,7 +105,7 @@ export default function ViewerBottom({
       } else if (isLoggedIn && nextRead) {
         router.push(`/viewer/${nextId}`);
       } else if (isLoggedIn && !nextFree) {
-        const userPoint = Number(sessionStorage.getItem("point"));
+        //const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
