@@ -45,12 +45,11 @@ export default function ViewerTop({
       },
       {
         onSuccess: (data: any) => {
-          console.log("data",data)
-          router.push(`/noveldetail/${novelId}`);
+          router.back();
         },
       }
     );
-  }, [router, novelId, episodeId, sendViewerPosition, readAt, loginCheck]);
+  }, [router, episodeId, sendViewerPosition, readAt, loginCheck]);
 
   const handleButtonClick = useCallback(() => {
     if (!loginCheck) {
