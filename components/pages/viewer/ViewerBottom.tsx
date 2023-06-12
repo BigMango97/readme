@@ -53,12 +53,11 @@ export default function ViewerBottom({
     setUserPoint(Number(pointRes.data.data.point));
   };
   useEffect(() => {
-    if (isLoggedIn) {
-      getPoint();
-    }
+    getPoint();
   }, [epiId]);
 
   const handleIconClick = (title: any) => {
+    setSlideOpen(true);
     if (title === "reviewRating" && !isLoggedIn) {
       localStorage.setItem("link", router.asPath);
       router.push("/login");
@@ -78,6 +77,7 @@ export default function ViewerBottom({
       } else if (isLoggedIn && prevRead) {
         router.push(`/viewer/${prevId}`);
       } else if (isLoggedIn && !prevFree) {
+        //const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
@@ -122,7 +122,6 @@ export default function ViewerBottom({
         router.push("/login");
       }
     } else {
-      setSlideOpen(true);
       setActiveIcon(title);
     }
   };
@@ -177,10 +176,11 @@ export default function ViewerBottom({
             >
               <Image
                 src={
-                  item.title === "reviewRating" && starRatingCheck === true
+                  item.title === "reviewRating" && starRatingCheck===true
                     ? "/assets/images/icons/yellow-star.svg"
                     : item.iconUrl
                 }
+
                 alt={item.alt}
                 width={item.width}
                 height={item.height}
