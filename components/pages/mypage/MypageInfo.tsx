@@ -18,7 +18,7 @@ export default function MypageInfo() {
     };
     //setUserPoint(Number(point));
     getPoint();
-    const profileImg = sessionStorage.getItem("profileImg") || "";
+    const profileImg = localStorage.getItem("profileImg") || "";
     setUserProfileImg(profileImg);
   }, []);
   return (
