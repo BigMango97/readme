@@ -24,13 +24,16 @@ export default function Kakao() {
           localStorage.setItem("profileImg", res.data.data.profileImg);
           localStorage.setItem("age", res.data.data.age_range);
 
-          //console.log("headers = ", res.headers);
+          console.log("headers = ", res.headers);
 
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
             // expires: res.headers.expires,
           });
-          setCookie("uuid", res.headers.uuid, { path: "/" });
+          setCookie("uuid", res.headers.uuid, {
+            path: "/",
+            // expires: res.headers.expires,
+          });
 
           const link = localStorage.getItem("link");
           if (link === null) {
