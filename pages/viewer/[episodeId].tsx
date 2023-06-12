@@ -7,7 +7,7 @@ import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
 import { episodeDetailFetch } from "../api/novel-service";
 import { episodeDetailFetchType } from "@/types/service/novel-service";
 import { emojiFetch } from "../api/batch-service";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface ErrorType extends Error {
   message: string;
@@ -16,30 +16,6 @@ interface ErrorType extends Error {
 export default function ViewerPage() {
   const { query } = useRouter();
   const episodeId = Number(query.episodeId);
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleRouteChange = (url: any) => {
-      closeEventSource();
-
-      const episodeId = getEpisodeIdFromUrl(url);
-      if (episodeId) {
-        initializeEventSource(episodeId);
-      }
-    };
-
-    router.events.on("routeChangeComplete", handleRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-      closeEventSource();
-    };
-  }, []);
-
-  const getEpisodeIdFromUrl = (url: any) => {
-    const match = url.match(/viewer\/(\d+)/);
-    return match ? Number(match[1]) : null;
-  };
 
   useEffect(() => {
     if (query.episodeId) {
@@ -92,7 +68,7 @@ export default function ViewerPage() {
           "emojiData",
           episodeId,
         ]);
-        const oldData = Array.isArray(queryData) ? [...queryData] : [];
+        const oldData = Array.isArray(queryData) ? [...queryData] : []; 
 
         const existingDataIndex = oldData.findIndex(
           (item) =>
@@ -106,7 +82,7 @@ export default function ViewerPage() {
           oldData.push(newEmojiData);
         }
         queryClient.setQueryData(["emojiData", episodeId], [...oldData]);
-        // queryClient.invalidateQueries(["emojiData", episodeId]);
+        queryClient.invalidateQueries(["emojiData", episodeId]);
       }
     });
 
@@ -115,7 +91,6 @@ export default function ViewerPage() {
 
   const closeEventSource = () => {
     if (eventSource.current) {
-      console.log("closeclose");
       eventSource.current.close();
       eventSource.current = null;
     }
@@ -151,7 +126,7 @@ export default function ViewerPage() {
 
   return (
     <>
-      {episodeDetailDataResult && (
+      {episodeDetailDataResult  && (
         <>
           <ViewerTop
             novelId={episodeDetailDataResult.novelId}
@@ -161,7 +136,7 @@ export default function ViewerPage() {
           />
           <NovelViewer
             viewerData={episodeDetailDataResult.content}
-            emojiData={emojiQuery.data}
+            emojiData={emojiQuery.data || []}
           />
           <ViewerBottom
             novelId={episodeDetailDataResult.novelId}
