@@ -11,7 +11,10 @@ export default function NovelDatailHeader(props: {
   serializationDays: string;
 }) {
   const router = useRouter();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [router.pathname]);
+  
   useEffect(() => {
     const handleLoad = () => {
       const scrollPosition = localStorage.getItem("scrollPosition");
@@ -56,8 +59,6 @@ export default function NovelDatailHeader(props: {
             {props.author} | {props.serializationStatus} | {props.genre} |{" "}
             {props.serializationDays}
           </p>
-        </div>
-        <div className={style.leftmenu}>
         </div>
       </div>
     </header>
