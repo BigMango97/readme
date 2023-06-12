@@ -28,9 +28,12 @@ export default function Kakao() {
 
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
-            // expires: res.headers.expires,
+            expires: res.headers.expires,
           });
-          setCookie("uuid", res.headers.uuid, { path: "/" });
+          setCookie("uuid", res.headers.uuid, {
+            path: "/",
+            expires: res.headers.expires,
+          });
 
           const link = localStorage.getItem("link");
           if (link === null) {
