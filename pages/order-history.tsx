@@ -55,38 +55,42 @@ export default function OrderHistory() {
       {payData ? (
         <div className={style.container}>
           <div className={style.billArea}>
-            <Image
-              src="/assets/images/icons/greenCheck.svg"
-              alt="pay"
-              width={80}
-              height={80}
-            />
             <div className={style.bill}>
-              <div className={style.content}>
-                <div className={style.top}>
-                  <p>충전내역</p>
-                  <span>{payData?.chargeDate}</span>
+              <div className={style.billContent}>
+                <div className={style.billImg}>
+                  <Image
+                    src="/assets/images/icons/greenCheck.svg"
+                    alt="pay"
+                    width={80}
+                    height={80}
+                  />
                 </div>
+                <div className={style.content}>
+                  <div className={style.top}>
+                    <p>충전내역</p>
+                    <span>{payData?.chargeDate}</span>
+                  </div>
 
-                <div className={style.box}>
-                  <p>{payData?.point}</p>
-                  <span>카카오페이</span>
-                </div>
+                  <div className={style.box}>
+                    <p>{payData?.point}</p>
+                    <span>카카오페이</span>
+                  </div>
 
-                <div className={style.textbox}>
-                  <p>충전한 포인트</p>
-                  <span>P {payData?.point.toLocaleString("en")}</span>
-                </div>
+                  <div className={style.textbox}>
+                    <p>충전한 포인트</p>
+                    <span>P {payData?.point.toLocaleString("en")}</span>
+                  </div>
 
-                <LineSeparator colorline="grayline" />
-                <div className={style.textbox}>
-                  <p>보유 포인트</p>
-                  <span className={`${style["purple"]}`}>
-                    P {payData?.total.toLocaleString("en")}
-                  </span>
-                </div>
-                <div className={style.bottom} onClick={goBack}>
-                  <p>Go Back</p>
+                  <LineSeparator colorline="grayline" />
+                  <div className={style.textbox}>
+                    <p>보유 포인트</p>
+                    <span className={`${style["purple"]}`}>
+                      P {payData?.total.toLocaleString("en")}
+                    </span>
+                  </div>
+                  <div className={style.bottom} onClick={goBack}>
+                    <p>Go Back</p>
+                  </div>
                 </div>
               </div>
             </div>
