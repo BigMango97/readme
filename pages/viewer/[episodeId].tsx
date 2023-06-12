@@ -106,7 +106,7 @@ export default function ViewerPage() {
           oldData.push(newEmojiData);
         }
         queryClient.setQueryData(["emojiData", episodeId], [...oldData]);
-        queryClient.invalidateQueries(["emojiData", episodeId]);
+        // queryClient.invalidateQueries(["emojiData", episodeId]);
       }
     });
 
@@ -161,7 +161,7 @@ export default function ViewerPage() {
           />
           <NovelViewer
             viewerData={episodeDetailDataResult.content}
-            emojiData={emojiQuery.data || []}
+            emojiData={emojiQuery.data}
           />
           <ViewerBottom
             novelId={episodeDetailDataResult.novelId}
