@@ -89,8 +89,8 @@ export default function RecommendItems() {
               )}
               <Link href={`/search?keyword=${data.keyword}`}>
                 <div className={style.recommendKeywordTitle}>
-                  {data.keyword.length > 10
-                    ? `${data.keyword.substring(0, 10)}...`
+                  {data.keyword.length > 8
+                    ? `${data.keyword.substring(0, 8)}...`
                     : data.keyword}
                 </div>
               </Link>

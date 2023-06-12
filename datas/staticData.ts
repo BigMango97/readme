@@ -43,7 +43,7 @@ export const viewerBottomMenu = [
   {
     id: 2,
     title: "comment",
-    iconUrl: "/assets/images/icons/comment.svg",
+    iconUrl: "/assets/images/icons/commentIcon.svg",
     width:25,
     height:25,
     alt:"commentIcon"

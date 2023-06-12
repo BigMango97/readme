@@ -6,15 +6,20 @@
   font-size: 0.75rem;
 }
 .allNovelTotalIcon img {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 }
-.novelContainer {
+.notnovel{
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vw;
+  font-size: 0.8rem;
+  color: var(--readme-title-gray);
+}
+.notnovel img{
+  margin-bottom: 1rem;
 }
 .novelContainer {
   display: flex;

@@ -107,7 +107,6 @@ export default function ViewerBottom({
       } else if (isLoggedIn && nextRead) {
         router.push(`/viewer/${nextId}`);
       } else if (isLoggedIn && !nextFree) {
-        //const userPoint = Number(sessionStorage.getItem("point"));
         if (userPoint < 100) {
           setColor("green");
           setSituation("부족");
@@ -148,7 +147,7 @@ export default function ViewerBottom({
     { enabled: !!episodeId }
   );
   const totalStarRating = rating?.data?.starRating;
-
+  const starRatingCheck = rating?.data?.rated;
   useEffect(() => {
     if (shouldRefetchTotalRating) {
       refetch();
@@ -176,7 +175,12 @@ export default function ViewerBottom({
               onClick={() => handleIconClick(item.title)}
             >
               <Image
-                src={item.iconUrl}
+                src={
+                  item.title === "reviewRating" && starRatingCheck===true
+                    ? "/assets/images/icons/yellow-star.svg"
+                    : item.iconUrl
+                }
+
                 alt={item.alt}
                 width={item.width}
                 height={item.height}
