@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import style from "@/components/ui/Kakao.module.css";
 import { SyncLoader } from "react-spinners";
+import dayjs from "dayjs";
 
 export default function Kakao() {
   const router = useRouter();
@@ -25,14 +26,15 @@ export default function Kakao() {
           localStorage.setItem("age", res.data.data.age_range);
 
           console.log("headers = ", res.headers);
+          console.log("data = ", res.data);
 
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
-            // expires: res.headers.expires,
+            expires: dayjs(res.headers.expiration).toDate(),
           });
           setCookie("uuid", res.headers.uuid, {
             path: "/",
-            // expires: res.headers.expires,
+            expires: dayjs(res.headers.expiration).toDate(),
           });
 
           const link = localStorage.getItem("link");
