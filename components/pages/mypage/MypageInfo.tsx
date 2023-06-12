@@ -9,7 +9,7 @@ export default function MypageInfo() {
   const [userProfileImg, setUserProfileImg] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
-    const nickname = sessionStorage.getItem("nickname") || "";
+    const nickname = localStorage.getItem("nickname") || "";
     setUserNickName(nickname);
     // const point = sessionStorage.getItem("point") || 0;
     const getPoint = async () => {

@@ -28,11 +28,11 @@ export default function Login() {
         password: adminPassword,
       });
       removeCookie("uuid", { path: "/" });
-      sessionStorage.clear();
+      localStorage.clear();
       setCookie("accessToken", res.headers.accesstoken, {
         path: "/",
       });
-      sessionStorage.setItem("nickname", res.data.data.nickname);
+      localStorage.setItem("nickname", res.data.data.nickname);
 
       axios.defaults.headers.common[
         "Authorization"

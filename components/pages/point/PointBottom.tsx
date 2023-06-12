@@ -18,11 +18,8 @@ export default function PointBottom() {
         uuid: cookies.uuid,
       })
       .then((res) => {
-        sessionStorage.setItem("tid", res.data.data.tid);
-        sessionStorage.setItem(
-          "partnerOrderId",
-          res.data.data.partner_order_id
-        );
+        localStorage.setItem("tid", res.data.data.tid);
+        localStorage.setItem("partnerOrderId", res.data.data.partner_order_id);
         //console.log(res.data);
         const mobileCheck = isMobile();
         //console.log(mobileCheck);

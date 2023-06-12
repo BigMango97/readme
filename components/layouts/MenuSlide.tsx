@@ -9,22 +9,20 @@ import axios from "@/configs/axiosConfig";
 
 import useKakaoInit from "@/hooks/useKakaoInit";
 
-
-export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>}) {
+export default function MenuSlide(props: {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const { isOpen, setIsOpen } = props;
-  
 
-
-// type Props = {
-//   onClose: () => void;
-// };
-
+  // type Props = {
+  //   onClose: () => void;
+  // };
 
   // const handleClose = () => {
   //   setIsOpen(false);
   //   props.onClose();
   // };
-
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
@@ -46,7 +44,7 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
   useKakaoInit();
 
   const kakaoLogin = () => {
-    sessionStorage.setItem("link", "/");
+    localStorage.setItem("link", "/");
     if (!window.Kakao.isInitialized()) return;
     window.Kakao.Auth.authorize({
       //redirectUri: `https://readme.life/kakao`,
@@ -56,10 +54,25 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
 
   return (
     <>
-      <div className={isOpen ? style.blackContainer : `${style.blackContainer} ${style.blackContainerClose}`} ></div>
-      <div className={isOpen ? style.container : `${style.container} ${style.containerClose}`}>
+      <div
+        className={
+          isOpen
+            ? style.blackContainer
+            : `${style.blackContainer} ${style.blackContainerClose}`
+        }
+      ></div>
+      <div
+        className={
+          isOpen
+            ? style.container
+            : `${style.container} ${style.containerClose}`
+        }
+      >
         <div className={style.menuList}>
-          <div className={style.menuListHeader} onClick={()=>setIsOpen(false)}>
+          <div
+            className={style.menuListHeader}
+            onClick={() => setIsOpen(false)}
+          >
             <Image
               src="/assets/images/icons/close.svg"
               alt="logo"
@@ -110,7 +123,7 @@ export default function MenuSlide(props: {isOpen: boolean, setIsOpen: Dispatch<S
             </div>
           )}
         </div>
-      </div> 
+      </div>
     </>
   );
 }

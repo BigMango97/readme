@@ -59,7 +59,7 @@ export default function ViewerBottom({
   const handleIconClick = (title: any) => {
     setSlideOpen(true);
     if (title === "reviewRating" && !isLoggedIn) {
-      sessionStorage.setItem("link", router.asPath);
+      localStorage.setItem("link", router.asPath);
       router.push("/login");
     } else if (title === "beforenovel") {
       if (prevId === 0) {
@@ -180,6 +180,7 @@ export default function ViewerBottom({
                     ? "/assets/images/icons/yellow-star.svg"
                     : item.iconUrl
                 }
+
                 alt={item.alt}
                 width={item.width}
                 height={item.height}

@@ -57,7 +57,7 @@ export default function EpisodeInfo(props: {
         }
       } //로그인 x
       else {
-        sessionStorage.setItem("link", router.asPath);
+        localStorage.setItem("link", router.asPath);
         router.push("/login");
       }
     }
