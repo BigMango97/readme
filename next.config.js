@@ -8,7 +8,11 @@ const withPWA = require("next-pwa")({
   runtimeCaching,
   buildExcludes: [/middleware-manifest.json$/],
   mode: "production",
-  disableDevLogs: true, //log닫기
+  disableDevLogs: true,
+  workboxOpts: {
+    navigateFallbackBlacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+    dontCacheBustURLsMatching: /\.\w{8}\./,
+  },
 });
 
 const nextConfig = withPWA({

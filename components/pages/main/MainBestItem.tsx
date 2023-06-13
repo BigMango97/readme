@@ -24,11 +24,11 @@ export default function MainBestItem({ data, bestImage }: Props) {
             <div className={style.bestItemImgWrap}>
               {bestImage && (
                 <Image
+                  priority
                   src={bestImage}
                   alt={data.title}
-                  width={300}
+                  width={500}
                   height={300}
-                  loading="lazy"
                   placeholder="empty"
                 />
               )}
