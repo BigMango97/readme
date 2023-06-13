@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import axios from "@/configs/axiosConfig";
 import useKakaoInit from "@/hooks/useKakaoInit";
-
+import { useQuery } from "react-query";
+import Link from "next/link"
 interface Props {
   title: string;
   description: string;
@@ -25,6 +26,8 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
     }
   }, [novelId]);
 
+  
+  
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
@@ -33,6 +36,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
       setLoginCheck(false);
     }
   }, [novelId]);
+
 
   const likeBtnHandle = async () => {
     //login 돼있을 때
@@ -62,6 +66,18 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
       },
     });
   };
+
+  const searchEpisodeFetch = async () => {
+    const response = await axios.get(`/novels-service/v1/episodes/getFirst/${novelId}`);
+    return response.data.data;
+  };
+  const searchEpisodeQuery = useQuery(["searchEpisodeId", novelId], searchEpisodeFetch, {
+    cacheTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+  const episodeId=searchEpisodeQuery.data.episodeId
+
   return (
     <div className={style.detailFooter}>
       <div className={style.novelBuyBtn}>
@@ -94,7 +110,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
           height={30}
           priority
         />
-        <div>무료로 첫편보기</div>
+        <Link href={`/viewer/${episodeId}`}> <div>무료로 첫편보기</div></Link>
       </div>
     </div>
   );
