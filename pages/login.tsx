@@ -3,17 +3,18 @@ import style from "@/components/ui/Login.module.css";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import useKakaoInit from "@/hooks/useKakaoInit";
+import Config from "@/configs/config.export";
 
 export default function Login() {
   const router = useRouter();
+  const loginRedirectUri = Config().loginRedirectUri;
 
   useKakaoInit();
 
   const kakaoLogin = () => {
     if (!window.Kakao.isInitialized()) return;
     window.Kakao.Auth.authorize({
-      redirectUri: `https://readme.life/kakao`,
-      //redirectUri: `http://localhost:3000/kakao`,
+      redirectUri: loginRedirectUri,
     });
   };
   return (

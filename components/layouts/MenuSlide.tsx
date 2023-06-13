@@ -8,21 +8,13 @@ import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
 
 import useKakaoInit from "@/hooks/useKakaoInit";
+import Config from "@/configs/config.export";
 
 export default function MenuSlide(props: {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const { isOpen, setIsOpen } = props;
-
-  // type Props = {
-  //   onClose: () => void;
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-  //   props.onClose();
-  // };
 
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
   //const [welcomeText, setWelcomeText] = useState<string>("");
@@ -42,13 +34,13 @@ export default function MenuSlide(props: {
   }, [cookies.uuid]);
 
   useKakaoInit();
+  const loginRedirectUri = Config().loginRedirectUri;
 
   const kakaoLogin = () => {
     localStorage.setItem("link", "/");
     if (!window.Kakao.isInitialized()) return;
     window.Kakao.Auth.authorize({
-      //redirectUri: `https://readme.life/kakao`,
-      redirectUri: `http://localhost:3000/kakao`,
+      redirectUri: loginRedirectUri,
     });
   };
 
