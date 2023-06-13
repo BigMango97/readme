@@ -19,7 +19,7 @@ export default function ViewerTop({
   novelsTitle,
   registration,
   novelId,
-}: Props) { 
+}: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
@@ -31,11 +31,12 @@ export default function ViewerTop({
       router.push("/login");
     }
   }, [loginCheck, router]);
+
   const readAt = Number(localStorage.getItem("viewerPosition"));
 
   const handleArrowClick = useCallback(() => {
     if (!loginCheck) {
-      router.back();
+      router.push(`/noveldetail/${novelId}`);
       return;
     }
     sendViewerPosition.mutate(
@@ -45,7 +46,7 @@ export default function ViewerTop({
       },
       {
         onSuccess: (data: any) => {
-          console.log("data",data)
+          console.log("data", data);
           router.push(`/noveldetail/${novelId}`);
         },
       }
