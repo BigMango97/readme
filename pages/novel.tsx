@@ -88,14 +88,9 @@ export default function Novel() {
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
-      console.log("fetching next page...");
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
 
   const novelMenusResult = novelMenusQuery?.data?.data;
   const novelDatasResult = data?.pages.flatMap(

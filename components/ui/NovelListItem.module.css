@@ -95,26 +95,23 @@
 .allNovelStarpoint {
   display: flex;
   align-items: center;
-  margin: 0.5rem 0rem;
+  margin: 0.5rem 0;
   font-size: 0.75rem;
 }
 .allNovelStarpoint span {
-  margin: 0px 1rem 0rem 0.3rem;
+  margin: 0 1rem 0 0.3rem;
 }
 
 .allNovelContinue{
-  /* margin-left: 2rem; */
   font-size: 0.7rem;
   display: flex;
-  /* align-items: center; */
   margin-bottom: 0.8rem;
 }
 .right{
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content:end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
   margin-top: 0.4rem;
-  /* margin: 0.8rem 0rem; */
 }
