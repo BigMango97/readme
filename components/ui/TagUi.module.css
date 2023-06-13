@@ -1,6 +1,6 @@
 .tags {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   flex-direction: row;
   margin: 0.1rem;
   width: 5rem;

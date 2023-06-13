@@ -105,9 +105,6 @@ export default function ViewerPage() {
     ["episodeid", episodeId],
     () => episodeDetailFetch(episodeId),
     {
-      onSuccess: (data) => {
-        console.log("data", data);
-      },
       onError: (error: ErrorType) => {
         console.log(error.message);
       },
@@ -118,8 +115,6 @@ export default function ViewerPage() {
 
   const {
     data: emojiQuery,
-    isLoading: emojiLoading,
-    isError: emojiError,
   } = useQuery(["emojiData", episodeId], () => emojiFetch(episodeId), {
     enabled: !!episodeId,
   });

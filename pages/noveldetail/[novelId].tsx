@@ -7,6 +7,7 @@ import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
 import axios from "@/configs/axiosConfig";
+import Head from "next/head";
 
 export default function NovelDetail() {
   const router = useRouter();
@@ -26,8 +27,18 @@ export default function NovelDetail() {
   );
   const novelbyIdDataResult = data?.data;
 
+
   return (
     <>
+      <Head>
+        {novelbyIdDataResult && (
+          <title>{`${novelbyIdDataResult?.title} : ReadMe`}</title>
+        )}
+        <meta
+          name="description"
+          content={`${novelbyIdDataResult?.description}`}
+        />
+      </Head>
       {novelbyIdDataResult && (
         <>
           <NovelDatailHeader
@@ -54,7 +65,6 @@ export default function NovelDetail() {
             description={novelbyIdDataResult.description}
             thumbnail={novelbyIdDataResult.thumbnail}
           />
-
         </>
       )}
     </>
