@@ -9,10 +9,6 @@ const withPWA = require("next-pwa")({
   buildExcludes: [/middleware-manifest.json$/],
   mode: "production",
   disableDevLogs: true,
-  importScripts: {
-    navigateFallbackBlacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
-    dontCacheBustURLsMatching: /\.\w{8}\./,
-  },
 });
 
 const nextConfig = withPWA({
