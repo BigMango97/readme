@@ -9,7 +9,7 @@ const withPWA = require("next-pwa")({
   buildExcludes: [/middleware-manifest.json$/],
   mode: "production",
   disableDevLogs: true,
-  workboxOpts: {
+  importScripts: {
     navigateFallbackBlacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
     dontCacheBustURLsMatching: /\.\w{8}\./,
   },
