@@ -3,6 +3,7 @@
 }
 .mainRankingContainer {
   width: 100%;
+  height: auto;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -57,7 +58,6 @@
   font-weight: 800;
   margin-left: 0.5rem;
 }
-
 
 .allNovelImgContainer {
   position: relative;

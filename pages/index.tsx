@@ -14,6 +14,7 @@ import {
   BestNovelItemFetch,
   eventNovelItemFetch,
 } from "./api/sections-service";
+import Head from 'next/head';
 import { bestNovelIdFetch, eventNovelFetch } from "./api/novel-service";
 import { GetServerSideProps } from "next";
 
@@ -64,6 +65,10 @@ const Home: NextPageWithLayout<ServerSideProps> = ({
 }) => {
   return (
     <>
+     <Head>
+        <title>ReadMe | 메인페이지</title>
+        <meta name="description" content="소설은 ReaMe With me!" />
+      </Head>
       {bestNovelData && (
         <MainBestItem data={bestNovelData} bestImage={bestImage} />
       )}

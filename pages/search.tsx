@@ -10,6 +10,7 @@ import RecommendItems from "@/components/pages/search/RecommendItems";
 import Footer from "@/components/layouts/Footer";
 import Config from "@/configs/config.export";
 import { recentSearchWord } from "@/state/recentSearchWord";
+import Head from "next/head";
 interface ErrorType extends Error {
   message: string;
 }
@@ -25,24 +26,17 @@ export default function Search() {
   const router = useRouter();
   const keyword = router.query.keyword as string;
   const [keyWordList, setKeywordList] = useRecoilState(recentSearchWord);
-  const { isError, data, error } = useQuery(
-    ["keyword", keyword],
-    () => fetchKeyword(keyword),
-    {
-      onSuccess: (data) => {
-        console.log(data);
-      },
-      onError: (error: ErrorType) => {
-        console.log(error.message);
-      },
-      select: (data) => {
-        return data.data;
-      },
-      enabled: !!keyword,
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000,
-    }
-  );
+  const { data } = useQuery(["keyword", keyword], () => fetchKeyword(keyword), {
+    onError: (error: ErrorType) => {
+      console.log(error.message);
+    },
+    select: (data) => {
+      return data.data;
+    },
+    enabled: !!keyword,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,12 +48,14 @@ export default function Search() {
     }
   }, [setKeywordList]);
 
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
   return (
     <>
+      <Head>
+        <title>
+          {keyword === undefined ? `검색 | ReadMe` : `검색결과  | ReadMe`}
+        </title>
+        <meta name="description" content="내가 원하는 소설을 검색해서 찾다!" />
+      </Head>
       <SearchBox data={data?.data.novelCardsData} />
       {!data && (
         <>

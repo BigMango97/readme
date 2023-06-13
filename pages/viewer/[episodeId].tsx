@@ -7,8 +7,7 @@ import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
 import { episodeDetailFetch } from "../api/novel-service";
 import { episodeDetailFetchType } from "@/types/service/novel-service";
 import { emojiFetch } from "../api/batch-service";
-import { useEffect, useState, useRef } from "react";
-import { useCookies } from "react-cookie";
+import { useEffect, useRef } from "react";
 
 interface ErrorType extends Error {
   message: string;
@@ -106,9 +105,6 @@ export default function ViewerPage() {
     ["episodeid", episodeId],
     () => episodeDetailFetch(episodeId),
     {
-      onSuccess: (data) => {
-        console.log("data", data);
-      },
       onError: (error: ErrorType) => {
         console.log(error.message);
       },
@@ -119,8 +115,6 @@ export default function ViewerPage() {
 
   const {
     data: emojiQuery,
-    isLoading: emojiLoading,
-    isError: emojiError,
   } = useQuery(["emojiData", episodeId], () => emojiFetch(episodeId), {
     enabled: !!episodeId,
   });
