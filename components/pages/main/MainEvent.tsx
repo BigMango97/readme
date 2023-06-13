@@ -40,7 +40,7 @@ export default function MainEvent({ data, eventImage }: MainBestItemProps) {
               alt="썸네일 이미지"
               width={180}
               height={220}
-              loading="lazy"
+              priority
               placeholder="empty"
             />
           </div>

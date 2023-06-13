@@ -72,8 +72,8 @@ export default function NovelCardItem({
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
               alt={"newIcon"}
-              width={30}
-              height={30}
+              width={90}
+              height={90}
             />
           </div>
         )}
