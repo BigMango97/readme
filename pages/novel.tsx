@@ -11,7 +11,7 @@ import {
   dehydrate,
   useInfiniteQuery,
 } from "react-query";
-
+import Head from 'next/head';
 import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
 import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
 import Footer from "@/components/layouts/Footer";
@@ -102,6 +102,10 @@ export default function Novel() {
 
   return (
     <>
+      <Head>
+        <title>{`웹소설 - ${category} | ReadMe`}</title>
+        <meta name="description" content="내가 읽은 싶은 소설이 모여있는 곳!" />
+      </Head>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
       {novelDatasResult && totalElementsResult && (
         <AllNovelCardSection
