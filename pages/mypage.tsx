@@ -8,6 +8,7 @@ import Logout from "@/components/pages/mypage/Logout";
 import MypageInfo from "@/components/pages/mypage/MypageInfo";
 import MypageList from "@/components/pages/mypage/MypageList";
 import PointPurchased from "@/components/pages/mypage/PointPurchased";
+import TermsConditions from "@/components/pages/mypage/TermsConditions";
 
 export default function Mypage() {
   const [cookies] = useCookies(["uuid"]);
@@ -28,6 +29,8 @@ export default function Mypage() {
       {loginCheck ? (
         menuId === 1 ? (
           <PointPurchased setMenuId={setMenuId} />
+        ) : menuId === 2 ? (
+          <TermsConditions setMenuId={setMenuId} />
         ) : (
           <>
             <MypageInfo />
