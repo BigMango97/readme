@@ -5,7 +5,9 @@ import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import axios from "@/configs/axiosConfig";
 import useKakaoInit from "@/hooks/useKakaoInit";
-
+import { useQuery } from "react-query";
+import Link from "next/link";
+import Swal from "sweetalert2";
 interface Props {
   title: string;
   description: string;
@@ -25,6 +27,14 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
     }
   }, [novelId]);
 
+  const [isIosDevice, setIsIosDevice] = useState(false);
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    const isIos = /iPad|iPhone|iPod/.test(userAgent);
+    setIsIosDevice(isIos);
+  }, []);
+
   useEffect(() => {
     if (cookies.uuid) {
       setLoginCheck(true);
@@ -42,26 +52,56 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
         novelsId: `${novelId}`,
       });
     } else {
-      sessionStorage.setItem("link", router.asPath);
+      localStorage.setItem("link", router.asPath);
       router.push("/login");
     }
   };
 
   useKakaoInit();
   const shareToKakao = () => {
-    window.Kakao.Link.sendDefault({
-      objectType: "feed",
-      content: {
-        title: title,
-        description: description,
-        imageUrl: thumbnail,
-        link: {
-          mobileWebUrl: `https://readme.life/noveldetail/${novelId}`,
-          webUrl: `https://readme.life/noveldetail/${novelId}`,
+    if (isIosDevice) {
+      Swal.fire({
+        toast: true,
+        icon: "warning",
+        title:"iOS에서 지원하지 않는 서비스입니다.",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+
+      alert("iOS에서 지원하지 않는 서비스입니다.");
+    } else {
+      window.Kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: title,
+          description: description,
+          imageUrl: thumbnail,
+          link: {
+            mobileWebUrl: `https://readme.life/noveldetail/${novelId}`,
+            webUrl: `https://readme.life/noveldetail/${novelId}`,
+          },
         },
-      },
-    });
+      });
+    }
   };
+
+  const searchEpisodeFetch = async () => {
+    const response = await axios.get(
+      `/novels-service/v1/episodes/getFirst/${novelId}`
+    );
+    return response.data.data;
+  };
+  const searchEpisodeQuery = useQuery(
+    ["searchEpisodeId", novelId],
+    searchEpisodeFetch,
+    {
+      cacheTime: 10 * 60 * 1000,
+      staleTime: 5 * 60 * 1000,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const episodeId = searchEpisodeQuery.data.episodeId;
+
   return (
     <div className={style.detailFooter}>
       <div className={style.novelBuyBtn}>
@@ -94,7 +134,10 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
           height={30}
           priority
         />
-        <div>무료로 첫편보기</div>
+        <Link href={`/viewer/${episodeId}`}>
+          {" "}
+          <div>무료로 첫편보기</div>
+        </Link>
       </div>
     </div>
   );
