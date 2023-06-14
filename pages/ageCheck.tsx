@@ -1,16 +1,17 @@
-import React from "react";
-import Image from "next/image";
-import Head from "next/head";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import React from "react";
 import useKakaoInit from "@/hooks/useKakaoInit";
 import Config from "@/configs/config.export";
+import Head from "next/head";
 import style from "@/components/ui/Login.module.css";
 
-export default function Login() {
+export default function AgeCheck() {
   const router = useRouter();
   const loginRedirectUri = Config().loginRedirectUri;
 
   useKakaoInit();
+
   const kakaoLogin = () => {
     if (!window.Kakao.isInitialized()) return;
     window.Kakao.Auth.authorize({
@@ -33,7 +34,7 @@ export default function Login() {
               height={80}
               priority
             />
-            <p>로그인 후 이용할 수 있는 서비스 입니다</p>
+            <p>연령 확인 후 이용할 수 있는 서비스 입니다</p>
             <div className={style.loginBtn}>
               <Image
                 src="/assets/images/kakaoLogin.png"
