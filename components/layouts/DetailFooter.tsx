@@ -63,12 +63,10 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
       Swal.fire({
         toast: true,
         icon: "warning",
-        title:"iOS에서 지원하지 않는 서비스입니다.",
+        title: "iOS에서 지원하지 않는 서비스입니다.",
         showConfirmButton: false,
         timer: 1000,
       });
-
-      alert("iOS에서 지원하지 않는 서비스입니다.");
     } else {
       window.Kakao.Link.sendDefault({
         objectType: "feed",
@@ -135,8 +133,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
           priority
         />
         <Link href={`/viewer/${episodeId}`}>
-          {" "}
-          <div>무료로 첫편보기</div>
+          <div className={style.freeTitle}>무료로 첫편보기</div>
         </Link>
       </div>
     </div>
