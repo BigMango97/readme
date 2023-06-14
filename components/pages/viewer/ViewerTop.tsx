@@ -19,7 +19,7 @@ export default function ViewerTop({
   novelsTitle,
   registration,
   novelId,
-}: Props) { 
+}: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["uuid"]);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
@@ -27,15 +27,16 @@ export default function ViewerTop({
   const sendViewerPosition = useSendViewerPositionMutation();
   const movePage = useCallback(() => {
     if (!loginCheck) {
-      sessionStorage.setItem("link", router.asPath);
+      localStorage.setItem("link", router.asPath);
       router.push("/login");
     }
   }, [loginCheck, router]);
+
   const readAt = Number(localStorage.getItem("viewerPosition"));
 
   const handleArrowClick = useCallback(() => {
     if (!loginCheck) {
-      router.back();
+      router.push(`/noveldetail/${novelId}`);
       return;
     }
     sendViewerPosition.mutate(
@@ -45,14 +46,14 @@ export default function ViewerTop({
       },
       {
         onSuccess: (data: any) => {
-          console.log("data",data)
+
+          
           router.push(`/noveldetail/${novelId}`);
+
         },
       }
     );
-
-  }, [router, novelId, episodeId, sendViewerPosition, readAt, loginCheck]);
-
+  }, [router, episodeId, sendViewerPosition, readAt, loginCheck]);
 
   const handleButtonClick = useCallback(() => {
     if (!loginCheck) {

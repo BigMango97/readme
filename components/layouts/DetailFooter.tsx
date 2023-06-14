@@ -44,6 +44,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
     }
   }, [novelId]);
 
+
   const likeBtnHandle = async () => {
     //login 돼있을 때
     if (loginCheck) {
@@ -89,6 +90,7 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
     );
     return response.data.data;
   };
+
   const searchEpisodeQuery = useQuery(
     ["searchEpisodeId", novelId],
     searchEpisodeFetch,
@@ -99,6 +101,17 @@ export default function DetailFooter({ title, description, thumbnail }: Props) {
     }
   );
   const episodeId = searchEpisodeQuery.data.episodeId;
+
+  const searchEpisodeFetch = async () => {
+    const response = await axios.get(`/novels-service/v1/episodes/getFirst/${novelId}`);
+    return response.data.data;
+  };
+  const searchEpisodeQuery = useQuery(["searchEpisodeId", novelId], searchEpisodeFetch, {
+    cacheTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+  const episodeId=searchEpisodeQuery.data.episodeId
 
   return (
     <div className={style.detailFooter}>

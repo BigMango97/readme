@@ -8,7 +8,7 @@ const withPWA = require("next-pwa")({
   runtimeCaching,
   buildExcludes: [/middleware-manifest.json$/],
   mode: "production",
-  disableDevLogs: true, //log닫기
+  disableDevLogs: true,
 });
 
 const nextConfig = withPWA({

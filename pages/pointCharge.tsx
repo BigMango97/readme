@@ -1,12 +1,10 @@
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import Login from "./login";
+import Head from "next/head";
 import PointMiddle from "@/components/pages/point/PointMiddle";
 import PointTop from "@/components/pages/point/PointTop";
 import PointBottom from "@/components/pages/point/PointBottom";
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import Swal from "sweetalert2";
-import { useRouter } from "next/router";
-import { RecoilRoot } from "recoil";
-import Login from "./login";
 
 export default function PointCharge() {
   const [cookies] = useCookies(["uuid"]);
@@ -17,6 +15,10 @@ export default function PointCharge() {
 
   return (
     <>
+      <Head>
+        <title> {`포인트 충전 | ReadMe`}</title>
+        <meta name="description" content="포인트 충전 페이지 입니다." />
+      </Head>
       {loginCheck ? (
         <>
           <PointTop />

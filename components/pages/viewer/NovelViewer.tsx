@@ -301,7 +301,7 @@ export default function NovelViewer(props: {
       const positionY = recentReadData?.readAt;
       window.scrollTo(0, positionY);
     };
-    const link = sessionStorage.getItem("link");
+    const link = localStorage.getItem("link");
     if (link === "/library?id=1") {
       readAtData();
     }
@@ -344,7 +344,7 @@ const ListView = (props: {
 }) => {
   const { data, targetHandler, handleLongPressStart, handleLongPressEnd } =
     props;
-  const emojiList = data.emojiList || [];
+  const emojiList = data.emojiList;
 
   const handleLongPress = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
@@ -361,7 +361,7 @@ const ListView = (props: {
   };
 
   const handleAddEmoji = (emojiId: number) => {
-    if (!data.content.includes("<br>")) {
+    if (!data.content.includes("<br>") && emojiList) {
       const updatedEmojiList = emojiList.map((emoji) => {
         if (emoji.id === emojiId) {
           return {
@@ -389,7 +389,7 @@ const ListView = (props: {
             __html: data.content.replace(/<p>/g, "").replace(/<\/p>/g, ""),
           }}
         />
-        {emojiList.map((item: EmojiList) => {
+        {emojiList && emojiList.map((item: EmojiList) => {
           const matchedEmoji = emojiList.find((emoji) => emoji.id === item.id);
           if (matchedEmoji && matchedEmoji.count > 0) {
             return (

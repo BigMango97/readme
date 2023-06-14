@@ -1,10 +1,5 @@
 import React from "react";
 import { NextPageWithLayout } from "./_app";
-import Layout from "@/components/layouts/layout";
-import MainBestItem from "@/components/pages/main/MainBestItem";
-import MainEvent from "@/components/pages/main/MainEvent";
-import MainScheduleContainer from "@/components/pages/main/MainScheduleContainer";
-import RankingContainer from "@/components/pages/main/RankingContainer";
 import {
   scheduleQueryType,
   besteventNovelQueryType,
@@ -14,8 +9,14 @@ import {
   BestNovelItemFetch,
   eventNovelItemFetch,
 } from "./api/sections-service";
+import Head from 'next/head';
 import { bestNovelIdFetch, eventNovelFetch } from "./api/novel-service";
 import { GetServerSideProps } from "next";
+import Layout from "@/components/layouts/layout";
+import MainBestItem from "@/components/pages/main/MainBestItem";
+import MainEvent from "@/components/pages/main/MainEvent";
+import MainScheduleContainer from "@/components/pages/main/MainScheduleContainer";
+import RankingContainer from "@/components/pages/main/RankingContainer";
 
 interface ServerSideProps {
   scheduleTitleData: scheduleQueryType[];
@@ -64,6 +65,10 @@ const Home: NextPageWithLayout<ServerSideProps> = ({
 }) => {
   return (
     <>
+     <Head>
+        <title>메인페이지 | ReadMe</title>
+        <meta name="description" content="소설은 ReaMe With me!" />
+      </Head>
       {bestNovelData && (
         <MainBestItem data={bestNovelData} bestImage={bestImage} />
       )}

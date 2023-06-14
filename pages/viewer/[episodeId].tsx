@@ -1,14 +1,15 @@
 import { useQuery, UseQueryResult, useQueryClient } from "react-query";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
+import { emojiFetch } from "../api/batch-service";
+import { episodeDetailFetch } from "../api/novel-service";
+import { episodeDetailFetchType } from "@/types/service/novel-service";
 
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
 import ViewerTop from "@/components/pages/viewer/ViewerTop";
 import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
-import { episodeDetailFetch } from "../api/novel-service";
-import { episodeDetailFetchType } from "@/types/service/novel-service";
-import { emojiFetch } from "../api/batch-service";
-import { useEffect, useState, useRef } from "react";
-import { useCookies } from "react-cookie";
 
 interface ErrorType extends Error {
   message: string;
@@ -106,9 +107,6 @@ export default function ViewerPage() {
     ["episodeid", episodeId],
     () => episodeDetailFetch(episodeId),
     {
-      onSuccess: (data) => {
-        console.log("data", data);
-      },
       onError: (error: ErrorType) => {
         console.log(error.message);
       },
@@ -119,14 +117,21 @@ export default function ViewerPage() {
 
   const {
     data: emojiQuery,
-    isLoading: emojiLoading,
-    isError: emojiError,
   } = useQuery(["emojiData", episodeId], () => emojiFetch(episodeId), {
     enabled: !!episodeId,
   });
 
   return (
     <>
+     <Head>
+        
+          <title>{`${episodeDetailDataResult?.title} | ReadMe`}</title>
+       
+        <meta
+          name="description"
+          content={episodeDetailDataResult?.content}
+        />
+      </Head>
       {episodeDetailDataResult  && (
         <>
           <ViewerTop

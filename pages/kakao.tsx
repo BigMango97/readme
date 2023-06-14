@@ -1,10 +1,10 @@
 import axios from "axios";
-import { default as customAxios } from "@/configs/axiosConfig";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import style from "@/components/ui/Kakao.module.css";
 import { SyncLoader } from "react-spinners";
+import dayjs from "dayjs";
 
 export default function Kakao() {
   const router = useRouter();
@@ -19,20 +19,24 @@ export default function Kakao() {
           `https://api.readme.life/users-service/v1/user/login?code=${code}`
         )
         .then((res) => {
-          sessionStorage.setItem("nickname", res.data.data.nickname);
-          sessionStorage.setItem("point", res.data.data.point);
-          sessionStorage.setItem("profileImg", res.data.data.profileImg);
-          sessionStorage.setItem("age", res.data.data.age_range);
+          localStorage.setItem("nickname", res.data.data.nickname);
+          localStorage.setItem("point", res.data.data.point);
+          localStorage.setItem("profileImg", res.data.data.profileImg);
+          localStorage.setItem("age", res.data.data.age_range);
 
-          //console.log("headers = ", res.headers);
+          console.log("headers = ", res.headers);
+          console.log("data = ", res.data);
 
           setCookie("accessToken", res.headers.accesstoken, {
             path: "/",
-            // expires: res.headers.expires,
+            expires: dayjs(res.headers.expiration).toDate(),
           });
-          setCookie("uuid", res.headers.uuid, { path: "/" });
+          setCookie("uuid", res.headers.uuid, {
+            path: "/",
+            expires: dayjs(res.headers.expiration).toDate(),
+          });
 
-          const link = sessionStorage.getItem("link");
+          const link = localStorage.getItem("link");
           if (link === null) {
             router.push("/");
           } else {

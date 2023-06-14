@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
 import { GetServerSideProps } from "next";
+import Head from 'next/head';
 import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 import { useRecoilState } from "recoil";
+import { useInView } from "react-intersection-observer";
 import { viewerTypeState } from "@/state/viewerType";
 import {
   useQuery,
@@ -11,7 +12,6 @@ import {
   dehydrate,
   useInfiniteQuery,
 } from "react-query";
-
 import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
 import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
 import Footer from "@/components/layouts/Footer";
@@ -88,14 +88,9 @@ export default function Novel() {
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
-      console.log("fetching next page...");
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
 
   const novelMenusResult = novelMenusQuery?.data?.data;
   const novelDatasResult = data?.pages.flatMap(
@@ -107,6 +102,10 @@ export default function Novel() {
 
   return (
     <>
+      <Head>
+        <title>{`웹소설 - ${category} | ReadMe`}</title>
+        <meta name="description" content="내가 읽은 싶은 소설이 모여있는 곳!" />
+      </Head>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
       {novelDatasResult && totalElementsResult && (
         <AllNovelCardSection
