@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import ReviewContainer from "../pages/viewer/StarRatingContainer";
 import CommentsContainer from "../pages/viewer/CommentsContainer";
 import style from "@/components/ui/SlideComponent.module.css";
@@ -41,6 +41,18 @@ export default function SlideComponent({
         content = <CommentsContainer novelId={novelId} title={title} />;
         break;
     }
+
+
+    useEffect(() => {
+      if (slideOpen) {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.documentElement.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
+      }
+    }, [slideOpen]);
+
   return (
     <div
       className={ slideOpen ? `${style.container} ${style.shown}` : `${style.container} ${style.hidden}`}
