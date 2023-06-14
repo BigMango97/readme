@@ -1,13 +1,15 @@
 import { useQuery, UseQueryResult, useQueryClient } from "react-query";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
+import { emojiFetch } from "../api/batch-service";
+import { episodeDetailFetch } from "../api/novel-service";
+import { episodeDetailFetchType } from "@/types/service/novel-service";
 
 import NovelViewer from "@/components/pages/viewer/NovelViewer";
 import ViewerTop from "@/components/pages/viewer/ViewerTop";
 import ViewerBottom from "@/components/pages/viewer/ViewerBottom";
-import { episodeDetailFetch } from "../api/novel-service";
-import { episodeDetailFetchType } from "@/types/service/novel-service";
-import { emojiFetch } from "../api/batch-service";
-import { useEffect, useRef } from "react";
 
 interface ErrorType extends Error {
   message: string;
@@ -121,6 +123,15 @@ export default function ViewerPage() {
 
   return (
     <>
+     <Head>
+        
+          <title>{`${episodeDetailDataResult?.title} | ReadMe`}</title>
+       
+        <meta
+          name="description"
+          content={episodeDetailDataResult?.content}
+        />
+      </Head>
       {episodeDetailDataResult  && (
         <>
           <ViewerTop

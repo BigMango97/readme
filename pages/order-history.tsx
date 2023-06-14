@@ -1,12 +1,13 @@
 import axios from "@/configs/axiosConfig";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { SyncLoader } from "react-spinners";
 import { useCookies } from "react-cookie";
-import style from "@/components/pages/point/order-history.module.css";
+import { useRouter } from "next/router";
 import Image from "next/image";
+import Head from "next/head";
+import style from "@/components/pages/point/order-history.module.css";
 import LineSeparator from "@/components/ui/LineSeparator";
 import { pointPayType } from "@/types/user/paymentType";
-import { SyncLoader } from "react-spinners";
 
 export default function OrderHistory() {
   const router = useRouter();
@@ -52,6 +53,10 @@ export default function OrderHistory() {
 
   return (
     <>
+      <Head>
+        <title> {`충전내역 | ReadMe`}</title>
+        <meta name="description" content="충전내역 페이지 입니다." />
+      </Head>
       {payData ? (
         <div className={style.container}>
           <div className={style.billArea}>

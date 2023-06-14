@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import axios from "@/configs/axiosConfig";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import { useRecoilState } from "recoil";
+import { recentSearchWord } from "@/state/recentSearchWord";
 import SearchBox from "@/components/pages/search/SearchBox";
 import RecentSearchTop from "@/components/pages/search/RecentSearchTop";
 import RecentSearchItems from "@/components/pages/search/RecentSearchItems";
 import RecommendItems from "@/components/pages/search/RecommendItems";
 import Footer from "@/components/layouts/Footer";
 import Config from "@/configs/config.export";
-import { recentSearchWord } from "@/state/recentSearchWord";
-import Head from "next/head";
+
 interface ErrorType extends Error {
   message: string;
 }

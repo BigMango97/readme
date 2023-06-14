@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import axios from "@/configs/axiosConfig";
 import { GetServerSideProps } from "next";
+import Head from 'next/head';
 import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 import { useRecoilState } from "recoil";
+import { useInView } from "react-intersection-observer";
 import { viewerTypeState } from "@/state/viewerType";
 import {
   useQuery,
@@ -11,7 +12,6 @@ import {
   dehydrate,
   useInfiniteQuery,
 } from "react-query";
-import Head from 'next/head';
 import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
 import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
 import Footer from "@/components/layouts/Footer";
