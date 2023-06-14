@@ -38,6 +38,7 @@
     color:var(--readme-white);
     font-size:0.875rem;
 }
-.novelReadBtn a{
+
+.freeTitle{
     color: var(--readme-white);
 }
