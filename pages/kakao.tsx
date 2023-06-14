@@ -1,5 +1,4 @@
 import axios from "axios";
-import { default as customAxios } from "@/configs/axiosConfig";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
