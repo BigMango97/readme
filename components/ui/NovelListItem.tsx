@@ -3,9 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import style from "@/components/ui/NovelListItem.module.css";
 import { allDetailDatatype } from "@/types/model/mainDataType";
-import axios from "@/configs/axiosConfig";
-import { recentReadType } from "@/types/user/libraryType";
-
+import Swal from "sweetalert2";
 const IS_READABLE_BY_All = 0;
 const IS_NINETEEN_PLUS = 19;
 
@@ -31,21 +29,47 @@ export default function NovelListItem({
     router.push(`/viewer/${novelData.episodeId}`);
   };
   const handleNovelDetailClick = () => {
+    const grade = novelData.grade;
+
+    // grade가 0인 경우 나이 체크 없이 바로 이동
+    if (grade === 0) {
+      localStorage.setItem("scrollPosition", window.pageYOffset.toString());
+      localStorage.setItem("previousUrl", router.asPath);
+      router.push(`/noveldetail/${novelData.novelId}`, undefined, { scroll: false });
+      return;
+    }
+
+    const age = localStorage.getItem("age");
+
+    if (!age) {
+      router.push("/ageCheck");
+      return;
+    }
+
+    const ageRange = age.split("~").map((num) => parseInt(num.trim()));
+    const minAge = ageRange[0];
+    const maxAge = ageRange[1];
+
+    if (minAge >= 10 && maxAge <= 19) {
+      Swal.fire({
+        toast: true,
+        icon: "warning",
+        html: `
+        <div>
+          <span style="font-weight:800">만 ${grade}세 이상</span>
+          <br />
+          <span>이용 가능한 서비스입니다.</span>
+        </div>
+      `,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      return;
+    }
+
     localStorage.setItem("scrollPosition", window.pageYOffset.toString());
     localStorage.setItem("previousUrl", router.asPath);
-    router.push(`/noveldetail/${novelData.novelId}`, undefined, {
-      scroll: false,
-    });
-  };
-
-  const deleteRecentHandle = async (recentId: number) => {
-    const res = await axios.delete(`/novels-service/v1/history/${recentId}`);
-  };
-
-  const deleteLikeHandle = async (novelId: number) => {
-    const res = await axios.post(`/utils-service/v1/pick`, {
-      novelsId: `${novelId}`,
-    });
+    router.push(`/noveldetail/${novelData.novelId}`, undefined, { scroll: false });
   };
 
   return (
