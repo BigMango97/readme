@@ -33,7 +33,9 @@ export default function NovelCardList({
   return (
     <>
       <div className={style.container}>
-        <span>소설 {totalElements}건</span>
+        <div className={style.totalElements}>
+          <span>소설 {totalElements}건</span>
+        </div>
       </div>
       <div className={style.novelContainer}>
         {currentTap === "3" && purchasedData.length !== 0 ? (
