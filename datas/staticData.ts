@@ -77,8 +77,8 @@ export const subDayMenu = [
 ];
 
 export const subStatusMenu = [
-  { id: 1, title: "신작" },
-  { id: 2, title: "연재중" },
+  { id: 1, title: "연재중" },
+  { id: 2, title: "신작" },
   { id: 3, title: "완결" },
 ];
 
