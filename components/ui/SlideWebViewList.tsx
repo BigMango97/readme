@@ -7,7 +7,7 @@ export default function SlideWebViewList() {
     <div className={style.mainWebNovelContainer}>
       <p>웹소설</p>
       <div className={style.mainWebNovelGenre}>
-        <Link href={"/novel?category=판타지&subCategory=신작&viewerType=card"}>
+        <Link href={"/novel?category=판타지&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_hj.jpg"
@@ -20,7 +20,7 @@ export default function SlideWebViewList() {
             <p>판타지</p>
           </div>
         </Link>
-        <Link href={"novel?category=현판&subCategory=신작&viewerType=card"}>
+        <Link href={"novel?category=현판&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_jy.jpg"
@@ -33,7 +33,7 @@ export default function SlideWebViewList() {
             <p>현판</p>
           </div>
         </Link>
-        <Link href={"/novel?category=로맨스&subCategory=신작&viewerType=card"}>
+        <Link href={"/novel?category=로맨스&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_mk.jpg"
@@ -48,7 +48,7 @@ export default function SlideWebViewList() {
         </Link>
       </div>
       <div className={style.mainWebNovelGenre}>
-        <Link href={"/novel?category=로판&subCategory=신작&viewerType=card"}>
+        <Link href={"/novel?category=로판&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_sh.jpg"
@@ -61,7 +61,7 @@ export default function SlideWebViewList() {
             <p>로판</p>
           </div>
         </Link>
-        <Link href={"novel?category=무협&subCategory=신작&viewerType=card"}>
+        <Link href={"novel?category=무협&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_ym.jpg"
@@ -74,7 +74,7 @@ export default function SlideWebViewList() {
             <p>무협</p>
           </div>
         </Link>
-        <Link href={"/novel?category=드라마&subCategory=신작&viewerType=card"}>
+        <Link href={"/novel?category=드라마&subCategory=연재중&viewerType=card"}>
           <div className={style.mainWebNovelImg}>
             <Image
               src="/assets/images/novelImg_ym2.jpg"

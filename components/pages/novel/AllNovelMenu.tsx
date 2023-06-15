@@ -22,7 +22,7 @@ export default function AllNovelMenu(props: { data: novelMenuType[] }) {
             { shallow: true }
           )
         : router.push(
-            `/novel?category=${index}&subCategory=${"신작"}&viewerType=${viewerType}`,
+            `/novel?category=${index}&subCategory=${"연재중"}&viewerType=${viewerType}`,
             undefined,
             { shallow: true }
           );
