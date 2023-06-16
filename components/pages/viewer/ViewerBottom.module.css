@@ -1,0 +1,29 @@
+.container {
+  width: 100vw;
+  z-index: 100;
+  position: fixed;
+  bottom: 0;
+}
+.pageNumberContainer {
+  color: var(--readme-title-gray);
+}
+.pageNumberContainer {
+  text-align: right;
+  margin: 0.2rem 1rem;
+}
+.menuCategory {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  padding: 1rem;
+  background-color: var(--readme-white);
+}
+
+.viewerBottomIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.starRatingNumber {
+  margin-left: 10px;
+}

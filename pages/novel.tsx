@@ -1,74 +1,139 @@
-import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
-import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
-import Footer from "@/components/layouts/Footer";
 import { useRouter } from "next/router";
-import axios, { AxiosResponse } from "axios";
-import React from "react";
+import axios from "@/configs/axiosConfig";
+import { GetServerSideProps } from "next";
+import Head from 'next/head';
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { useInView } from "react-intersection-observer";
+import { viewerTypeState } from "@/state/viewerType";
 import {
   useQuery,
   QueryClient,
-  QueryClientProvider,
   dehydrate,
+  useInfiniteQuery,
 } from "react-query";
+import AllNovelCardSection from "@/components/pages/novel/AllNovelCardSection";
+import AllNovelMenu from "@/components/pages/novel/AllNovelMenu";
+import Footer from "@/components/layouts/Footer";
 
+type ViewerType = "card" | "list";
 const novelMenus = async () => {
-  const response = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/main-category`
-  );
+  const response = await axios.get(`/novels-service/v1/main-category`);
   return response.data;
 };
-const novelDatas = async (
+
+const fetchnovelDatas = async (
   category: string,
-  subCategory: string
-): Promise<AxiosResponse> => {
+  subCategory: string,
+  pageParam = 0
+) => {
   const response = await axios.get(
-    `http://43.200.189.164:8000/sections-service/v1/cards/novels?pagination=0&category=${category}&subCategory=${subCategory}`
+    `/sections-service/v1/cards/novels?pagination=${pageParam}&category=${category}&subCategory=${subCategory}`
   );
   return response.data;
 };
-
-const queryClient = new QueryClient();
-
-export async function getServerSideProps(context: any) {
-  const { category, subCategory } = context.query;
-  await Promise.all([
-    queryClient.prefetchQuery(["novelMenus"], () => novelMenus()),
-    queryClient.prefetchQuery(
-      ["category", category, "subCategory", subCategory],
-      () => novelDatas(category, subCategory)
-    ),
-  ]);
-
-  return {
-    props: {
-      dehydrateState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
-}
 
 export default function Novel() {
   const router = useRouter();
+  const [viewerType, setViewerType] =
+    useRecoilState<ViewerType>(viewerTypeState);
+
+  useEffect(() => {
+    setViewerType((router.query.viewerType as ViewerType) || "card");
+  }, [router.query.viewerType]);
+
+  const updateViewerType = (type: ViewerType) => {
+    setViewerType(type);
+    const { category, subCategory } = router.query;
+    router.push({
+      pathname: router.pathname,
+      query: { category, subCategory, viewerType: type },
+    });
+  };
+
   const { category, subCategory }: any = router.query;
+
+  const queryClientRef = React.useRef<QueryClient>();
+  if (!queryClientRef.current) {
+    queryClientRef.current = new QueryClient();
+  }
+
   const novelMenusQuery = useQuery(["novelMenus"], novelMenus, {
-    staleTime: Infinity,
+    cacheTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
-  const novelDatasQuery = useQuery(
-    ["category", category, "subCategory", subCategory],
-    () => novelDatas(category, subCategory),
-    {
-      staleTime: Infinity,
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery(
+      ["novelDatas", category, subCategory],
+      ({ pageParam = 0 }) => fetchnovelDatas(category, subCategory, pageParam),
+      {
+        getNextPageParam: (lastPage) => {
+          const currentPage = lastPage?.data?.page ?? 0;
+          const totalPages = lastPage?.data?.totalPages ?? 0;
+          if (currentPage < totalPages) {
+            return currentPage + 1;
+          }
+          return null;
+        },
+        staleTime: 5 * 1000 * 60,
+        cacheTime: 10 * 1000 * 60,
+      }
+    );
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  );
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   const novelMenusResult = novelMenusQuery?.data?.data;
-  const novelDatasResult = novelDatasQuery?.data;
+  const novelDatasResult = data?.pages.flatMap(
+    (page) => page.data.novelCardsData
+  );
+  const totalElementsResult = data?.pages.flatMap(
+    (page) => page.data.totalElements
+  );
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+      <Head>
+        <title>{`웹소설 - ${category} | ReadMe`}</title>
+        <meta name="description" content="내가 읽은 싶은 소설이 모여있는 곳!" />
+      </Head>
       {novelMenusResult && <AllNovelMenu data={novelMenusResult} />}
-      {novelDatasResult && <AllNovelCardSection data={novelDatasResult} />}
+      {novelDatasResult && totalElementsResult && (
+        <AllNovelCardSection
+          data={novelDatasResult}
+          totalElements={totalElementsResult[0]}
+          viewerType={viewerType}
+          setViewerType={updateViewerType}
+        />
+      )}
+      <div ref={ref}></div>
       <Footer />
-    </QueryClientProvider>
+    </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { category, subCategory } = context.query;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(["novelMenus"], novelMenus);
+  await queryClient.prefetchQuery(
+    ["category", category, "subCategory", subCategory],
+    () => fetchnovelDatas(String(category), String(subCategory))
+  );
+
+  const dehydratedState = dehydrate(queryClient);
+  return {
+    props: {
+      dehydratedState,
+    },
+  };
+};

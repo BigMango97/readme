@@ -8,18 +8,32 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-  let type = "";
-  router.query.type ? (type = router.query.type.toString()) : (type = "");
+
+  const [menu, setMenu] = useState<string>("novel");
+
+  useEffect(() => {
+    if (router.query.menu) {
+      setMenu(router.query.menu.toString());
+    }
+  }, [router.query.menu]);
+
+  const [, , removeCookie] = useCookies(["accessToken"]);
 
   const clickMenuHandler = (item: any) => {
-    router.push(`/admin/main?type=${item.key}`);
+    if (item.key === "logout") {
+      localStorage.removeItem("nickname");
+      removeCookie("accessToken", { path: "/" });
+      router.push("/admin/main");
+    } else router.push(`/admin/main?menu=${item.key}`);
   };
+
   const clickLogoHandler = () => {
-    router.push(`/admin/main?type=1`);
+    router.push(`/admin/main?menu=novel`);
   };
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -37,9 +51,10 @@ export default function SideBar() {
     } as MenuItem;
   }
   const items: MenuItem[] = [
-    getItem("소설관리", "1", <PieChartOutlined />),
-    getItem("스케줄관리", "2", <DesktopOutlined />),
-    getItem("CARD관리", "3", <FileOutlined />),
+    getItem("소설관리", "novel", <PieChartOutlined />),
+    getItem("스케줄관리", "schedule", <DesktopOutlined />),
+    getItem("카드관리", "card", <FileOutlined />),
+    getItem("로그아웃", "logout", <FileOutlined />),
   ];
 
   return (
@@ -64,7 +79,7 @@ export default function SideBar() {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={[type]}
+          selectedKeys={[menu]}
           mode="inline"
           items={items}
           onClick={clickMenuHandler}

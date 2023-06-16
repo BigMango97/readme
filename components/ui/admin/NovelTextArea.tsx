@@ -11,7 +11,6 @@ export default function NovelTextArea(props: {
 }) {
   const changeInputHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
-    //props.setInput(e.target.value);
     props.setInputData({
       ...props.inputData,
       description: e.target.value,

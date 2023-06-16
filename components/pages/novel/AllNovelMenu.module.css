@@ -15,15 +15,19 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 3.5rem 1rem 1rem 1rem;
+  padding: 2rem 1rem 1rem 1rem;
+  border-radius: 0 0 10px 10px;
   background-color: var(--readme-white);
+  z-index: 102;
 }
+
 .novelMenuTitle {
   font-size: 1.125rem;
   font-weight: 800;
   color: var(--readme-primary);
   margin-bottom: 2rem;
 }
+
 .novelMenuList {
   display: flex;
   justify-content: space-between;
@@ -31,6 +35,8 @@
   width: 100%;
   font-size: 0.875rem;
 }
+
+
 .novelMenuList li {
   list-style: none;
 }
@@ -42,16 +48,32 @@
   color: var(--readme-title-gray);
 }
 .novelSubMenu {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  background-color: #636363;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  box-shadow: 5px 5px 20px 0px #636363;
+  position: relative;
+  top: -1rem;
+  z-index: 101;
+  width: 95%;
+  opacity: 0.9;
+  padding: 1.5rem 1rem 1rem 1rem;
+  background-color: var(--readme-primary);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0px 5px 10px 0px var(--readme-secondary);
+  animation: slideIn 0.5s ease-in-out;
+  animation-fill-mode: forwards;
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
 .novelSubMenuList {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   height: 2rem;
   font-size: 0.75rem;

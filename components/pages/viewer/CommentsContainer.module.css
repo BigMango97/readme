@@ -1,0 +1,33 @@
+.commentsTitle {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bolder;
+  margin: 2rem 0 1rem 0;
+}
+.commentsList {
+  height: 20rem;
+  overflow-y: scroll;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.noCommentsContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.commentsImg img{
+  margin-bottom: 1rem;
+}
+.noComment{
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noComment p{
+  text-align: center;
+  font-size: 0.8rem;
+}

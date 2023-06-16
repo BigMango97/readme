@@ -1,32 +1,28 @@
-import React, { ReactElement, use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NovelList from "@/components/pages/admin/NovelList";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { NextPageWithLayout } from "../_app";
-import ScheduleList from "@/components/pages/admin/ScheduleManage";
 import CardList from "@/components/pages/admin/CardList";
 
 import { useRouter } from "next/router";
 import NovelSearch from "@/components/pages/admin/NovelSearch";
-import { createContext } from "react";
-import NovelSelect from "@/components/ui/admin/NovelSelect";
-import { novelInputType } from "@/types/admin/novelType";
-import dayjs from "dayjs";
-import { Select } from "antd";
 import ScheduleManage from "@/components/pages/admin/ScheduleManage";
 
 const Main: NextPageWithLayout = () => {
   const router = useRouter();
-  let currentTap = router.query.type;
+  let currentTap = router.query.menu;
 
   return (
     <>
-      <NovelSearch />
-      {currentTap === "3" ? (
+      {currentTap === "card" ? (
         <CardList />
-      ) : currentTap === "2" ? (
+      ) : currentTap === "schedule" ? (
         <ScheduleManage />
       ) : (
-        <NovelList />
+        <>
+          <NovelSearch />
+          <NovelList />
+        </>
       )}
     </>
   );

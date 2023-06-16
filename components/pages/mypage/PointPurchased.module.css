@@ -1,0 +1,50 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    /* padding: 3rem 3rem; */
+    padding : 2rem 1rem;
+    z-index: 900;
+
+}
+.historyTop{
+    width: 100%;
+    height: 100px;
+    margin-bottom: 2rem; 
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color:white;
+  /* width: 100%; */
+}
+.topText{
+    width: 100%;
+    display:flex; 
+    justify-content: center;
+}
+.topText p{
+    font-size: 1.5rem;
+}
+.chargeInfo {
+    font-size: 0.94rem;
+    width:100%;
+    height:90px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .line{
+    padding-top: 0.2rem;
+  }
+  .textBox{
+    display: flex;
+    width: 100%;
+    justify-content:space-between;
+  }
+  .boldText{
+    font-weight: 800;
+  }
+  .greenText{
+    color: #03C75A;
+  }

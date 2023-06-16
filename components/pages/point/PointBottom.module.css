@@ -1,0 +1,38 @@
+.container{
+    width: 100%;
+    height: 20rem;
+    padding: 1rem 2rem 1rem;
+}
+.text{
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 0.6rem;
+}
+.text p{ 
+    font-size: 1rem;
+}
+.text span{
+    font-weight: bolder;
+    font-size: 1.25rem;
+    color: #03C75A;
+}
+.box{
+    padding-bottom: 2rem;
+}
+.payment{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
+.payButton{
+    width: 17rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;                  
+    background-color: var(--readme-primary);
+    color: white;
+    align-items: center;
+    border-radius: 3rem;
+}

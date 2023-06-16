@@ -15,6 +15,8 @@
   --readme-red: #f80000;
   --readme-green :  #2d7c26;
   --readme-modal-color:#797979;
+  --readme-review-rating:#fcc418;
+  --readme-review-rating-gray:#b6b6b6;
 }
 
 * {
@@ -32,3 +34,18 @@ a {
   text-decoration: none;
 }
 
+
+/* slide panel */
+.some-custom-overlay-class {
+  z-index: 1000;
+  overflow: hidden;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.slide-pane__content {
+  overflow: hidden !important;
+  height: none;
+  margin: 0px !important;
+  padding: 0px !important;
+}

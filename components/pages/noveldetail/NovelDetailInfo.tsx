@@ -14,7 +14,7 @@ export default function NovelDetailInfo(props: {
       <div className={style.novelMainImageInfo}>
         <Image
           src={props.thumbnail}
-          alt="썸네일 이미지"
+          alt="thumbnail Img"
           width={1000}
           height={1000}
         />

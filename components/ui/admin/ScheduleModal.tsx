@@ -1,9 +1,9 @@
-import Config from "@/configs/config.export";
-import { scheduleListType, scheduleType } from "@/types/admin/scheduleType";
+import axios from "@/configs/axiosConfig";
+import { scheduleType } from "@/types/admin/scheduleType";
 import { DatePicker, Input, Modal, Space } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import axios from "axios";
-import dayjs, { Dayjs } from "dayjs";
+
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 
 export default function ScheduleModal(props: {
@@ -12,7 +12,7 @@ export default function ScheduleModal(props: {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { RangePicker } = DatePicker;
-  const baseUrl = Config().baseUrl;
+
   const [scheduleData, setScheduleData] = useState<scheduleType>({
     id: 0,
     name: "",
@@ -24,7 +24,7 @@ export default function ScheduleModal(props: {
   const handleOk = () => {
     //등록
     if (props.id === 0) {
-      axios.post(`${baseUrl}/sections-service/v1/admin/schedules`, {
+      axios.post(`/sections-service/v1/admin/schedules`, {
         name: scheduleData.name,
         startDate: scheduleData.startDate,
         endDate: scheduleData.endDate,
@@ -32,22 +32,21 @@ export default function ScheduleModal(props: {
     }
     //수정
     else {
-      console.log("id = ", props.id);
-      console.log("scheduleData = ", scheduleData);
-      axios.patch(
-        `${baseUrl}/sections-service/v1/admin/schedules/${props.id}`,
-        {
-          name: scheduleData.name,
-          startDate: scheduleData.startDate,
-          endDate: scheduleData.endDate,
-        }
-      );
-    }
+      const start = dayjs(scheduleData.startDate);
+      const end = dayjs(scheduleData.endDate);
 
+      axios.patch(`/sections-service/v1/admin/schedules/${props.id}`, {
+        name: scheduleData.name,
+        startDate: start,
+        endDate: end,
+      });
+    }
+    setScheduleData({ id: 0, name: "", startDate: dayjs(), endDate: dayjs() });
     props.setIsModalOpen(false);
   };
   //취소버튼
   const handleCancel = () => {
+    setScheduleData({ id: 0, name: "", startDate: dayjs(), endDate: dayjs() });
     props.setIsModalOpen(false);
   };
 
@@ -62,7 +61,6 @@ export default function ScheduleModal(props: {
     if (value !== undefined && value !== null) {
       const start = dayjs(value[0]);
       const end = dayjs(value[1]);
-      console.log("start = ", start);
       setScheduleData({
         ...scheduleData,
         startDate: start,
@@ -71,12 +69,10 @@ export default function ScheduleModal(props: {
     }
   };
 
-  let title = "스케줄 등록";
   useEffect(() => {
     if (props.id !== 0) {
-      title = "스케줄 수정";
       axios
-        .get(`${baseUrl}/sections-service/v1/admin/schedules/${props.id}`)
+        .get(`/sections-service/v1/admin/schedules/${props.id}`)
         .then((res) => {
           setScheduleData({
             id: res.data.data.id,
@@ -91,7 +87,7 @@ export default function ScheduleModal(props: {
   return (
     <>
       <Modal
-        title={title}
+        title={props.id === 0 ? "스케줄등록" : "스케줄수정"}
         open={props.isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -110,9 +106,9 @@ export default function ScheduleModal(props: {
             <Space direction="vertical" size={12}>
               <RangePicker
                 onChange={changeDateHandle}
-                placeholder={[
-                  scheduleData.startDate.toString(),
-                  scheduleData.endDate.toString(),
+                value={[
+                  dayjs(scheduleData.startDate),
+                  dayjs(scheduleData.endDate),
                 ]}
               />
             </Space>

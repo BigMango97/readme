@@ -2,6 +2,7 @@ import React from "react";
 import style from "@/components/ui/NovelCardItem.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 interface Props {
   thumbnail: string;
   serializationStatus: string;
@@ -12,7 +13,23 @@ interface Props {
   novelId?: number;
   grade: number;
   newChecking: boolean;
+  imgSize: string;
+  episodeCount: number;
 }
+
+const IS_READABLE_BY_All = 0; //전체
+const IS_NINETEEN_PLUS = 19; //19
+
+function getGradeText(grade: number) {
+  if (grade === IS_NINETEEN_PLUS) {
+    return <p className={style.nineteenCheck}>{grade}</p>;
+  }
+  if (grade === IS_READABLE_BY_All) {
+    return <p className={style.allCheck}>All</p>;
+  }
+  return <p className={style.basicCheck}>{grade}</p>;
+}
+
 export default function NovelCardItem({
   thumbnail,
   serializationStatus,
@@ -23,38 +40,79 @@ export default function NovelCardItem({
   novelId,
   grade,
   newChecking,
+  imgSize,
+  episodeCount,
 }: Props) {
   const router = useRouter();
-  const IS_READABLE_BY_All = 0;
-  const IS_NINETEEN_PLUS = 19;
+
+  const handleNovelDetailClick = () => {
+    // grade가 0인 경우 나이 체크 없이 바로 이동
+    if (grade === 0) {
+      localStorage.setItem("scrollPosition", window.pageYOffset.toString());
+      localStorage.setItem("previousUrl", router.asPath);
+      router.push(`/noveldetail/${novelId}`, undefined, { scroll: false });
+      return;
+    }
+
+    const age = localStorage.getItem("age");
+
+    if (!age) {
+      router.push("/ageCheck");
+      return;
+    }
+    const ageRange = age.split("~").map((num) => parseInt(num.trim()));
+    const minAge = ageRange[0];
+    const maxAge = ageRange[1];
+
+    if (minAge >= 10 && maxAge <= 19) {
+      Swal.fire({
+        toast: true,
+        icon: "warning",
+        html: `
+        <div>
+          <span style="font-weight:800">만 ${grade}세 이상</span>
+          <br />
+          <span>이용 가능한 서비스입니다.</span>
+        </div>
+      `,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      return;
+    }
+
+    localStorage.setItem("scrollPosition", window.pageYOffset.toString());
+    localStorage.setItem("previousUrl", router.asPath);
+    router.push(`/noveldetail/${novelId}`, undefined, { scroll: false });
+  };
+
   return (
     <div
       className={style.allNovelCard}
-      onClick={() => router.push(`/noveldetail/${novelId}?menu=작품소개`)}
+      style={{ width: imgSize }}
+      onClick={handleNovelDetailClick}
     >
       <div className={style.allNovelImgContainer}>
         <div className={style.allCardImg}>
-          <Image src={thumbnail} alt={"이미지"} width={500} height={500} />
+          <Image
+            src={thumbnail}
+            alt={"thumbnailImg"}
+            width={500}
+            height={500}
+            priority
+          />
         </div>
         {newChecking && (
           <div className={style.cardNewIcon}>
             <Image
               src={"/assets/images/icons/NewIcon.svg"}
-              alt={"이미지"}
-              width={30}
-              height={30}
+              alt={"newIcon"}
+              width={90}
+              height={90}
             />
           </div>
         )}
-        <div className={style.ageCheck}>
-          {grade === IS_NINETEEN_PLUS ? (
-            <p className={style.nineteenCheck}>{grade}</p>
-          ) : grade === IS_READABLE_BY_All ? (
-            <p className={style.allCheck}>All</p>
-          ) : (
-            <p className={style.basicCheck}>{grade}</p>
-          )}
-        </div>
+        <div className={style.ageCheck}>{getGradeText(grade)}</div>
       </div>
       <div>
         <div className={style.allNovelStatus}>{serializationStatus}</div>
@@ -67,18 +125,18 @@ export default function NovelCardItem({
         <div className={style.allNovelStarpoint}>
           <Image
             src={"/assets/images/icons/star.svg"}
-            alt={"이미지"}
+            alt={"starPointIcon"}
             width={15}
             height={15}
           />
           <span>{starRating}</span>
           <Image
             src={"/assets/images/icons/list.svg"}
-            alt={"이미지"}
+            alt={"listIcon"}
             width={15}
             height={15}
           />
-          <span>123</span>
+          <span>{episodeCount}</span>
         </div>
       </div>
     </div>

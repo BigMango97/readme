@@ -3,20 +3,16 @@
   justify-content: center;
   flex-direction: column;
   margin: 1rem 2rem;
-  margin-bottom: 7rem;
 }
 .sortNovel {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.sortTitle {
-  display: flex;
-  align-items: center;
+  font-size: 0.9rem;
+  font-weight: bolder;
   color: var(--readme-title-gray);
-  font-weight: 800;
-  font-size: 0.875rem;
 }
-.sortTitle div {
-  margin-left: 0.4rem;
+.activeSort{
+  font-weight: bolder;
+  color:var(--readme-primary)
 }

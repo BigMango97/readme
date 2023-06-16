@@ -1,59 +1,72 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import Head from "next/head";
+import axios from "@/configs/axiosConfig";
 import NovelDatailHeader from "@/components/pages/noveldetail/NovelDatailHeader";
 import NovelDetailInfo from "@/components/pages/noveldetail/NovelDetailInfo";
 import NovelDetailMenu from "@/components/pages/noveldetail/NovelDetailMenu";
 import DetailFooter from "@/components/layouts/DetailFooter";
 import NovelTages from "@/components/pages/noveldetail/NovelTages";
-import { allDetailDatatype } from "@/types/model/mainDataType";
 
-export default function Novel() {
-  const [data, setData] = useState<allDetailDatatype>();
+export default function NovelDetail() {
   const router = useRouter();
-  const [novelId, setNovelId] = useState(Number(router.query.novelId));
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get(
-          `http://43.200.189.164:8000/sections-service/v1/cards/novels/${novelId}`
-        );
-        setData(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+  const novelId = Number(router.query.novelId);
+  const novelbyIdData = async () => {
+    const response = await axios.get(
+      `/sections-service/v1/cards/novels/${novelId}`
+    );
+    return response.data;
+  };
+  const { data, error, isLoading } = useQuery(
+    ["novelbyIdData", novelId],
+    novelbyIdData,
+    {
+      enabled: !!novelId,
     }
-    if (novelId) {
-      fetchData();
-    }
-  }, [novelId]);
+  );
+  const novelbyIdDataResult = data?.data;
+
 
   return (
     <>
-      {data && (
+      <Head>
+        {novelbyIdDataResult && (
+          <title>{`${novelbyIdDataResult?.title} | ReadMe`}</title>
+        )}
+        <meta
+          name="description"
+          content={`${novelbyIdDataResult?.description}`}
+        />
+      </Head>
+      {novelbyIdDataResult && (
         <>
           <NovelDatailHeader
-            title={data.title}
-            author={data.author}
-            genre={data.genre}
-            serializationStatus={data.serializationStatus}
-            serializationDays={data.serializationDays}
+            title={novelbyIdDataResult.title}
+            author={novelbyIdDataResult.author}
+            genre={novelbyIdDataResult.genre}
+            serializationStatus={novelbyIdDataResult.serializationStatus}
+            serializationDays={novelbyIdDataResult.serializationDays}
           />
           <NovelDetailInfo
-            views={data.views}
-            starRating={data.starRating}
-            episodeCount={data.episodeCount}
-            thumbnail={data.thumbnail}
+            views={novelbyIdDataResult.views}
+            starRating={novelbyIdDataResult.starRating}
+            episodeCount={novelbyIdDataResult.episodeCount}
+            thumbnail={novelbyIdDataResult.thumbnail}
           />
-          <NovelTages tags={data.tags} />
+          <NovelTages tags={novelbyIdDataResult.tags} />
           <NovelDetailMenu
-            novelId={novelId}
-            description={data.description}
-            authorComment={data.authorComment}
+            novelId={novelbyIdDataResult.novelId}
+            description={novelbyIdDataResult.description}
+            authorComment={novelbyIdDataResult.authorComment}
+          />
+          <DetailFooter
+            title={novelbyIdDataResult.title}
+            description={novelbyIdDataResult.description}
+            thumbnail={novelbyIdDataResult.thumbnail}
           />
         </>
       )}
-      <DetailFooter />
     </>
   );
 }

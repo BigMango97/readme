@@ -1,0 +1,18 @@
+.novelRankingContainer{
+    margin: 2rem 1rem;
+}
+.rankingInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.rankingTitle{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--readme-primary);
+}
+.rankingTime{
+    font-size: 0.9rem;
+    color:var(--readme-title-gray)
+}

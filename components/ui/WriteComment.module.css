@@ -1,0 +1,23 @@
+.inputContainer {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.inputContainer input {
+  width: 90%;
+}
+.inputContainer input:focus {
+  outline: none;
+}
+.commentsBtnContainer {
+  display: flex;
+  justify-content: right;
+}
+
+.commentsBtn {
+  background-color: var(--readme-primary);
+  color: var(--readme-white);
+  padding: 0.4rem;
+  border: none;
+  font-size: 0.6rem;
+}

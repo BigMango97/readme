@@ -1,0 +1,35 @@
+.stars {
+  margin-top: 2rem;
+}
+.starContainer {
+  display: flex;
+  justify-content: center;
+}
+.starContainer svg {
+  cursor: pointer;
+  color: var(--readme-review-rating-gray);
+  fill: var(--readme-review-rating-gray);
+}
+
+.starContainer:hover svg {
+  fill: var(--readme-review-rating);
+  color: var(--readme-review-rating);
+}
+
+.starContainer svg:hover ~ svg {
+  color: var(--readme-review-rating-gray);
+  fill: var(--readme-review-rating-gray);
+}
+
+.starContainer .yellowStars {
+  fill: var(--readme-review-rating);
+  color: var(--readme-review-rating);
+}
+
+.ratingText {
+  color: var(--readme-title-gray);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bolder;
+  margin-top: 1rem;
+}

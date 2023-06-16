@@ -1,6 +1,7 @@
 .bestItem {
   margin-top: 8.5rem;
   width: 100%;
+  height: auto;
   position: relative;
 }
 
@@ -14,6 +15,7 @@
 
 .bestItemCardWrap {
   width: 100%;
+  height: auto;
   min-height: 380px;
   margin-left: 1.5rem;
   background-color: var(--readme-primary);
@@ -32,25 +34,26 @@
   font-size: 1rem;
   font-family: var(--readme-main-font);
   color: var(--readme-purple-gray);
-  margin-bottom: 1rem;
   font-weight: thin;
 }
 .bestItemImgWrap {
   width: 100%;
+  height: auto;
   max-width: 412px;
   position: absolute;
-  right: -6rem;
+  right: -10rem;
   bottom: -3px;
   animation: slide-in 1s ease-in-out;
 }
 
 .bestItemImgWrap img {
-  width: 100%;
+  width: 300px;
   height: auto;
 }
 
 .viewCountWrap {
   width: 50%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

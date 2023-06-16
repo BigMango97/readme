@@ -1,82 +1,60 @@
-import Config from "@/configs/config.export";
-import { useRouter } from "next/router";
-import style from "@/components/ui/Login.module.css";
+import React from "react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import useKakaoInit from "@/hooks/useKakaoInit";
+import Config from "@/configs/config.export";
+import style from "@/components/ui/Login.module.css";
 
 export default function Login() {
-  //const router = useRouter();
-  //const baseUrl = Config().baseUrl;
+  const router = useRouter();
+  const loginRedirectUri = Config().loginRedirectUri;
 
-  // const initKakao = () => {
-  //   const jsKey = "3c5fd0d61672a00438664be501823461";
-  //   if (typeof window !== undefined) {
-  //     const Kakao = window.Kakao;
-  //     if (Kakao && !Kakao.isInitialized()) {
-  //       Kakao.init(jsKey);
-  //       console.log(Kakao.isInitialized());
-  //     }
-  //   }
-  // };
-
-  useEffect(() => {
-    //initKakao();
-    const jsKey = "3c5fd0d61672a00438664be501823461";
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(jsKey);
-      console.log(window.Kakao.isInitialized());
-    }
-    // if (typeof window !== undefined) {
-    //   const Kakao = window.Kakao;
-    //   if (Kakao && !Kakao.isInitialized()) {
-    //     Kakao.init(jsKey);
-    //     console.log(Kakao.isInitialized());
-    //   }
-    // }
-  }, []);
-
+  useKakaoInit();
   const kakaoLogin = () => {
     if (!window.Kakao.isInitialized()) return;
-    //console.log(window.Kakao.Auth);
     window.Kakao.Auth.authorize({
-      redirectUri: `http://readme.life/kakao`,
-      // scope:
-      //   "name, profile_image, account_email, gender, birthyear, phone_number",
+      redirectUri: loginRedirectUri,
     });
   };
   return (
-    <div className={style.container}>
-      <div className={style.mainContainer}>
-        <div className={style.mainInfo}>
-          <Image
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={150}
-            height={80}
-            priority
-          />
-          <p>로그인 후 이용해주세요</p>
-
-          <div className={style.naverBtn}>
-            <div id="naverIdLogin" />
+    <>
+      <Head>
+        <title>로그인 | ReadMe</title>
+        <meta name="description" content="로그인 페이지 입니다." />
+      </Head>
+      <div className={style.container}>
+        <div className={style.mainContainer}>
+          <div className={style.mainInfo}>
             <Image
-              src="/assets/images/naver_btnG.png"
-              alt="naver login Btn"
+              src="/assets/images/logo.svg"
+              alt="logo"
               width={150}
-              height={40}
-              onClick={kakaoLogin}
+              height={80}
+              priority
+            />
+            <p>로그인 후 이용할 수 있는 서비스 입니다</p>
+            <div className={style.loginBtn}>
+              <Image
+                src="/assets/images/kakaoLogin.png"
+                alt="kakao login Btn"
+                width={245}
+                height={40}
+                onClick={kakaoLogin}
+              />
+            </div>
+          </div>
+          <div className={style.closeBtn}>
+            <Image
+              src="/assets/images/icons/close_white.svg"
+              alt="close Btn"
+              width={30}
+              height={30}
+              onClick={() => router.back()}
             />
           </div>
         </div>
-        <div className={style.closeBtn}>
-          <Image
-            src="/assets/images/icons/close_white.svg"
-            alt="close Btn"
-            width={30}
-            height={30}
-          />
-        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,64 +1,54 @@
-import Config from "@/configs/config.export";
-//import { userLoginState } from "@/state/atom/userLoginState";
 import axios from "axios";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { resolve } from "path/posix";
-import { useCallback, useEffect } from "react";
-//import { useCookies } from "react-cookie";
-//import { useRecoilState } from "recoil";
-
-interface ResponseType {
-  ok: boolean;
-  error?: any;
-}
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import style from "@/components/ui/Kakao.module.css";
+import { SyncLoader } from "react-spinners";
+import dayjs from "dayjs";
 
 export default function Kakao() {
   const router = useRouter();
   const code = router.query.code;
 
-  const baseUrl = Config().baseUrl;
-  //const [cookies, setCookie, removeCookie] = useCookies(["id"]);
-  //const [loginData, setLoginData] = useState();
+  const [cookies, setCookie] = useCookies(["accessToken", "uuid"]);
 
-  console.log(code);
   useEffect(() => {
     if (code !== undefined) {
-      axios.get(`${baseUrl}/login/kakao?code=${code}`).then((res) => {
-        console.log("@@@" + JSON.stringify(res));
-        console.log(JSON.stringify(res.headers));
-        // setLoginData({
-        //   userId: res.data.data.userId,
-        //   accessToken: res.headers.accesstoken,
-        //   refreshToken: res.headers.refreshtoken,
-        //   isLogin: true,
-        // });
-        // let myLogin = localStorage;
-        // myLogin.setItem("userId", res.data.data.userId);
-        // myLogin.setItem("refreshToken", res.headers.refreshtoken);
-        // myLogin.setItem("nickname", res.data.data.name);
-        // setCookie("id", res.headers.accesstoken, { path: "/" });
-        router.push("/");
-      });
+      axios
+        .post(
+          `https://api.readme.life/users-service/v1/user/login?code=${code}`
+        )
+        .then((res) => {
+          localStorage.setItem("nickname", res.data.data.nickname);
+          localStorage.setItem("point", res.data.data.point);
+          localStorage.setItem("profileImg", res.data.data.profileImg);
+          localStorage.setItem("age", res.data.data.age_range);
+
+          console.log("headers = ", res.headers);
+          console.log("data = ", res.data);
+
+          setCookie("accessToken", res.headers.accesstoken, {
+            path: "/",
+            expires: dayjs(res.headers.expiration).toDate(),
+          });
+          setCookie("uuid", res.headers.uuid, {
+            path: "/",
+            expires: dayjs(res.headers.expiration).toDate(),
+          });
+
+          const link = localStorage.getItem("link");
+          if (link === null) {
+            router.push("/");
+          } else {
+            router.push(link);
+          }
+        });
     }
   }, [code]);
-  // window.Kakao.API.request({
-  //   url: "/v2/user/me",
-  //   data: {
-  //     property_keys: ["kakao_account.email", "kakao_account.gender"],
-  //   },
-  // })
-  //   .then(function (res: any) {
-  //     console.log(res);
-  //   })
-  //   .catch(function (err: any) {
-  //     console.log(err);
-  //   });
-  // window.Kakao.Auth.logout()
-  //   .then(function (res: any) {
-  //     console.log(window.Kakao.Auth.getAccessToken()); // null
-  //   })
-  //   .catch(function (err: any) {
-  //     console.log("Not logged in.");
-  //   });
+
+  return (
+    <div className={style.container}>
+      <SyncLoader color="#6E48EB" />
+    </div>
+  );
 }

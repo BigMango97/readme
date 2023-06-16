@@ -1,0 +1,35 @@
+.reviewCotainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.reviewTitle {
+  font-weight: bolder;
+  color: var(--readme-primary);
+  font-size: 0.8rem;
+  margin-top: 3rem;
+}
+.checkBtn {
+  margin: 1rem 0rem;
+}
+.checkBtn button {
+  width: 6rem;
+  height: 1.8rem;
+  margin: 0.2rem;
+  border-radius: 2rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+.checkBtn button:first-child {
+  border: 1px solid var(--readme-primary);
+  background-color: var(--readme-white);
+  box-sizing: border-box;
+  color: var(--readme-primary);
+}
+.checkBtn button:last-child {
+  background-color: var(--readme-primary);
+  border: 1px solid var(--readme-primary);
+  box-sizing: border-box;
+  color: var(--readme-white);
+}

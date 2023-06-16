@@ -5,6 +5,7 @@ import Image from "next/image";
 import style from "@/components/layouts/Footer.module.css";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 export default function Footer() {
   return (
     <footer className={style.mainFooter}>
@@ -22,6 +23,11 @@ export default function Footer() {
 const FooterMenuItem = (props: { item: footerMenuType }) => {
   const router = useRouter();
 
+  const linkHandler = (link: string) => {
+    router.push(link);
+    localStorage.setItem("link", link);
+  };
+
   return (
     <li
       key={props.item.id}
@@ -29,16 +35,16 @@ const FooterMenuItem = (props: { item: footerMenuType }) => {
         router.route !== props.item.link.split("?")[0] ? style.active : ""
       }
     >
-      <Link href={props.item.link}>
-
-        <Image
-          src={props.item.iconUrl}
-          alt={props.item.title}
-          width={72}
-          height={72}
-          priority
-        />
-        </Link>
-      </li>
+      {/* <Link href={props.item.link}> */}
+      <Image
+        src={props.item.iconUrl}
+        alt={props.item.title}
+        width={72}
+        height={72}
+        priority
+        onClick={() => linkHandler(props.item.link)}
+      />
+      {/* </Link> */}
+    </li>
   );
 };

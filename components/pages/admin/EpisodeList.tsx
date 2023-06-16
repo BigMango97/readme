@@ -1,57 +1,72 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType, TableProps } from "antd/es/table";
-import { Space, Table, Tag } from "antd";
+import { Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { novelListType, novelType } from "@/types/admin/novelType";
-import { NextPageContext } from "next";
-import dayjs from "dayjs";
+
 import {
   episodeListType,
   episodeTableType,
   episodeType,
 } from "@/types/admin/episodeType";
+import axios from "@/configs/axiosConfig";
 
 export default function EpisodeList() {
   const router = useRouter();
   const novelId = router.query.novelId;
 
-  const [data1, setData1] = useState<episodeListType>();
+  const [epiData, setEpiData] = useState<episodeListType>({ episodeList: [] });
+
   const moveEpisodeDetail = (id: number) => {
     router.push(`/admin/novels/${novelId}/episodes/${id}`);
   };
   const moveEditForm = (id: number) => {
-    router.push(`/admin/episodeForm?id=${id}`);
+    router.push(`/admin/episodeForm?novel=${novelId}&episode=${id}`);
   };
 
   const deleteHandle = (id: number) => {
-    axios
-      .delete(
-        `http://43.200.189.164:8000/novels-service/v1/admin/episodes/${id}`
-      )
-      .then((res) => {
-        console.log(res);
-      });
+    axios.delete(`/novels-service/v1/admin/episodes/${id}`).then((res) => {
+      if (epiData !== undefined) {
+        const newData = epiData.episodeList.map((item: episodeType) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              status: "삭제",
+            };
+          }
+          return item;
+        });
+        setEpiData({ episodeList: newData });
+      }
+    });
   };
+
+  const getData = async () => {
+    const pageRes = await axios.get(
+      `/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
+    );
+    const totalPage = pageRes.data.data.pagination.totalPage;
+    let newData: episodeType[] = [];
+
+    for (let page = 0; page < totalPage; page++) {
+      const res = await axios.get(
+        `/novels-service/v1/admin/episodes?novelId=${novelId}&page=${page}`
+      );
+      res.data.data.contents.map((item: episodeType) => {
+        newData.push(item);
+      });
+    }
+
+    setEpiData({ episodeList: newData });
+  };
+
   useEffect(() => {
     if (!router.isReady) return;
-    axios
-      .get(
-        `http://43.200.189.164:8000/novels-service/v1/admin/episodes?novelId=${novelId}&page=0`
-      )
-      .then((res) => {
-        console.log(res.data.data.contents);
-
-        setData1({
-          episodeList: res.data.data.contents,
-        });
-      });
+    getData();
   }, [router.isReady]);
 
   const columns: ColumnsType<episodeType> = [
     {
-      //key: "번호",
       dataIndex: "번호",
       title: "번호",
       sorter: (a, b) => a.id - b.id,
@@ -59,23 +74,8 @@ export default function EpisodeList() {
       render: (_, { id }) => <>{id}</>,
     },
     {
-      //key: "제목",
       dataIndex: "제목",
       title: "제목",
-      filters: [
-        {
-          text: "Category 1",
-          value: "Category 1",
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string | number | boolean, record) =>
-        record.title.startsWith(value.toLocaleString()),
       width: "13%",
       render: (_, { id, title }) => (
         <div onClick={() => moveEpisodeDetail(id)}>{title}</div>
@@ -83,44 +83,50 @@ export default function EpisodeList() {
     },
 
     {
-      //key: "등록일",
       dataIndex: "등록일",
       title: "등록일",
-      sorter: (a, b) => Number(a.createDate) - Number(b.createDate),
       width: "12%",
-      render: (_, { createDate }) => <>{createDate}</>,
+      render: (_, { createDate }) => (
+        <>{createDate.toString().replace("T", " ")}</>
+      ),
     },
     {
-      //key: "수정일",
       dataIndex: "수정일",
       title: "수정일",
-      sorter: (a, b) => Number(a.updateDate) - Number(b.updateDate),
+
       width: "12%",
-      render: (_, { updateDate }) => <>{updateDate}</>,
+      render: (_, { updateDate }) => (
+        <>{updateDate.toString().replace("T", " ")}</>
+      ),
     },
     {
-      //key: "무료/유료",
+      dataIndex: "연재시작일",
+      title: "연재시작일",
+
+      width: "12%",
+      render: (_, { registration }) => (
+        <>{registration.toString().substring(0, 10)}</>
+      ),
+    },
+    {
       dataIndex: "무료/유료",
       title: "무료/유료",
       filters: [
         {
           text: "무료",
-          value: "무료",
+          value: true,
         },
         {
           text: "유료",
-          value: "유료",
+          value: false,
         },
       ],
-      filterMode: "tree",
-      filterSearch: true,
       onFilter: (value: string | number | boolean, record) =>
-        record.title.startsWith(value.toLocaleString()),
+        record.free === value,
       width: "13%",
       render: (_, { free }) => <>{free ? "무료" : "유료"}</>,
     },
     {
-      //key: "회차상태",
       dataIndex: "회차상태",
       title: "회차상태",
       filters: [
@@ -135,19 +141,16 @@ export default function EpisodeList() {
       ],
       onFilter: (value: string | number | boolean, record) =>
         record.status.startsWith(value.toLocaleString()),
-      filterSearch: true,
       width: "8%",
       render: (_, { status }) => <>{status}</>,
     },
     {
-      //key: "수정",
       dataIndex: "수정",
       title: "수정",
       width: "5%",
       render: (_, { id }) => <EditOutlined onClick={() => moveEditForm(id)} />,
     },
     {
-      //key: "삭제",
       dataIndex: "삭제",
       title: "삭제",
       width: "5%",
@@ -163,11 +166,11 @@ export default function EpisodeList() {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    //console.log("params", pagination, filters, sorter, extra);
   };
 
   const dataSource: episodeTableType[] = [];
-  data1?.episodeList.map((item) => {
+  epiData?.episodeList.map((item) => {
     dataSource.push({
       key: item.id,
       id: item.id,
@@ -190,17 +193,4 @@ export default function EpisodeList() {
       style={{ fontSize: "1rem" }}
     />
   );
-}
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await axios.get(
-    `http://43.200.189.164:8000/novels-service/v1/admin/novels`
-  );
-  //console.log("레스  = ", res);
-  //const resData = await res.data;
-  //console.log("sssr = ", data3);
-  //const data = await res.data;
-
-  // Pass data to the page via props
-  return { props: { data: res.data } };
 }

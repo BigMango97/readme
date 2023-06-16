@@ -1,11 +1,21 @@
 .container {
+    width: 100%;
+    height: 100vh;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    vertical-align: middle;
+    flex-direction:column;
+    /* vertical-align: middle; */
+}
+.container img{
+  width: 25%;
+  height: 25%;
+   
 }
 .container .loginForm {
-    max-width: 300px;
+    width: 25%;
+   
   }
 .container .loginFormForgot {
     float: right;
