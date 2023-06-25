@@ -53,7 +53,8 @@ Tool
 
 |소설뷰어페이지 - 평점 등록/수정|댓글 등록|이전화/다음화 보기|이모지 추가|
 |:-:|:-:|:-:|:-:|
-|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/97f6709b-cba9-4377-9b1c-f4e5cc552202)|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/ed0d318c-1972-452d-be16-821a579b12a6)|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/8c355628-6dd4-4684-8ae9-287f5508b49a)|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/b1e80cc5-74f4-429c-b83a-a605f1459216)|
+|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/97f6709b-cba9-4377-9b1c-f4e5cc552202)|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/ed0d318c-1972-452d-be16-821a579b12a6)|![image](https://github.com/BTS-ReadMe/readme/assets/113071800/8c355628-6dd4-4684-8ae9-287f5508b49a)|![image](https://github.com/BigMango97/readme/assets/113071800/e26b5af5-e26c-407c-ba18-99e41b8954c2)
+|
 
 
 ## 구현 패턴
@@ -80,23 +81,38 @@ Repo
 ├─components
 │  ├─layouts
 │  ├─pages
-│  │  ├─admin
-│  │  ├─library
-│  │  ├─main
-│  │  ├─mypage
-│  │  ├─novel
-│  │  ├─noveldetail
-│  │  ├─point
-│  │  ├─search
-│  │  └─viewer
-│  ├─ui
+│  │  ├─admin //admin페이지 관편 컴포넌트
+│  │  ├─library //내서재 관편 컴포넌트
+│  │  ├─main //index 메인페이지 관편 컴포넌트
+│  │  ├─mypage //마이페이지 관편 컴포넌트
+│  │  ├─novel //소설조회페이지 관편 컴포넌트
+│  │  ├─noveldetail //소설상세페이지 관편 컴포넌트
+│  │  ├─point //포인트 관편 컴포넌트
+│  │  ├─search //검색 관련 컴포넌트
+│  │  └─viewer //소설 뷰어 관련 컴포넌트
+│  ├─ui 
 │  └─widget
 ├─data
 ├─pages
-│  ├─admin
-│  ├─api
-│  ├─noveldetail
-│  └─viewer
+│  ├─admin //admin 페이지
+│  ├─api // 호출 API
+│  ├─noveldetail //노벨상세 페이지
+│  └─viewer // 뷰어페이지
+│  ├─_app
+│  ├─_document
+│  ├─_error
+│  ├─404 //404에러
+│  ├─500 //500에러
+│  ├─ageCheck //연령체크
+│  ├─index //메인
+│  ├─kakao //카카오
+│  ├─library //내서재
+│  ├─login //로그인
+│  ├─mypage //마이페이지
+│  ├─novel //소설
+│  ├─order-history //읽은내역
+│  ├─pointCharge //포인트충전
+│  ├─search //검색
 ├─public
 │  └─assets
 │      └─images
