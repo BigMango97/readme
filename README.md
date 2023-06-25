@@ -81,13 +81,13 @@ Repo
 ├─components
 │  ├─layouts
 │  ├─pages
-│  │  ├─admin //admin페이지 관편 컴포넌트
-│  │  ├─library //내서재 관편 컴포넌트
-│  │  ├─main //index 메인페이지 관편 컴포넌트
-│  │  ├─mypage //마이페이지 관편 컴포넌트
-│  │  ├─novel //소설조회페이지 관편 컴포넌트
-│  │  ├─noveldetail //소설상세페이지 관편 컴포넌트
-│  │  ├─point //포인트 관편 컴포넌트
+│  │  ├─admin //admin페이지 관련 컴포넌트
+│  │  ├─library //내서재 관련 컴포넌트
+│  │  ├─main //index 메인페이지 관련 컴포넌트
+│  │  ├─mypage //마이페이지 관련 컴포넌트
+│  │  ├─novel //소설조회페이지 관련 컴포넌트
+│  │  ├─noveldetail //소설상세페이지 관련 컴포넌트
+│  │  ├─point //포인트 관련련 컴포넌트
 │  │  ├─search //검색 관련 컴포넌트
 │  │  └─viewer //소설 뷰어 관련 컴포넌트
 │  ├─ui 
@@ -96,7 +96,7 @@ Repo
 ├─pages
 │  ├─admin //admin 페이지
 │  ├─api // 호출 API
-│  ├─noveldetail //노벨상세 페이지
+│  ├─noveldetail //소설 상세 페이지
 │  └─viewer // 뷰어페이지
 │  ├─_app
 │  ├─_document
